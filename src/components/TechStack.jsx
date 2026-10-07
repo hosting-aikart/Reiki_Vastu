@@ -5,14 +5,14 @@ export default function TechStack() {
   const duplicatedLogos = [...TECH_STACK, ...TECH_STACK];
 
   return (
-    <section className="tools-sec" aria-label="The Tech Stack">
-      <div className="tools-container">
-        <div style={{ textAlign: 'left', marginBottom: '40px' }}>
+    <section className="tools-sec" aria-label="Sacred Energy Sciences">
+      <div className="hm-container">
+        <div style={{ textAlign: 'left', marginBottom: '32px' }}>
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
-            THE TECH STACK
+            SACRED DISCIPLINES &amp; TRADITIONS
           </p>
           <h2 className="ff-redhat hm-h2" style={{ margin: 0 }}>
-            Built on the tools powering modern AI
+            Mastered Across 28+ Years of Vedic &amp; Ancient Energy Practice
           </h2>
         </div>
       </div>
@@ -20,8 +20,13 @@ export default function TechStack() {
       <div className="tools-marquee-viewport">
         <div className="tools-marquee-track">
           {duplicatedLogos.map((tool, index) => (
-            <div key={`${tool.name}-${index}`} className="tools-item" title={tool.name}>
-              <img src={tool.logo} alt={tool.name} className="tools-logo-img" loading="lazy" />
+            <div key={`${tool.name}-${index}`} className="tools-item" title={`${tool.name}: ${tool.subtitle}`}>
+              <span className="tools-item-symbol">{tool.symbol}</span>
+              <div>
+                <div className="tools-item-name">{tool.name}</div>
+                <div style={{ fontSize: '11px', color: '#8c5360' }}>{tool.subtitle}</div>
+              </div>
+              <span className="tools-item-tag">{tool.tag}</span>
             </div>
           ))}
         </div>

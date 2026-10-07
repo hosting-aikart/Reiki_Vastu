@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ArrowRight, Upload, Sparkles, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Sparkles, Award, ShieldCheck, HeartHandshake } from 'lucide-react';
 import { SELLER_STEPS } from '../data/landingData';
 
 export default function BecomeSellerView({ onBackToHome }) {
   const [activeStep, setActiveStep] = useState(1);
   const [formData, setFormData] = useState({
-    title: '',
-    tagline: '',
-    category: 'Marketing',
-    pricing_model: 'Free',
-    price: '',
-    providerName: '',
+    name: '',
+    phone: '',
     email: '',
-    sandboxPrompt: 'Analyze this sample quarterly report and highlight top revenue risks.',
-    description: ''
+    city: '',
+    modality: 'Reiki Energy Healing (Levels 1 to Grandmaster)',
+    experienceLevel: 'Beginner / First Time Seeker',
+    message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -23,18 +21,18 @@ export default function BecomeSellerView({ onBackToHome }) {
   };
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh', background: '#f4f4f4', paddingBottom: '80px' }}>
+    <div style={{ paddingTop: '100px', minHeight: '100vh', background: '#fdfbf7', paddingBottom: '80px' }}>
       <div className="hm-container">
         {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 40px' }}>
+        <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 40px' }}>
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
-            SELLER ONBOARDING
+            PRACTITIONER ONBOARDING &amp; CERTIFICATION
           </p>
-          <h1 className="ff-redhat" style={{ fontSize: '38px', fontWeight: 600, margin: '0 0 12px', color: '#0f172a' }}>
-            Monetize &amp; Distribute Your AI Solutions
+          <h1 className="ff-redhat" style={{ fontSize: '38px', fontWeight: 700, margin: '0 0 12px', color: '#3b0a11' }}>
+            Become a Certified Healer &amp; Vastu Consultant
           </h1>
-          <p style={{ color: '#64748b', fontSize: '16px', lineHeight: 1.6, margin: 0 }}>
-            List your AI agent or model on aiKart to reach thousands of enterprise buyers with built-in live sandbox testing and verified procurement.
+          <p style={{ color: '#784450', fontSize: '16px', lineHeight: 1.6, margin: 0 }}>
+            Join Dr. Naresh Chhabdiya's international network of certified practitioners. Receive traditional master attunements, hands-on clinical training, authentic kits, and lifetime free entry for guidance.
           </p>
         </div>
 
@@ -42,7 +40,7 @@ export default function BecomeSellerView({ onBackToHome }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
             gap: '12px',
             marginBottom: '40px'
           }}
@@ -57,20 +55,21 @@ export default function BecomeSellerView({ onBackToHome }) {
                 key={step.num}
                 onClick={() => setActiveStep(stepNum)}
                 style={{
-                  background: isCurrent ? '#ffffff' : 'rgba(255,255,255,0.6)',
-                  border: isCurrent ? `2px solid ${step.color}` : '1px solid #e2e8f0',
-                  borderRadius: '16px',
+                  background: isCurrent ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                  border: isCurrent ? `2px solid ${step.color}` : '1.5px solid rgba(212,175,55,0.3)',
+                  borderRadius: '18px',
                   padding: '14px',
                   cursor: 'pointer',
-                  boxShadow: isCurrent ? '0 8px 24px rgba(0,0,0,0.06)' : 'none',
+                  boxShadow: isCurrent ? '0 8px 24px rgba(220,38,38,0.1)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: step.color }}>{step.num}</span>
-                  {isCompleted && <CheckCircle2 size={16} color="#22c55e" />}
+                  {isCompleted && <CheckCircle2 size={16} color="#16a34a" />}
                 </div>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: '#0f172a' }}>{step.title}</div>
+                <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#3b0a11' }}>{step.title}</div>
+                <div style={{ fontSize: '11px', color: '#8c5360', marginTop: '2px' }}>{step.subtitle}</div>
               </div>
             );
           })}
@@ -82,414 +81,274 @@ export default function BecomeSellerView({ onBackToHome }) {
             maxWidth: '680px',
             margin: '0 auto',
             background: '#ffffff',
-            borderRadius: '24px',
-            padding: '36px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.05)',
-            border: '1px solid #e2e8f0'
+            borderRadius: '26px',
+            padding: '38px',
+            boxShadow: '0 12px 40px rgba(180,83,9,0.08)',
+            border: '2px solid rgba(212,175,55,0.45)'
           }}
         >
           {isSubmitted ? (
             <div style={{ textAlign: 'center', padding: '30px 10px' }}>
               <div
                 style={{
-                  width: '64px',
-                  height: '64px',
+                  width: '68px',
+                  height: '68px',
                   borderRadius: '50%',
-                  background: '#dcfce7',
-                  color: '#16a34a',
+                  background: 'linear-gradient(135deg, #fef2f2 0%, #fffbeb 100%)',
+                  border: '2px solid #d4af37',
+                  color: '#dc2626',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  margin: '0 auto 20px'
+                  margin: '0 auto 18px',
+                  boxShadow: '0 8px 20px rgba(220,38,38,0.2)'
                 }}
               >
-                <ShieldCheck size={36} />
+                <CheckCircle2 size={38} />
               </div>
-              <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 600, color: '#0f172a', marginBottom: '10px' }}>
-                Agent Submitted for Verification!
+
+              <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, color: '#3b0a11', margin: '0 0 10px' }}>
+                Application Received Successfully!
               </h2>
-              <p style={{ color: '#64748b', fontSize: '15px', lineHeight: 1.6, marginBottom: '24px' }}>
-                Your AI agent "<strong>{formData.title || 'Custom Agent'}</strong>" has been queued for verification. Our technical team will test your sandbox endpoint within 24 hours.
+
+              <p style={{ color: '#784450', fontSize: '15px', lineHeight: 1.6, maxWidth: '520px', margin: '0 auto 24px' }}>
+                Thank you for taking this sacred step with Reiki &amp; Vaastu World. Dr. Naresh Chhabdiya's training counselor will contact you via WhatsApp or call within 24 hours to schedule your preliminary energy consultation and course orientation.
               </p>
+
+              <div
+                style={{
+                  background: '#fffdf9',
+                  border: '1.5px solid rgba(212,175,55,0.4)',
+                  borderRadius: '16px',
+                  padding: '16px',
+                  maxWidth: '460px',
+                  margin: '0 auto 28px',
+                  textAlign: 'left'
+                }}
+              >
+                <p style={{ margin: '0 0 6px', fontSize: '13px', color: '#881337', fontWeight: 700 }}>
+                  ✦ Immediate Questions? Call Center Directly:
+                </p>
+                <p style={{ margin: 0, fontSize: '14px', color: '#3b0a11', fontWeight: 600 }}>
+                  Amravati / Nagpur Helpline: +91 8446656677 / 9423424596
+                </p>
+              </div>
+
               <button
                 type="button"
                 className="gnav-btn-primary"
-                style={{ background: '#2563eb', color: '#ffffff', padding: '12px 32px' }}
-                onClick={() => {
-                  setIsSubmitted(false);
-                  setActiveStep(1);
-                  onBackToHome && onBackToHome();
-                }}
+                onClick={onBackToHome}
+                style={{ padding: '12px 32px' }}
               >
-                Return to Marketplace
+                Return to Home
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
-              {activeStep === 1 && (
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    color: '#dc2626',
+                    background: '#fef2f2',
+                    padding: '4px 12px',
+                    borderRadius: '50px',
+                    border: '1px solid #fecaca'
+                  }}
+                >
+                  Practitioner Application Form
+                </span>
+                <h3 className="ff-redhat" style={{ fontSize: '22px', fontWeight: 700, color: '#3b0a11', margin: '12px 0 4px' }}>
+                  Begin Your Journey of Sacred Mastery
+                </h3>
+                <p style={{ color: '#784450', fontSize: '13.5px', margin: 0 }}>
+                  Fill in your details below to apply for upcoming batches in Amravati, Nagpur, or online live attunements.
+                </p>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Ramesh Deshmukh"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  style={{
+                    width: '100%',
+                    height: '46px',
+                    borderRadius: '12px',
+                    border: '1.5px solid #d4af37',
+                    background: '#fffdf9',
+                    padding: '0 14px',
+                    fontSize: '14px',
+                    color: '#3b0a11',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div>
-                  <h3 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>
-                    Step 1: Provider Details
-                  </h3>
-                  <p style={{ fontSize: '13.5px', color: '#64748b', marginBottom: '24px' }}>
-                    Tell us about your organization or engineering studio.
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Organization / Creator Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. Acme AI Labs"
-                        className="akf-nl-input"
-                        value={formData.providerName}
-                        onChange={(e) => setFormData({ ...formData, providerName: e.target.value })}
-                      />
-                    </div>
-
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Business Work Email *
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="founder@company.com"
-                        className="akf-nl-input"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      />
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '28px' }}>
-                    <button
-                      type="button"
-                      className="gnav-btn-primary"
-                      style={{ background: '#2563eb', color: '#ffffff', display: 'inline-flex', gap: '8px' }}
-                      onClick={() => setActiveStep(2)}
-                    >
-                      Next Step <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {activeStep === 2 && (
-                <div>
-                  <h3 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>
-                    Step 2: Upload Agent Product
-                  </h3>
-                  <p style={{ fontSize: '13.5px', color: '#64748b', marginBottom: '24px' }}>
-                    Define your agent's name, category, and core workflow promise.
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Agent Title *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. SalesContract Pro"
-                        className="akf-nl-input"
-                        value={formData.title}
-                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      />
-                    </div>
-
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        One-Line Tagline *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. Automated contract markup and risk triage for B2B deals."
-                        className="akf-nl-input"
-                        value={formData.tagline}
-                        onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
-                      />
-                    </div>
-
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Primary Category *
-                      </label>
-                      <select
-                        className="akf-nl-input"
-                        value={formData.category}
-                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      >
-                        <option value="Marketing">Marketing</option>
-                        <option value="Productivity">Productivity</option>
-                        <option value="Customer Service">Customer Service</option>
-                        <option value="Sales">Sales &amp; CRM</option>
-                        <option value="Finance & Accounting">Finance &amp; Accounting</option>
-                        <option value="Legal & Compliance">Legal &amp; Compliance</option>
-                        <option value="Data Analysis">Data Analysis</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Full Description
-                      </label>
-                      <textarea
-                        rows={3}
-                        placeholder="Detail the models used, supported integrations (Slack, Zapier, REST), and accuracy benchmarks."
-                        style={{
-                          width: '100%',
-                          padding: '14px',
-                          borderRadius: '16px',
-                          border: '1.5px solid #cbd5e1',
-                          outline: 'none',
-                          fontSize: '14px',
-                          fontFamily: 'inherit'
-                        }}
-                        value={formData.description}
-                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      />
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px' }}>
-                    <button
-                      type="button"
-                      style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}
-                      onClick={() => setActiveStep(1)}
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="button"
-                      className="gnav-btn-primary"
-                      style={{ background: '#2563eb', color: '#ffffff', display: 'inline-flex', gap: '8px' }}
-                      onClick={() => setActiveStep(3)}
-                    >
-                      Next Step <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {activeStep === 3 && (
-                <div>
-                  <h3 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>
-                    Step 3: Configure Live Sandbox
-                  </h3>
-                  <p style={{ fontSize: '13.5px', color: '#64748b', marginBottom: '24px' }}>
-                    Buyers can test your agent live before purchase. Provide a starter sample prompt.
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Default Demo Prompt
-                      </label>
-                      <textarea
-                        rows={3}
-                        style={{
-                          width: '100%',
-                          padding: '14px',
-                          borderRadius: '16px',
-                          border: '1.5px solid #cbd5e1',
-                          outline: 'none',
-                          fontSize: '14px',
-                          fontFamily: 'inherit'
-                        }}
-                        value={formData.sandboxPrompt}
-                        onChange={(e) => setFormData({ ...formData, sandboxPrompt: e.target.value })}
-                      />
-                    </div>
-
-                    <div
-                      style={{
-                        background: '#f8fafc',
-                        border: '1px solid #e2e8f0',
-                        borderRadius: '16px',
-                        padding: '16px',
-                        display: 'flex',
-                        gap: '12px',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Sparkles size={20} color="#2563eb" />
-                      <span style={{ fontSize: '13px', color: '#475569' }}>
-                        Live sandboxes generate <strong>4.2x higher conversion</strong> compared to traditional static software listings.
-                      </span>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px' }}>
-                    <button
-                      type="button"
-                      style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}
-                      onClick={() => setActiveStep(2)}
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="button"
-                      className="gnav-btn-primary"
-                      style={{ background: '#2563eb', color: '#ffffff', display: 'inline-flex', gap: '8px' }}
-                      onClick={() => setActiveStep(4)}
-                    >
-                      Next Step <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {activeStep === 4 && (
-                <div>
-                  <h3 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>
-                    Step 4: Set Pricing
-                  </h3>
-                  <p style={{ fontSize: '13.5px', color: '#64748b', marginBottom: '24px' }}>
-                    Choose your monetization strategy on the aiKart marketplace.
-                  </p>
-
-                  <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
-                    {['Free', 'Freemium', 'Paid'].map((tier) => (
-                      <button
-                        key={tier}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, pricing_model: tier })}
-                        style={{
-                          flex: 1,
-                          padding: '16px 12px',
-                          borderRadius: '16px',
-                          border: formData.pricing_model === tier ? '2px solid #2563eb' : '1px solid #cbd5e1',
-                          background: formData.pricing_model === tier ? '#eff6ff' : '#ffffff',
-                          cursor: 'pointer',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: formData.pricing_model === tier ? '#2563eb' : '#334155'
-                        }}
-                      >
-                        {tier}
-                      </button>
-                    ))}
-                  </div>
-
-                  {formData.pricing_model === 'Paid' && (
-                    <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                        Monthly Subscription Price ($ USD)
-                      </label>
-                      <input
-                        type="number"
-                        placeholder="e.g. 49"
-                        className="akf-nl-input"
-                        value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                      />
-                    </div>
-                  )}
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px' }}>
-                    <button
-                      type="button"
-                      style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}
-                      onClick={() => setActiveStep(3)}
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="button"
-                      className="gnav-btn-primary"
-                      style={{ background: '#2563eb', color: '#ffffff', display: 'inline-flex', gap: '8px' }}
-                      onClick={() => setActiveStep(5)}
-                    >
-                      Preview &amp; Publish <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {activeStep >= 5 && (
-                <div>
-                  <h3 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>
-                    Step 5 &amp; 6: Review &amp; Launch
-                  </h3>
-                  <p style={{ fontSize: '13.5px', color: '#64748b', marginBottom: '24px' }}>
-                    Review your listing snapshot before submitting to our verification registry.
-                  </p>
-
-                  <div
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    Phone / WhatsApp Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="e.g. 9823456789"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     style={{
-                      background: '#f8fafc',
-                      borderRadius: '18px',
-                      border: '1px solid #e2e8f0',
-                      padding: '20px',
-                      marginBottom: '24px'
+                      width: '100%',
+                      height: '46px',
+                      borderRadius: '12px',
+                      border: '1.5px solid #d4af37',
+                      background: '#fffdf9',
+                      padding: '0 14px',
+                      fontSize: '14px',
+                      color: '#3b0a11',
+                      outline: 'none'
                     }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
-                      <div
-                        style={{
-                          width: '48px',
-                          height: '48px',
-                          borderRadius: '12px',
-                          background: '#ffffff',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                        }}
-                      >
-                        <img src="/logo/aikart-ai-mark.png" alt="" style={{ width: '32px', height: '32px' }} />
-                      </div>
-                      <div>
-                        <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 600, color: '#0f172a' }}>
-                          {formData.title || 'Untitled Agent'}
-                        </h4>
-                        <span style={{ fontSize: '12px', color: '#64748b' }}>
-                          By {formData.providerName || 'Independent Seller'} • {formData.category}
-                        </span>
-                      </div>
-                    </div>
-                    <p style={{ fontSize: '13.5px', color: '#475569', margin: '0 0 12px' }}>
-                      {formData.tagline || 'No tagline provided yet.'}
-                    </p>
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        padding: '4px 12px',
-                        background: '#dbeafe',
-                        color: '#1d4fd0',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                        borderRadius: '50px'
-                      }}
-                    >
-                      Pricing: {formData.pricing_model} {formData.price ? `$${formData.price}/mo` : ''}
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '28px' }}>
-                    <button
-                      type="button"
-                      style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}
-                      onClick={() => setActiveStep(4)}
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="submit"
-                      className="gnav-btn-primary"
-                      style={{ background: '#2563eb', color: '#ffffff', padding: '12px 30px' }}
-                    >
-                      Submit for Verification
-                    </button>
-                  </div>
+                  />
                 </div>
-              )}
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    Your City &amp; State *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Amravati, Nagpur, Pune..."
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    style={{
+                      width: '100%',
+                      height: '46px',
+                      borderRadius: '12px',
+                      border: '1.5px solid #d4af37',
+                      background: '#fffdf9',
+                      padding: '0 14px',
+                      fontSize: '14px',
+                      color: '#3b0a11',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  Modality / Course of Interest *
+                </label>
+                <select
+                  value={formData.modality}
+                  onChange={(e) => setFormData({ ...formData, modality: e.target.value })}
+                  style={{
+                    width: '100%',
+                    height: '46px',
+                    borderRadius: '12px',
+                    border: '1.5px solid #d4af37',
+                    background: '#fffdf9',
+                    padding: '0 14px',
+                    fontSize: '14px',
+                    color: '#3b0a11',
+                    outline: 'none',
+                    fontWeight: 600
+                  }}
+                >
+                  <option>Reiki Energy Healing (Levels 1 to Grandmaster)</option>
+                  <option>Complete Vaastu Shastra Professional Consultant Course</option>
+                  <option>Tibetan Lama-Fera High Vibration Cleansing &amp; Master Course</option>
+                  <option>Vedic Astrology &amp; Janam Kundali Reading</option>
+                  <option>Scientific Acupressure &amp; Sujok Meridian Therapy</option>
+                  <option>Chakra Crystal Therapy &amp; Gemstone Programming</option>
+                  <option>Bio-Tensor &amp; Pendulum Dowsing Course</option>
+                  <option>Pranic Energy Healing System</option>
+                  <option>Feng-Shui Space Harmonization</option>
+                  <option>Chaldean Numerology &amp; Name Correction</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  Your Current Experience Level
+                </label>
+                <select
+                  value={formData.experienceLevel}
+                  onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
+                  style={{
+                    width: '100%',
+                    height: '46px',
+                    borderRadius: '12px',
+                    border: '1.5px solid #d4af37',
+                    background: '#fffdf9',
+                    padding: '0 14px',
+                    fontSize: '14px',
+                    color: '#3b0a11',
+                    outline: 'none'
+                  }}
+                >
+                  <option>Beginner / First Time Seeker</option>
+                  <option>Practicing Reiki Level 1 or 2</option>
+                  <option>Astrologer / Vastu Practitioner looking to advance</option>
+                  <option>Doctor / Medical Practitioner seeking complementary therapies</option>
+                  <option>Yoga / Wellness Coach</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  Any Specific Question or Intention for Dr. Naresh? (Optional)
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Share any health concern, life goal, or preference for in-person / online session..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  style={{
+                    width: '100%',
+                    borderRadius: '12px',
+                    border: '1.5px solid #d4af37',
+                    background: '#fffdf9',
+                    padding: '12px 14px',
+                    fontSize: '14px',
+                    color: '#3b0a11',
+                    outline: 'none',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fef2f2', padding: '10px 14px', borderRadius: '12px', border: '1px solid #fecaca' }}>
+                <ShieldCheck size={18} color="#dc2626" style={{ flexShrink: 0 }} />
+                <span style={{ fontSize: '12.5px', color: '#881337', fontWeight: 600 }}>
+                  Includes Lifetime Free Entry to ongoing alumni meditation circles and personal mentorship by Dr. Naresh Chhabdiya.
+                </span>
+              </div>
+
+              <button
+                type="submit"
+                className="gnav-btn-primary"
+                style={{
+                  height: '48px',
+                  fontSize: '15px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  marginTop: '8px'
+                }}
+              >
+                <span>Submit Practitioner Application</span>
+                <ArrowRight size={16} />
+              </button>
             </form>
           )}
         </div>

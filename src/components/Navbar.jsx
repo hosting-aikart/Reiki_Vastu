@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, ChevronDown, Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 
 export default function Navbar({
   currentView,
@@ -7,7 +7,6 @@ export default function Navbar({
   openModal,
   isDarkTheme = false
 }) {
-  const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -23,7 +22,7 @@ export default function Navbar({
     <>
       <header className={`gnav ${isScrolled ? 'gnav-scrolled' : ''} ${isDarkTheme ? 'gnav-dark' : ''}`}>
         <div className="gnav-in">
-          {/* Logo */}
+          {/* Empty space reserved for logo */}
           <a
             href="/"
             className="gnav-logo"
@@ -32,87 +31,70 @@ export default function Navbar({
               setCurrentView('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
+            style={{ width: '180px', height: '42px', display: 'block' }}
+            aria-label="Home - Logo Space"
           >
-            <img
-              src="/logo/aikart-logo-full.png"
-              alt="aiKart"
-              className="gnav-logo-desktop"
-              style={{ height: '34px' }}
-            />
+            {/* Empty space reserved for logo */}
           </a>
 
-          {/* Nav Links */}
+          {/* Nav Links: Home, Courses, Products, Contact Us */}
           <nav className="gnav-links">
             <button
               type="button"
-              className={`gnav-link ${currentView === 'explore' ? 'gnav-link-active' : ''}`}
+              className={`gnav-link ${currentView === 'home' ? 'gnav-link-active' : ''}`}
               onClick={() => {
-                setCurrentView('explore');
+                setCurrentView('home');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              Explore
+              Home
             </button>
-
-            <button
-              type="button"
-              className={`gnav-link ${currentView === 'become-seller' ? 'gnav-link-active' : ''}`}
-              onClick={() => {
-                setCurrentView('become-seller');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              Become Seller
-            </button>
-
-            {/* Solutions Dropdown */}
-            <div
-              className="relative inline-flex items-center"
-              onMouseEnter={() => setIsSolutionsOpen(true)}
-              onMouseLeave={() => setIsSolutionsOpen(false)}
-            >
-              <button
-                type="button"
-                className="gnav-link gnav-custom-trigger"
-                onClick={() => setIsSolutionsOpen(!isSolutionsOpen)}
-              >
-                <span>Solutions</span>
-                <span className={`gnav-custom-arrow ${isSolutionsOpen ? 'gnav-custom-arrow--open' : ''}`}>
-                  <ChevronDown size={14} />
-                </span>
-              </button>
-
-              {isSolutionsOpen && (
-                <div className="gnav-custom-dropdown">
-                  <button
-                    type="button"
-                    className="gnav-dropdown-card"
-                    onClick={() => {
-                      setIsSolutionsOpen(false);
-                      openModal('custom-solutions');
-                    }}
-                  >
-                    <span>Custom AI Solutions</span>
-                  </button>
-                  <div className="gnav-dropdown-divider" />
-                  <button
-                    type="button"
-                    className="gnav-dropdown-card"
-                    onClick={() => {
-                      setIsSolutionsOpen(false);
-                      openModal('custom-ml');
-                    }}
-                  >
-                    <span>Custom ML Models</span>
-                  </button>
-                </div>
-              )}
-            </div>
 
             <button
               type="button"
               className="gnav-link"
-              onClick={() => openModal('contact')}
+              onClick={() => {
+                if (currentView !== 'home') {
+                  setCurrentView('home');
+                  setTimeout(() => {
+                    const el = document.getElementById('courses-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 120);
+                } else {
+                  const el = document.getElementById('courses-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              Courses
+            </button>
+
+            <button
+              type="button"
+              className="gnav-link"
+              onClick={() => {
+                if (currentView !== 'home') {
+                  setCurrentView('home');
+                  setTimeout(() => {
+                    const el = document.getElementById('products-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }, 120);
+                } else {
+                  const el = document.getElementById('products-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              Products
+            </button>
+
+            <button
+              type="button"
+              className="gnav-link"
+              onClick={() => {
+                const el = document.getElementById('footer-contact');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               Contact Us
             </button>
@@ -120,21 +102,20 @@ export default function Navbar({
 
           {/* Right Controls */}
           <div className="gnav-right">
-            <button
-              type="button"
+            <a
+              href="tel:8446656677"
               className="gnav-icon-btn"
-              title="Inbox"
-              onClick={() => openModal('contact')}
+              title="Call Helpline: 8446656677"
             >
-              <img src="/icons/mail.png" alt="Inbox" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
-            </button>
+              <Phone size={18} color="#dc2626" />
+            </a>
 
             <button
               type="button"
               className="gnav-btn-primary"
-              onClick={() => openModal('auth')}
+              onClick={() => openModal('meeting')}
             >
-              Log in / Sign Up
+              Book Consultation
             </button>
 
             {/* Mobile Hamburger */}
@@ -158,7 +139,8 @@ export default function Navbar({
 
       <div className={`gnav-drawer-panel ${isDrawerOpen ? 'gnav-drawer-panel--open' : ''}`}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-          <img src="/logo/aikart-logo-light.png" alt="aiKart" style={{ height: '30px', filter: 'brightness(0) invert(1)' }} />
+          {/* Empty space reserved for logo */}
+          <div style={{ width: '160px', height: '36px' }} />
           <button
             type="button"
             onClick={() => setIsDrawerOpen(false)}
@@ -187,13 +169,14 @@ export default function Navbar({
               border: 'none',
               color: '#ffffff',
               fontSize: '18px',
-              fontWeight: 500,
+              fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
               cursor: 'pointer'
             }}
             onClick={() => {
               setCurrentView('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
               setIsDrawerOpen(false);
             }}
           >
@@ -206,17 +189,24 @@ export default function Navbar({
               border: 'none',
               color: '#ffffff',
               fontSize: '18px',
-              fontWeight: 500,
+              fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
               cursor: 'pointer'
             }}
             onClick={() => {
-              setCurrentView('explore');
               setIsDrawerOpen(false);
+              if (currentView !== 'home') {
+                setCurrentView('home');
+                setTimeout(() => {
+                  document.getElementById('courses-section')?.scrollIntoView({ behavior: 'smooth' });
+                }, 120);
+              } else {
+                document.getElementById('courses-section')?.scrollIntoView({ behavior: 'smooth' });
+              }
             }}
           >
-            Explore Marketplace
+            Courses
           </button>
           <button
             type="button"
@@ -225,17 +215,24 @@ export default function Navbar({
               border: 'none',
               color: '#ffffff',
               fontSize: '18px',
-              fontWeight: 500,
+              fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
               cursor: 'pointer'
             }}
             onClick={() => {
-              setCurrentView('become-seller');
               setIsDrawerOpen(false);
+              if (currentView !== 'home') {
+                setCurrentView('home');
+                setTimeout(() => {
+                  document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' });
+                }, 120);
+              } else {
+                document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' });
+              }
             }}
           >
-            Become Seller
+            Products
           </button>
           <button
             type="button"
@@ -244,78 +241,50 @@ export default function Navbar({
               border: 'none',
               color: '#ffffff',
               fontSize: '18px',
-              fontWeight: 500,
+              fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
               cursor: 'pointer'
             }}
             onClick={() => {
               setIsDrawerOpen(false);
-              openModal('custom-solutions');
-            }}
-          >
-            Custom AI Solutions
-          </button>
-          <button
-            type="button"
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#ffffff',
-              fontSize: '18px',
-              fontWeight: 500,
-              textAlign: 'left',
-              padding: '10px 0',
-              cursor: 'pointer'
-            }}
-            onClick={() => {
-              setIsDrawerOpen(false);
-              openModal('custom-ml');
-            }}
-          >
-            Custom ML Models
-          </button>
-          <button
-            type="button"
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#ffffff',
-              fontSize: '18px',
-              fontWeight: 500,
-              textAlign: 'left',
-              padding: '10px 0',
-              cursor: 'pointer'
-            }}
-            onClick={() => {
-              setIsDrawerOpen(false);
-              openModal('contact');
+              const el = document.getElementById('footer-contact');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}
           >
             Contact Us
           </button>
-
-          <div style={{ height: '1px', background: 'rgba(255,255,255,0.18)', margin: '16px 0' }} />
-
           <button
             type="button"
             style={{
-              background: '#2563eb',
-              color: '#fff',
+              background: 'none',
               border: 'none',
-              borderRadius: '50px',
-              padding: '14px',
-              fontSize: '15px',
-              fontWeight: 600,
+              color: '#fbbf24',
+              fontSize: '16px',
+              fontWeight: 700,
+              textAlign: 'left',
+              padding: '10px 0',
               cursor: 'pointer'
             }}
             onClick={() => {
               setIsDrawerOpen(false);
-              openModal('auth');
+              openModal('meeting');
             }}
           >
-            Log in / Sign Up
+            Book Consultation →
           </button>
+        </div>
+
+        <div style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid rgba(212,175,55,0.3)' }}>
+          <p style={{ color: '#fbbf24', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+            Direct Helpline:
+          </p>
+          <p style={{ color: '#ffffff', fontSize: '15px', fontWeight: 600, margin: '0 0 6px' }}>
+            +91 8446656677 / 9423424596
+          </p>
+          <p style={{ color: '#fecaca', fontSize: '13px', margin: 0 }}>
+            reki.vastuworld@gmail.com
+          </p>
         </div>
       </div>
     </>

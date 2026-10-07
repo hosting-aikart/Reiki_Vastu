@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Mail, Sparkles } from 'lucide-react';
+import { Calendar, Mail, Phone, MessageCircle, Sparkles, X } from 'lucide-react';
 
 export default function FloatingWidgets({ openModal }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,56 +20,104 @@ export default function FloatingWidgets({ openModal }) {
             position: 'absolute',
             bottom: 'calc(100% + 14px)',
             right: 0,
-            width: 'min(300px, calc(100vw - 32px))',
+            width: 'min(320px, calc(100vw - 32px))',
             borderRadius: '24px',
-            border: '1px solid rgba(255, 255, 255, 0.7)',
-            background: 'rgba(255, 255, 255, 0.85)',
+            border: '2px solid rgba(212, 175, 55, 0.6)',
+            background: 'rgba(255, 253, 249, 0.96)',
             backdropFilter: 'blur(24px) saturate(180%)',
             WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-            boxShadow: '0 18px 50px rgba(76, 29, 149, 0.18)',
+            boxShadow: '0 18px 50px rgba(74, 14, 23, 0.22)',
             padding: '20px',
             animation: 'modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
             zIndex: 10000
           }}
         >
-          <div>
-            <p style={{ margin: 0, fontSize: '14px', fontWeight: 700, color: '#2563eb' }}>
-              Hi there
-            </p>
-            <h3 style={{ margin: '4px 0 0', fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
-              How can we help you today?
-            </h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+            <div>
+              <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#dc2626', letterSpacing: '0.04em' }}>
+                ✦ NAMASTE &amp; BLESSINGS
+              </p>
+              <h3 style={{ margin: '4px 0 0', fontSize: '17px', fontWeight: 700, color: '#3b0a11' }}>
+                How can we assist you today?
+              </h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              style={{
+                background: '#fef2f2',
+                border: 'none',
+                borderRadius: '50%',
+                width: '26px',
+                height: '26px',
+                color: '#dc2626',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              <X size={15} />
+            </button>
           </div>
 
-          <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <p style={{ fontSize: '12.5px', color: '#784450', margin: '0 0 14px', lineHeight: 1.45 }}>
+            Connect directly with Dr. Naresh Chhabdiya's team for Vaastu audits, Reiki training, or Kundali consultations.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <button
               type="button"
               onClick={() => {
                 setIsOpen(false);
-                openModal('schedule');
+                openModal('meeting');
               }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
                 borderRadius: '50px',
-                background: 'rgba(255, 255, 255, 0.9)',
-                border: '1px solid #cbd5e1',
+                background: '#ffffff',
+                border: '1.5px solid #d4af37',
                 padding: '10px 16px',
                 fontSize: '13px',
-                fontWeight: 600,
-                color: '#1e293b',
+                fontWeight: 700,
+                color: '#3b0a11',
                 cursor: 'pointer',
                 textAlign: 'left',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                boxShadow: '0 2px 6px rgba(180,83,9,0.06)',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)')}
             >
-              <Calendar size={16} color="#2563eb" />
-              <span>Schedule a meeting</span>
+              <Calendar size={16} color="#dc2626" />
+              <span>Schedule Personal Consultation</span>
             </button>
+
+            <a
+              href="https://wa.me/+918446656677/?text=Hello Dr. Naresh, I would like to inquire about Reiki and Vaastu consultation."
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '10px',
+                borderRadius: '50px',
+                background: '#ffffff',
+                border: '1.5px solid #22c55e',
+                padding: '10px 16px',
+                fontSize: '13px',
+                fontWeight: 700,
+                color: '#15803d',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                textAlign: 'left',
+                boxShadow: '0 2px 6px rgba(34,197,94,0.1)',
+                transition: 'all 0.2s'
+              }}
+            >
+              <MessageCircle size={16} color="#22c55e" />
+              <span>WhatsApp Us (+91 8446656677)</span>
+            </a>
 
             <button
               type="button"
@@ -82,85 +130,49 @@ export default function FloatingWidgets({ openModal }) {
                 alignItems: 'center',
                 gap: '10px',
                 borderRadius: '50px',
-                background: 'rgba(255, 255, 255, 0.9)',
-                border: '1px solid #cbd5e1',
+                background: '#ffffff',
+                border: '1.5px solid rgba(212,175,55,0.4)',
                 padding: '10px 16px',
                 fontSize: '13px',
                 fontWeight: 600,
-                color: '#1e293b',
+                color: '#3b0a11',
                 cursor: 'pointer',
                 textAlign: 'left',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)')}
             >
-              <Mail size={16} color="#2563eb" />
-              <span>Contact us</span>
+              <Mail size={16} color="#7c3aed" />
+              <span>Send Query / Center Enquiry</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* 3D Robot Waving Button */}
+      {/* Floating Sacred Trigger Button */}
       <button
         type="button"
-        aria-label="How can we help"
         onClick={() => setIsOpen(!isOpen)}
+        aria-label="Holistic Help & Consultations"
         style={{
-          width: '72px',
-          height: '72px',
+          width: '58px',
+          height: '58px',
           borderRadius: '50%',
-          border: 'none',
-          background: 'transparent',
+          background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #d4af37 100%)',
+          border: '2px solid #fbbf24',
+          boxShadow: '0 8px 30px rgba(220, 38, 38, 0.45)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          padding: 0
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+          transform: isOpen ? 'rotate(90deg) scale(1.05)' : 'scale(1)'
         }}
       >
-        <svg
-          viewBox="0 0 100 88"
-          className="smw-wave"
-          style={{
-            width: '68px',
-            height: '68px',
-            filter: 'drop-shadow(0 6px 14px rgba(0,0,0,0.3))'
-          }}
-          aria-hidden="true"
-        >
-          <defs>
-            <radialGradient id="rb-screen" cx="50%" cy="35%" r="75%">
-              <stop offset="0%" stopColor="#12407a" />
-              <stop offset="100%" stopColor="#020712" />
-            </radialGradient>
-            <linearGradient id="rb-shell" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="100%" stopColor="#c9ced6" />
-            </linearGradient>
-          </defs>
-          <rect x="3" y="30" width="9" height="26" rx="4.5" fill="#111" />
-          <rect x="9" y="33" width="2.4" height="20" rx="1.2" fill="#2563eb" />
-          <rect x="88" y="30" width="9" height="26" rx="4.5" fill="#111" />
-          <rect x="88.6" y="33" width="2.4" height="20" rx="1.2" fill="#2563eb" />
-          <path
-            d="M50 6 C78 6 92 26 92 50 C92 70 78 80 50 80 C22 80 8 70 8 50 C8 26 22 6 50 6Z"
-            fill="url(#rb-shell)"
-          />
-          <rect x="42" y="4.5" width="16" height="5" rx="2.5" fill="#2563eb" />
-          <path
-            d="M50 14 C74 14 85 28 85 48 C85 64 74 73 50 73 C26 73 15 64 15 48 C15 28 26 14 50 14Z"
-            fill="url(#rb-screen)"
-          />
-          <g style={{ animation: 'rb-face .35s ease-out', transformOrigin: '50px 44px' }}>
-            <g fill="#3b82f6">
-              <path d="M27 48 q0 -13 9 -13 q9 0 9 13 q-9 -4 -18 0z" />
-              <path d="M55 48 q0 -13 9 -13 q9 0 9 13 q-9 -4 -18 0z" />
-            </g>
-          </g>
-        </svg>
+        <img
+          src="/logo/reiki-vastu-mark.svg"
+          alt="Reiki Mark"
+          style={{ width: '38px', height: '38px', objectFit: 'contain' }}
+        />
       </button>
     </div>
   );

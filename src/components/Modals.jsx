@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Terminal } from 'lucide-react';
+import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star } from 'lucide-react';
 
 export default function Modals({ activeModal, modalData, closeModal }) {
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
-  const [meetingForm, setMeetingForm] = useState({ name: '', email: '', date: '', time: '10:00 AM', note: '' });
-  const [sandboxPrompt, setSandboxPrompt] = useState('');
+  const [contactForm, setContactForm] = useState({ name: '', phone: '', email: '', center: 'Amravati Center', message: '' });
+  const [meetingForm, setMeetingForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    consultationType: 'Residential Home Vaastu Audit',
+    mode: 'In-Person (Amravati Center)',
+    date: '',
+    time: '10:00 AM',
+    note: ''
+  });
+  const [sandboxPrompt, setSandboxPrompt] = useState('Experiencing financial stagnation and restless sleep in bedroom facing South-West');
   const [sandboxOutput, setSandboxOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [submittedStatus, setSubmittedStatus] = useState(false);
@@ -18,7 +27,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     setTimeout(() => {
       setSubmittedStatus(false);
       closeModal();
-    }, 2500);
+    }, 2800);
   };
 
   const handleMeetingSubmit = (e) => {
@@ -27,25 +36,33 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     setTimeout(() => {
       setSubmittedStatus(false);
       closeModal();
-    }, 2500);
+    }, 2800);
   };
 
   const runSandboxTest = () => {
     setIsExecuting(true);
-    setSandboxOutput('Initializing sandboxed agent runtime container...\nChecking API permissions and environment isolation...\n');
+    setSandboxOutput('Scanning 5 Pancha Tattva cosmic elements (Fire, Earth, Space, Water, Air)...\nEvaluating 16 directional zones & subtle chakra frequencies...\n');
     setTimeout(() => {
-      setSandboxOutput((prev) => prev + 'Loading agent weights and context parameters...\nExecuting workflow inference pipeline...\n');
-    }, 800);
+      setSandboxOutput((prev) => prev + 'Checking planetary Gochara alignments & geopathic stress resonance...\nSynthesizing non-destructive Vedic & Reiki remedial blueprint...\n');
+    }, 900);
     setTimeout(() => {
       setSandboxOutput(
         (prev) =>
           prev +
-          `\n[Output Generated Successfully]:\n----------------------------------------\nAnalysis complete for input: "${
-            sandboxPrompt || 'Standard Benchmark Payload'
-          }"\n• Confidence score: 99.4%\n• Processing latency: 240ms\n• Compliance check: Verified Clean\n• Status: Execution Passed without hallucinations.`
+          `\n✦ [COSMIC ENERGY DIAGNOSIS COMPLETE]:\n` +
+          `--------------------------------------------------\n` +
+          `• Consultation Subject: "${sandboxPrompt || modalData?.title || 'General Holistic Energy Assessment'}"\n` +
+          `• Primary Elemental Status: Earth & Fire Tattva Disbalance detected\n` +
+          `• Subtle Body Frequency: 86.4% Harmony Potential\n` +
+          `• Immediate Practical Remedies:\n` +
+          `   1. Install consecrated Copper Pyramid wire strip in South-West zone (No demolition required).\n` +
+          `   2. Wear authentic 7-Mukhi Nepali Rudraksha blessed with Goddess Mahalakshmi Beej mantra.\n` +
+          `   3. Attend Dr. Naresh's Free Friday Meditation & Mindset Circle for deep chakra stabilization.\n` +
+          `   4. Schedule personal 1-on-1 Janam Kundali verification for exact transit timing.\n` +
+          `• Status: Verified Auspicious Guidance from Dr. Naresh Chhabdiya.`
       );
       setIsExecuting(false);
-    }, 1800);
+    }, 2000);
   };
 
   return (
@@ -57,175 +74,260 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── CONTACT US MODAL ─── */}
         {activeModal === 'contact' && (
-          <div style={{ padding: '36px' }}>
+          <div style={{ padding: '36px', maxHeight: '85vh', overflowY: 'auto' }}>
             <span
               style={{
                 fontSize: '11px',
                 fontWeight: 700,
-                letterSpacing: '0.18em',
+                letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: '#2563eb',
-                background: '#eff6ff',
+                color: '#dc2626',
+                background: '#fef2f2',
                 padding: '4px 12px',
-                borderRadius: '50px'
+                borderRadius: '50px',
+                border: '1px solid #fecaca'
               }}
             >
-              Get In Touch
+              DIRECT HELPLINE
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 600, margin: '14px 0 6px', color: '#0f172a' }}>
-              Contact Our Enterprise Team
+            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, margin: '14px 0 6px', color: '#3b0a11' }}>
+              Contact Reiki &amp; Vaastu World
             </h2>
-            <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 24px' }}>
-              Have questions about deploying or monetizing AI agents? We typically respond in under 2 hours.
+            <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 20px' }}>
+              Have questions regarding courses, Vaastu site audits, or energized products? Reach our Amravati and Nagpur centers.
             </p>
 
             {submittedStatus ? (
               <div style={{ textAlign: 'center', padding: '30px 0' }}>
                 <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 12px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#0f172a', margin: '0 0 6px' }}>
-                  Message Sent!
+                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
+                  Query Dispatched!
                 </h3>
-                <p style={{ color: '#64748b', fontSize: '14px', margin: 0 }}>
-                  Thank you! An aiKart specialist will contact you shortly.
+                <p style={{ color: '#784450', fontSize: '14px', margin: 0 }}>
+                  Thank you. Dr. Naresh Chhabdiya's team will contact you shortly via phone or WhatsApp.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                     Full Name *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Amruta K."
+                    placeholder="e.g. Chetan Saraf"
                     className="akf-nl-input"
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                   />
                 </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Phone / WhatsApp *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="9423424596"
+                      className="akf-nl-input"
+                      value={contactForm.phone}
+                      onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Preferred Center *
+                    </label>
+                    <select
+                      className="akf-nl-input"
+                      value={contactForm.center}
+                      onChange={(e) => setContactForm({ ...contactForm, center: e.target.value })}
+                    >
+                      <option>Amravati Center (Walcut Compound)</option>
+                      <option>Nagpur Center (Mahal)</option>
+                      <option>Online Video Consultation</option>
+                    </select>
+                  </div>
+                </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                    Work Email *
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    Email Address
                   </label>
                   <input
                     type="email"
-                    required
-                    placeholder="name@company.com"
+                    placeholder="yourname@gmail.com"
                     className="akf-nl-input"
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                    How can we help? *
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    How can we guide you? *
                   </label>
                   <textarea
                     rows={3}
                     required
-                    placeholder="Tell us about the AI workflows you want to implement or list..."
+                    placeholder="Describe your inquiry (e.g. learn Reiki level 1, home Vaastu inspection, buy certified Rudraksha)..."
                     style={{
                       width: '100%',
                       padding: '12px 16px',
                       borderRadius: '16px',
-                      border: '1.5px solid #cbd5e1',
+                      border: '1.5px solid #d4af37',
+                      background: '#fffdf9',
                       outline: 'none',
                       fontSize: '14px',
-                      fontFamily: 'inherit'
+                      fontFamily: 'inherit',
+                      color: '#3b0a11'
                     }}
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   />
                 </div>
+
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '10px 14px', fontSize: '12.5px', color: '#881337' }}>
+                  📞 Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reki.vastuworld@gmail.com</strong>
+                </div>
+
                 <button
                   type="submit"
                   className="gnav-btn-primary"
                   style={{
-                    background: '#2563eb',
-                    color: '#ffffff',
                     padding: '14px',
-                    fontSize: '14.5px',
+                    fontSize: '15px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    marginTop: '8px'
+                    marginTop: '4px'
                   }}
                 >
-                  <Send size={16} /> Send Message
+                  <Send size={16} /> Send Enquiry
                 </button>
               </form>
             )}
           </div>
         )}
 
-        {/* ─── SCHEDULE MEETING MODAL ─── */}
-        {activeModal === 'schedule' && (
-          <div style={{ padding: '36px' }}>
+        {/* ─── SCHEDULE CONSULTATION MODAL ─── */}
+        {(activeModal === 'schedule' || activeModal === 'meeting') && (
+          <div style={{ padding: '36px', maxHeight: '85vh', overflowY: 'auto' }}>
             <span
               style={{
                 fontSize: '11px',
                 fontWeight: 700,
-                letterSpacing: '0.18em',
+                letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: '#2563eb',
-                background: '#eff6ff',
+                color: '#dc2626',
+                background: '#fef2f2',
                 padding: '4px 12px',
-                borderRadius: '50px'
+                borderRadius: '50px',
+                border: '1px solid #fecaca'
               }}
             >
-              Consultation
+              1-ON-1 HOLISTIC SESSION
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 600, margin: '14px 0 6px', color: '#0f172a' }}>
-              Schedule a 1-on-1 Strategy Call
+            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, margin: '14px 0 6px', color: '#3b0a11' }}>
+              Book Personal Consultation with Dr. Naresh
             </h2>
-            <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 24px' }}>
-              Speak directly with an AI Solutions Architect about architecture, integration, or custom agent development.
+            <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 20px' }}>
+              Choose your consultation type and preferred timing. Available in Amravati, Nagpur, or online via live video.
             </p>
 
             {submittedStatus ? (
               <div style={{ textAlign: 'center', padding: '30px 0' }}>
                 <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 12px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 600, color: '#0f172a', margin: '0 0 6px' }}>
-                  Meeting Confirmed!
+                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
+                  Consultation Slot Requested!
                 </h3>
-                <p style={{ color: '#64748b', fontSize: '14px', margin: 0 }}>
-                  We've sent a calendar invite to <strong>{meetingForm.email}</strong>.
+                <p style={{ color: '#784450', fontSize: '14px', margin: 0 }}>
+                  We have registered your appointment for <strong>{meetingForm.date} at {meetingForm.time}</strong>. Dr. Naresh's coordinator will confirm your slot via call or WhatsApp at {meetingForm.phone}.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleMeetingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                    Your Name *
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    Full Name *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Alex Morgan"
+                    placeholder="e.g. Mayur Wankhade"
                     className="akf-nl-input"
                     value={meetingForm.name}
                     onChange={(e) => setMeetingForm({ ...meetingForm, name: e.target.value })}
                   />
                 </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                    Email for Calendar Invite *
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="alex@acmecorp.com"
-                    className="akf-nl-input"
-                    value={meetingForm.email}
-                    onChange={(e) => setMeetingForm({ ...meetingForm, email: e.target.value })}
-                  />
-                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                      Date *
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Phone / WhatsApp *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="9823456789"
+                      className="akf-nl-input"
+                      value={meetingForm.phone}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, phone: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="you@email.com"
+                      className="akf-nl-input"
+                      value={meetingForm.email}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, email: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Consultation Service *
+                    </label>
+                    <select
+                      className="akf-nl-input"
+                      value={meetingForm.consultationType}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, consultationType: e.target.value })}
+                    >
+                      <option>Residential Home Vaastu Audit</option>
+                      <option>Commercial / Factory Vaastu Audit</option>
+                      <option>Vedic Astrology &amp; Kundali Analysis</option>
+                      <option>Reiki Master Course Attunement</option>
+                      <option>Tibetan Lama-Fera Cleansing Session</option>
+                      <option>Chaldean Numerology &amp; Name Correction</option>
+                      <option>Scientific Acupressure Pain Relief</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Meeting Mode *
+                    </label>
+                    <select
+                      className="akf-nl-input"
+                      value={meetingForm.mode}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, mode: e.target.value })}
+                    >
+                      <option>In-Person (Amravati Center)</option>
+                      <option>In-Person (Nagpur Center)</option>
+                      <option>Online Video Call (Zoom / Google Meet)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Preferred Date *
                     </label>
                     <input
                       type="date"
@@ -236,83 +338,78 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                      Time Slot *
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                      Preferred Time Slot *
                     </label>
                     <select
                       className="akf-nl-input"
                       value={meetingForm.time}
                       onChange={(e) => setMeetingForm({ ...meetingForm, time: e.target.value })}
                     >
-                      <option value="10:00 AM">10:00 AM EST</option>
-                      <option value="01:30 PM">01:30 PM EST</option>
-                      <option value="04:00 PM">04:00 PM EST</option>
-                      <option value="06:30 PM">06:30 PM EST</option>
+                      <option value="10:00 AM">10:00 AM (Morning)</option>
+                      <option value="12:30 PM">12:30 PM (Afternoon)</option>
+                      <option value="04:30 PM">04:30 PM (Evening)</option>
+                      <option value="06:30 PM">06:30 PM (Late Evening)</option>
                     </select>
                   </div>
                 </div>
+
                 <button
                   type="submit"
                   className="gnav-btn-primary"
                   style={{
-                    background: '#2563eb',
-                    color: '#ffffff',
                     padding: '14px',
-                    fontSize: '14.5px',
+                    fontSize: '15px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    marginTop: '8px'
+                    marginTop: '6px'
                   }}
                 >
-                  <Calendar size={16} /> Confirm Calendar Slot
+                  <Calendar size={16} /> Confirm Consultation Booking
                 </button>
               </form>
             )}
           </div>
         )}
 
-        {/* ─── LIVE SANDBOX TESTING MODAL ─── */}
+        {/* ─── LIVE ENERGY & VASTU SIMULATOR / SANDBOX MODAL ─── */}
         {activeModal === 'sandbox' && (
-          <div style={{ padding: '32px' }}>
+          <div style={{ padding: '32px', maxHeight: '85vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
               <div
                 style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '12px',
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '14px',
+                  background: 'linear-gradient(135deg, #fef2f2 0%, #fffbeb 100%)',
+                  border: '1.5px solid #d4af37',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+                  boxShadow: '0 4px 12px rgba(220,38,38,0.15)'
                 }}
               >
-                <img
-                  src={modalData?.logo_url || '/logo/aikart-ai-mark.png'}
-                  alt=""
-                  style={{ width: '28px', height: '28px', objectFit: 'contain' }}
-                />
+                <Compass size={24} color="#dc2626" />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#0f172a' }}>
-                  {modalData?.title || 'Live AI Sandbox'}
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#3b0a11' }}>
+                  {modalData?.title || 'Cosmic Energy & Vaastu Scanner'}
                 </h3>
-                <span style={{ fontSize: '12px', color: '#64748b' }}>
-                  Provided by {modalData?.provider || 'Verified Partner'} • Isolated Cloud Container
+                <span style={{ fontSize: '12px', color: '#b45309', fontWeight: 600 }}>
+                  Guided by Dr. Naresh Chhabdiya • 28+ Years Energy Expertise
                 </span>
               </div>
             </div>
 
-            <p style={{ color: '#475569', fontSize: '13.5px', lineHeight: 1.5, margin: '0 0 18px' }}>
-              {modalData?.tagline || 'Test this model with custom input payloads in real time.'}
+            <p style={{ color: '#5e2732', fontSize: '13.5px', lineHeight: 1.5, margin: '0 0 16px' }}>
+              Simulate an energetic diagnosis of your space or subtle body. Enter your residential concern, home entrance direction, or health symptom below to receive immediate Vedic analysis and practical remedies.
             </p>
 
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                Test Input Prompt:
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                Your Current Concern, Entrance Direction, or Goal:
               </label>
               <textarea
                 rows={3}
@@ -320,12 +417,14 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   width: '100%',
                   padding: '12px 14px',
                   borderRadius: '14px',
-                  border: '1.5px solid #cbd5e1',
+                  border: '1.5px solid #d4af37',
+                  background: '#fffdf9',
                   outline: 'none',
                   fontSize: '13.5px',
-                  fontFamily: 'inherit'
+                  fontFamily: 'inherit',
+                  color: '#3b0a11'
                 }}
-                placeholder="Enter sample text, question, or payload to run through this agent..."
+                placeholder="e.g. Kitchen in North-East direction, severe migraines and disturbed sleep, or interest in learning Reiki master level..."
                 value={sandboxPrompt}
                 onChange={(e) => setSandboxPrompt(e.target.value)}
               />
@@ -336,200 +435,46 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 type="button"
                 className="gnav-btn-primary"
                 style={{
-                  background: '#2563eb',
-                  color: '#ffffff',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  fontSize: '13.5px'
+                  fontSize: '13.5px',
+                  padding: '10px 22px'
                 }}
                 disabled={isExecuting}
                 onClick={runSandboxTest}
               >
-                <Play size={14} /> {isExecuting ? 'Running inference...' : 'Execute in Sandbox'}
+                <Play size={14} /> {isExecuting ? 'Scanning Cosmic Alignment...' : 'Run Cosmic Diagnosis'}
               </button>
             </div>
 
-            {/* Terminal Output */}
+            {/* Diagnostic Output Console */}
             <div
               style={{
-                background: '#0f172a',
-                color: '#38bdf8',
-                borderRadius: '14px',
-                padding: '16px',
+                background: '#4a0e17',
+                border: '1.5px solid #d4af37',
+                borderRadius: '16px',
+                padding: '18px',
                 fontFamily: 'monospace',
                 fontSize: '12.5px',
-                minHeight: '130px',
-                maxHeight: '200px',
+                color: '#fffdf9',
+                minHeight: '140px',
+                maxHeight: '220px',
                 overflowY: 'auto',
-                whiteSpace: 'pre-wrap'
+                whiteSpace: 'pre-wrap',
+                lineHeight: 1.6
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94a3b8', marginBottom: '8px', borderBottom: '1px solid #1e293b', paddingBottom: '6px' }}>
-                <Terminal size={14} /> Sandbox Console Log
-              </div>
-              {sandboxOutput || '> Ready. Press "Execute in Sandbox" to run live test.'}
+              {sandboxOutput ||
+                `✦ Awaiting input...\nPress "Run Cosmic Diagnosis" to evaluate the 5 Pancha Tattvas, chakra vibration, and non-destructive Vaastu remedies.`}
             </div>
           </div>
         )}
 
-        {/* ─── CUSTOM SOLUTIONS / CUSTOM ML MODAL ─── */}
-        {(activeModal === 'custom-solutions' || activeModal === 'custom-ml') && (
-          <div style={{ padding: '36px' }}>
-            <span
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: '#2563eb',
-                background: '#eff6ff',
-                padding: '4px 12px',
-                borderRadius: '50px'
-              }}
-            >
-              {activeModal === 'custom-ml' ? 'ML Engineering' : 'Bespoke AI Solutions'}
-            </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 600, margin: '14px 0 6px', color: '#0f172a' }}>
-              {activeModal === 'custom-ml' ? 'Custom ML Models & Fine-Tuning' : 'Custom Autonomous AI Solutions'}
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 24px', lineHeight: 1.5 }}>
-              {activeModal === 'custom-ml'
-                ? 'We train, fine-tune, and deploy proprietary LLMs and vision models securely hosted within your VPC or on-prem environment.'
-                : 'Need a customized multi-agent pipeline tailored to your unique internal ERP, CRM, and data warehouse? Our architects build it from spec to deployment.'}
-            </p>
-
-            <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                  Company Name *
-                </label>
-                <input type="text" required placeholder="Acme Technologies" className="akf-nl-input" />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                  Work Email *
-                </label>
-                <input type="email" required placeholder="tech@acme.com" className="akf-nl-input" />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                  Project Objectives &amp; Timeline *
-                </label>
-                <textarea
-                  rows={3}
-                  required
-                  placeholder="Outline key requirements, datasets, and expected deployment targets..."
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px',
-                    borderRadius: '16px',
-                    border: '1.5px solid #cbd5e1',
-                    outline: 'none',
-                    fontSize: '14px',
-                    fontFamily: 'inherit'
-                  }}
-                />
-              </div>
-              <button
-                type="submit"
-                className="gnav-btn-primary"
-                style={{ background: '#2563eb', color: '#ffffff', padding: '14px', fontSize: '14.5px', marginTop: '6px' }}
-              >
-                Request Custom Solution Proposal
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* ─── ABOUT US MODAL ─── */}
-        {activeModal === 'about' && (
-          <div style={{ padding: '36px' }}>
-            <span
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: '#2563eb',
-                background: '#eff6ff',
-                padding: '4px 12px',
-                borderRadius: '50px'
-              }}
-            >
-              Our Mission
-            </span>
-            <h2 className="ff-redhat" style={{ fontSize: '28px', fontWeight: 600, margin: '14px 0 14px', color: '#0f172a' }}>
-              About aiKart
-            </h2>
-            <p style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.7, margin: '0 0 14px' }}>
-              aiKart was born to solve the single largest bottleneck in AI adoption: <strong>trust and verifiable outcomes</strong>.
-            </p>
-            <p style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.7, margin: '0 0 14px' }}>
-              Instead of buying black-box software on blind faith, aiKart provides enterprise buyers with transparent live sandboxes, vetted providers, side-by-side performance benchmarks, and streamlined procurement.
-            </p>
-            <p style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.7, margin: 0 }}>
-              Headquartered in Saturna, Amravati, Maharashtra, our global engineering community connects independent AI researchers and agent builders with forward-thinking businesses around the world.
-            </p>
-          </div>
-        )}
-
-        {/* ─── LEGAL MODALS (Terms / Privacy / Cookies) ─── */}
-        {(activeModal === 'terms' || activeModal === 'privacy' || activeModal === 'cookies') && (
-          <div style={{ padding: '36px' }}>
-            <span
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: '#2563eb',
-                background: '#eff6ff',
-                padding: '4px 12px',
-                borderRadius: '50px'
-              }}
-            >
-              Legal &amp; Compliance
-            </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 600, margin: '14px 0 14px', color: '#0f172a' }}>
-              {activeModal === 'terms'
-                ? 'Terms of Service'
-                : activeModal === 'privacy'
-                ? 'Privacy Policy'
-                : 'Cookie Policy'}
-            </h2>
-            <div style={{ maxHeight: '300px', overflowY: 'auto', fontSize: '13.5px', lineHeight: 1.65, color: '#475569' }}>
-              <p>
-                <strong>1. General Conditions:</strong> By using the aiKart platform, you acknowledge and agree that all AI agents, models, and workflows listed on our marketplace are subject to individual developer SLAs and verified sandbox guidelines.
-              </p>
-              <p>
-                <strong>2. Data Privacy &amp; Sandbox Safety:</strong> We prioritize zero-retention policies for sandbox queries. Inputs executed in demo sandboxes are processed strictly in isolated container instances without persisting proprietary client data.
-              </p>
-              <p>
-                <strong>3. Seller Payouts &amp; Quality Benchmark:</strong> Sellers undergo a continuous verification review. aiKart retains platform escrow until deployment delivery is verified according to the listing SLA.
-              </p>
-              <p>
-                <strong>4. Jurisdiction:</strong> These terms are governed under applicable laws with arbitration provisions in Maharashtra, India.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ─── AUTH MODAL ─── */}
+        {/* ─── AUTH / STUDENT PORTAL MODAL ─── */}
         {activeModal === 'auth' && (
           <div style={{ padding: '36px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <img src="/logo/aikart-logo-full.png" alt="aiKart" style={{ height: '28px', marginBottom: '12px' }} />
-              <h2 className="ff-redhat" style={{ fontSize: '24px', fontWeight: 600, color: '#0f172a', margin: '0 0 6px' }}>
-                {authTab === 'login' ? 'Welcome Back' : 'Create Your aiKart Account'}
-              </h2>
-              <p style={{ color: '#64748b', fontSize: '13.5px', margin: 0 }}>
-                {authTab === 'login' ? 'Access your saved AI agents and active sandboxes' : 'Join 10,000+ businesses discovering AI solutions'}
-              </p>
-            </div>
-
-            {/* Tab switch */}
-            <div style={{ display: 'flex', background: '#f1f5f9', borderRadius: '50px', padding: '4px', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', background: '#fffdf9', padding: '4px', borderRadius: '50px', border: '1.5px solid rgba(212,175,55,0.4)' }}>
               <button
                 type="button"
                 onClick={() => setAuthTab('login')}
@@ -538,15 +483,14 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   padding: '8px',
                   borderRadius: '50px',
                   border: 'none',
-                  background: authTab === 'login' ? '#ffffff' : 'transparent',
-                  color: authTab === 'login' ? '#0f172a' : '#64748b',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  boxShadow: authTab === 'login' ? '0 2px 8px rgba(0,0,0,0.06)' : 'none'
+                  background: authTab === 'login' ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : 'transparent',
+                  color: authTab === 'login' ? '#ffffff' : '#3b0a11',
+                  fontWeight: 700,
+                  fontSize: '13.5px',
+                  cursor: 'pointer'
                 }}
               >
-                Log In
+                Seeker Portal Login
               </button>
               <button
                 type="button"
@@ -556,34 +500,47 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   padding: '8px',
                   borderRadius: '50px',
                   border: 'none',
-                  background: authTab === 'signup' ? '#ffffff' : 'transparent',
-                  color: authTab === 'signup' ? '#0f172a' : '#64748b',
-                  fontWeight: 600,
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  boxShadow: authTab === 'signup' ? '0 2px 8px rgba(0,0,0,0.06)' : 'none'
+                  background: authTab === 'signup' ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : 'transparent',
+                  color: authTab === 'signup' ? '#ffffff' : '#3b0a11',
+                  fontWeight: 700,
+                  fontSize: '13.5px',
+                  cursor: 'pointer'
                 }}
               >
-                Sign Up
+                Register as Student
               </button>
             </div>
+
+            <h2 className="ff-redhat" style={{ fontSize: '24px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
+              {authTab === 'login' ? 'Welcome Back to Reiki & Vaastu World' : 'Join Our Sacred Learning Circle'}
+            </h2>
+            <p style={{ color: '#784450', fontSize: '13.5px', margin: '0 0 20px' }}>
+              Access your certified course materials, attunement certificates, and weekly free meditation gatherings.
+            </p>
 
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                alert(`Successfully authenticated with aiKart!`);
                 closeModal();
               }}
-              style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
             >
+              {authTab === 'signup' && (
+                <div>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    Full Name
+                  </label>
+                  <input type="text" required placeholder="Your Full Name" className="akf-nl-input" />
+                </div>
+              )}
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
-                  Email Address
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  Registered Email / Mobile
                 </label>
-                <input type="email" required placeholder="you@company.com" className="akf-nl-input" />
+                <input type="text" required placeholder="name@email.com or 9823456789" className="akf-nl-input" />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                   Password
                 </label>
                 <input type="password" required placeholder="••••••••" className="akf-nl-input" />
@@ -592,9 +549,9 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               <button
                 type="submit"
                 className="gnav-btn-primary"
-                style={{ background: '#2563eb', color: '#ffffff', padding: '14px', fontSize: '14.5px', marginTop: '10px' }}
+                style={{ padding: '14px', fontSize: '14.5px', marginTop: '6px' }}
               >
-                {authTab === 'login' ? 'Continue to aiKart' : 'Create Free Account'}
+                {authTab === 'login' ? 'Log In to Student Portal' : 'Create Free Account'}
               </button>
             </form>
           </div>

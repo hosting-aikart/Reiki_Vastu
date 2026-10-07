@@ -7,20 +7,26 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
       <div className="hm-container">
         <div className="hm-process-grid">
           <div className="hm-process-left">
-            <p className="hm-eyebrow hm-grad">THE PROCESS</p>
+            <p className="hm-eyebrow hm-grad">PRACTITIONER &amp; SEEKER PATH</p>
             <h2 className="ff-redhat hm-h2" style={{ color: '#ffffff', marginBottom: '16px' }}>
-              Launch in six steps, seller side
+              Master the Sacred Sciences in Six Guided Steps
             </h2>
-            <p style={{ color: '#a1a1aa', fontSize: '15.5px', lineHeight: 1.6, margin: '0 0 28px' }}>
-              List, configure and start receiving customers the full seller journey, end to end.
+            <p style={{ color: '#fef3c7', fontSize: '15px', lineHeight: 1.65, margin: '0 0 28px' }}>
+              From sacred master symbol attunement to real-world clinical practice and lifetime mentorship under Dr. Naresh Chhabdiya.
             </p>
             <button
               type="button"
               className="gnav-btn-primary"
-              style={{ background: '#ffffff', color: '#2563eb', padding: '12px 28px', fontSize: '15px' }}
+              style={{
+                background: 'linear-gradient(135deg, #d4af37 0%, #b45309 100%)',
+                color: '#3b0a11',
+                padding: '12px 28px',
+                fontSize: '15px',
+                border: '1.5px solid #fffdf9'
+              }}
               onClick={onBecomeSellerClick}
             >
-              Start Selling AI
+              Join Healer Network
             </button>
           </div>
 
@@ -32,6 +38,9 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
                   <div>
                     <div className="hm-scard-rule" style={{ background: step.color }} />
                     <span className="hm-scard-t">{step.title}</span>
+                    <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#fef3c7', opacity: 0.85 }}>
+                      {step.subtitle}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -44,6 +53,9 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
                   <div>
                     <div className="hm-scard-rule" style={{ background: step.color }} />
                     <span className="hm-scard-t">{step.title}</span>
+                    <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#fef3c7', opacity: 0.85 }}>
+                      {step.subtitle}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -54,11 +66,11 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
         {/* CTA banner */}
         <div className="hm-cta">
           <div>
-            <h3 className="ff-redhat">Ready to try AI before you buy?</h3>
-            <p className="ff-inter">Explore verified solutions with live sandbox access.</p>
+            <h3 className="ff-redhat">Ready to bring harmony to your life and home?</h3>
+            <p className="ff-inter">Explore 14+ certified courses, authentic remedies, and personal consultations.</p>
           </div>
           <button type="button" className="hm-cta-btn ff-inter" onClick={onExploreClick}>
-            Explore
+            Explore Catalog
           </button>
         </div>
       </div>

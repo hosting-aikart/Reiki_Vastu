@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import MarketplaceCarousel from './components/MarketplaceCarousel';
+import AboutAndFeatures from './components/AboutAndFeatures';
+import OurFeatures from './components/OurFeatures';
 import BusinessNeeds from './components/BusinessNeeds';
-import HowItWorks from './components/HowItWorks';
-import SellerProcess from './components/SellerProcess';
-import TechStack from './components/TechStack';
+import VideoTestimonials from './components/VideoTestimonials';
 import Footer from './components/Footer';
-import ExploreView from './components/ExploreView';
-import BecomeSellerView from './components/BecomeSellerView';
 import FloatingWidgets from './components/FloatingWidgets';
 import Modals from './components/Modals';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('home'); // 'home' | 'explore' | 'become-seller'
-  const [searchQuery, setSearchQuery] = useState('');
+  const [currentView, setCurrentView] = useState('home');
   const [activeModal, setActiveModal] = useState(null);
   const [modalData, setModalData] = useState(null);
 
@@ -28,87 +24,49 @@ export default function App() {
     setModalData(null);
   };
 
-  const handleHeroSearch = (query) => {
-    setSearchQuery(query);
-    setCurrentView('explore');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleCardClick = (title) => {
-    setSearchQuery(title);
-    setCurrentView('explore');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSelectIndustry = (industryName) => {
-    setSearchQuery(industryName);
-    setCurrentView('explore');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleSelectCourse = (courseTitle) => {
+    openModal('meeting', { title: `${courseTitle} Course Inquiry & Registration` });
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f4f4f4' }}>
-      {/* Floating Pill Glassmorphism Navbar */}
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#fdfbf7' }}>
+      {/* Floating Pill Navbar with Empty Space for Logo */}
       <Navbar
         currentView={currentView}
         setCurrentView={(view) => {
           setCurrentView(view);
-          if (view !== 'explore') setSearchQuery('');
         }}
         openModal={openModal}
       />
 
       {/* Main Content Pages */}
       <main style={{ flex: 1 }}>
-        {currentView === 'home' && (
-          <>
-            {/* 1. Hero with Video & Typing Search */}
-            <Hero onSearch={handleHeroSearch} />
+        {/* 1. Hero with BlueNeuron 2-Column layout & Main Video */}
+        <Hero
+          onSearch={() => {
+            const el = document.getElementById('courses-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}
+          onConsultClick={() => openModal('meeting')}
+        />
 
-            {/* 2. The Marketplace 5-Card Carousel */}
-            <MarketplaceCarousel onCardClick={handleCardClick} />
+        {/* 2. Welcome by Dr. Naresh Chhabdiya & 15 Certified Courses Grid */}
+        <AboutAndFeatures
+          onConsultClick={() => openModal('meeting')}
+          onSelectCourse={handleSelectCourse}
+        />
 
-            {/* 3. By Business Need 3D Icon Marquee */}
-            <BusinessNeeds onSelectIndustry={handleSelectIndustry} />
+        {/* 3. OUR FEATURES (replaces Authentic Healing section, matching Image 3) */}
+        <OurFeatures />
 
-            {/* 4. How aiKart Works 4-Step Accordion */}
-            <HowItWorks />
+        {/* 4. Our Products Section with Coming Soon Cards */}
+        <BusinessNeeds />
 
-            {/* 5. The Process (Seller side) & CTA */}
-            <SellerProcess
-              onExploreClick={() => {
-                setCurrentView('explore');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              onBecomeSellerClick={() => {
-                setCurrentView('become-seller');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-
-            {/* 6. The Tech Stack Marquee */}
-            <TechStack />
-          </>
-        )}
-
-        {currentView === 'explore' && (
-          <ExploreView
-            initialSearch={searchQuery}
-            onOpenSandbox={(agent) => openModal('sandbox', agent)}
-          />
-        )}
-
-        {currentView === 'become-seller' && (
-          <BecomeSellerView
-            onBackToHome={() => {
-              setCurrentView('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
-        )}
+        {/* 5. Discourses & Real Testimonials */}
+        <VideoTestimonials />
       </main>
 
-      {/* Footer */}
+      {/* Footer with Amravati & Nagpur Centers Contact Info */}
       <Footer
         setCurrentView={(view) => {
           setCurrentView(view);
@@ -117,7 +75,7 @@ export default function App() {
         openModal={openModal}
       />
 
-      {/* Floating 3D Robot Waving & Help Popover */}
+      {/* Floating Spiritual Councillor Widget */}
       <FloatingWidgets openModal={openModal} />
 
       {/* Universal Modals Manager */}

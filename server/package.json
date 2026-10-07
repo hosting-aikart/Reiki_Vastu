@@ -1,7 +1,7 @@
 {
-  "name": "aikart-backend",
+  "name": "reiki-and-vaastu-backend",
   "version": "1.0.0",
-  "description": "MERN Stack Backend API for aiKart marketplace",
+  "description": "Backend API for Reiki & Vaastu World",
   "main": "server.js",
   "type": "module",
   "scripts": {

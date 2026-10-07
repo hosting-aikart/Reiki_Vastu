@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, ArrowUpDown, X, Sparkles } from 'lucide-react';
+import { Search, ArrowUpDown, X, Sparkles, Star, CheckCircle2, Compass } from 'lucide-react';
 import { AGENTS_DATA } from '../data/agents';
 import { CATEGORIES_DATA } from '../data/categories';
 
@@ -44,20 +44,20 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
   );
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh', background: '#f4f4f4' }}>
+    <div style={{ paddingTop: '100px', minHeight: '100vh', background: '#fdfbf7' }}>
       <div className="hm-container" style={{ paddingBottom: '80px' }}>
         {/* Header */}
         <div style={{ marginBottom: '28px' }}>
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
-            MARKETPLACE CATALOG
+            SACRED REIKI &amp; VAASTU CATALOG
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
             <div>
-              <h1 className="ff-redhat" style={{ fontSize: '34px', fontWeight: 600, margin: '0 0 8px', color: '#0f172a' }}>
-                Explore Verified AI Agents
+              <h1 className="ff-redhat" style={{ fontSize: '34px', fontWeight: 700, margin: '0 0 8px', color: '#3b0a11' }}>
+                Explore Courses, Products &amp; Therapies
               </h1>
-              <p style={{ color: '#64748b', fontSize: '15px', margin: 0 }}>
-                Discover, compare, and test 300+ vetted AI solutions with instant live sandbox capabilities.
+              <p style={{ color: '#784450', fontSize: '15px', margin: 0, maxWidth: '680px' }}>
+                Discover certified courses, authentic energized Rudrakshas, non-destructive Vaastu consultations, and holistic energy therapies taught by Dr. Naresh Chhabdiya since 1995.
               </p>
             </div>
 
@@ -69,9 +69,9 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: '#fee2e2',
+                  background: '#fef2f2',
                   color: '#dc2626',
-                  border: '1px solid #fca5a5',
+                  border: '1.5px solid #fca5a5',
                   padding: '6px 14px',
                   borderRadius: '50px',
                   fontSize: '13px',
@@ -89,10 +89,10 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
         <div
           style={{
             background: '#ffffff',
-            borderRadius: '20px',
-            padding: '16px 20px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
-            border: '1px solid #e2e8f0',
+            borderRadius: '24px',
+            padding: '18px 22px',
+            boxShadow: '0 6px 24px rgba(180,83,9,0.06)',
+            border: '1.5px solid rgba(212,175,55,0.4)',
             marginBottom: '28px',
             display: 'flex',
             flexDirection: 'column',
@@ -107,17 +107,17 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '10px',
-                background: '#f8fafc',
-                border: '1px solid #cbd5e1',
+                background: '#fffdf9',
+                border: '1.5px solid #d4af37',
                 borderRadius: '50px',
                 padding: '0 18px',
                 height: '46px'
               }}
             >
-              <Search size={18} color="#64748b" />
+              <Search size={18} color="#dc2626" />
               <input
                 type="text"
-                placeholder="Search agents by name, function, workflow..."
+                placeholder="Search by course, Rudraksha, Vastu, crystal, therapy..."
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -129,61 +129,70 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   background: 'transparent',
                   width: '100%',
                   fontSize: '14.5px',
-                  color: '#0f172a'
+                  color: '#3b0a11',
+                  fontWeight: 500
                 }}
               />
               {searchTerm && (
                 <button
                   type="button"
                   onClick={() => setSearchTerm('')}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626' }}
                 >
                   <X size={16} />
                 </button>
               )}
             </div>
 
-            {/* Pricing Pills */}
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              {['All', 'Free', 'Freemium', 'Paid'].map((tier) => (
+            {/* Type Filter Pills */}
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+              {[
+                { label: 'All Offerings', value: 'All' },
+                { label: 'Courses', value: 'Certified Course' },
+                { label: 'Products', value: 'Energized Product' },
+                { label: 'Therapies', value: 'Healing Therapy' },
+                { label: 'Consultations', value: 'Consultation' }
+              ].map((tier) => (
                 <button
-                  key={tier}
+                  key={tier.value}
                   type="button"
                   onClick={() => {
-                    setSelectedPricing(tier);
+                    setSelectedPricing(tier.value);
                     setCurrentPage(1);
                   }}
                   style={{
                     padding: '8px 16px',
                     borderRadius: '50px',
-                    fontSize: '13.5px',
-                    fontWeight: 600,
+                    fontSize: '13px',
+                    fontWeight: 700,
                     cursor: 'pointer',
-                    border: selectedPricing === tier ? '1.5px solid #2563eb' : '1px solid #e2e8f0',
-                    background: selectedPricing === tier ? '#2563eb' : '#ffffff',
-                    color: selectedPricing === tier ? '#ffffff' : '#475569',
+                    border: selectedPricing === tier.value ? '1.5px solid #f59e0b' : '1px solid rgba(212,175,55,0.4)',
+                    background: selectedPricing === tier.value ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : '#ffffff',
+                    color: selectedPricing === tier.value ? '#ffffff' : '#3b0a11',
+                    boxShadow: selectedPricing === tier.value ? '0 3px 12px rgba(220,38,38,0.25)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
-                  {tier}
+                  {tier.label}
                 </button>
               ))}
             </div>
 
             {/* Sort Dropdown */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <ArrowUpDown size={16} color="#64748b" />
+              <ArrowUpDown size={16} color="#dc2626" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 style={{
                   height: '44px',
                   borderRadius: '50px',
-                  border: '1px solid #cbd5e1',
+                  border: '1.5px solid rgba(212,175,55,0.5)',
                   background: '#ffffff',
                   padding: '0 14px',
                   fontSize: '13.5px',
-                  color: '#334155',
+                  color: '#3b0a11',
+                  fontWeight: 600,
                   outline: 'none',
                   cursor: 'pointer'
                 }}
@@ -220,11 +229,11 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     padding: '6px 14px',
                     borderRadius: '50px',
                     fontSize: '13px',
-                    fontWeight: isSelected ? 600 : 400,
+                    fontWeight: isSelected ? 700 : 500,
                     cursor: 'pointer',
-                    border: isSelected ? '1.5px solid #2563eb' : '1px solid #e2e8f0',
-                    background: isSelected ? '#eff6ff' : '#f8fafc',
-                    color: isSelected ? '#2563eb' : '#475569',
+                    border: isSelected ? '1.5px solid #dc2626' : '1px solid rgba(212,175,55,0.3)',
+                    background: isSelected ? '#fef2f2' : '#ffffff',
+                    color: isSelected ? '#dc2626' : '#4a1923',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
@@ -235,10 +244,11 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   <span
                     style={{
                       fontSize: '11px',
-                      background: isSelected ? '#2563eb' : '#e2e8f0',
-                      color: isSelected ? '#ffffff' : '#64748b',
+                      background: isSelected ? '#dc2626' : 'rgba(212,175,55,0.2)',
+                      color: isSelected ? '#ffffff' : '#b45309',
                       padding: '1px 6px',
-                      borderRadius: '10px'
+                      borderRadius: '10px',
+                      fontWeight: 700
                     }}
                   >
                     {cat.count}
@@ -249,13 +259,13 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
           </div>
         </div>
 
-        {/* AI Advisor Banner */}
+        {/* Cosmic Energy & Vastu Scanner Banner */}
         <div
           style={{
-            background: 'linear-gradient(90deg, rgba(37,99,235,0.08) 0%, rgba(255,174,0,0.08) 100%)',
-            border: '1px solid rgba(37,99,235,0.22)',
-            borderRadius: '18px',
-            padding: '16px 20px',
+            background: 'linear-gradient(90deg, rgba(220,38,38,0.1) 0%, rgba(212,175,55,0.14) 50%, rgba(124,58,237,0.1) 100%)',
+            border: '1.5px solid rgba(212,175,55,0.45)',
+            borderRadius: '20px',
+            padding: '18px 24px',
             marginBottom: '32px',
             display: 'flex',
             alignItems: 'center',
@@ -264,37 +274,38 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
             gap: '14px'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                background: '#2563eb',
+                width: '42px',
+                height: '42px',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                border: '1px solid #f59e0b',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#fff'
               }}
             >
-              <Sparkles size={20} />
+              <Compass size={22} />
             </div>
             <div>
-              <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 600, color: '#0f172a' }}>
-                Unsure which AI solution fits your stack?
+              <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#3b0a11' }}>
+                Need Personal Energy or Directional Diagnosis?
               </h4>
-              <p style={{ margin: 0, fontSize: '13.5px', color: '#64748b' }}>
-                Try any model in our sandbox or book a consultation with our solutions architect.
+              <p style={{ margin: 0, fontSize: '13.5px', color: '#784450' }}>
+                Test your space or chakra alignment in our interactive Aura &amp; Vastu Simulator before booking.
               </p>
             </div>
           </div>
           <button
             type="button"
             className="gnav-btn-primary"
-            style={{ fontSize: '13px', padding: '8px 20px', background: '#2563eb', color: '#ffffff' }}
+            style={{ fontSize: '13.5px', padding: '10px 22px' }}
             onClick={() => onOpenSandbox(AGENTS_DATA[0])}
           >
-            Launch Free Sandbox
+            Launch Cosmic Energy Simulator
           </button>
         </div>
 
@@ -305,15 +316,15 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               textAlign: 'center',
               padding: '60px 20px',
               background: '#ffffff',
-              borderRadius: '20px',
-              border: '1px solid #e2e8f0'
+              borderRadius: '22px',
+              border: '1.5px solid rgba(212,175,55,0.3)'
             }}
           >
-            <p style={{ fontSize: '18px', fontWeight: 600, color: '#0f172a', marginBottom: '8px' }}>
-              No matching agents found
+            <p style={{ fontSize: '18px', fontWeight: 700, color: '#3b0a11', marginBottom: '8px' }}>
+              No matching offerings found
             </p>
-            <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '20px' }}>
-              Try searching for different keywords, resetting filters, or clearing your search.
+            <p style={{ color: '#784450', fontSize: '14px', marginBottom: '20px' }}>
+              Try searching with different keywords (e.g. Reiki, Vastu, Rudraksha, Crystal) or resetting filters.
             </p>
             <button
               type="button"
@@ -331,7 +342,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
               gap: '24px'
             }}
           >
@@ -340,14 +351,14 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 key={agent.id}
                 style={{
                   background: '#ffffff',
-                  borderRadius: '22px',
-                  border: '1px solid #e2e8f0',
-                  padding: '16px',
+                  borderRadius: '24px',
+                  border: '1.5px solid rgba(212,175,55,0.35)',
+                  padding: '18px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 2px 14px rgba(15,23,42,0.03)',
-                  transition: 'transform 0.25s, box-shadow 0.25s'
+                  boxShadow: '0 4px 18px rgba(180,83,9,0.06)',
+                  transition: 'transform 0.25s, box-shadow 0.25s, border-color 0.25s'
                 }}
                 className="hover:-translate-y-1 hover:shadow-lg"
               >
@@ -356,11 +367,11 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   <div
                     className="cb-anim"
                     style={{
-                      height: '110px',
+                      height: '115px',
                       borderRadius: '16px',
                       overflow: 'hidden',
                       position: 'relative',
-                      backgroundImage: agent.bannerGradient || 'linear-gradient(120deg, #4dd0e1 0%, #00acc1 50%, #4dd0e1 100%)'
+                      backgroundImage: agent.bannerGradient || 'linear-gradient(135deg, #dc2626 0%, #d4af37 50%, #7c3aed 100%)'
                     }}
                   >
                     {agent.blobs && (
@@ -377,7 +388,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                           className="cb-blob"
                           style={{
                             background: agent.blobs[1],
-                            opacity: 0.4,
+                            opacity: 0.45,
                             animation: 'cbBlobB 14s ease-in-out infinite'
                           }}
                         />
@@ -385,65 +396,108 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                           className="cb-blob"
                           style={{
                             background: agent.blobs[2],
+                            opacity: 0.35,
                             animation: 'cbBlobC 17s ease-in-out infinite'
                           }}
                         />
                       </>
                     )}
+
+                    {/* Badge */}
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '12px',
+                        background: 'rgba(255,255,255,0.92)',
+                        border: '1px solid #f59e0b',
+                        borderRadius: '50px',
+                        padding: '3px 10px',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        color: '#881337',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      {agent.badge}
+                    </div>
                   </div>
 
-                  {/* Floating Logo Badge */}
+                  {/* Sacred Mandala Mark */}
                   <div
                     style={{
                       position: 'absolute',
                       left: '14px',
                       bottom: '-16px',
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '14px',
-                      border: '2.5px solid #ffffff',
+                      width: '54px',
+                      height: '54px',
+                      borderRadius: '16px',
+                      border: '2.5px solid #d4af37',
                       background: '#ffffff',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      boxShadow: '0 4px 14px rgba(220,38,38,0.18)',
                       overflow: 'hidden'
                     }}
                   >
                     <img
-                      src={agent.logo_url}
+                      src="/logo/reiki-vastu-mark.svg"
                       alt={agent.title}
-                      style={{ width: '38px', height: '38px', objectFit: 'contain' }}
+                      style={{ width: '40px', height: '40px', objectFit: 'contain' }}
                     />
                   </div>
                 </div>
 
                 {/* Content */}
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Star size={14} color="#f59e0b" fill="#f59e0b" />
+                      <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#3b0a11' }}>
+                        {agent.rating}
+                      </span>
+                    </div>
+                    <span
+                      style={{
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        color: '#7c3aed',
+                        background: '#f5f3ff',
+                        padding: '2px 8px',
+                        borderRadius: '50px',
+                        border: '1px solid #ddd6fe'
+                      }}
+                    >
+                      {agent.pricing_model}
+                    </span>
+                  </div>
+
                   <h3
                     style={{
-                      fontSize: '16px',
-                      fontWeight: 600,
-                      color: '#0f172a',
+                      fontSize: '16.5px',
+                      fontWeight: 700,
+                      color: '#3b0a11',
                       margin: '0 0 4px',
-                      lineHeight: 1.3
+                      lineHeight: 1.35
                     }}
                   >
                     {agent.title}
                   </h3>
 
-                  <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 10px', fontWeight: 500 }}>
-                    By {agent.provider}
+                  <p style={{ fontSize: '12px', color: '#b45309', margin: '0 0 10px', fontWeight: 600 }}>
+                    Guided by {agent.provider}
                   </p>
 
                   <p
                     style={{
                       fontSize: '13px',
-                      color: '#475569',
+                      color: '#5e2732',
                       lineHeight: 1.5,
                       margin: '0 0 16px',
                       display: '-webkit-box',
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden'
                     }}
@@ -451,82 +505,68 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     {agent.tagline}
                   </p>
 
-                  {/* Category Pills */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
-                    {agent.categories.slice(0, 2).map((cat) => (
-                      <span
-                        key={cat}
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 500,
-                          padding: '3px 10px',
-                          borderRadius: '50px',
-                          background: '#eff6ff',
-                          color: '#2563eb',
-                          border: '1px solid #dbeafe'
-                        }}
-                      >
-                        {cat}
-                      </span>
-                    ))}
-                    {agent.categories.length > 2 && (
-                      <span
-                        title={agent.categories.slice(2).join(', ')}
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 500,
-                          padding: '3px 8px',
-                          borderRadius: '50px',
-                          background: '#f1f5f9',
-                          color: '#64748b'
-                        }}
-                      >
-                        +{agent.categories.length - 2}
-                      </span>
-                    )}
-                  </div>
+                  {/* Highlights Bullet List */}
+                  {agent.highlights && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '16px' }}>
+                      {agent.highlights.slice(0, 2).map((hl, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '12px', color: '#784450' }}>
+                          <CheckCircle2 size={13} color="#dc2626" style={{ flexShrink: 0, marginTop: '2px' }} />
+                          <span>{hl}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-                  {/* Foot: Pricing & View Button */}
-                  <div
+                {/* Footer Actions */}
+                <div style={{ paddingTop: '14px', borderTop: '1px solid rgba(212,175,55,0.25)', display: 'flex', gap: '8px' }}>
+                  <button
+                    type="button"
                     style={{
+                      flex: 1,
+                      padding: '9px 12px',
+                      borderRadius: '50px',
+                      border: '1.5px solid #d4af37',
+                      background: '#fffdf9',
+                      color: '#881337',
+                      fontSize: '12.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
-                      paddingTop: '12px',
-                      marginTop: 'auto',
-                      borderTop: '1px solid #f1f5f9'
+                      justifyContent: 'center',
+                      gap: '5px',
+                      transition: 'all 0.2s'
                     }}
+                    onClick={() => onOpenSandbox(agent)}
                   >
-                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0f172a' }}>
-                      {agent.pricing_model}
-                    </span>
+                    <Compass size={14} color="#d4af37" />
+                    <span>Energy Test</span>
+                  </button>
 
-                    <button
-                      type="button"
-                      onClick={() => onOpenSandbox(agent)}
-                      style={{
-                        padding: '7px 18px',
-                        borderRadius: '50px',
-                        fontSize: '12.5px',
-                        fontWeight: 600,
-                        border: '1.5px solid #2563eb',
-                        background: '#ffffff',
-                        color: '#2563eb',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#2563eb';
-                        e.currentTarget.style.color = '#ffffff';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#ffffff';
-                        e.currentTarget.style.color = '#2563eb';
-                      }}
-                    >
-                      View Solution
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    style={{
+                      flex: 1,
+                      padding: '9px 12px',
+                      borderRadius: '50px',
+                      border: '1px solid #f59e0b',
+                      background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                      color: '#ffffff',
+                      fontSize: '12.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '5px',
+                      boxShadow: '0 3px 10px rgba(220,38,38,0.3)',
+                      transition: 'all 0.2s'
+                    }}
+                    onClick={() => onOpenSandbox(agent)}
+                  >
+                    <span>View &amp; Enroll</span>
+                  </button>
                 </div>
               </div>
             ))}
@@ -535,38 +575,46 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '8px',
-              marginTop: '48px'
-            }}
-          >
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                type="button"
-                onClick={() => {
-                  setCurrentPage(page);
-                  window.scrollTo({ top: 300, behavior: 'smooth' });
-                }}
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  border: currentPage === page ? '1.5px solid #2563eb' : '1px solid #cbd5e1',
-                  background: currentPage === page ? '#2563eb' : '#ffffff',
-                  color: currentPage === page ? '#ffffff' : '#334155',
-                  fontWeight: currentPage === page ? 700 : 500,
-                  fontSize: '14px',
-                  cursor: 'pointer'
-                }}
-              >
-                {page}
-              </button>
-            ))}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', marginTop: '40px' }}>
+            <button
+              type="button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              style={{
+                padding: '8px 18px',
+                borderRadius: '50px',
+                border: '1.5px solid rgba(212,175,55,0.4)',
+                background: '#ffffff',
+                color: '#3b0a11',
+                fontWeight: 600,
+                fontSize: '13px',
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                opacity: currentPage === 1 ? 0.4 : 1
+              }}
+            >
+              Previous
+            </button>
+            <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#3b0a11' }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              type="button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              style={{
+                padding: '8px 18px',
+                borderRadius: '50px',
+                border: '1.5px solid rgba(212,175,55,0.4)',
+                background: '#ffffff',
+                color: '#3b0a11',
+                fontWeight: 600,
+                fontSize: '13px',
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                opacity: currentPage === totalPages ? 0.4 : 1
+              }}
+            >
+              Next
+            </button>
           </div>
         )}
       </div>

@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/aikart';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/reiki_vastu_world';
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log('MongoDB connected successfully.'))
@@ -21,7 +21,7 @@ mongoose
 
 // Health route
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'aiKart API', timestamp: new Date() });
+  res.json({ status: 'ok', service: 'Reiki & Vaastu World API', timestamp: new Date() });
 });
 
 // Get all agents (with search, category, and pricing filters)
@@ -96,9 +96,9 @@ app.post('/api/contact', (req, res) => {
 app.post('/api/newsletter', (req, res) => {
   const { email } = req.body;
   console.log(`[Newsletter signup] Email: ${email}`);
-  res.json({ success: true, message: 'Subscribed to aiKart updates!' });
+  res.json({ success: true, message: 'Subscribed to Reiki & Vaastu World updates!' });
 });
 
 app.listen(PORT, () => {
-  console.log(`aiKart API server running on port ${PORT}`);
+  console.log(`Reiki & Vaastu World API server running on port ${PORT}`);
 });
