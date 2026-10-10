@@ -77,19 +77,21 @@ export default function FloatingWidgets({ openModal }) {
                 alignItems: 'center',
                 gap: '10px',
                 borderRadius: '50px',
-                background: '#ffffff',
-                border: '1.5px solid #d4af37',
-                padding: '10px 16px',
+                background: '#fef2f4',
+                border: 'none',
+                padding: '11px 18px',
                 fontSize: '13px',
                 fontWeight: 700,
                 color: '#3b0a11',
                 cursor: 'pointer',
                 textAlign: 'left',
-                boxShadow: '0 2px 6px rgba(180,83,9,0.06)',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s'
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#fde2e6')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = '#fef2f4')}
             >
-              <Calendar size={16} color="#dc2626" />
+              <Calendar size={16} color="#D2042D" />
               <span>Schedule Personal Consultation</span>
             </button>
 
@@ -102,20 +104,22 @@ export default function FloatingWidgets({ openModal }) {
                 alignItems: 'center',
                 gap: '10px',
                 borderRadius: '50px',
-                background: '#ffffff',
-                border: '1.5px solid #22c55e',
-                padding: '10px 16px',
+                background: '#f7f7f7',
+                border: 'none',
+                padding: '11px 18px',
                 fontSize: '13px',
                 fontWeight: 700,
-                color: '#15803d',
+                color: '#1a1a1a',
                 cursor: 'pointer',
                 textDecoration: 'none',
                 textAlign: 'left',
-                boxShadow: '0 2px 6px rgba(34,197,94,0.1)',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s'
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#ebebeb')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = '#f7f7f7')}
             >
-              <MessageCircle size={16} color="#22c55e" />
+              <MessageCircle size={16} color="#1a1a1a" />
               <span>WhatsApp Us (+91 8446656677)</span>
             </a>
 
@@ -130,18 +134,21 @@ export default function FloatingWidgets({ openModal }) {
                 alignItems: 'center',
                 gap: '10px',
                 borderRadius: '50px',
-                background: '#ffffff',
-                border: '1.5px solid rgba(212,175,55,0.4)',
-                padding: '10px 16px',
+                background: '#faf5ee',
+                border: 'none',
+                padding: '11px 18px',
                 fontSize: '13px',
-                fontWeight: 600,
+                fontWeight: 700,
                 color: '#3b0a11',
                 cursor: 'pointer',
                 textAlign: 'left',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
                 transition: 'all 0.2s'
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#fef3c7')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = '#faf5ee')}
             >
-              <Mail size={16} color="#7c3aed" />
+              <Mail size={16} color="#D2042D" />
               <span>Send Query / Center Enquiry</span>
             </button>
           </div>
@@ -157,9 +164,9 @@ export default function FloatingWidgets({ openModal }) {
           width: '58px',
           height: '58px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #d4af37 100%)',
-          border: '2px solid #fbbf24',
-          boxShadow: '0 8px 30px rgba(220, 38, 38, 0.45)',
+          background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
+          border: '1.5px solid rgba(212, 175, 55, 0.5)',
+          boxShadow: 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -169,9 +176,9 @@ export default function FloatingWidgets({ openModal }) {
         }}
       >
         <img
-          src="/logo/reiki-vastu-mark.svg"
+          src="/logo/lotus_pure.png"
           alt="Reiki Mark"
-          style={{ width: '38px', height: '38px', objectFit: 'contain' }}
+          style={{ width: '40px', height: 'auto', objectFit: 'contain' }}
         />
       </button>
     </div>

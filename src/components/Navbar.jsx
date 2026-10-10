@@ -22,7 +22,7 @@ export default function Navbar({
     <>
       <header className={`gnav ${isScrolled ? 'gnav-scrolled' : ''} ${isDarkTheme ? 'gnav-dark' : ''}`}>
         <div className="gnav-in">
-          {/* Empty space reserved for logo */}
+          {/* Site Logo */}
           <a
             href="/"
             className="gnav-logo"
@@ -31,10 +31,14 @@ export default function Navbar({
               setCurrentView('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            style={{ width: '180px', height: '42px', display: 'block' }}
-            aria-label="Home - Logo Space"
+            style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+            aria-label="Reiki & Vaastu World - Home"
           >
-            {/* Empty space reserved for logo */}
+            <img
+              src="/logo/reiki-vastu-logo.png"
+              alt="Reiki & Vaastu World"
+              style={{ height: '48px', width: 'auto', display: 'block', objectFit: 'contain' }}
+            />
           </a>
 
           {/* Nav Links: Home, Courses, Products, Contact Us */}
@@ -52,18 +56,10 @@ export default function Navbar({
 
             <button
               type="button"
-              className="gnav-link"
+              className={`gnav-link ${currentView === 'courses' || currentView === 'course-detail' ? 'gnav-link-active' : ''}`}
               onClick={() => {
-                if (currentView !== 'home') {
-                  setCurrentView('home');
-                  setTimeout(() => {
-                    const el = document.getElementById('courses-section');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 120);
-                } else {
-                  const el = document.getElementById('courses-section');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }
+                setCurrentView('courses');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
               Courses
@@ -139,8 +135,12 @@ export default function Navbar({
 
       <div className={`gnav-drawer-panel ${isDrawerOpen ? 'gnav-drawer-panel--open' : ''}`}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-          {/* Empty space reserved for logo */}
-          <div style={{ width: '160px', height: '36px' }} />
+          {/* Site Logo */}
+          <img
+            src="/logo/reiki-vastu-logo.png"
+            alt="Reiki & Vaastu World"
+            style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
+          />
           <button
             type="button"
             onClick={() => setIsDrawerOpen(false)}
@@ -196,14 +196,8 @@ export default function Navbar({
             }}
             onClick={() => {
               setIsDrawerOpen(false);
-              if (currentView !== 'home') {
-                setCurrentView('home');
-                setTimeout(() => {
-                  document.getElementById('courses-section')?.scrollIntoView({ behavior: 'smooth' });
-                }, 120);
-              } else {
-                document.getElementById('courses-section')?.scrollIntoView({ behavior: 'smooth' });
-              }
+              setCurrentView('courses');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
             Courses

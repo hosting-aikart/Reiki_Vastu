@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, Sparkles, Compass, Award, Users } from 'lucide-react';
+import { ArrowRight, Sparkles, Leaf, Sun } from 'lucide-react';
 
-export default function Hero({ onSearch, onConsultClick }) {
+export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
   const [searchValue, setSearchValue] = useState('');
 
   const handleSubmit = (e) => {
@@ -47,164 +47,156 @@ export default function Hero({ onSearch, onConsultClick }) {
       />
 
       <div className="hm-container">
-        {/* Two-column layout matching BlueNeuron: content left, video centered on right */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '40px',
-            alignItems: 'center'
-          }}
-        >
+        {/* Two-column layout: content left, video on right */}
+        <div className="hero-grid">
           {/* Left Column: Content */}
-          <div>
-            {/* Eyebrow tag */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: '#D2042D',
-                fontSize: '12.5px',
-                fontWeight: 800,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                marginBottom: '14px'
-              }}
-            >
-              <span>✦ ESTABLISHED 1995 • DR. NARESH CHHABDIYA</span>
+          <div className="hero-content-col">
+            {/* Brand Logo: REIKI 🪷 VAASTU — WORLD — */}
+            <div style={{ marginBottom: '18px', width: '100%', marginTop: '10px' }}>
+              <img
+                src="/logo/logo-text-only.png"
+                alt="Reiki Vaastu World"
+                style={{
+                  width: '94%',
+                  maxWidth: '520px',
+                  height: 'auto',
+                  display: 'block'
+                }}
+              />
             </div>
 
-            {/* Main Headline (Cherry Red, Golden & Violet combination without black) */}
+            {/* 3. Headline */}
             <h1
-              className="ff-redhat"
               style={{
-                fontSize: 'clamp(30px, 3.6vw, 46px)',
-                fontWeight: 800,
-                lineHeight: 1.18,
-                margin: '0 0 16px',
+                fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif",
+                fontSize: 'clamp(20px, 2.3vw, 27.5px)',
+                fontWeight: 600,
+                lineHeight: 1.34,
+                color: '#3b0a11',
+                margin: '0 0 24px',
+                width: '100%',
+                maxWidth: '540px',
                 letterSpacing: '-0.01em'
               }}
             >
-              <span
-                style={{
-                  background: 'linear-gradient(135deg, #D2042D 0%, #b45309 60%, #7c3aed 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  display: 'inline'
-                }}
-              >
-                Experience, Learn &amp; Transform With <br></br>
-              </span>{' '}
-              <span
-                style={{
-                  color: '#D2042D',
-                  textShadow: '0 2px 14px rgba(210, 4, 45, 0.2)'
-                }}
-              >
-                Reiki &amp; Vaastu World
-              </span>{' '}
-              <span
-                style={{
-                  display: 'block',
-                  fontSize: '0.78em',
-                  background: 'linear-gradient(90deg, #d4af37 0%, #b45309 50%, #d4af37 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 700,
-                  marginTop: '8px',
-                  letterSpacing: '0.02em'
-                }}
-              >
-                ✦ Holistic Astrological Center ✦
-              </span>
+              Ancient Wisdom for a Healthier, Happier and More Harmonious Life
             </h1>
 
-            {/* Description */}
-            <p
-              style={{
-                fontSize: '15.5px',
-                lineHeight: 1.65,
-                color: '#5e2732',
-                margin: '0 0 24px',
-                maxWidth: '560px'
-              }}
-            >
-              We deliver authentic energy healing, scientific non-destructive Vaastu audits, and certified practitioner courses—from personal energy diagnosis to life-transforming remedies—guided by Dr. Naresh Chhabdiya across Amravati &amp; Nagpur.
-            </p>
-
-            {/* Action Buttons (Cherry Red primary & Golden outlined) */}
-            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* 5. Action Buttons (Explore Our Courses & Book a Consultation) */}
+            <div className="hero-btn-row">
               <button
                 type="button"
                 onClick={() => {
-                  const el = document.getElementById('courses-section');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  if (onExploreCourses) onExploreCourses();
+                  else {
+                    const el = document.getElementById('courses-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    else if (onSearch) onSearch();
+                  }
                 }}
+                className="btn-primary"
                 style={{
-                  background: '#D2042D',
-                  color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: '15px',
-                  padding: '13px 30px',
-                  borderRadius: '10px',
-                  border: '1.5px solid #D2042D',
-                  cursor: 'pointer',
+                  padding: '13px 28px',
+                  borderRadius: '50px',
                   display: 'inline-flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: '0 6px 20px rgba(210, 4, 45, 0.28)',
-                  transition: 'all 0.2s ease'
+                  fontSize: '15px'
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#b00326')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = '#D2042D')}
               >
-                <span>Get Started</span>
+                <span>Explore Our Courses</span>
                 <ArrowRight size={17} />
               </button>
 
               <button
                 type="button"
-                onClick={() => {
-                  const el = document.getElementById('features-section') || document.getElementById('courses-section');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={onConsultClick}
+                className="hero-btn-secondary"
                 style={{
                   background: '#ffffff',
-                  color: '#D2042D',
+                  color: '#7d0e15',
                   fontWeight: 700,
                   fontSize: '15px',
                   padding: '13px 26px',
-                  borderRadius: '10px',
+                  borderRadius: '50px',
                   border: '1.5px solid #d4af37',
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 4px 12px rgba(180, 83, 9, 0.08)',
-                  transition: 'all 0.2s ease'
+                  justifyContent: 'center',
+                  boxShadow: 'none',
+                  transition: 'all 0.25s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#D2042D';
-                  e.currentTarget.style.background = '#fff8f9';
+                  e.currentTarget.style.background = '#fef2f4';
+                  e.currentTarget.style.borderColor = '#8B151B';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#d4af37';
                   e.currentTarget.style.background = '#ffffff';
+                  e.currentTarget.style.borderColor = '#d4af37';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                <span>View All Services</span>
+                Book a Consultation
               </button>
+            </div>
+
+            {/* 6. Three Feature Pillars (Heal Your Mind, Balance Your Space, Transform Your Life) */}
+            <div className="hero-pillars" style={{ width: '94%', maxWidth: '520px' }}>
+              {/* Pillar 1: Heal Your Mind */}
+              <div className="hero-pillar-item">
+                <div className="hero-pillar-icon">
+                  <img
+                    src="/logo/lotus_pure.png"
+                    alt="Heal Your Mind"
+                    style={{ height: '22px', width: 'auto', objectFit: 'contain' }}
+                  />
+                </div>
+                <div className="hero-pillar-text">
+                  Heal<span className="hero-pillar-break"><br /></span>{' '}
+                  <span className="hero-pillar-sub">Your Mind</span>
+                </div>
+              </div>
+
+              {/* Divider 1 */}
+              <div className="hero-pillar-divider" />
+
+              {/* Pillar 2: Balance Your Space */}
+              <div className="hero-pillar-item">
+                <div className="hero-pillar-icon">
+                  <Leaf size={22} color="#b45309" />
+                </div>
+                <div className="hero-pillar-text">
+                  Balance<span className="hero-pillar-break"><br /></span>{' '}
+                  <span className="hero-pillar-sub">Your Space</span>
+                </div>
+              </div>
+
+              {/* Divider 2 */}
+              <div className="hero-pillar-divider" />
+
+              {/* Pillar 3: Transform Your Life */}
+              <div className="hero-pillar-item">
+                <div className="hero-pillar-icon">
+                  <Sun size={22} color="#b45309" />
+                </div>
+                <div className="hero-pillar-text">
+                  Transform<span className="hero-pillar-break"><br /></span>{' '}
+                  <span className="hero-pillar-sub">Your Life</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Main Video (centered and brought slightly upward) */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {/* Right Column: Main Video (enlarged and aligned) */}
+          <div className="hero-video-col" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
             <div
               style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '560px',
+                maxWidth: '640px',
                 borderRadius: '26px',
                 overflow: 'hidden',
                 border: '2.5px solid rgba(212, 175, 55, 0.45)',
@@ -221,7 +213,7 @@ export default function Hero({ onSearch, onConsultClick }) {
                 style={{
                   width: '100%',
                   height: '100%',
-                  maxHeight: '440px',
+                  maxHeight: '490px',
                   objectFit: 'cover',
                   display: 'block'
                 }}

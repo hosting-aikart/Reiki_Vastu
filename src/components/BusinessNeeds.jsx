@@ -1,13 +1,12 @@
 import React from 'react';
-import { Sparkles, Shield, Gem, Layers, Compass, Sun, Clock } from 'lucide-react';
+import { Sparkles, Shield, Gem, Layers, Clock } from 'lucide-react';
 
+// Only 4 cards instead of 6
 const COMING_SOON_CARDS = [
   { id: 1, icon: Sparkles, color: '#D2042D' },
   { id: 2, icon: Gem, color: '#d4af37' },
   { id: 3, icon: Shield, color: '#7c3aed' },
-  { id: 4, icon: Layers, color: '#D2042D' },
-  { id: 5, icon: Compass, color: '#b45309' },
-  { id: 6, icon: Sun, color: '#d4af37' }
+  { id: 4, icon: Layers, color: '#D2042D' }
 ];
 
 export default function BusinessNeeds() {
@@ -67,11 +66,12 @@ export default function BusinessNeeds() {
           </p>
         </div>
 
-        {/* Centered, balanced, properly aligned cards grid */}
+        {/* 4 Cards Grid */}
         <div
+          className="products-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
             gap: '24px',
             maxWidth: '1080px',
             margin: '0 auto'

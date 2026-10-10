@@ -443,7 +443,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     }}
                   >
                     <img
-                      src="/logo/reiki-vastu-mark.svg"
+                      src="/logo/reiki-vastu-mark.png"
                       alt={agent.title}
                       style={{ width: '40px', height: '40px', objectFit: 'contain' }}
                     />

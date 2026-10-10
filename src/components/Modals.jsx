@@ -1,5 +1,169 @@
-import React, { useState } from 'react';
-import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star, ChevronDown, Check } from 'lucide-react';
+
+const CONSULTATION_SERVICES = [
+  'Residential Home Vaastu Audit',
+  'Commercial / Factory Vaastu Audit',
+  'Vedic Astrology & Kundali Analysis',
+  'Reiki Master Course Attunement',
+  'Tibetan Lama-Fera Cleansing Session',
+  'Chaldean Numerology & Name Correction',
+  'Scientific Acupressure Pain Relief'
+];
+
+const MEETING_MODES = [
+  'In-Person (Amravati Center)',
+  'In-Person (Nagpur Center)',
+  'Online Video Call (Zoom / Meet)'
+];
+
+const TIME_SLOTS = [
+  '10:00 AM (Morning)',
+  '12:30 PM (Afternoon)',
+  '04:30 PM (Evening)',
+  '06:30 PM (Late Evening)'
+];
+
+const STORY_SERVICES = [
+  'Reiki Healing Session',
+  'Residential Vaastu Audit',
+  'Commercial Vaastu Audit',
+  'Kundali & Astrology Reading',
+  'Lama-Fera Cleansing',
+  'Reiki Level 1 & 2 Course'
+];
+
+const RATING_OPTIONS = [
+  { value: 5, label: '★★★★★ (5/5 Outstanding)' },
+  { value: 4, label: '★★★★☆ (4/5 Very Good)' },
+  { value: 3, label: '★★★☆☆ (3/5 Good)' }
+];
+
+function CustomDropdown({ value, onChange, options, placeholder = 'Select an option' }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const selectedOption = options.find((o) => (typeof o === 'object' ? o.value === value : o === value));
+  const displayLabel = selectedOption ? (typeof selectedOption === 'object' ? selectedOption.label : selectedOption) : placeholder;
+
+  return (
+    <div ref={dropdownRef} style={{ position: 'relative', width: '100%' }}>
+      {/* Trigger Box - clean form element, NO golden border */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          width: '100%',
+          height: '38px',
+          padding: '0 12px',
+          borderRadius: '8px',
+          border: '1px solid #d1d5db',
+          background: '#ffffff',
+          fontSize: '13px',
+          color: '#1a1a1a',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          cursor: 'pointer',
+          outline: 'none',
+          boxSizing: 'border-box',
+          textAlign: 'left'
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = '#D2042D';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = '#d1d5db';
+        }}
+      >
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '13px' }}>
+          {displayLabel}
+        </span>
+        <ChevronDown
+          size={14}
+          color="#666666"
+          style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0, marginLeft: '6px' }}
+        />
+      </button>
+
+      {/* Dropdown Menu - Styled with GOLDEN BORDER as requested! */}
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 4px)',
+            left: 0,
+            right: 0,
+            zIndex: 9999,
+            background: '#ffffff',
+            border: '1.5px solid #d4af37',
+            borderRadius: '10px',
+            boxShadow: '0 10px 25px rgba(74, 14, 23, 0.15)',
+            maxHeight: '210px',
+            overflowY: 'auto',
+            padding: '4px',
+            animation: 'modalSlideUp 0.15s ease'
+          }}
+        >
+          {options.map((opt) => {
+            const val = typeof opt === 'object' ? opt.value : opt;
+            const lbl = typeof opt === 'object' ? opt.label : opt;
+            const isSelected = val === value;
+
+            return (
+              <div
+                key={String(val)}
+                onClick={() => {
+                  onChange(val);
+                  setIsOpen(false);
+                }}
+                style={{
+                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  fontSize: '12.5px',
+                  fontWeight: isSelected ? 700 : 500,
+                  color: isSelected ? '#ffffff' : '#1a1a1a',
+                  background: isSelected ? 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)' : 'transparent',
+                  cursor: 'pointer',
+                  transition: 'background 0.15s, color 0.15s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) {
+                    e.currentTarget.style.background = '#fef2f4';
+                    e.currentTarget.style.color = '#D2042D';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#1a1a1a';
+                  }
+                }}
+              >
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lbl}</span>
+                {isSelected && <Check size={13} color="#ffffff" style={{ flexShrink: 0 }} />}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Modals({ activeModal, modalData, closeModal }) {
   const [contactForm, setContactForm] = useState({ name: '', phone: '', email: '', center: 'Amravati Center', message: '' });
@@ -12,6 +176,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     date: '',
     time: '10:00 AM',
     note: ''
+  });
+  const [storyForm, setStoryForm] = useState({
+    name: '',
+    city: '',
+    service: 'Reiki Healing Session',
+    story: '',
+    rating: 5
   });
   const [sandboxPrompt, setSandboxPrompt] = useState('Experiencing financial stagnation and restless sleep in bedroom facing South-West');
   const [sandboxOutput, setSandboxOutput] = useState('');
@@ -31,6 +202,15 @@ export default function Modals({ activeModal, modalData, closeModal }) {
   };
 
   const handleMeetingSubmit = (e) => {
+    e.preventDefault();
+    setSubmittedStatus(true);
+    setTimeout(() => {
+      setSubmittedStatus(false);
+      closeModal();
+    }, 2800);
+  };
+
+  const handleStorySubmit = (e) => {
     e.preventDefault();
     setSubmittedStatus(true);
     setTimeout(() => {
@@ -140,15 +320,11 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                       Preferred Center *
                     </label>
-                    <select
-                      className="akf-nl-input"
+                    <CustomDropdown
                       value={contactForm.center}
-                      onChange={(e) => setContactForm({ ...contactForm, center: e.target.value })}
-                    >
-                      <option>Amravati Center (Walcut Compound)</option>
-                      <option>Nagpur Center (Mahal)</option>
-                      <option>Online Video Consultation</option>
-                    </select>
+                      onChange={(val) => setContactForm({ ...contactForm, center: val })}
+                      options={['Amravati Center (Walcut Compound)', 'Nagpur Center (Mahal)', 'Online Video Consultation']}
+                    />
                   </div>
                 </div>
                 <div>
@@ -213,162 +389,373 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── SCHEDULE CONSULTATION MODAL ─── */}
         {(activeModal === 'schedule' || activeModal === 'meeting') && (
-          <div style={{ padding: '36px', maxHeight: '85vh', overflowY: 'auto' }}>
+          <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '11px',
+                fontSize: '10.5px',
                 fontWeight: 700,
-                letterSpacing: '0.14em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: '#dc2626',
+                color: '#D2042D',
                 background: '#fef2f2',
-                padding: '4px 12px',
-                borderRadius: '50px',
-                border: '1px solid #fecaca'
+                padding: '3px 10px',
+                borderRadius: '50px'
               }}
             >
               1-ON-1 HOLISTIC SESSION
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, margin: '14px 0 6px', color: '#3b0a11' }}>
-              Book Personal Consultation with Dr. Naresh
+            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
+              Book Personal Consultation
             </h2>
-            <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 20px' }}>
-              Choose your consultation type and preferred timing. Available in Amravati, Nagpur, or online via live video.
+            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
+              Choose your consultation service and preferred timing with Dr. Naresh Chhabdiya.
             </p>
 
             {submittedStatus ? (
-              <div style={{ textAlign: 'center', padding: '30px 0' }}>
-                <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 12px' }} />
-                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Consultation Slot Requested!
                 </h3>
-                <p style={{ color: '#784450', fontSize: '14px', margin: 0 }}>
-                  We have registered your appointment for <strong>{meetingForm.date} at {meetingForm.time}</strong>. Dr. Naresh's coordinator will confirm your slot via call or WhatsApp at {meetingForm.phone}.
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: 0 }}>
+                  We have registered your appointment for <strong>{meetingForm.date || 'upcoming date'} at {meetingForm.time}</strong>. Dr. Naresh's coordinator will confirm your slot via call or WhatsApp at {meetingForm.phone}.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleMeetingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Mayur Wankhade"
-                    className="akf-nl-input"
-                    value={meetingForm.name}
-                    onChange={(e) => setMeetingForm({ ...meetingForm, name: e.target.value })}
-                  />
-                </div>
+              <form onSubmit={handleMeetingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {/* Row 1: Name & Phone */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Mayur Wankhade"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      value={meetingForm.name}
+                      onChange={(e) => setMeetingForm({ ...meetingForm, name: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Phone / WhatsApp *
                     </label>
                     <input
                       type="tel"
                       required
                       placeholder="9823456789"
-                      className="akf-nl-input"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
                       value={meetingForm.phone}
                       onChange={(e) => setMeetingForm({ ...meetingForm, phone: e.target.value })}
                     />
                   </div>
+                </div>
+
+                {/* Row 2: Email & Service */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Email Address
                     </label>
                     <input
                       type="email"
                       placeholder="you@email.com"
-                      className="akf-nl-input"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
                       value={meetingForm.email}
                       onChange={(e) => setMeetingForm({ ...meetingForm, email: e.target.value })}
                     />
                   </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Consultation Service *
                     </label>
-                    <select
-                      className="akf-nl-input"
+                    <CustomDropdown
                       value={meetingForm.consultationType}
-                      onChange={(e) => setMeetingForm({ ...meetingForm, consultationType: e.target.value })}
-                    >
-                      <option>Residential Home Vaastu Audit</option>
-                      <option>Commercial / Factory Vaastu Audit</option>
-                      <option>Vedic Astrology &amp; Kundali Analysis</option>
-                      <option>Reiki Master Course Attunement</option>
-                      <option>Tibetan Lama-Fera Cleansing Session</option>
-                      <option>Chaldean Numerology &amp; Name Correction</option>
-                      <option>Scientific Acupressure Pain Relief</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
-                      Meeting Mode *
-                    </label>
-                    <select
-                      className="akf-nl-input"
-                      value={meetingForm.mode}
-                      onChange={(e) => setMeetingForm({ ...meetingForm, mode: e.target.value })}
-                    >
-                      <option>In-Person (Amravati Center)</option>
-                      <option>In-Person (Nagpur Center)</option>
-                      <option>Online Video Call (Zoom / Google Meet)</option>
-                    </select>
+                      onChange={(val) => setMeetingForm({ ...meetingForm, consultationType: val })}
+                      options={CONSULTATION_SERVICES}
+                    />
                   </div>
                 </div>
 
+                {/* Row 3: Mode, Date */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Meeting Mode *
+                    </label>
+                    <CustomDropdown
+                      value={meetingForm.mode}
+                      onChange={(val) => setMeetingForm({ ...meetingForm, mode: val })}
+                      options={MEETING_MODES}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Preferred Date *
                     </label>
                     <input
                       type="date"
                       required
-                      className="akf-nl-input"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
                       value={meetingForm.date}
                       onChange={(e) => setMeetingForm({ ...meetingForm, date: e.target.value })}
                     />
                   </div>
+                </div>
+
+                {/* Row 4: Time Slot */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                    Preferred Time Slot *
+                  </label>
+                  <CustomDropdown
+                    value={meetingForm.time}
+                    onChange={(val) => setMeetingForm({ ...meetingForm, time: val })}
+                    options={TIME_SLOTS}
+                  />
+                </div>
+
+                {/* Center-aligned Confirm Booking button matching other buttons in the site */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+                  <button
+                    type="submit"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '10px 28px',
+                      height: '42px',
+                      borderRadius: '50px',
+                      border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                      background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
+                      color: '#ffffff',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      boxShadow: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                  >
+                    <Calendar size={15} /> Confirm Booking
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        )}
+
+        {/* ─── ADD YOUR STORY MODAL ─── */}
+        {activeModal === 'addStory' && (
+          <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <span
+              style={{
+                fontSize: '10.5px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#D2042D',
+                background: '#fef2f2',
+                padding: '3px 10px',
+                borderRadius: '50px'
+              }}
+            >
+              COMMUNITY EXPERIENCE
+            </span>
+            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
+              Share Your Transformation Story
+            </h2>
+            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
+              Inspire other seekers on their path to health, mental peace, and spiritual harmony.
+            </p>
+
+            {submittedStatus ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
+                  Thank You for Sharing!
+                </h3>
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: 0 }}>
+                  Your story has been submitted and will be featured after our team verifies it.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleStorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
-                      Preferred Time Slot *
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Your Name *
                     </label>
-                    <select
-                      className="akf-nl-input"
-                      value={meetingForm.time}
-                      onChange={(e) => setMeetingForm({ ...meetingForm, time: e.target.value })}
-                    >
-                      <option value="10:00 AM">10:00 AM (Morning)</option>
-                      <option value="12:30 PM">12:30 PM (Afternoon)</option>
-                      <option value="04:30 PM">04:30 PM (Evening)</option>
-                      <option value="06:30 PM">06:30 PM (Late Evening)</option>
-                    </select>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Anjali Sharma"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      value={storyForm.name}
+                      onChange={(e) => setStoryForm({ ...storyForm, name: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      City / Location *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Pune / Nagpur"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      value={storyForm.city}
+                      onChange={(e) => setStoryForm({ ...storyForm, city: e.target.value })}
+                    />
                   </div>
                 </div>
 
-                <button
-                  type="submit"
-                  className="gnav-btn-primary"
-                  style={{
-                    padding: '14px',
-                    fontSize: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    marginTop: '6px'
-                  }}
-                >
-                  <Calendar size={16} /> Confirm Consultation Booking
-                </button>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Experience / Course *
+                    </label>
+                    <CustomDropdown
+                      value={storyForm.service}
+                      onChange={(val) => setStoryForm({ ...storyForm, service: val })}
+                      options={STORY_SERVICES}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Rating
+                    </label>
+                    <CustomDropdown
+                      value={storyForm.rating}
+                      onChange={(val) => setStoryForm({ ...storyForm, rating: Number(val) })}
+                      options={RATING_OPTIONS}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                    Your Experience / Story *
+                  </label>
+                  <textarea
+                    rows={3}
+                    required
+                    placeholder="Share how Dr. Naresh's guidance or Reiki therapy helped you..."
+                    style={{
+                      width: '100%',
+                      height: '75px',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      resize: 'none',
+                      fontFamily: 'inherit',
+                      boxSizing: 'border-box'
+                    }}
+                    value={storyForm.story}
+                    onChange={(e) => setStoryForm({ ...storyForm, story: e.target.value })}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                  <button
+                    type="submit"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '10px 28px',
+                      height: '42px',
+                      borderRadius: '50px',
+                      border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                      background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
+                      color: '#ffffff',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      boxShadow: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                  >
+                    <Send size={15} /> Submit Story
+                  </button>
+                </div>
               </form>
             )}
           </div>
@@ -483,7 +870,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   padding: '8px',
                   borderRadius: '50px',
                   border: 'none',
-                  background: authTab === 'login' ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : 'transparent',
+                  background: authTab === 'login' ? 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)' : 'transparent',
                   color: authTab === 'login' ? '#ffffff' : '#3b0a11',
                   fontWeight: 700,
                   fontSize: '13.5px',
@@ -500,7 +887,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   padding: '8px',
                   borderRadius: '50px',
                   border: 'none',
-                  background: authTab === 'signup' ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : 'transparent',
+                  background: authTab === 'signup' ? 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)' : 'transparent',
                   color: authTab === 'signup' ? '#ffffff' : '#3b0a11',
                   fontWeight: 700,
                   fontSize: '13.5px',
