@@ -1,28 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star, ChevronDown, Check } from 'lucide-react';
+import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star, ChevronDown, Check, AlertCircle } from 'lucide-react';
+import { submitEnquiry } from '../api/client.js';
+import {
+  LOCATIONS,
+  CONSULTATION_SERVICES,
+  TIME_SLOTS,
+  COURSES,
+  todayInBusinessTz,
+  addDays,
+  BOOKING_WINDOW_DAYS
+} from '../../../shared/catalog.js';
 
-const CONSULTATION_SERVICES = [
-  'Residential Home Vaastu Audit',
-  'Commercial / Factory Vaastu Audit',
-  'Vedic Astrology & Kundali Analysis',
-  'Reiki Master Course Attunement',
-  'Tibetan Lama-Fera Cleansing Session',
-  'Chaldean Numerology & Name Correction',
-  'Scientific Acupressure Pain Relief'
-];
+const LOCATION_OPTIONS = LOCATIONS.map((loc) => ({
+  value: loc.key,
+  label: loc.modeLabel || loc.label
+}));
 
-const MEETING_MODES = [
-  'In-Person (Amravati Center)',
-  'In-Person (Nagpur Center)',
-  'Online Video Call (Zoom / Meet)'
-];
+const CONSULTATION_SERVICE_OPTIONS = CONSULTATION_SERVICES.map((s) => ({
+  value: s.key,
+  label: s.label
+}));
 
-const TIME_SLOTS = [
-  '10:00 AM (Morning)',
-  '12:30 PM (Afternoon)',
-  '04:30 PM (Evening)',
-  '06:30 PM (Late Evening)'
-];
+const TIME_SLOT_OPTIONS = TIME_SLOTS.map((t) => ({
+  value: t.key,
+  label: t.label
+}));
+
+const COURSE_OPTIONS = COURSES.map((c) => ({
+  value: c.key,
+  label: c.label
+}));
 
 const STORY_SERVICES = [
   'Reiki Healing Session',
@@ -166,16 +173,25 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
 }
 
 export default function Modals({ activeModal, modalData, closeModal }) {
-  const [contactForm, setContactForm] = useState({ name: '', phone: '', email: '', center: 'Amravati Center', message: '' });
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    location: 'amravati',
+    message: '',
+    website: ''
+  });
   const [meetingForm, setMeetingForm] = useState({
     name: '',
     phone: '',
     email: '',
-    consultationType: 'Residential Home Vaastu Audit',
-    mode: 'In-Person (Amravati Center)',
+    serviceKey: 'residential_vaastu_audit',
+    courseId: 'reiki',
+    location: 'amravati',
     date: '',
-    time: '10:00 AM',
-    note: ''
+    time: '10:00',
+    note: '',
+    website: ''
   });
   const [storyForm, setStoryForm] = useState({
     name: '',
@@ -184,30 +200,125 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     story: '',
     rating: 5
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [submissionSuccess, setSubmissionSuccess] = useState(null);
+
   const [sandboxPrompt, setSandboxPrompt] = useState('Experiencing financial stagnation and restless sleep in bedroom facing South-West');
   const [sandboxOutput, setSandboxOutput] = useState('');
   const [isExecuting, setIsExecuting] = useState(false);
   const [submittedStatus, setSubmittedStatus] = useState(false);
   const [authTab, setAuthTab] = useState('login'); // 'login' | 'signup'
 
+  // Reset form and errors when modal opens or modal context changes
+  useEffect(() => {
+    setSubmitError(null);
+    setFieldErrors({});
+    setSubmissionSuccess(null);
+    setIsSubmitting(false);
+
+    if (modalData?.serviceKey) {
+      setMeetingForm((prev) => ({ ...prev, serviceKey: modalData.serviceKey }));
+    }
+    if (modalData?.courseId) {
+      setMeetingForm((prev) => ({ ...prev, courseId: modalData.courseId }));
+    }
+  }, [activeModal, modalData]);
+
   if (!activeModal) return null;
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
-    setSubmittedStatus(true);
-    setTimeout(() => {
-      setSubmittedStatus(false);
-      closeModal();
-    }, 2800);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setFieldErrors({});
+
+    const payload = {
+      type: 'contact',
+      name: contactForm.name,
+      phone: contactForm.phone,
+      email: contactForm.email || undefined,
+      location: contactForm.location,
+      message: contactForm.message,
+      website: contactForm.website || undefined
+    };
+
+    const res = await submitEnquiry(payload);
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setSubmissionSuccess({
+        ...res.data,
+        message: res.message,
+        phone: contactForm.phone
+      });
+      setContactForm({ name: '', phone: '', email: '', location: 'amravati', message: '', website: '' });
+    } else {
+      if (res.fields) {
+        setFieldErrors(res.fields);
+      }
+      setSubmitError(res.message);
+    }
   };
 
-  const handleMeetingSubmit = (e) => {
+  const handleMeetingSubmit = async (e) => {
     e.preventDefault();
-    setSubmittedStatus(true);
-    setTimeout(() => {
-      setSubmittedStatus(false);
-      closeModal();
-    }, 2800);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setFieldErrors({});
+
+    const isCourseEnquiry = modalData?.kind === 'course' || Boolean(modalData?.courseId);
+
+    const payload = isCourseEnquiry
+      ? {
+          type: 'course',
+          name: meetingForm.name,
+          phone: meetingForm.phone,
+          email: meetingForm.email || undefined,
+          location: meetingForm.location,
+          courseId: modalData?.courseId || meetingForm.courseId || 'reiki',
+          preferredDate: meetingForm.date || undefined,
+          preferredSlot: meetingForm.time || undefined,
+          message: meetingForm.note || undefined,
+          website: meetingForm.website || undefined
+        }
+      : {
+          type: 'consultation',
+          name: meetingForm.name,
+          phone: meetingForm.phone,
+          email: meetingForm.email || undefined,
+          location: meetingForm.location,
+          serviceKey: meetingForm.serviceKey,
+          preferredDate: meetingForm.date,
+          preferredSlot: meetingForm.time,
+          message: meetingForm.note || undefined,
+          website: meetingForm.website || undefined
+        };
+
+    const res = await submitEnquiry(payload);
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setSubmissionSuccess({
+        ...res.data,
+        message: res.message,
+        date: meetingForm.date,
+        time: meetingForm.time,
+        phone: meetingForm.phone
+      });
+      setMeetingForm((prev) => ({ ...prev, name: '', phone: '', email: '', date: '', note: '', website: '' }));
+    } else {
+      if (res.fields) {
+        setFieldErrors(res.fields);
+      }
+      setSubmitError(res.message);
+    }
   };
 
   const handleStorySubmit = (e) => {
@@ -277,18 +388,52 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               Have questions regarding courses, Vaastu site audits, or energized products? Reach our Amravati and Nagpur centers.
             </p>
 
-            {submittedStatus ? (
-              <div style={{ textAlign: 'center', padding: '30px 0' }}>
+            {submissionSuccess ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 12px' }} />
                 <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
-                  Query Dispatched!
+                  Enquiry Received!
                 </h3>
-                <p style={{ color: '#784450', fontSize: '14px', margin: 0 }}>
-                  Thank you. Dr. Naresh Chhabdiya's team will contact you shortly via phone or WhatsApp.
+                <div style={{ background: '#fdfbf7', border: '1.5px dashed #d4af37', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
+                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#784450', fontWeight: 600 }}>
+                    Reference Number
+                  </span>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#3b0a11', letterSpacing: '0.04em', marginTop: '2px' }}>
+                    {submissionSuccess.reference}
+                  </div>
+                </div>
+                <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.5 }}>
+                  Thank you. Dr. Naresh Chhabdiya's team will contact you shortly via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong>.
                 </p>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="gnav-btn-primary"
+                  style={{ padding: '10px 24px', fontSize: '14px', margin: '0 auto' }}
+                >
+                  Done
+                </button>
               </div>
             ) : (
               <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {submitError && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
+                {/* Honeypot field for bot protection */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ display: 'none' }}
+                  value={contactForm.website}
+                  onChange={(e) => setContactForm({ ...contactForm, website: e.target.value })}
+                />
+
                 <div>
                   <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                     Full Name *
@@ -301,7 +446,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                   />
+                  {fieldErrors.name && (
+                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      {fieldErrors.name}
+                    </span>
+                  )}
                 </div>
+
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
@@ -315,18 +466,29 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={contactForm.phone}
                       onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                     />
+                    {fieldErrors.phone && (
+                      <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                        {fieldErrors.phone}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                       Preferred Center *
                     </label>
                     <CustomDropdown
-                      value={contactForm.center}
-                      onChange={(val) => setContactForm({ ...contactForm, center: val })}
-                      options={['Amravati Center (Walcut Compound)', 'Nagpur Center (Mahal)', 'Online Video Consultation']}
+                      value={contactForm.location}
+                      onChange={(val) => setContactForm({ ...contactForm, location: val })}
+                      options={LOCATION_OPTIONS}
                     />
+                    {fieldErrors.location && (
+                      <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                        {fieldErrors.location}
+                      </span>
+                    )}
                   </div>
                 </div>
+
                 <div>
                   <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                     Email Address
@@ -338,7 +500,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                   />
+                  {fieldErrors.email && (
+                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      {fieldErrors.email}
+                    </span>
+                  )}
                 </div>
+
                 <div>
                   <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                     How can we guide you? *
@@ -361,14 +529,20 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   />
+                  {fieldErrors.message && (
+                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      {fieldErrors.message}
+                    </span>
+                  )}
                 </div>
 
                 <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '10px 14px', fontSize: '12.5px', color: '#881337' }}>
-                  📞 Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reki.vastuworld@gmail.com</strong>
+                  📞 Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reiki.vastuworld@gmail.com</strong>
                 </div>
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="gnav-btn-primary"
                   style={{
                     padding: '14px',
@@ -377,17 +551,19 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    marginTop: '4px'
+                    marginTop: '4px',
+                    opacity: isSubmitting ? 0.7 : 1,
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer'
                   }}
                 >
-                  <Send size={16} /> Send Enquiry
+                  <Send size={16} /> {isSubmitting ? 'Submitting Enquiry...' : 'Send Enquiry'}
                 </button>
               </form>
             )}
           </div>
         )}
 
-        {/* ─── SCHEDULE CONSULTATION MODAL ─── */}
+        {/* ─── SCHEDULE CONSULTATION / COURSE ENROLMENT MODAL ─── */}
         {(activeModal === 'schedule' || activeModal === 'meeting') && (
           <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
@@ -402,27 +578,74 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 borderRadius: '50px'
               }}
             >
-              1-ON-1 HOLISTIC SESSION
+              {modalData?.kind === 'course' || modalData?.courseId ? 'COURSE ENQUIRY & REGISTRATION' : '1-ON-1 HOLISTIC SESSION'}
             </span>
             <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
-              Book Personal Consultation
+              {modalData?.title || (modalData?.kind === 'course' ? 'Course Enrolment Enquiry' : 'Book Personal Consultation')}
             </h2>
             <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
-              Choose your consultation service and preferred timing with Dr. Naresh Chhabdiya.
+              {modalData?.kind === 'course' || modalData?.courseId
+                ? 'Submit your details to receive curriculum, schedule, and batch details from our team.'
+                : 'Choose your consultation service and preferred timing with Dr. Naresh Chhabdiya.'}
             </p>
 
-            {submittedStatus ? (
+            {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
-                  Consultation Slot Requested!
+                  {submissionSuccess.type === 'course' ? 'Enrolment Request Received!' : 'Consultation Request Received!'}
                 </h3>
-                <p style={{ color: '#4b5563', fontSize: '13px', margin: 0 }}>
-                  We have registered your appointment for <strong>{meetingForm.date || 'upcoming date'} at {meetingForm.time}</strong>. Dr. Naresh's coordinator will confirm your slot via call or WhatsApp at {meetingForm.phone}.
+                <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
+                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 600 }}>
+                    Reference Number
+                  </span>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
+                    {submissionSuccess.reference}
+                  </div>
+                </div>
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 8px', lineHeight: 1.5 }}>
+                  Thank you. Dr. Naresh's coordinator will contact you via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong> to confirm your details.
                 </p>
+                <p style={{ fontSize: '12px', color: '#94a3b8', margin: '0 0 16px', fontStyle: 'italic' }}>
+                  Please note: Preferred date and time are requests and subject to coordinator confirmation.
+                </p>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  style={{
+                    padding: '8px 24px',
+                    borderRadius: '50px',
+                    border: '1px solid #d1d5db',
+                    background: '#ffffff',
+                    color: '#374151',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Done
+                </button>
               </div>
             ) : (
               <form onSubmit={handleMeetingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {submitError && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
+                {/* Honeypot field for bot protection */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ display: 'none' }}
+                  value={meetingForm.website}
+                  onChange={(e) => setMeetingForm({ ...meetingForm, website: e.target.value })}
+                />
+
                 {/* Row 1: Name & Phone */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
@@ -448,6 +671,11 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={meetingForm.name}
                       onChange={(e) => setMeetingForm({ ...meetingForm, name: e.target.value })}
                     />
+                    {fieldErrors.name && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.name}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
@@ -472,10 +700,15 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={meetingForm.phone}
                       onChange={(e) => setMeetingForm({ ...meetingForm, phone: e.target.value })}
                     />
+                    {fieldErrors.phone && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.phone}
+                      </span>
+                    )}
                   </div>
                 </div>
 
-                {/* Row 2: Email & Service */}
+                {/* Row 2: Email & Service/Course */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
@@ -499,16 +732,34 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={meetingForm.email}
                       onChange={(e) => setMeetingForm({ ...meetingForm, email: e.target.value })}
                     />
+                    {fieldErrors.email && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.email}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                      Consultation Service *
+                      {modalData?.kind === 'course' || modalData?.courseId ? 'Selected Course *' : 'Consultation Service *'}
                     </label>
-                    <CustomDropdown
-                      value={meetingForm.consultationType}
-                      onChange={(val) => setMeetingForm({ ...meetingForm, consultationType: val })}
-                      options={CONSULTATION_SERVICES}
-                    />
+                    {modalData?.kind === 'course' || modalData?.courseId ? (
+                      <CustomDropdown
+                        value={meetingForm.courseId}
+                        onChange={(val) => setMeetingForm({ ...meetingForm, courseId: val })}
+                        options={COURSE_OPTIONS}
+                      />
+                    ) : (
+                      <CustomDropdown
+                        value={meetingForm.serviceKey}
+                        onChange={(val) => setMeetingForm({ ...meetingForm, serviceKey: val })}
+                        options={CONSULTATION_SERVICE_OPTIONS}
+                      />
+                    )}
+                    {(fieldErrors.serviceKey || fieldErrors.courseId) && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.serviceKey || fieldErrors.courseId}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -519,18 +770,25 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       Meeting Mode *
                     </label>
                     <CustomDropdown
-                      value={meetingForm.mode}
-                      onChange={(val) => setMeetingForm({ ...meetingForm, mode: val })}
-                      options={MEETING_MODES}
+                      value={meetingForm.location}
+                      onChange={(val) => setMeetingForm({ ...meetingForm, location: val })}
+                      options={LOCATION_OPTIONS}
                     />
+                    {fieldErrors.location && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.location}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                      Preferred Date *
+                      Preferred Date {modalData?.kind === 'course' ? '(Optional)' : '*'}
                     </label>
                     <input
                       type="date"
-                      required
+                      required={modalData?.kind !== 'course'}
+                      min={todayInBusinessTz()}
+                      max={addDays(todayInBusinessTz(), BOOKING_WINDOW_DAYS)}
                       style={{
                         width: '100%',
                         height: '38px',
@@ -546,25 +804,62 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={meetingForm.date}
                       onChange={(e) => setMeetingForm({ ...meetingForm, date: e.target.value })}
                     />
+                    {fieldErrors.preferredDate && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.preferredDate}
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Row 4: Time Slot */}
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                    Preferred Time Slot *
+                    Preferred Time Slot {modalData?.kind === 'course' ? '(Optional)' : '*'}
                   </label>
                   <CustomDropdown
                     value={meetingForm.time}
                     onChange={(val) => setMeetingForm({ ...meetingForm, time: val })}
-                    options={TIME_SLOTS}
+                    options={TIME_SLOT_OPTIONS}
+                  />
+                  {fieldErrors.preferredSlot && (
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      {fieldErrors.preferredSlot}
+                    </span>
+                  )}
+                </div>
+
+                {/* Row 5: Notes / Requirements */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                    Notes / Query (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Briefly describe your situation, questions, or specific concern..."
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      resize: 'vertical',
+                      boxSizing: 'border-box',
+                      fontFamily: 'inherit'
+                    }}
+                    value={meetingForm.note}
+                    onChange={(e) => setMeetingForm({ ...meetingForm, note: e.target.value })}
                   />
                 </div>
 
-                {/* Center-aligned Confirm Booking button matching other buttons in the site */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+                {/* Submit button */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -578,14 +873,19 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       color: '#ffffff',
                       fontSize: '13.5px',
                       fontWeight: 700,
-                      cursor: 'pointer',
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.7 : 1,
                       boxShadow: 'none',
                       transition: 'all 0.2s ease'
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                    onMouseEnter={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(0)';
+                    }}
                   >
-                    <Calendar size={15} /> Confirm Booking
+                    <Calendar size={15} /> {isSubmitting ? 'Submitting Request...' : (modalData?.kind === 'course' ? 'Request Course Enrolment' : 'Confirm Appointment Request')}
                   </button>
                 </div>
               </form>

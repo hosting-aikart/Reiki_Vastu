@@ -205,11 +205,23 @@ export default function Footer({ setCurrentView, openModal }) {
             © 1995–2026 <strong className="akf-brand-bold">Reiki &amp; Vaastu World</strong>. Founded by Dr. Naresh Chhabdiya.
           </div>
 
-          <div className="akf-legal">
             <span className="akf-legal-item">Privacy Policy</span>
             <span className="akf-legal-sep">|</span>
             <span className="akf-legal-item">Terms of Service</span>
-          </div>
+            <span className="akf-legal-sep">|</span>
+            <a
+              href="/admin"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/admin');
+                setCurrentView('admin');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="akf-legal-item"
+              style={{ textDecoration: 'none', color: 'inherit', opacity: 0.75, cursor: 'pointer' }}
+            >
+              Staff Portal
+            </a>
         </div>
       </div>
     </footer>

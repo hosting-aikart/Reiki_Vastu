@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import AboutAndFeatures from './components/AboutAndFeatures';
@@ -11,13 +11,40 @@ import CourseDetailPage from './components/CourseDetailPage';
 import Footer from './components/Footer';
 import FloatingWidgets from './components/FloatingWidgets';
 import Modals from './components/Modals';
+import AdminDashboard from './components/admin/AdminDashboard';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('home');
+  const [currentView, setCurrentView] = useState(() => {
+    return window.location.pathname.startsWith('/admin') ? 'admin' : 'home';
+  });
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [previousView, setPreviousView] = useState('home');
   const [activeModal, setActiveModal] = useState(null);
   const [modalData, setModalData] = useState(null);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.location.pathname.startsWith('/admin')) {
+        setCurrentView('admin');
+      } else if (currentView === 'admin') {
+        setCurrentView('home');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [currentView]);
+
+  if (currentView === 'admin') {
+    return (
+      <AdminDashboard
+        onExitToSite={() => {
+          window.history.pushState({}, '', '/');
+          setCurrentView('home');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+    );
+  }
 
   const openModal = (modalType, data = null) => {
     setActiveModal(modalType);
@@ -70,10 +97,10 @@ export default function App() {
             courseId={selectedCourseId}
             onBack={handleBackFromCourseDetail}
             onEnroll={(title) => {
-              openModal('meeting', { title: `${title} Course Inquiry & Registration` });
+              openModal('meeting', { kind: 'course', courseId: selectedCourseId, title });
             }}
             onContact={() => {
-              openModal('meeting', { title: 'Contact Us & Course Consultation' });
+              openModal('meeting', { kind: 'course', courseId: selectedCourseId, title });
             }}
           />
         ) : currentView === 'courses' ? (
@@ -112,7 +139,7 @@ export default function App() {
             <BusinessNeeds />
 
             {/* 5. Reiki Therapy Section */}
-            <ReikiTherapy onBookSession={() => openModal('meeting')} />
+            <ReikiTherapy onBookSession={() => openModal('meeting', { serviceKey: 'reiki_healing_session' })} />
 
             {/* 6. Video Discourses + Testimonials (expand inline) */}
             <VideoTestimonials onAddStory={() => openModal('addStory')} />

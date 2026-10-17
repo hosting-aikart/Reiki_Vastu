@@ -1,0 +1,8 @@
+{
+  "name": "@reiki-vastu/shared",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Catalog constants and helpers shared by the frontend and backend",
+  "type": "module",
+  "main": "catalog.js"
+}
