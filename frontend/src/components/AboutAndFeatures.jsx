@@ -16,9 +16,9 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                   src="/logo/lotus_pure.png"
                   alt="Reiki &amp; Vaastu Lotus"
                   style={{
-                    width: '180px',
+                    width: '300px',
                     height: 'auto',
-                    maxHeight: '120px',
+                    maxHeight: '140px',
                     maxWidth: '100%',
                     objectFit: 'contain',
                     display: 'block'

@@ -13,6 +13,7 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
 
   return (
     <section
+      className="hero-section"
       style={{
         position: 'relative',
         background: 'linear-gradient(180deg, #fffdfa 0%, #fdfbf7 60%, #faf4ea 100%)',
@@ -52,10 +53,11 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
           {/* Left Column: Content */}
           <div className="hero-content-col">
             {/* Brand Logo: REIKI 🪷 VAASTU — WORLD — */}
-            <div style={{ marginBottom: '18px', width: '100%', marginTop: '10px' }}>
+            <div className="hero-logo-wrap" style={{ marginBottom: '18px', width: '100%', marginTop: '10px' }}>
               <img
                 src="/logo/logo-text-only.png"
                 alt="Reiki Vaastu World"
+                className="hero-logo-img"
                 style={{
                   width: '94%',
                   maxWidth: '520px',
@@ -67,23 +69,34 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
 
             {/* 3. Headline */}
             <h1
+              className="hero-title"
               style={{
                 fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif",
-                fontSize: 'clamp(20px, 2.3vw, 27.5px)',
+                fontSize: 'clamp(20px, 2.15vw, 26.5px)',
                 fontWeight: 600,
                 lineHeight: 1.34,
-                color: '#3b0a11',
+                color: '#5b1515ff',
                 margin: '0 0 24px',
-                width: '100%',
-                maxWidth: '540px',
+                width: '94%',
+                maxWidth: '520px',
                 letterSpacing: '-0.01em'
               }}
             >
-              Ancient Wisdom for a Healthier, Happier and More Harmonious Life
+              Ancient Wisdom for a Healthier,<br className="hero-desktop-br" /> Happier and More Harmonious Life
             </h1>
 
             {/* 5. Action Buttons (Explore Our Courses & Book a Consultation) */}
-            <div className="hero-btn-row">
+            <div
+              className="hero-btn-row"
+              style={{
+                width: '94%',
+                maxWidth: '520px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '14px',
+                marginBottom: '34px'
+              }}
+            >
               <button
                 type="button"
                 onClick={() => {
@@ -94,15 +107,17 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
                     else if (onSearch) onSearch();
                   }
                 }}
-                className="btn-primary"
+                className="btn-primary hero-btn-main"
                 style={{
-                  padding: '13px 28px',
+                  flex: 1,
+                  padding: '13px 20px',
                   borderRadius: '50px',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  fontSize: '15px'
+                  fontSize: '15px',
+                  whiteSpace: 'nowrap'
                 }}
               >
                 <span>Explore Our Courses</span>
@@ -114,11 +129,12 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
                 onClick={onConsultClick}
                 className="hero-btn-secondary"
                 style={{
+                  flex: 1,
                   background: '#ffffff',
                   color: '#7d0e15',
                   fontWeight: 700,
                   fontSize: '15px',
-                  padding: '13px 26px',
+                  padding: '13px 20px',
                   borderRadius: '50px',
                   border: '1.5px solid #d4af37',
                   cursor: 'pointer',
@@ -126,7 +142,8 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   boxShadow: 'none',
-                  transition: 'all 0.25s ease'
+                  transition: 'all 0.25s ease',
+                  whiteSpace: 'nowrap'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = '#fef2f4';
@@ -193,6 +210,7 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
           {/* Right Column: Main Video (enlarged and aligned) */}
           <div className="hero-video-col" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
             <div
+              className="hero-video-card"
               style={{
                 position: 'relative',
                 width: '100%',
@@ -206,10 +224,13 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
             >
               <video
                 src="/images/main-video.mp4"
+                poster="/images/meditation.jpeg"
+                preload="metadata"
                 autoPlay
                 muted
                 loop
                 playsInline
+                className="hero-main-video"
                 style={{
                   width: '100%',
                   height: '100%',
@@ -221,6 +242,7 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
 
               {/* Decorative Corner Seal Badge */}
               <div
+                className="hero-center-badge"
                 style={{
                   position: 'absolute',
                   bottom: '16px',
@@ -236,8 +258,8 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
                   color: '#fffdf9'
                 }}
               >
-                <Sparkles size={14} color="#fbbf24" />
-                <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
+                <Sparkles size={14} color="#fbbf24" className="hero-center-badge-icon" />
+                <span className="hero-center-badge-text" style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
                   Training &amp; Treatment Center
                 </span>
               </div>

@@ -18,6 +18,17 @@ export default function Navbar({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isDrawerOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [isDrawerOpen]);
+
   return (
     <>
       <header className={`gnav ${isScrolled ? 'gnav-scrolled' : ''} ${isDarkTheme ? 'gnav-dark' : ''}`}>
@@ -35,9 +46,9 @@ export default function Navbar({
             aria-label="Reiki & Vaastu World - Home"
           >
             <img
-              src="/logo/reiki-vastu-logo.png"
-              alt="Reiki & Vaastu World"
-              style={{ height: '48px', width: 'auto', display: 'block', objectFit: 'contain' }}
+              src="/logo/lotus_pure.png"
+              alt="Reiki &amp; Vaastu World Lotus"
+              className="gnav-logo-img"
             />
           </a>
 
@@ -137,19 +148,22 @@ export default function Navbar({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           {/* Site Logo */}
           <img
-            src="/logo/reiki-vastu-logo.png"
-            alt="Reiki & Vaastu World"
+            src="/logo/lotus_pure.png"
+            alt="Reiki &amp; Vaastu World Lotus"
             style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
           />
           <button
             type="button"
             onClick={() => setIsDrawerOpen(false)}
+            aria-label="Close navigation menu"
             style={{
               background: 'rgba(255,255,255,0.12)',
               border: 'none',
               borderRadius: '50%',
-              width: '36px',
-              height: '36px',
+              width: '44px',
+              height: '44px',
+              minWidth: '44px',
+              minHeight: '44px',
               color: '#fff',
               display: 'flex',
               alignItems: 'center',
@@ -157,11 +171,11 @@ export default function Navbar({
               cursor: 'pointer'
             }}
           >
-            <X size={20} />
+            <X size={22} />
           </button>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <button
             type="button"
             style={{
@@ -172,6 +186,9 @@ export default function Navbar({
               fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
               cursor: 'pointer'
             }}
             onClick={() => {
@@ -192,6 +209,9 @@ export default function Navbar({
               fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
               cursor: 'pointer'
             }}
             onClick={() => {
@@ -212,6 +232,9 @@ export default function Navbar({
               fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
               cursor: 'pointer'
             }}
             onClick={() => {
@@ -238,6 +261,9 @@ export default function Navbar({
               fontWeight: 600,
               textAlign: 'left',
               padding: '10px 0',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
               cursor: 'pointer'
             }}
             onClick={() => {
@@ -258,6 +284,9 @@ export default function Navbar({
               fontWeight: 700,
               textAlign: 'left',
               padding: '10px 0',
+              minHeight: '44px',
+              display: 'flex',
+              alignItems: 'center',
               cursor: 'pointer'
             }}
             onClick={() => {

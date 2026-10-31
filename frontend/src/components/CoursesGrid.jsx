@@ -1,5 +1,21 @@
 import React from 'react';
-import { ArrowRight, Compass, Heart, Sparkles, Home, Shield, Sun, Droplets, Activity, Layers, Hash, CircleDot, Gem, Palette, Award } from 'lucide-react';
+import {
+  ArrowRight,
+  Compass,
+  Heart,
+  Sparkles,
+  Home,
+  Shield,
+  Sun,
+  Droplets,
+  Activity,
+  Layers,
+  Hash,
+  CircleDot,
+  Gem,
+  Palette,
+  Award
+} from 'lucide-react';
 
 export const COURSES_15 = [
   // Row 1
@@ -22,7 +38,7 @@ export const COURSES_15 = [
   {
     id: 'vaastu',
     title: 'Vaastu',
-    subtitle: 'Harmonious Spaces • Prosperity • Positive Energy',
+    subtitle: 'Harmonious Spaces • Prosperity • Positivity',
     image: '/images/vastu.jpeg',
     hasImage: true,
     icon: Home
@@ -56,7 +72,7 @@ export const COURSES_15 = [
   {
     id: 'accupressure',
     title: 'Accupressure',
-    subtitle: 'Natural Healing • Pain Relief • Energy Flow',
+    subtitle: 'Healing • Pain Relief • Energy Flow',
     image: '/images/Accupressure.jpeg',
     hasImage: true,
     icon: Activity
@@ -72,7 +88,7 @@ export const COURSES_15 = [
   {
     id: 'pyramid',
     title: 'Pyramid',
-    subtitle: 'Positive Energy • Manifestation • Growth',
+    subtitle: 'Positivity • Manifestation • Growth',
     image: '/images/pyramid-therapy.jpeg',
     hasImage: true,
     icon: Layers
@@ -98,7 +114,7 @@ export const COURSES_15 = [
   {
     id: 'rudraksha',
     title: 'Rudraksha',
-    subtitle: 'Spiritual Protection • Focus • Positive Energy',
+    subtitle: 'Spiritual Protection • Focus • Positivity',
     image: '/images/rudraksha.jpeg',
     hasImage: true,
     icon: Shield
@@ -132,7 +148,7 @@ export const COURSES_15 = [
 // Only first 4 courses shown on home page
 const HOME_COURSES = COURSES_15.slice(0, 4);
 
-function CourseCard({ course, onSelectCourse }) {
+function CourseCard({ course, onSelectCourse, isSlider = false }) {
   const Icon = course.icon;
   return (
     <div
@@ -148,7 +164,7 @@ function CourseCard({ course, onSelectCourse }) {
         boxShadow: '0 4px 16px rgba(180, 83, 9, 0.06)',
         transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
-      className="hover:-translate-y-1.5 hover:shadow-lg"
+      className={`hover:-translate-y-1.5 hover:shadow-lg ${isSlider ? 'course-card-slider-item' : ''}`}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = '#D2042D';
         e.currentTarget.style.boxShadow = '0 12px 30px rgba(210, 4, 45, 0.18)';
@@ -175,9 +191,11 @@ function CourseCard({ course, onSelectCourse }) {
           <img
             src={course.image}
             alt={course.title}
+            loading="lazy"
             style={{
               width: '100%',
               height: '100%',
+              aspectRatio: '16 / 9',
               objectFit: 'cover',
               display: 'block',
               transition: 'transform 0.5s ease'
@@ -261,14 +279,12 @@ function CourseCard({ course, onSelectCourse }) {
 }
 
 export default function CoursesGrid({ onSelectCourse, onSeeAllCourses, showAll = false }) {
-  const displayCourses = showAll ? COURSES_15 : HOME_COURSES;
-
   return (
-    <section id="courses-section" style={{ padding: '70px 0 90px', background: '#fdfbf7' }}>
+    <section id="courses-section" style={{ padding: '70px 0 90px', background: '#fdfbf7', overflow: 'hidden' }}>
       <div className="hm-container">
         {/* Section Header (home page only) */}
         {!showAll && (
-          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '38px' }}>
             <p
               className="hm-eyebrow"
               style={{ color: '#D2042D', marginBottom: '6px', fontWeight: 800, letterSpacing: '0.14em' }}
@@ -287,21 +303,49 @@ export default function CoursesGrid({ onSelectCourse, onSeeAllCourses, showAll =
           </div>
         )}
 
-        {/* Courses Grid */}
-        <div
-          className="courses-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: showAll
-              ? 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))'
-              : 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))',
-            gap: '20px'
-          }}
-        >
-          {displayCourses.map((course) => (
-            <CourseCard key={course.id} course={course} onSelectCourse={onSelectCourse} />
-          ))}
-        </div>
+        {/* Courses Section: Continuous Horizontal Sliding on Home, Grid on ShowAll */}
+        {!showAll ? (
+          <div className="courses-marquee-wrapper">
+            <div className="courses-marquee-track">
+              {/* Group 1 */}
+              <div className="courses-marquee-group">
+                {COURSES_15.map((course) => (
+                  <CourseCard
+                    key={`group1-${course.id}`}
+                    course={course}
+                    onSelectCourse={onSelectCourse}
+                    isSlider={true}
+                  />
+                ))}
+              </div>
+
+              {/* Group 2 (Duplicate for continuous seamless infinite loop) */}
+              <div className="courses-marquee-group" aria-hidden="true">
+                {COURSES_15.map((course) => (
+                  <CourseCard
+                    key={`group2-${course.id}`}
+                    course={course}
+                    onSelectCourse={onSelectCourse}
+                    isSlider={true}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="courses-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))',
+              gap: '20px'
+            }}
+          >
+            {COURSES_15.map((course) => (
+              <CourseCard key={course.id} course={course} onSelectCourse={onSelectCourse} />
+            ))}
+          </div>
+        )}
 
         {/* See All Courses Button (only on home page) */}
         {!showAll && (

@@ -117,8 +117,10 @@ export default function AdminDashboard({ onExitToSite }) {
 
   return (
     <div
+      className="admin-dashboard-container"
       style={{
         minHeight: '100vh',
+        minHeight: '100dvh',
         display: 'flex',
         background: '#f8fafc',
         fontFamily: 'inherit',
@@ -127,6 +129,7 @@ export default function AdminDashboard({ onExitToSite }) {
     >
       {/* ── Left Sidebar Navigation ── */}
       <aside
+        className="admin-sidebar"
         style={{
           width: '260px',
           background: '#0f172a',

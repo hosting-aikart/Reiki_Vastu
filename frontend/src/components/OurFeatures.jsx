@@ -126,7 +126,6 @@ export default function OurFeatures() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      boxShadow: '0 8px 20px rgba(210, 4, 45, 0.25)',
                       border: '2px solid rgba(255, 255, 255, 0.8)',
                       flexShrink: 0
                     }}

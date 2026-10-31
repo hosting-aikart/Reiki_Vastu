@@ -116,8 +116,7 @@ export default function BusinessNeeds() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: '16px',
-                    boxShadow: '0 4px 14px rgba(210, 4, 45, 0.12)'
+                    marginBottom: '16px'
                   }}
                 >
                   <Icon size={30} color={item.color} />

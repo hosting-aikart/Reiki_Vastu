@@ -10,12 +10,13 @@
   --cd-gold-soft: rgba(201, 154, 60, 0.35);
   --cd-cream: #fdf8f1;
   --cd-cream-2: #f9efe3;
-  --cd-text: #4a3036;
+  --cd-text: #4a3036;  
   --cd-serif: 'Playfair Display', Georgia, serif;
   --cd-display: 'Cinzel', 'Playfair Display', serif;
   background: var(--cd-cream);
   color: var(--cd-text);
-  padding-top: 84px;
+  padding-top: 100px;
+  padding-bottom: clamp(60px, 8vh, 84px);
   overflow-x: hidden;
 }
 .cd-container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
@@ -89,10 +90,11 @@
 }
 .cd-hero-text { position: relative; z-index: 2; padding: 10px 0 20px; }
 .cd-eyebrow {
-  font-family: var(--cd-display); font-size: 12px; letter-spacing: 0.32em;
+  font-family: var(--cd-display); font-size: 12px; letter-spacing: 0.28em;
   color: var(--cd-red-deep); text-transform: uppercase; margin: 0 0 10px;
+  white-space: normal; max-width: 100%;
 }
-.cd-eyebrow span + span::before { content: '·'; margin: 0 12px; color: var(--cd-gold); }
+.cd-eyebrow span + span::before { content: '·'; margin: 0 10px; color: var(--cd-gold); }
 .cd-hero-title {
   font-family: var(--cd-display); font-weight: 800; line-height: 1.06;
   font-size: clamp(28px, 3.8vw, 48px); margin: 0 0 6px; letter-spacing: 0.01em;
@@ -168,11 +170,17 @@
 .cd-element:hover .cd-icon-circle,
 .cd-tool:hover .cd-icon-circle { transform: translateY(-4px) scale(1.06); box-shadow: 0 10px 22px rgba(181, 9, 31, 0.18); }
 
-/* ═════════ PHILOSOPHY BAND ═════════ */
+/* ═════════ PHILOSOPHY BAND & RED SHAPED BLOCKS ═════════ */
+.red-shaped-block,
 .cd-phil {
-  position: relative; margin: 26px 0; padding: 50px 0; color: #fff; overflow: hidden;
+  --cut: clamp(16px, 4vw, 48px);
+  position: relative;
+  margin: 26px 0;
+  padding: calc(var(--cut) + 26px) 0;
+  color: #fff;
+  overflow: hidden;
   background: radial-gradient(ellipse at 50% 0%, #c0142b 0%, #8e0717 55%, #6a0512 100%);
-  clip-path: polygon(0 8%, 50% 0, 100% 6%, 100% 92%, 50% 100%, 0 94%);
+  clip-path: polygon(0 var(--cut), 50% 0, 100% var(--cut), 100% calc(100% - var(--cut)), 50% 100%, 0 calc(100% - var(--cut)));
   border-top: 3px solid var(--cd-gold);
 }
 .cd-phil::after {
@@ -180,15 +188,8 @@
   background: linear-gradient(90deg, rgba(255, 215, 140, 0.18), transparent 30%, transparent 70%, rgba(255, 215, 140, 0.18));
 }
 .cd-phil-inner { position: relative; z-index: 2; max-width: 660px; margin: 0 auto; text-align: center; padding: 0 24px; }
-.cd-phil h2 { font-family: var(--cd-serif); font-weight: 500; font-size: clamp(26px, 3vw, 36px); margin: 0 0 12px; color: #fff; }
-.cd-phil p { font-size: 15px; line-height: 1.75; color: #ffe9ea; margin: 0; }
-.cd-phil-deco {
-  position: absolute; top: 50%; transform: translateY(-50%); color: rgba(255, 200, 140, 0.35);
-  z-index: 1; animation: cdSpin 40s linear infinite;
-}
-.cd-phil-deco.left { left: 4%; }
-.cd-phil-deco.right { right: 4%; animation-direction: reverse; }
-@keyframes cdSpin { from { transform: translateY(-50%) rotate(0); } to { transform: translateY(-50%) rotate(360deg); } }
+.cd-phil h2 { font-family: var(--cd-serif); font-weight: 500; font-size: clamp(24px, 3vw, 36px); margin: 0 0 12px; color: #fff; }
+.cd-phil p { font-size: clamp(14px, 2.2vw, 15px); line-height: 1.75; color: #ffe9ea; margin: 0; }
 
 /* ═════════ SECTIONS ═════════ */
 .cd-section { padding: 30px 0; }
@@ -207,8 +208,33 @@
 
 /* Two columns */
 .cd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.cd-cols.single,
+.cd-cols:has(> .cd-col:only-child) {
+  display: flex;
+  justify-content: center;
+}
 .cd-col { padding: 0 32px; }
+.cd-cols.single .cd-col,
+.cd-cols:has(> .cd-col:only-child) .cd-col {
+  max-width: 680px;
+  width: 100%;
+  padding: 0 16px;
+  margin: 0 auto;
+}
 .cd-col + .cd-col { border-left: 1px solid rgba(181, 9, 31, 0.2); }
+.cd-cols.single .cd-numbered,
+.cd-cols:has(> .cd-col:only-child) .cd-numbered,
+.cd-cols.single .cd-checklist,
+.cd-cols:has(> .cd-col:only-child) .cd-checklist {
+  gap: 16px;
+}
+.cd-cols.single .cd-numbered li,
+.cd-cols:has(> .cd-col:only-child) .cd-numbered li,
+.cd-cols.single .cd-checklist li,
+.cd-cols:has(> .cd-col:only-child) .cd-checklist li {
+  font-size: 15px;
+  line-height: 1.6;
+}
 .cd-col-title { text-align: center; }
 .cd-col-title .cd-divider { justify-content: center; }
 .cd-col .cd-h3 { margin: 0 0 16px; }
@@ -289,9 +315,15 @@
 
 /* ═════════ JOURNEY CTA ═════════ */
 .cd-journey {
-  position: relative; margin-top: 30px; padding: 54px 0 46px; color: #fff; overflow: hidden;
+  --cut: clamp(16px, 4vw, 48px);
+  position: relative;
+  margin-top: 30px;
+  padding-top: calc(var(--cut) + 28px);
+  padding-bottom: calc(var(--cut) + 24px);
+  color: #fff;
+  overflow: hidden;
   background: radial-gradient(ellipse at 30% 20%, #b3102a 0%, #800616 60%, #5c0410 100%);
-  clip-path: polygon(0 12%, 30% 4%, 60% 0, 100% 10%, 100% 100%, 0 100%);
+  clip-path: polygon(0 var(--cut), 30% calc(var(--cut) * 0.35), 60% 0, 100% var(--cut), 100% 100%, 0 100%);
   border-top: 3px solid var(--cd-gold);
 }
 .cd-journey-grid {
@@ -324,10 +356,92 @@
 
 /* ═════════ RESPONSIVE ═════════ */
 @media (max-width: 960px) {
-  .cd-hero-grid { grid-template-columns: 1fr; gap: 24px; }
-  .cd-hero-media { order: -1; height: 260px; max-width: 400px; margin: 0 auto; }
-  .cd-hero-text { text-align: center; display: flex; flex-direction: column; align-items: center; }
-  .cd-hero-actions { justify-content: center; }
+  .cd-page { padding-top: 88px; }
+  .cd-hero { overflow: hidden; width: 100%; }
+  .cd-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .cd-hero-media {
+    order: -1;
+    height: 260px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .cd-hero-text {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-inline: clamp(16px, 5vw, 32px) !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+  }
+  .cd-eyebrow {
+    white-space: normal !important;
+    letter-spacing: clamp(0.1em, 1.8vw, 0.22em) !important;
+    text-align: center !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 4px 6px !important;
+    word-break: break-word !important;
+  }
+  .cd-eyebrow span + span::before {
+    margin: 0 4px !important;
+  }
+  .cd-hero-title {
+    max-width: 100% !important;
+    width: 100% !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    font-size: clamp(26px, 6vw, 38px) !important;
+  }
+  .cd-hero-tagline {
+    max-width: 100% !important;
+    width: 100% !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    font-size: clamp(16px, 3.8vw, 20px) !important;
+    line-height: 1.4 !important;
+  }
+  .cd-hero-intro {
+    max-width: 100% !important;
+    width: 100% !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    font-size: clamp(13.5px, 3.2vw, 15px) !important;
+    line-height: 1.65 !important;
+  }
+  .cd-hero-actions {
+    width: 100% !important;
+    max-width: 360px !important;
+    margin-inline: auto !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  .cd-hero-actions .cd-btn {
+    width: 100% !important;
+    max-width: 360px !important;
+    margin-inline: auto !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    text-align: center !important;
+    padding: 12px 18px !important;
+    font-size: 14.5px !important;
+  }
   .cd-what { padding: 28px 0 22px; }
   .cd-what-grid { grid-template-columns: 1fr; gap: 18px; text-align: center; }
   .cd-medallion {
@@ -341,18 +455,142 @@
     height: 46px !important;
   }
   .cd-use-grid, .cd-cols, .cd-rainbow { grid-template-columns: 1fr; }
-  .cd-use-items { justify-content: center; flex-wrap: wrap; }
   .cd-col { padding: 0; }
   .cd-col + .cd-col { border-left: none; border-top: 1px solid rgba(181, 9, 31, 0.15); padding-top: 26px; margin-top: 26px; }
-  .cd-benefits { grid-template-columns: repeat(2, 1fr); }
-  .cd-steps { grid-template-columns: 1fr; }
-  .cd-elements { grid-template-columns: repeat(3, 1fr); row-gap: 20px; }
-  .cd-element:nth-child(4) { border-left: none; }
+  .cd-journey {
+    padding-bottom: calc(var(--cut) + 54px) !important;
+  }
   .cd-journey-grid { grid-template-columns: 1fr; padding-left: 0; justify-items: center; text-align: center; }
   .cd-journey-text { text-align: center; }
-  .cd-journey-actions { justify-content: center; }
-  .cd-phil-deco { display: none; }
+  .cd-journey-actions {
+    justify-content: center;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+    gap: 12px !important;
+  }
+  .cd-journey-actions .cd-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
 }
+
+/* ── 421px–768px: 2 columns with centered odd orphan items (Bug 2 & 7) ── */
+@media (min-width: 421px) and (max-width: 768px) {
+  .cd-use-items {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    margin: 0 auto !important;
+  }
+  .cd-use-item {
+    flex: 0 1 calc(50% - 6px) !important;
+    max-width: calc(50% - 6px) !important;
+    min-width: 200px !important;
+    padding: 14px 12px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(201, 154, 60, 0.28) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 12px rgba(181, 9, 31, 0.05) !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+  }
+  .cd-use-item + .cd-use-item {
+    border-left: 1px solid rgba(201, 154, 60, 0.28) !important;
+  }
+  .cd-use-item .cd-icon-circle {
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto 8px !important;
+  }
+  .cd-use-item .cd-icon-circle svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  /* Steps 2-column with centered odd 3rd card */
+  .cd-steps {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+  .cd-step {
+    flex: 0 1 calc(50% - 6px) !important;
+    max-width: calc(50% - 6px) !important;
+    min-width: 220px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Benefits 2-column with centered odd card */
+  .cd-benefits {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .cd-benefit {
+    flex: 0 1 calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    min-width: 180px !important;
+    box-sizing: border-box !important;
+    padding: 14px 10px !important;
+    font-size: 12.5px !important;
+  }
+
+  /* Elements 2-column with centered odd 5th card */
+  .cd-elements {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .cd-element {
+    flex: 0 1 calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    min-width: 180px !important;
+    box-sizing: border-box !important;
+    border-left: none !important;
+    padding: 12px 8px !important;
+    background: linear-gradient(180deg, #fffdf9 0%, #fdf5ea 100%) !important;
+    border: 1px solid rgba(201, 154, 60, 0.28) !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+  }
+
+  /* Tools 2-column with centered odd card */
+  .cd-tools {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .cd-tool {
+    flex: 0 1 calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    min-width: 180px !important;
+    box-sizing: border-box !important;
+    padding: 10px 8px !important;
+    font-size: 12.5px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(201, 154, 60, 0.28) !important;
+    border-radius: 12px !important;
+  }
+}
+
 @media (max-width: 560px) {
   .cd-container { padding: 0 14px; }
   .cd-hero-media { height: 180px; max-width: 300px; margin: 0 auto; border-radius: 16px; }
@@ -368,27 +606,111 @@
     width: 34px !important;
     height: 34px !important;
   }
-  .cd-hero-title { max-width: 100% !important; font-size: clamp(26px, 7vw, 36px) !important; }
-  .cd-hero-intro { max-width: 100% !important; }
-  .cd-hero-tagline { max-width: 100% !important; }
-  .cd-hero-actions { flex-direction: column; width: 100%; }
-  .cd-hero-actions .cd-btn { width: 100%; justify-content: center; }
+  .cd-numbered.two-col { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .cd-bead { width: 40px !important; height: 40px !important; }
+  .cd-rainbow { grid-template-columns: 1fr; }
+  .cd-rainbow-bars { min-height: 80px; padding-left: 0; }
+  .cd-rainbow-text { padding: 22px 16px; }
+  .cd-journey-grid { padding: 0 16px; }
+}
 
-  /* ── 50-50 Width (2 columns in single line) for Benefits & all similar elements ── */
+/* ── ≤420px: 1 Column Full-Width Stack for Small Phones (Bug 2 & 7) ── */
+@media (max-width: 420px) {
+  .cd-page { padding-top: 78px; }
+  .cd-use-items {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+  .cd-use-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 14px 16px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(201, 154, 60, 0.28) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 3px 10px rgba(181, 9, 31, 0.04) !important;
+    box-sizing: border-box !important;
+  }
+  .cd-use-item + .cd-use-item {
+    border-left: 1px solid rgba(201, 154, 60, 0.28) !important;
+  }
+  .cd-use-item .cd-icon-circle {
+    width: 46px !important;
+    height: 46px !important;
+    margin: 0 auto 8px !important;
+  }
+  .cd-use-item .cd-icon-circle svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* Steps 1-column full-width on <=420px */
+  .cd-steps {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+  .cd-step {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+    padding: 14px 14px !important;
+    border-radius: 12px !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+  .cd-step-num {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+    flex-shrink: 0 !important;
+  }
+  .cd-step h4 {
+    font-size: 14px !important;
+    margin: 0 0 4px !important;
+    justify-content: flex-start !important;
+  }
+  .cd-step p {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Benefits 1-column full-width on <=420px */
   .cd-benefits {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     gap: 8px !important;
+    width: 100% !important;
   }
   .cd-benefit {
-    padding: 12px 8px !important;
-    font-size: 12.5px !important;
-    line-height: 1.35 !important;
-    border-radius: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px 14px !important;
+    font-size: 13px !important;
   }
   .cd-benefit .cd-icon-circle {
-    width: 38px !important;
-    height: 38px !important;
+    width: 42px !important;
+    height: 42px !important;
     margin: 0 auto 6px !important;
   }
   .cd-benefit .cd-icon-circle svg {
@@ -396,124 +718,60 @@
     height: 18px !important;
   }
 
-  /* 50-50 Width for Elements (e.g. Five Elements) */
+  /* Elements 1-column full-width on <=420px */
   .cd-elements {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     gap: 8px !important;
+    width: 100% !important;
   }
   .cd-element {
-    border-left: none !important;
-    padding: 10px 6px !important;
-    background: linear-gradient(180deg, #fffdf9 0%, #fdf5ea 100%) !important;
-    border: 1px solid rgba(201, 154, 60, 0.28) !important;
-    border-radius: 12px !important;
-    text-align: center !important;
-  }
-  .cd-element strong {
-    font-size: 13px !important;
-    margin-bottom: 2px !important;
-  }
-  .cd-element span {
-    font-size: 11px !important;
-    line-height: 1.25 !important;
-    display: block !important;
-  }
-  .cd-element .cd-icon-circle {
-    width: 38px !important;
-    height: 38px !important;
-    margin: 0 auto 6px !important;
-  }
-  .cd-element .cd-icon-circle svg {
-    width: 18px !important;
-    height: 18px !important;
-  }
-
-  /* 50-50 Width for How Can I Use Items */
-  .cd-use-items {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
     width: 100% !important;
-    justify-content: stretch !important;
-  }
-  .cd-use-item {
     max-width: 100% !important;
-    width: 100% !important;
-    flex-basis: auto !important;
-    padding: 10px 6px !important;
-    font-size: 12px !important;
-    line-height: 1.3 !important;
-    background: #ffffff !important;
-    border: 1px solid rgba(201, 154, 60, 0.28) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 10px rgba(181, 9, 31, 0.04) !important;
-  }
-  .cd-use-item + .cd-use-item {
-    border-left: 1px solid rgba(201, 154, 60, 0.28) !important;
+    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px 14px !important;
+    border-left: none !important;
   }
 
-  /* 50-50 Width for Tools */
+  /* Tools 1-column full-width on <=420px */
   .cd-tools {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     gap: 8px !important;
     width: 100% !important;
   }
   .cd-tool {
     width: 100% !important;
-    padding: 10px 6px !important;
-    font-size: 12px !important;
-    background: #ffffff !important;
-    border: 1px solid rgba(201, 154, 60, 0.28) !important;
-    border-radius: 12px !important;
-  }
-
-  /* 50-50 Width for Steps */
-  .cd-steps {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
-  }
-  .cd-step {
-    padding: 10px 8px !important;
-    gap: 8px !important;
-    border-radius: 12px !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-  .cd-step-num {
-    width: 26px !important;
-    height: 26px !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px 14px !important;
     font-size: 13px !important;
-    line-height: 1 !important;
   }
-  .cd-step h4 {
-    font-size: 13px !important;
-    margin: 0 0 2px !important;
-    justify-content: center !important;
-  }
-  .cd-step p {
-    font-size: 11.5px !important;
-    line-height: 1.35 !important;
-  }
-
-  .cd-numbered.two-col { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
-  .cd-bead { width: 40px !important; height: 40px !important; }
-  .cd-rainbow { grid-template-columns: 1fr; }
-  .cd-rainbow-bars { min-height: 80px; padding-left: 0; }
-  .cd-rainbow-text { padding: 22px 16px; }
-  .cd-journey { clip-path: none; border-radius: 20px; margin: 16px 8px; padding: 36px 0 30px; }
-  .cd-journey-grid { padding: 0 16px; }
 }
 
+/* ── ≤360px: Ultra Narrow Screen Safeguards ── */
 @media (max-width: 360px) {
-  .cd-benefit { padding: 8px 4px !important; font-size: 11.5px !important; }
-  .cd-element { padding: 8px 4px !important; }
-  .cd-element strong { font-size: 12px !important; }
-  .cd-element span { font-size: 10px !important; }
-  .cd-use-item { font-size: 11px !important; padding: 8px 4px !important; }
-  .cd-step h4 { font-size: 12px !important; }
-  .cd-step p { font-size: 10.5px !important; }
+  .cd-use-item {
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+  .cd-use-item .cd-icon-circle {
+    width: 38px !important;
+    height: 38px !important;
+    margin-bottom: 6px !important;
+  }
+  .cd-use-item .cd-icon-circle svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .cd-benefit { padding: 10px 10px !important; font-size: 12px !important; }
+  .cd-element { padding: 10px 10px !important; }
+  .cd-element strong { font-size: 12.5px !important; }
+  .cd-element span { font-size: 10.5px !important; }
+  .cd-step h4 { font-size: 13px !important; }
+  .cd-step p { font-size: 11.5px !important; }
 }

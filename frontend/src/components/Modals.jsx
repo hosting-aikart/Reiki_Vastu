@@ -68,6 +68,7 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
       {/* Trigger Box - clean form element, NO golden border */}
       <button
         type="button"
+        className="modal-dropdown-trigger"
         onClick={() => setIsOpen(!isOpen)}
         style={{
           width: '100%',
@@ -227,6 +228,17 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     }
   }, [activeModal, modalData]);
 
+  // Lock background scroll while modal is open
+  useEffect(() => {
+    if (activeModal) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [activeModal]);
+
   if (!activeModal) return null;
 
   const handleContactSubmit = async (e) => {
@@ -365,60 +377,69 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── CONTACT US MODAL ─── */}
         {activeModal === 'contact' && (
-          <div style={{ padding: '36px', maxHeight: '85vh', overflowY: 'auto' }}>
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '11px',
+                fontSize: '10.5px',
                 fontWeight: 700,
-                letterSpacing: '0.14em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: '#dc2626',
+                color: '#D2042D',
                 background: '#fef2f2',
-                padding: '4px 12px',
-                borderRadius: '50px',
-                border: '1px solid #fecaca'
+                padding: '3px 10px',
+                borderRadius: '50px'
               }}
             >
               DIRECT HELPLINE
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, margin: '14px 0 6px', color: '#3b0a11' }}>
+            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
               Contact Reiki &amp; Vaastu World
             </h2>
-            <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 20px' }}>
+            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
               Have questions regarding courses, Vaastu site audits, or energized products? Reach our Amravati and Nagpur centers.
             </p>
 
             {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 12px' }} />
-                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
+                <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Enquiry Received!
                 </h3>
-                <div style={{ background: '#fdfbf7', border: '1.5px dashed #d4af37', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
-                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#784450', fontWeight: 600 }}>
+                <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
+                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 600 }}>
                     Reference Number
                   </span>
-                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#3b0a11', letterSpacing: '0.04em', marginTop: '2px' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
                     {submissionSuccess.reference}
                   </div>
                 </div>
-                <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.5 }}>
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 8px', lineHeight: 1.5 }}>
                   Thank you. Dr. Naresh Chhabdiya's team will contact you shortly via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong>.
                 </p>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="gnav-btn-primary"
-                  style={{ padding: '10px 24px', fontSize: '14px', margin: '0 auto' }}
+                  style={{
+                    padding: '8px 24px',
+                    borderRadius: '50px',
+                    border: '1px solid #d1d5db',
+                    background: '#ffffff',
+                    color: '#374151',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    margin: '0 auto',
+                    display: 'block'
+                  }}
                 >
                   Done
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {submitError && (
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
                     <span>{submitError}</span>
                   </div>
                 )}
@@ -435,45 +456,71 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 />
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                     Full Name *
                   </label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Chetan Saraf"
-                    className="akf-nl-input"
+                    style={{
+                      width: '100%',
+                      height: '38px',
+                      padding: '0 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                   />
                   {fieldErrors.name && (
-                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.name}
                     </span>
                   )}
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Phone / WhatsApp *
                     </label>
                     <input
                       type="tel"
                       required
                       placeholder="9423424596"
-                      className="akf-nl-input"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                       value={contactForm.phone}
                       onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                     />
                     {fieldErrors.phone && (
-                      <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.phone}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Preferred Center *
                     </label>
                     <CustomDropdown
@@ -482,7 +529,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={LOCATION_OPTIONS}
                     />
                     {fieldErrors.location && (
-                      <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.location}
                       </span>
                     )}
@@ -490,25 +537,38 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                     Email Address
                   </label>
                   <input
                     type="email"
                     placeholder="yourname@gmail.com"
-                    className="akf-nl-input"
+                    style={{
+                      width: '100%',
+                      height: '38px',
+                      padding: '0 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                   />
                   {fieldErrors.email && (
-                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.email}
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                     How can we guide you? *
                   </label>
                   <textarea
@@ -517,47 +577,66 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     placeholder="Describe your inquiry (e.g. learn Reiki level 1, home Vaastu inspection, buy certified Rudraksha)..."
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      borderRadius: '16px',
-                      border: '1.5px solid #d4af37',
-                      background: '#fffdf9',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
                       outline: 'none',
-                      fontSize: '14px',
-                      fontFamily: 'inherit',
-                      color: '#3b0a11'
+                      resize: 'vertical',
+                      boxSizing: 'border-box',
+                      fontFamily: 'inherit'
                     }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   />
                   {fieldErrors.message && (
-                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.message}
                     </span>
                   )}
                 </div>
 
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '10px 14px', fontSize: '12.5px', color: '#881337' }}>
-                  📞 Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reiki.vastuworld@gmail.com</strong>
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#881337', textAlign: 'center' }}>
+                  Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reiki.vastuworld@gmail.com</strong>
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="gnav-btn-primary"
-                  style={{
-                    padding: '14px',
-                    fontSize: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    marginTop: '4px',
-                    opacity: isSubmitting ? 0.7 : 1,
-                    cursor: isSubmitting ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  <Send size={16} /> {isSubmitting ? 'Submitting Enquiry...' : 'Send Enquiry'}
-                </button>
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="modal-submit-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '10px 28px',
+                      height: '42px',
+                      borderRadius: '50px',
+                      border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                      background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
+                      color: '#ffffff',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.7 : 1,
+                      boxShadow: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <Send size={15} /> {isSubmitting ? 'Submitting Enquiry...' : 'Send Enquiry'}
+                  </button>
+                </div>
               </form>
             )}
           </div>
@@ -565,7 +644,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── SCHEDULE CONSULTATION / COURSE ENROLMENT MODAL ─── */}
         {(activeModal === 'schedule' || activeModal === 'meeting') && (
-          <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
                 fontSize: '10.5px',
@@ -647,7 +726,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 />
 
                 {/* Row 1: Name & Phone */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Full Name *
@@ -709,7 +788,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 {/* Row 2: Email & Service/Course */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Email Address
@@ -764,7 +843,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 {/* Row 3: Mode, Date */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Meeting Mode *
@@ -782,13 +861,14 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                      Preferred Date {modalData?.kind === 'course' ? '(Optional)' : '*'}
+                      Preferred Date {modalData?.kind === 'course' ? '' : '*'}
                     </label>
                     <input
                       type="date"
                       required={modalData?.kind !== 'course'}
                       min={todayInBusinessTz()}
                       max={addDays(todayInBusinessTz(), BOOKING_WINDOW_DAYS)}
+                      className="modal-input modal-date-input"
                       style={{
                         width: '100%',
                         height: '38px',
@@ -815,7 +895,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 4: Time Slot */}
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                    Preferred Time Slot {modalData?.kind === 'course' ? '(Optional)' : '*'}
+                    Preferred Time Slot {modalData?.kind === 'course' ? '' : '*'}
                   </label>
                   <CustomDropdown
                     value={meetingForm.time}
@@ -832,7 +912,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 5: Notes / Requirements */}
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                    Notes / Query (Optional)
+                    Notes / Query
                   </label>
                   <textarea
                     rows={2}
@@ -856,10 +936,11 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 {/* Submit button */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
                   <button
                     type="submit"
                     disabled={isSubmitting}
+                    className="modal-submit-btn"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -895,7 +976,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── ADD YOUR STORY MODAL ─── */}
         {activeModal === 'addStory' && (
-          <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
                 fontSize: '10.5px',
@@ -929,7 +1010,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               </div>
             ) : (
               <form onSubmit={handleStorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Your Name *
@@ -980,7 +1061,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Experience / Course *
@@ -1030,9 +1111,10 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   />
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
                   <button
                     type="submit"
+                    className="modal-submit-btn"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',

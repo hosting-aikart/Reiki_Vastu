@@ -342,7 +342,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))',
               gap: '24px'
             }}
           >
