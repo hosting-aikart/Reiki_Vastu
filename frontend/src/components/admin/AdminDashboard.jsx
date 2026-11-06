@@ -149,16 +149,18 @@ export default function AdminDashboard({ onExitToSite }) {
                   width: '36px',
                   height: '36px',
                   borderRadius: '8px',
-                  background: 'linear-gradient(135deg, #c59b27, #e5b842)',
+                  background: '#fdf8f1',
+                  border: '1px solid rgba(197, 155, 39, 0.55)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#0f172a',
-                  fontWeight: 800,
-                  fontSize: '18px'
+                  justifyContent: 'center'
                 }}
               >
-                ॐ
+                <img
+                  src="/logo/lotus_pure.png"
+                  alt="Reiki & Vaastu Lotus"
+                  style={{ width: '26px', height: '26px', objectFit: 'contain' }}
+                />
               </div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: '15px', color: '#f8fafc', letterSpacing: '-0.3px' }}>

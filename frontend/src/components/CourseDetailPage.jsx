@@ -276,7 +276,10 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
           </div>
           {course?.image && (
             <div className="cd-hero-media">
-              <img src={course.image} alt={`${data.title} course`} />
+              <img
+                src={course.image}
+                alt={course.alt || `${data.title} course – ${data.tagline}`}
+              />
             </div>
           )}
         </div>

@@ -23,7 +23,9 @@ export const COURSES_15 = [
     id: 'meditation',
     title: 'Meditation',
     subtitle: 'Inner Peace • Mindfulness • Self Growth',
-    image: '/images/meditation.jpeg',
+    description: 'Cultivate deep mindfulness, emotional calm, and thoughtless awareness through guided meditation practices.',
+    alt: 'Meditation course – guided mindfulness and inner peace practice',
+    image: '/images/Meditation.png',
     hasImage: true,
     icon: Heart
   },
@@ -31,7 +33,9 @@ export const COURSES_15 = [
     id: 'reiki',
     title: 'Reiki',
     subtitle: 'Healing Energy • Balance • Well-being',
-    image: '/images/reiki.jpeg',
+    description: 'Channel universal life-force energy with traditional Usui Reiki attunements for self-healing and chakra balance.',
+    alt: 'Reiki healing course – universal life force energy and chakra balancing',
+    image: '/images/Reiki.png',
     hasImage: true,
     icon: Sparkles
   },
@@ -39,7 +43,9 @@ export const COURSES_15 = [
     id: 'vaastu',
     title: 'Vaastu',
     subtitle: 'Harmonious Spaces • Prosperity • Positivity',
-    image: '/images/vastu.jpeg',
+    description: 'Align homes and workplaces with the five natural elements and directional energies for lasting harmony.',
+    alt: 'Vaastu Shastra course – spatial harmony and directional balance for homes and offices',
+    image: '/images/vastu.jpg',
     hasImage: true,
     icon: Home
   },
@@ -47,41 +53,41 @@ export const COURSES_15 = [
     id: 'feng-shui',
     title: 'Feng-Shui',
     subtitle: 'Flow of Energy • Balance • Abundance',
-    image: '/images/feng-shui.jpeg',
+    description: 'Harmonize environmental Chi flow and balance Yin-Yang energies to attract peace and abundance.',
+    alt: 'Feng-Shui course – harmonizing Chi energy and five elements in living spaces',
+    image: '/images/Feng Shui.png',
     hasImage: true,
     icon: Sun
-  },
-  {
-    id: 'dowsing',
-    title: 'Dowsing',
-    subtitle: 'Energy Detection • Subtle Vibrations',
-    image: '/images/Dowsing.jpeg',
-    hasImage: true,
-    icon: Compass
   },
 
   // Row 2
   {
+    id: 'dowsing',
+    title: 'Dowsing',
+    subtitle: 'Energy Detection • Subtle Vibrations',
+    description: 'Master pendulum radiesthesia to detect subtle earth energies, geopathic stress, and intuitive guidance.',
+    alt: 'Dowsing course – pendulum radiesthesia and subtle energy detection',
+    image: '/images/Dowsing.png',
+    hasImage: true,
+    icon: Compass
+  },
+  {
     id: 'lama-fera',
     title: 'Lama-Fera',
     subtitle: 'Spiritual Healing • Enlightenment • Transformation',
-    image: '/images/lama-fare.jpeg',
+    description: 'Experience ancient Tibetan Buddhist high-frequency healing to clear negative auras and deep blockages.',
+    alt: 'Lama-Fera course – Tibetan Buddhist high-frequency spiritual healing',
+    image: '/images/Lama Fera.png',
     hasImage: true,
     icon: Award
-  },
-  {
-    id: 'accupressure',
-    title: 'Accupressure',
-    subtitle: 'Healing • Pain Relief • Energy Flow',
-    image: '/images/Accupressure.jpeg',
-    hasImage: true,
-    icon: Activity
   },
   {
     id: 'crystal-therapy',
     title: 'Crystal Therapy',
     subtitle: 'Energy Cleansing • Emotional Healing',
-    image: '/images/crystal-therapy.jpeg',
+    description: 'Harness the natural crystalline vibrations of sacred stones to cleanse chakras and restore emotional balance.',
+    alt: 'Crystal Therapy course – healing gemstones and chakra energy alignment',
+    image: '/images/crystal therapy.png',
     hasImage: true,
     icon: Gem
   },
@@ -89,25 +95,31 @@ export const COURSES_15 = [
     id: 'pyramid',
     title: 'Pyramid',
     subtitle: 'Positivity • Manifestation • Growth',
-    image: '/images/pyramid-therapy.jpeg',
+    description: 'Utilize bio-cosmic pyramid geometry to amplify positive vibrations, relieve stress, and correct Vastu defects.',
+    alt: 'Pyramid Therapy course – sacred geometric energy for positivity and Vastu rectification',
+    image: '/images/pyramid.png',
     hasImage: true,
     icon: Layers
-  },
-  {
-    id: 'numerology',
-    title: 'Numerology',
-    subtitle: 'Decode Numbers • Understand Life • Find Purpose',
-    image: '/images/numerology.jpeg',
-    hasImage: true,
-    icon: Hash
   },
 
   // Row 3
   {
+    id: 'numerology',
+    title: 'Numerology',
+    subtitle: 'Decode Numbers • Understand Life • Find Purpose',
+    description: 'Decode the vibrational power of birth dates and names to uncover life purpose, timing, and auspicious remedies.',
+    alt: 'Numerology course – decoding sacred numbers, birth dates, and life path insights',
+    image: '/images/Numerology.png',
+    hasImage: true,
+    icon: Hash
+  },
+  {
     id: 'astrology',
     title: 'Astrology',
     subtitle: 'Guidance • Self-Discovery • Life Clarity',
-    image: '/images/astrology.jpeg',
+    description: 'Explore Vedic Jyotish natal charts, planetary transits, and practical remedies for career and life clarity.',
+    alt: 'Vedic Astrology course – birth chart analysis, planetary wisdom, and life guidance',
+    image: '/images/Astrology.png',
     hasImage: true,
     icon: Compass
   },
@@ -115,7 +127,9 @@ export const COURSES_15 = [
     id: 'rudraksha',
     title: 'Rudraksha',
     subtitle: 'Spiritual Protection • Focus • Positivity',
-    image: '/images/rudraksha.jpeg',
+    description: 'Learn the science of sacred Mukhi Rudraksha beads for spiritual protection, focus, and planetary harmony.',
+    alt: 'Rudraksha therapy course – sacred Mukhi beads for spiritual protection and focus',
+    image: '/images/Rudraksha.png',
     hasImage: true,
     icon: Shield
   },
@@ -123,35 +137,21 @@ export const COURSES_15 = [
     id: 'pranic-healing',
     title: 'Pranic Healing',
     subtitle: 'Life Energy • Healing • Vitality',
-    image: '/images/pranic-healing.jpeg',
+    description: 'Practice no-touch bio-plasmic energy cleansing and energizing techniques to accelerate physical and emotional recovery.',
+    alt: 'Pranic Healing course – no-touch life energy cleansing and vitality restoration',
+    image: '/images/Pranic Healing.png',
     hasImage: true,
     icon: Droplets
-  },
-  {
-    id: 'gems-with-reiki',
-    title: 'Gems with Reiki',
-    subtitle: 'Combined Healing • Attract Positivity',
-    image: '/images/gems.jpeg',
-    hasImage: true,
-    icon: Gem
-  },
-  {
-    id: 'color-therapy',
-    title: 'Color Therapy',
-    subtitle: 'Heal with Colors • Balance • Enhance Life',
-    image: '/images/color-therapy.jpeg',
-    hasImage: true,
-    icon: Palette
   }
 ];
 
 // Only first 4 courses shown on home page
 const HOME_COURSES = COURSES_15.slice(0, 4);
 
-function CourseCard({ course, onSelectCourse, isSlider = false }) {
+function CourseCard({ course, onSelectCourse, isSlider = false, showDescription = false }) {
   const Icon = course.icon;
   return (
-    <div
+    <article
       onClick={() => onSelectCourse && onSelectCourse(course.id, course.title)}
       style={{
         background: '#ffffff',
@@ -177,7 +177,7 @@ function CourseCard({ course, onSelectCourse, isSlider = false }) {
       {/* Card Top: Image Area */}
       <div
         style={{
-          height: '145px',
+          height: showDescription ? '180px' : '145px',
           width: '100%',
           background: 'linear-gradient(135deg, #fef8f0 0%, #faf1e2 100%)',
           overflow: 'hidden',
@@ -190,7 +190,7 @@ function CourseCard({ course, onSelectCourse, isSlider = false }) {
         {course.hasImage && course.image ? (
           <img
             src={course.image}
-            alt={course.title}
+            alt={course.alt || `${course.title} course – ${course.subtitle}`}
             loading="lazy"
             style={{
               width: '100%',
@@ -221,60 +221,82 @@ function CourseCard({ course, onSelectCourse, isSlider = false }) {
         )}
       </div>
 
-      {/* Card Bottom: Content Row */}
+      {/* Card Bottom: Content Area */}
       <div
         style={{
-          padding: '12px 14px',
+          padding: showDescription ? '16px 18px 18px' : '12px 14px',
           display: 'flex',
-          alignItems: 'center',
+          flexDirection: 'column',
+          flex: 1,
           gap: '10px',
           background: '#ffffff'
         }}
       >
         <div
           style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            background: '#fef2f4',
-            border: '1px solid rgba(210, 4, 45, 0.2)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            color: '#D2042D'
+            gap: '10px'
           }}
         >
-          <Icon size={16} />
+          <div
+            style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              background: '#fef2f4',
+              border: '1px solid rgba(210, 4, 45, 0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              color: '#D2042D'
+            }}
+          >
+            <Icon size={16} />
+          </div>
+
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h4 style={{ margin: '0 0 2px', fontSize: showDescription ? '16px' : '14.5px', fontWeight: 700, color: '#3b0a11', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {course.title}
+            </h4>
+            <p style={{ margin: 0, fontSize: showDescription ? '11.5px' : '10.5px', color: '#8c5360', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {course.subtitle}
+            </p>
+          </div>
+
+          <div
+            style={{
+              width: '24px',
+              height: '24px',
+              borderRadius: '50%',
+              border: '1px solid #d4af37',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              color: '#D2042D',
+              transition: 'all 0.2s'
+            }}
+          >
+            <ArrowRight size={13} />
+          </div>
         </div>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <h4 style={{ margin: '0 0 2px', fontSize: '14.5px', fontWeight: 700, color: '#3b0a11', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {course.title}
-          </h4>
-          <p style={{ margin: 0, fontSize: '10.5px', color: '#8c5360', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {course.subtitle}
+        {showDescription && course.description && (
+          <p
+            style={{
+              margin: '2px 0 0',
+              fontSize: '13px',
+              lineHeight: 1.5,
+              color: '#5c2d38'
+            }}
+          >
+            {course.description}
           </p>
-        </div>
-
-        <div
-          style={{
-            width: '24px',
-            height: '24px',
-            borderRadius: '50%',
-            border: '1px solid #d4af37',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            color: '#D2042D',
-            transition: 'all 0.2s'
-          }}
-        >
-          <ArrowRight size={13} />
-        </div>
+        )}
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -337,12 +359,17 @@ export default function CoursesGrid({ onSelectCourse, onSeeAllCourses, showAll =
             className="courses-grid"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))',
-              gap: '20px'
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 270px), 1fr))',
+              gap: '24px'
             }}
           >
             {COURSES_15.map((course) => (
-              <CourseCard key={course.id} course={course} onSelectCourse={onSelectCourse} />
+              <CourseCard
+                key={course.id}
+                course={course}
+                onSelectCourse={onSelectCourse}
+                showDescription={true}
+              />
             ))}
           </div>
         )}

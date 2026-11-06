@@ -1,269 +1,89 @@
-import React, { useState } from 'react';
-import { ArrowRight, Sparkles, Leaf, Sun } from 'lucide-react';
+import React from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (onSearch) {
-      onSearch(searchValue);
+  const handleExplore = () => {
+    if (onExploreCourses) {
+      onExploreCourses();
+    } else {
+      const el = document.getElementById('courses-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      else if (onSearch) onSearch();
     }
   };
 
   return (
-    <section
-      className="hero-section"
-      style={{
-        position: 'relative',
-        background: 'linear-gradient(180deg, #fffdfa 0%, #fdfbf7 60%, #faf4ea 100%)',
-        paddingTop: '100px',
-        paddingBottom: '50px',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
-        overflow: 'hidden'
-      }}
-    >
-      {/* Soft ambient cosmic glow */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '-120px',
-          right: '5%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(210, 4, 45, 0.08) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 70%)',
-          pointerEvents: 'none'
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-100px',
-          left: '0%',
-          width: '450px',
-          height: '450px',
-          background: 'radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%)',
-          pointerEvents: 'none'
-        }}
-      />
+    <section className="hero-section hero-fullscreen-16x9">
+      {/* Crisp Detail & Lighting SVG Filter */}
+      <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }} aria-hidden="true">
+        <defs>
+          <filter id="hero-crisp-sharpen" colorInterpolationFilters="sRGB">
+            <feConvolveMatrix
+              order="3 3"
+              kernelMatrix="0 -0.22 0 -0.22 1.88 -0.22 0 -0.22 0"
+              preserveAlpha="true"
+            />
+          </filter>
+        </defs>
+      </svg>
 
-      <div className="hm-container">
-        {/* Two-column layout: content left, video on right */}
-        <div className="hero-grid">
-          {/* Left Column: Content */}
-          <div className="hero-content-col">
-            {/* Brand Logo: REIKI 🪷 VAASTU — WORLD — */}
-            <div className="hero-logo-wrap" style={{ marginBottom: '18px', width: '100%', marginTop: '10px' }}>
-              <img
-                src="/logo/logo-text-only.png"
-                alt="Reiki Vaastu World"
-                className="hero-logo-img"
-                style={{
-                  width: '94%',
-                  maxWidth: '520px',
-                  height: 'auto',
-                  display: 'block'
-                }}
-              />
-            </div>
+      {/* 16:9 Full-Screen Video Background with Enhanced Lighting & Sharp Details */}
+      <div className="hero-bg-video-wrap" aria-hidden="true">
+        <video
+          src="/images/main-video.mp4"
+          poster="/images/Meditation.png"
+          preload="metadata"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="hero-bg-video"
+        />
+        {/* Dark Gradient Vignette Overlay */}
+        <div className="hero-bg-vignette" />
+      </div>
 
-            {/* 3. Headline */}
-            <h1
-              className="hero-title"
-              style={{
-                fontFamily: "'Cinzel', 'Playfair Display', Georgia, serif",
-                fontSize: 'clamp(20px, 2.15vw, 26.5px)',
-                fontWeight: 600,
-                lineHeight: 1.34,
-                color: '#5b1515ff',
-                margin: '0 0 24px',
-                width: '94%',
-                maxWidth: '520px',
-                letterSpacing: '-0.01em'
-              }}
-            >
-              Ancient Wisdom for a Healthier,<br className="hero-desktop-br" /> Happier and More Harmonious Life
-            </h1>
-
-            {/* 5. Action Buttons (Explore Our Courses & Book a Consultation) */}
-            <div
-              className="hero-btn-row"
-              style={{
-                width: '94%',
-                maxWidth: '520px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '14px',
-                marginBottom: '34px'
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => {
-                  if (onExploreCourses) onExploreCourses();
-                  else {
-                    const el = document.getElementById('courses-section');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    else if (onSearch) onSearch();
-                  }
-                }}
-                className="btn-primary hero-btn-main"
-                style={{
-                  flex: 1,
-                  padding: '13px 20px',
-                  borderRadius: '50px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  fontSize: '15px',
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                <span>Explore Our Courses</span>
-                <ArrowRight size={17} />
-              </button>
-
-              <button
-                type="button"
-                onClick={onConsultClick}
-                className="hero-btn-secondary"
-                style={{
-                  flex: 1,
-                  background: '#ffffff',
-                  color: '#7d0e15',
-                  fontWeight: 700,
-                  fontSize: '15px',
-                  padding: '13px 20px',
-                  borderRadius: '50px',
-                  border: '1.5px solid #d4af37',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: 'none',
-                  transition: 'all 0.25s ease',
-                  whiteSpace: 'nowrap'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#fef2f4';
-                  e.currentTarget.style.borderColor = '#8B151B';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#ffffff';
-                  e.currentTarget.style.borderColor = '#d4af37';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                Book a Consultation
-              </button>
-            </div>
-
-            {/* 6. Three Feature Pillars (Heal Your Mind, Balance Your Space, Transform Your Life) */}
-            <div className="hero-pillars" style={{ width: '94%', maxWidth: '520px' }}>
-              {/* Pillar 1: Heal Your Mind */}
-              <div className="hero-pillar-item">
-                <div className="hero-pillar-icon">
-                  <img
-                    src="/logo/lotus_pure.png"
-                    alt="Heal Your Mind"
-                    style={{ height: '22px', width: 'auto', objectFit: 'contain' }}
-                  />
-                </div>
-                <div className="hero-pillar-text">
-                  Heal<span className="hero-pillar-break"><br /></span>{' '}
-                  <span className="hero-pillar-sub">Your Mind</span>
-                </div>
-              </div>
-
-              {/* Divider 1 */}
-              <div className="hero-pillar-divider" />
-
-              {/* Pillar 2: Balance Your Space */}
-              <div className="hero-pillar-item">
-                <div className="hero-pillar-icon">
-                  <Leaf size={22} color="#b45309" />
-                </div>
-                <div className="hero-pillar-text">
-                  Balance<span className="hero-pillar-break"><br /></span>{' '}
-                  <span className="hero-pillar-sub">Your Space</span>
-                </div>
-              </div>
-
-              {/* Divider 2 */}
-              <div className="hero-pillar-divider" />
-
-              {/* Pillar 3: Transform Your Life */}
-              <div className="hero-pillar-item">
-                <div className="hero-pillar-icon">
-                  <Sun size={22} color="#b45309" />
-                </div>
-                <div className="hero-pillar-text">
-                  Transform<span className="hero-pillar-break"><br /></span>{' '}
-                  <span className="hero-pillar-sub">Your Life</span>
-                </div>
-              </div>
-            </div>
+      {/* Lower-Third Clean Modern White UI Text & Two Flat Rounded Buttons */}
+      <div className="hm-container hero-lower-third-container">
+        <div className="hero-lower-third-content">
+          {/* Eyebrow Pill */}
+          <div className="hero-modern-badge">
+            <Sparkles size={14} color="#fbbf24" />
+            <span>Reiki &amp; Vaastu World &nbsp;&middot;&nbsp; Training &amp; Treatment Center</span>
           </div>
 
-          {/* Right Column: Main Video (enlarged and aligned) */}
-          <div className="hero-video-col" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-            <div
-              className="hero-video-card"
-              style={{
-                position: 'relative',
-                width: '100%',
-                maxWidth: '640px',
-                borderRadius: '26px',
-                overflow: 'hidden',
-                border: '2.5px solid rgba(212, 175, 55, 0.45)',
-                boxShadow: '0 24px 60px rgba(210, 4, 45, 0.16), 0 6px 24px rgba(180, 83, 9, 0.1)',
-                background: '#4a0e17'
-              }}
-            >
-              <video
-                src="/images/main-video.mp4"
-                poster="/images/meditation.jpeg"
-                preload="metadata"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="hero-main-video"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxHeight: '490px',
-                  objectFit: 'cover',
-                  display: 'block'
-                }}
-              />
+          {/* Clean Modern White Headline */}
+          <h1 className="hero-modern-title">
+            Ancient Wisdom for a Healthier, Happier and More Harmonious Life
+          </h1>
 
-              {/* Decorative Corner Seal Badge */}
-              <div
-                className="hero-center-badge"
-                style={{
-                  position: 'absolute',
-                  bottom: '16px',
-                  left: '16px',
-                  background: 'rgba(59, 10, 17, 0.85)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(212, 175, 55, 0.6)',
-                  borderRadius: '50px',
-                  padding: '6px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  color: '#fffdf9'
-                }}
-              >
-                <Sparkles size={14} color="#fbbf24" className="hero-center-badge-icon" />
-                <span className="hero-center-badge-text" style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  Training &amp; Treatment Center
-                </span>
-              </div>
-            </div>
+          {/* Clean Modern White Subtitle / Pillars */}
+          <p className="hero-modern-subtitle">
+            <span>Heal Your Mind</span>
+            <span className="hero-modern-dot" aria-hidden="true">&bull;</span>
+            <span>Balance Your Space</span>
+            <span className="hero-modern-dot" aria-hidden="true">&bull;</span>
+            <span>Transform Your Life</span>
+          </p>
+
+          {/* Two Flat Rounded Buttons */}
+          <div className="hero-modern-actions">
+            <button
+              type="button"
+              onClick={handleExplore}
+              className="hero-flat-btn hero-flat-btn--primary"
+            >
+              <span>Explore Our Courses</span>
+              <ArrowRight size={17} />
+            </button>
+
+            <button
+              type="button"
+              onClick={onConsultClick}
+              className="hero-flat-btn hero-flat-btn--secondary"
+            >
+              <span>Book a Consultation</span>
+            </button>
           </div>
         </div>
       </div>

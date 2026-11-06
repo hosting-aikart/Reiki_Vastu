@@ -44,15 +44,12 @@ export const COURSES = [
   { key: 'feng-shui', label: 'Feng-Shui' },
   { key: 'dowsing', label: 'Dowsing' },
   { key: 'lama-fera', label: 'Lama-Fera' },
-  { key: 'accupressure', label: 'Accupressure' },
   { key: 'crystal-therapy', label: 'Crystal Therapy' },
   { key: 'pyramid', label: 'Pyramid' },
   { key: 'numerology', label: 'Numerology' },
   { key: 'astrology', label: 'Astrology' },
   { key: 'rudraksha', label: 'Rudraksha' },
-  { key: 'pranic-healing', label: 'Pranic Healing' },
-  { key: 'gems-with-reiki', label: 'Gems with Reiki' },
-  { key: 'color-therapy', label: 'Color Therapy' }
+  { key: 'pranic-healing', label: 'Pranic Healing' }
 ];
 
 /** Experiences selectable in the "Share Your Story" form. */

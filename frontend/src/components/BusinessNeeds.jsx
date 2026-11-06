@@ -1,12 +1,47 @@
 import React from 'react';
-import { Sparkles, Shield, Gem, Layers, Clock } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
-// Only 4 cards instead of 6
-const COMING_SOON_CARDS = [
-  { id: 1, icon: Sparkles, color: '#D2042D' },
-  { id: 2, icon: Gem, color: '#d4af37' },
-  { id: 3, icon: Shield, color: '#7c3aed' },
-  { id: 4, icon: Layers, color: '#D2042D' }
+export const SACRED_PRODUCTS = [
+  {
+    id: 'black-obsidian',
+    title: 'Black Obsidian',
+    subtitle: 'Protection • Grounding • Aura Shield',
+    description: 'Absorbs negative energy, Psychic smog, and emotional stress while grounding root chakra stability.',
+    image: '/Products/Black obsidian.png',
+    alt: 'Energized Black Obsidian crystal bracelet for protection and grounding'
+  },
+  {
+    id: 'clear-quartz',
+    title: 'Clear Quartz',
+    subtitle: 'Master Healer • Clarity • Amplification',
+    description: 'Amplifies healing intentions, clears mental fog, and harmonizes all seven chakras with pure light.',
+    image: '/Products/Clear Quartz.png',
+    alt: 'Energized Clear Quartz crystal bracelet for clarity and chakra healing'
+  },
+  {
+    id: 'green-aventurine',
+    title: 'Green Aventurine',
+    subtitle: 'Prosperity • Abundance • Heart Harmony',
+    description: 'The Stone of Opportunity—attracts luck, financial growth, and soothing emotional balance.',
+    image: '/Products/Green aventurine.png',
+    alt: 'Energized Green Aventurine crystal bracelet for prosperity and abundance'
+  },
+  {
+    id: 'lava-stone',
+    title: 'Lava Stone',
+    subtitle: 'Strength • Courage • Root Stability',
+    description: 'Born from the fiery core of the earth to ignite inner strength, calm anxiety, and anchor vitality.',
+    image: '/Products/Lawa stone.png',
+    alt: 'Energized Lava Stone bracelet for strength, courage, and grounding'
+  },
+  {
+    id: 'selenite',
+    title: 'Selenite',
+    subtitle: 'Aura Cleansing • Peace • Higher Vibration',
+    description: 'Purifies energy fields, cleanses surrounding crystals, and invites serene spiritual awareness.',
+    image: '/Products/selenite.png',
+    alt: 'Energized Selenite crystal bracelet for aura cleansing and peace'
+  }
 ];
 
 export default function BusinessNeeds() {
@@ -36,7 +71,7 @@ export default function BusinessNeeds() {
               marginBottom: '12px'
             }}
           >
-            <Clock size={14} color="#D2042D" />
+            <Sparkles size={14} color="#D2042D" />
             <span
               style={{
                 fontSize: '12px',
@@ -46,7 +81,7 @@ export default function BusinessNeeds() {
                 textTransform: 'uppercase'
               }}
             >
-              SACRED COLLECTION
+              PRANA ENERGIZED COLLECTION
             </span>
           </div>
 
@@ -59,96 +94,138 @@ export default function BusinessNeeds() {
               margin: '0 0 10px'
             }}
           >
-            Our Products
+            Our Sacred Products
           </h2>
-          <p style={{ color: '#5e2732', fontSize: '15px', maxWidth: '620px', margin: '0 auto', lineHeight: 1.6 }}>
-            Consecrated spiritual items and energetic remedies are currently being prepared with traditional Vedic energization.
+          <p style={{ color: '#5e2732', fontSize: '15px', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
+            100% authentic crystal bracelets and spiritual remedies, personally cleansed and energized with Vedic &amp; Reiki rituals.
           </p>
         </div>
 
-        {/* 4 Cards Grid */}
+        {/* 5 Products Grid */}
         <div
           className="products-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
-            gap: '24px',
-            maxWidth: '1080px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 210px), 1fr))',
+            gap: '22px',
+            maxWidth: '1200px',
             margin: '0 auto'
           }}
         >
-          {COMING_SOON_CARDS.map((item) => {
-            const Icon = item.icon;
-
-            return (
+          {SACRED_PRODUCTS.map((item) => (
+            <article
+              key={item.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#ffffff',
+                borderRadius: '22px',
+                border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                overflow: 'hidden',
+                boxShadow: '0 8px 24px rgba(180, 83, 9, 0.08)',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}
+              className="hover:-translate-y-1.5 hover:shadow-lg"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#D2042D';
+                e.currentTarget.style.boxShadow = '0 14px 32px rgba(210, 4, 45, 0.16)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.45)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(180, 83, 9, 0.08)';
+              }}
+            >
+              {/* Product Image */}
               <div
-                key={item.id}
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '36px 20px',
-                  textAlign: 'center',
-                  background: '#ffffff',
-                  borderRadius: '22px',
-                  border: '1.5px solid rgba(212, 175, 55, 0.45)',
-                  boxShadow: '0 8px 24px rgba(180, 83, 9, 0.08)',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-                className="hover:-translate-y-1 hover:shadow-lg"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#D2042D';
-                  e.currentTarget.style.boxShadow = '0 14px 32px rgba(210, 4, 45, 0.16)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.45)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(180, 83, 9, 0.08)';
+                  width: '100%',
+                  aspectRatio: '1 / 1.05',
+                  overflow: 'hidden',
+                  background: '#faf3e8',
+                  position: 'relative'
                 }}
               >
-                <div
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  loading="lazy"
                   style={{
-                    width: '64px',
-                    height: '64px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #fef2f4 0%, #fffbeb 100%)',
-                    border: '1.5px solid #d4af37',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '16px'
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    transition: 'transform 0.5s ease'
                   }}
-                >
-                  <Icon size={30} color={item.color} />
-                </div>
+                />
+              </div>
 
+              {/* Product Content */}
+              <div
+                style={{
+                  padding: '16px 16px 18px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flex: 1,
+                  textAlign: 'center'
+                }}
+              >
                 <h3
-                  className="ff-poppins"
+                  className="ff-redhat"
                   style={{
-                    fontSize: '21px',
+                    fontSize: '17.5px',
                     fontWeight: 800,
-                    color: '#D2042D',
-                    letterSpacing: '0.03em',
-                    margin: '0 0 6px'
+                    color: '#3b0a11',
+                    margin: '0 0 4px'
                   }}
                 >
-                  Coming Soon
+                  {item.title}
                 </h3>
 
-                <span
+                <p
                   style={{
-                    fontSize: '12px',
+                    fontSize: '11.5px',
                     fontWeight: 700,
                     color: '#b45309',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase'
+                    margin: '0 0 8px',
+                    letterSpacing: '0.02em'
                   }}
                 >
-                  ✦ Stay Tuned ✦
-                </span>
+                  {item.subtitle}
+                </p>
+
+                <p
+                  style={{
+                    fontSize: '12.5px',
+                    lineHeight: 1.5,
+                    color: '#5e2732',
+                    margin: '0 0 12px',
+                    flex: 1
+                  }}
+                >
+                  {item.description}
+                </p>
+
+                <div>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      color: '#D2042D',
+                      background: '#fef2f4',
+                      border: '1px solid #fecaca',
+                      padding: '4px 12px',
+                      borderRadius: '50px',
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    ✦ Reiki Energized ✦
+                  </span>
+                </div>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       </div>
     </section>

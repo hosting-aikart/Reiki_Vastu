@@ -227,28 +227,22 @@ export const SEARCH_PLACEHOLDERS = [
 
 export const TESTIMONIALS_DATA = [
   {
-    name: "Chetan Saraf",
-    location: "Amravati, Maharashtra",
-    quote: "We've certainly had a positive experience working with Dr. Naresh Chhabdiya. He delivers the highest quality results, and client satisfaction and spiritual peace is always his primary goal.",
-    role: "Business Owner • Vaastu Client"
+    name: "Prakash D.",
+    location: "Amravati",
+    quote: "After the Vaastu audit of our shop we moved the cash counter and entrance mat. Within months the place simply felt lighter, and so did our accounts.",
+    role: "Commercial Vaastu"
   },
   {
-    name: "Mayur Wankhade",
-    location: "Nagpur, Maharashtra",
-    quote: "Always available to answer any question. Dr. Naresh is deeply knowledgeable about the services provided. The Reiki healing and Vaastu remedies brought rapid peace to our family.",
-    role: "Reiki Master Student"
+    name: "Sneha K.",
+    location: "Dubai, UAE",
+    quote: "I attended the Reiki Level I and II course online from Dubai. The attunement was as powerful as in-person. Calm, patient and deeply knowledgeable teacher.",
+    role: "Reiki Course"
   },
   {
-    name: "Shubham Patil",
-    location: "Maharashtra",
-    quote: "I am thoroughly impressed by the authenticity and depth of wisdom. Dr. Naresh is compassionate, courteous, and accurate. His remedies are simple, practical, and highly effective.",
-    role: "Astrology & Rudraksha Client"
-  },
-  {
-    name: "Neha Pande",
-    location: "Amravati, Maharashtra",
-    quote: "Reiki and Vaastu World provides excellent guidance, genuine and thoughtful insight, and delivers far more than expected. The free meditation and counselling helped hold my life together.",
-    role: "Meditation & Holistic Healing Seeker"
+    name: "Rahul M.",
+    location: "Nagpur",
+    quote: "His reading of my chart was precise about the timing of my job change. Practical remedies, no fear-mongering. That is rare.",
+    role: "Vedic Astrology"
   }
 ];
 
