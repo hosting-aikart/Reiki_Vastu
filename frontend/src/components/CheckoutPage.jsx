@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Loader2, Lock } from 'lucide-react';
+import { findProductById } from '@reiki-vastu/shared/products.js';
 import { createPaymentOrder, getProducts, verifyPayment } from '../api/paymentClient';
 import { formatPaise, generateIdempotencyKey, loadRazorpayCheckout } from '../utils/razorpayCheckout';
 import { cardStyle, linkButtonStyle, primaryButtonStyle } from './paymentStyles';
@@ -11,9 +12,56 @@ const BUSINESS_NAME = 'Reiki & Vaastu World';
 // After these errors the same key can never succeed, so the next click uses a new one
 const NEW_KEY_ERRORS = ['ORDER_CREATION_FAILED', 'PAYMENT_PROVIDER_ERROR', 'IDEMPOTENCY_KEY_REUSED', 'PAYMENT_ALREADY_COMPLETED'];
 
-export default function CheckoutPage({ productId, onBackToProducts, onPaymentSubmitted }) {
-  const [catalog, setCatalog] = useState({ loading: true, error: null, product: null, paymentsEnabled: false });
+const EMPTY_DETAILS = { name: '', phone: '', email: '', line1: '', line2: '', city: '', state: '', pincode: '' };
+
+const FIELDS = [
+  { key: 'name', label: 'Full name', autoComplete: 'name', span: 2 },
+  { key: 'phone', label: 'Mobile number', autoComplete: 'tel', inputMode: 'tel', placeholder: '10-digit mobile' },
+  { key: 'email', label: 'Email', autoComplete: 'email', type: 'email' },
+  { key: 'line1', label: 'House / street address', autoComplete: 'address-line1', span: 2 },
+  { key: 'line2', label: 'Landmark / area (optional)', autoComplete: 'address-line2', span: 2, optional: true },
+  { key: 'city', label: 'City', autoComplete: 'address-level2' },
+  { key: 'state', label: 'State', autoComplete: 'address-level1' },
+  { key: 'pincode', label: 'PIN code', autoComplete: 'postal-code', inputMode: 'numeric', maxLength: 6 }
+];
+
+/** Quick checks for instant feedback. The server validates everything again. */
+function validateDetails(d) {
+  const errors = {};
+  if (d.name.trim().length < 2) errors.name = 'Please enter your full name';
+  if (!/^(\+91|0)?[6-9]\d{9}$/.test(d.phone.trim())) errors.phone = 'Please enter a valid 10-digit mobile number';
+  if (!/^\S+@\S+\.\S+$/.test(d.email.trim())) errors.email = 'Please enter a valid email address';
+  if (d.line1.trim().length < 5) errors.line1 = 'Please enter your house / street address';
+  if (d.city.trim().length < 2) errors.city = 'Please enter your city';
+  if (d.state.trim().length < 2) errors.state = 'Please enter your state';
+  if (!/^[1-9]\d{5}$/.test(d.pincode.trim())) errors.pincode = 'Please enter a valid 6-digit PIN code';
+  return errors;
+}
+
+function toCustomerPayload(d) {
+  return {
+    name: d.name.trim(),
+    phone: d.phone.trim(),
+    email: d.email.trim(),
+    address: { line1: d.line1.trim(), line2: d.line2.trim(), city: d.city.trim(), state: d.state.trim(), pincode: d.pincode.trim() }
+  };
+}
+
+/** Server field names ("customer.address.pincode") -> form field names ("pincode"). */
+function serverFieldErrors(fields) {
+  const errors = {};
+  for (const [path, message] of Object.entries(fields || {})) {
+    const key = path.replace(/^customer\.(address\.)?/, '');
+    if (key in EMPTY_DETAILS) errors[key] = message;
+  }
+  return errors;
+}
+
+export default function CheckoutPage({ productId, initialQuantity = 1, onBack, onPaymentSubmitted }) {
+  const [catalog, setCatalog] = useState({ loading: true, error: null, product: null, paymentsEnabled: false, pricesConfirmed: false });
   const [quantity, setQuantity] = useState(1);
+  const [details, setDetails] = useState(EMPTY_DETAILS);
+  const [fieldErrors, setFieldErrors] = useState({});
   const [phase, setPhase] = useState('idle'); // idle | starting | open | verifying | result
   const [notice, setNotice] = useState(null);
   const [result, setResult] = useState(null);
@@ -23,23 +71,30 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
   const busyRef = useRef(false);
 
   // The current attempt's idempotency key. Kept when the customer closes the
-  // window and pays again, so they resume the same order instead of creating a new one.
+  // window and pays again, so they resume the same order instead of creating a
+  // new one. Any change to quantity or details starts a new attempt.
   const attemptRef = useRef(null);
+
+  const display = findProductById(productId); // image and title for display only
 
   useEffect(() => {
     let active = true;
     getProducts().then((res) => {
       if (!active) return;
       if (!res.success) {
-        setCatalog({ loading: false, error: res.message, product: null, paymentsEnabled: false });
+        setCatalog({ loading: false, error: res.message, product: null, paymentsEnabled: false, pricesConfirmed: false });
         return;
       }
       const product = res.data.products.find((p) => p.id === productId) || null;
+      if (product) {
+        setQuantity(Math.min(Math.max(1, Math.floor(initialQuantity) || 1), product.maxQuantity));
+      }
       setCatalog({
         loading: false,
         error: product ? null : 'This product does not exist.',
         product,
-        paymentsEnabled: res.data.paymentsEnabled
+        paymentsEnabled: res.data.paymentsEnabled,
+        pricesConfirmed: res.data.pricesConfirmed
       });
     });
     // Start downloading Checkout early so clicking Pay feels instant. Failure is handled on click.
@@ -47,9 +102,10 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
     return () => {
       active = false;
     };
-  }, [productId]);
+  }, [productId, initialQuantity]);
 
   const { product } = catalog;
+  const quantityWasCapped = product && initialQuantity > product.maxQuantity;
 
   const changeQuantity = (value) => {
     setQuantity(value);
@@ -57,9 +113,15 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
     setNotice(null);
   };
 
+  const changeDetail = (key, value) => {
+    setDetails((d) => ({ ...d, [key]: value }));
+    setFieldErrors((e) => ({ ...e, [key]: undefined }));
+    attemptRef.current = null;
+  };
+
   const getAttemptKey = () => {
-    if (!attemptRef.current || attemptRef.current.quantity !== quantity) {
-      attemptRef.current = { key: generateIdempotencyKey(), quantity };
+    if (!attemptRef.current) {
+      attemptRef.current = { key: generateIdempotencyKey() };
     }
     return attemptRef.current.key;
   };
@@ -69,7 +131,7 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
     setPhase(nextPhase);
   };
 
-  const openCheckout = (Razorpay, order) => {
+  const openCheckout = (Razorpay, order, customer) => {
     let lastFailure = null;
     let completed = false;
 
@@ -79,8 +141,9 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
       amount: order.amountPaise, // display only: Razorpay charges the order's amount
       currency: order.currency,
       name: BUSINESS_NAME,
-      description: `TEST MODE · ${order.product.name} × ${order.quantity}`,
+      description: `${order.product.name} × ${order.quantity}`,
       notes: { reference: order.reference },
+      prefill: { name: customer.name, email: customer.email, contact: customer.phone },
       theme: { color: '#D2042D' },
 
       // Runs when Razorpay says the payment succeeded. This is a CLAIM made in
@@ -129,8 +192,17 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
     setPhase('open');
   };
 
-  const startPayment = async () => {
+  const startPayment = async (event) => {
+    event.preventDefault();
     if (busyRef.current || !product) return;
+
+    const errors = validateDetails(details);
+    if (Object.keys(errors).length) {
+      setFieldErrors(errors);
+      setNotice({ tone: 'error', text: 'Please check the highlighted delivery details.' });
+      return;
+    }
+
     busyRef.current = true;
     setPhase('starting');
     setNotice(null);
@@ -145,23 +217,35 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
       return;
     }
 
-    const res = await createPaymentOrder({ productId: product.id, quantity, idempotencyKey: getAttemptKey() });
+    const customer = toCustomerPayload(details);
+    const res = await createPaymentOrder({ productId: product.id, quantity, idempotencyKey: getAttemptKey(), customer });
 
     if (!res.success) {
       if (NEW_KEY_ERRORS.includes(res.code)) {
         attemptRef.current = null;
       }
+      const fromServer = serverFieldErrors(res.fields);
+      setFieldErrors(fromServer);
+      // Errors for anything that isn't a form box (quantity, the whole address, ...)
+      // would otherwise be invisible, so list them in the notice.
+      const otherErrors = Object.entries(res.fields || {})
+        .filter(([path]) => !(path.replace(/^customer\.(address\.)?/, '') in fromServer))
+        .map(([, message]) => message);
       const message =
         res.code === 'ORDER_IN_PROGRESS'
           ? 'Your payment is still being prepared. Please wait a moment and try again.'
-          : res.fields?.quantity || res.message;
+          : otherErrors.length
+            ? otherErrors.join(' ')
+            : Object.keys(fromServer).length
+              ? 'Please check the highlighted delivery details.'
+              : res.message;
       setNotice({ tone: 'error', text: message });
       release('idle');
       return;
     }
 
     try {
-      openCheckout(Razorpay, res.data);
+      openCheckout(Razorpay, res.data, customer);
     } catch {
       setNotice({ tone: 'error', text: 'The payment window could not be opened. Please try again.' });
       release('idle');
@@ -173,18 +257,20 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
     setPhase('idle');
   };
 
+  const busy = phase !== 'idle';
+
   return (
-    <div style={{ paddingTop: '110px', paddingBottom: '70px', minHeight: '100vh', background: '#fdfbf7' }}>
-      <div className="hm-container" style={{ maxWidth: '640px', margin: '0 auto' }}>
-        <button onClick={onBackToProducts} style={linkButtonStyle} disabled={phase === 'open' || phase === 'starting' || phase === 'verifying'}>
-          <ArrowLeft size={16} /> Back to products
+    <div style={{ paddingTop: '110px', paddingBottom: '70px', minHeight: '100vh', background: '#faf5ee' }}>
+      <div className="hm-container" style={{ maxWidth: '720px', margin: '0 auto' }}>
+        <button onClick={onBack} style={linkButtonStyle} disabled={phase === 'open' || phase === 'starting' || phase === 'verifying'}>
+          <ArrowLeft size={16} /> Back to product
         </button>
 
         <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 800, color: '#3b0a11', margin: '12px 0 20px' }}>
           Checkout
         </h1>
 
-        <TestModeBanner />
+        <TestModeBanner pricesConfirmed={catalog.pricesConfirmed} />
 
         {catalog.loading && (
           <p style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#5e2732' }}>
@@ -195,16 +281,28 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
         {catalog.error && <p style={{ color: '#b91c1c' }}>{catalog.error}</p>}
 
         {phase === 'result' && result && (
-          <PaymentResult variant="FAILED" payment={result} onRetry={retry} onBackToProducts={onBackToProducts} />
+          <PaymentResult variant="FAILED" payment={result} onRetry={retry} onBackToProducts={onBack} />
         )}
 
         {product && phase !== 'result' && (
-          <div style={cardStyle}>
-            <h2 style={{ fontSize: '19px', fontWeight: 800, color: '#3b0a11', margin: '0 0 4px' }}>{product.name}</h2>
-            <p style={{ fontSize: '14px', color: '#5e2732', margin: '0 0 20px' }}>{product.description}</p>
+          <form onSubmit={startPayment} noValidate style={cardStyle}>
+            {/* ── Order summary ── */}
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
+              {display?.image && (
+                <img
+                  src={display.image}
+                  alt={display.alt || product.name}
+                  style={{ width: '84px', height: '84px', objectFit: 'cover', borderRadius: '12px', border: '1px solid #f1e5c4', flexShrink: 0 }}
+                />
+              )}
+              <div>
+                <h2 style={{ fontSize: '19px', fontWeight: 800, color: '#3b0a11', margin: '0 0 4px' }}>{product.name}</h2>
+                <p style={{ fontSize: '14px', color: '#5e2732', margin: 0 }}>{product.description}</p>
+              </div>
+            </div>
 
-            <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 20px', fontSize: '15px' }}>
-              <dt style={{ color: '#475569' }}>Unit price (dummy)</dt>
+            <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 8px', fontSize: '15px' }}>
+              <dt style={{ color: '#475569' }}>Price</dt>
               <dd style={{ margin: 0, fontWeight: 600 }}>{formatPaise(product.unitPricePaise)}</dd>
 
               <dt style={{ color: '#475569' }}>
@@ -215,7 +313,7 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
                   id="checkout-quantity"
                   value={quantity}
                   onChange={(e) => changeQuantity(Number(e.target.value))}
-                  disabled={phase !== 'idle'}
+                  disabled={busy}
                   style={{ padding: '6px 10px', borderRadius: '8px', border: '1.5px solid #d4af37', fontSize: '15px' }}
                 >
                   {Array.from({ length: product.maxQuantity }, (_, i) => i + 1).map((n) => (
@@ -229,6 +327,43 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
                 {formatPaise(product.unitPricePaise * quantity)}
               </dd>
             </dl>
+            {quantityWasCapped && (
+              <p style={{ fontSize: '13px', color: '#92400e', margin: '0 0 8px' }}>
+                A maximum of {product.maxQuantity} can be bought in one order.
+              </p>
+            )}
+
+            {/* ── Delivery details ── */}
+            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px 14px', marginBottom: '20px' }}>
+              {FIELDS.map((field) => (
+                <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '13px', fontWeight: 600, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
+                  {field.label}
+                  <input
+                    name={field.key}
+                    type={field.type || 'text'}
+                    value={details[field.key]}
+                    onChange={(e) => changeDetail(field.key, e.target.value)}
+                    autoComplete={field.autoComplete}
+                    inputMode={field.inputMode}
+                    maxLength={field.maxLength}
+                    placeholder={field.placeholder}
+                    disabled={busy}
+                    aria-invalid={Boolean(fieldErrors[field.key])}
+                    style={{
+                      padding: '10px 12px',
+                      borderRadius: '10px',
+                      border: `1.5px solid ${fieldErrors[field.key] ? '#dc2626' : '#e7d7b5'}`,
+                      fontSize: '15px',
+                      fontWeight: 400,
+                      color: '#1e293b',
+                      background: '#ffffff'
+                    }}
+                  />
+                  {fieldErrors[field.key] && <span style={{ color: '#b91c1c', fontWeight: 500 }}>{fieldErrors[field.key]}</span>}
+                </label>
+              ))}
+            </div>
 
             {notice && (
               <p
@@ -249,6 +384,7 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
                   <>
                     {' '}
                     <button
+                      type="button"
                       onClick={() => onPaymentSubmitted(notice.statusToken)}
                       style={{ background: 'none', border: 'none', padding: 0, color: '#1d4ed8', fontWeight: 700, textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}
                     >
@@ -261,12 +397,12 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
 
             {catalog.paymentsEnabled && product.available ? (
               <button
-                onClick={startPayment}
-                disabled={phase !== 'idle'}
-                style={{ ...primaryButtonStyle, cursor: phase === 'idle' ? 'pointer' : 'wait', opacity: phase === 'idle' ? 1 : 0.7 }}
+                type="submit"
+                disabled={busy}
+                style={{ ...primaryButtonStyle, cursor: busy ? 'wait' : 'pointer', opacity: busy ? 0.7 : 1 }}
               >
                 {phase === 'idle' ? (
-                  <><Lock size={16} /> Pay {formatPaise(product.unitPricePaise * quantity)} (test)</>
+                  <><Lock size={16} /> Pay {formatPaise(product.unitPricePaise * quantity)}</>
                 ) : (
                   <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> {phase === 'open' ? 'Payment window open...' : phase === 'verifying' ? 'Confirming payment...' : 'Preparing payment...'}</>
                 )}
@@ -278,9 +414,10 @@ export default function CheckoutPage({ productId, onBackToProducts, onPaymentSub
             )}
 
             <p style={{ fontSize: '12px', color: '#64748b', margin: '14px 0 0', textAlign: 'center' }}>
-              Payment details are entered in Razorpay's secure window and never reach this website.
+              Card and UPI details are entered in Razorpay's secure window and never reach this website.
+              Your delivery details are used only to deliver this order.
             </p>
-          </div>
+          </form>
         )}
       </div>
     </div>

@@ -3972,19 +3972,19 @@ a.hm-cta-btn:hover,
   color: #855b16;
 }
 
-/* 6. Subtitle in White with Golden Bullets */
+/* 6. Subtitle in Golden with Golden Bullets */
 .th-hero-subtitle--golden {
   font-family: var(--font-cormorant) !important;
   font-size: clamp(17.5px, 1.55vw, 22px) !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
-  color: #d4af37 !important;
+  color: #855b16 !important;
   margin: 0 0 22px !important;
   text-shadow: none;
 }
 
 .th-golden-dot {
-  color: var(--c-gold, #d4af37);
+  color: #855b16;
   font-size: 16px;
 }
 
@@ -4489,11 +4489,11 @@ a.hm-cta-btn:hover,
   background: none !important;
   -webkit-background-clip: border-box !important;
   background-clip: border-box !important;
-  -webkit-text-fill-color: #855b16 !important;
-  color: #855b16 !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
   font-weight: 700 !important;
   paint-order: stroke fill;
-  -webkit-text-stroke: 0.45px #855b16;
+  -webkit-text-stroke: 0.45px #ffffff;
   filter: none !important;
   text-shadow: none !important;
 }
@@ -4501,9 +4501,9 @@ a.hm-cta-btn:hover,
 .th-bolder-preview .th-hero-subtitle--golden {
   font-weight: 700 !important;
   font-size: clamp(18.5px, 1.65vw, 23px) !important;
-  color: #ffffff !important;
+  color: #855b16 !important;
   paint-order: stroke fill;
-  -webkit-text-stroke: 0.3px #ffffff;
+  -webkit-text-stroke: 0.3px #855b16;
   text-shadow: none !important;
 }
 

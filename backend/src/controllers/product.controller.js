@@ -1,5 +1,5 @@
 import { isPaymentConfigured, isPaymentTestMode } from '../config/env.js';
-import { CURRENCY, PRODUCTS } from '../config/products.js';
+import { CURRENCY, PRICES_CONFIRMED, PRODUCTS } from '../config/products.js';
 
 export function listProducts(req, res) {
   const products = PRODUCTS.map((product) => ({
@@ -17,7 +17,8 @@ export function listProducts(req, res) {
     success: true,
     data: {
       products,
-      paymentsEnabled: isPaymentConfigured() && isPaymentTestMode()
+      paymentsEnabled: isPaymentConfigured() && isPaymentTestMode(),
+      pricesConfirmed: PRICES_CONFIRMED
     }
   });
 }

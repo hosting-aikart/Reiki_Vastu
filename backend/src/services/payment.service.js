@@ -81,8 +81,13 @@ function toCheckoutResponse(payment) {
  * Answers a repeated request: the same key must give the same order, so a
  * double click or network retry cannot create a second payable order.
  */
-function resolveRepeatedRequest(existing, productId, quantity) {
-  if (existing.product.id !== productId || existing.quantity !== quantity) {
+function sameCustomer(stored, submitted) {
+  const fields = (c) => [c?.name, c?.phone, c?.email, c?.address?.line1, c?.address?.line2 || '', c?.address?.city, c?.address?.state, c?.address?.pincode];
+  return JSON.stringify(fields(stored)) === JSON.stringify(fields(submitted));
+}
+
+function resolveRepeatedRequest(existing, { productId, quantity, customer }) {
+  if (existing.product.id !== productId || existing.quantity !== quantity || !sameCustomer(existing.customer, customer)) {
     throw new PaymentError(409, 'IDEMPOTENCY_KEY_REUSED', 'This checkout was already started with different details.');
   }
 
@@ -137,14 +142,14 @@ async function markOrderFailed(payment, razorpayError) {
  *
  * Returns { payment, created }. `created` is false for a repeated request.
  */
-export async function createPaymentOrder({ productId, quantity, idempotencyKey }) {
+export async function createPaymentOrder({ productId, quantity, idempotencyKey, customer }) {
   assertPaymentsAvailable();
 
   const { product, amountPaise } = priceOrder(productId, quantity);
 
   const existing = await Payment.findOne({ idempotencyKey });
   if (existing) {
-    return { payment: resolveRepeatedRequest(existing, productId, quantity), created: false };
+    return { payment: resolveRepeatedRequest(existing, { productId, quantity, customer }), created: false };
   }
 
   const payment = await saveNewPayment({
@@ -159,12 +164,13 @@ export async function createPaymentOrder({ productId, quantity, idempotencyKey }
     },
     quantity,
     amountPaise,
-    currency: CURRENCY
+    currency: CURRENCY,
+    customer
   });
 
   if (!payment) {
     const winner = await Payment.findOne({ idempotencyKey });
-    return { payment: resolveRepeatedRequest(winner, productId, quantity), created: false };
+    return { payment: resolveRepeatedRequest(winner, { productId, quantity, customer }), created: false };
   }
 
   let order;

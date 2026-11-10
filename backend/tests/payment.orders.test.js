@@ -5,14 +5,21 @@ import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import env from '../src/config/env.js';
 import app from '../src/app.js';
-import { findProduct } from '../src/config/products.js';
+import { findProduct, PRODUCTS } from '../src/config/products.js';
+import { PRODUCTS as SHARED_PRODUCTS } from '@reiki-vastu/shared/products.js';
 import Payment, { ALLOWED_TRANSITIONS, PAYMENT_STATUS } from '../src/models/Payment.js';
 import { paymentOrderRateLimiter } from '../src/middleware/rateLimiters.js';
 import { createRazorpayOrder, setTestRazorpayClient } from '../src/services/razorpay.service.js';
 
 const FAKE_KEY_ID = 'rzp_test_fakeKeyId';
 const FAKE_KEY_SECRET = 'fake_key_secret_never_exposed';
-const PRODUCT_A = 'placeholder-product-a';
+const PRODUCT_A = 'black-obsidian';
+const CUSTOMER = {
+  name: 'Asha Patil',
+  phone: '9822012345',
+  email: 'asha@example.com',
+  address: { line1: '12 Walcut Compound, Camp Road', line2: '', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
+};
 
 describe('Payment order creation', () => {
   let mongod;
@@ -33,6 +40,7 @@ describe('Payment order creation', () => {
     productId: PRODUCT_A,
     quantity: 2,
     idempotencyKey: crypto.randomUUID(),
+    customer: CUSTOMER,
     ...overrides
   });
 
@@ -83,14 +91,24 @@ describe('Payment order creation', () => {
   });
 
   describe('Catalog', () => {
-    test('lists placeholder products and reports payments as enabled', async () => {
+    test('lists the real products with the shared prices and reports payments as enabled', async () => {
       const res = await fetch(`${baseUrl}/api/products`);
       const { data } = await res.json();
 
       assert.equal(res.status, 200);
       assert.equal(data.paymentsEnabled, true);
-      assert.ok(data.products.length > 0);
-      assert.ok(data.products.every((product) => product.isPlaceholder === true));
+      assert.equal(data.pricesConfirmed, false); // provisional until the business confirms
+      assert.deepEqual(
+        data.products.map((p) => [p.id, p.unitPricePaise]),
+        SHARED_PRODUCTS.map((p) => [p.id, p.pricePaise])
+      );
+      assert.ok(data.products.every((product) => product.isPlaceholder === false));
+    });
+
+    test('every catalog price is whole paise of at least ₹1', () => {
+      for (const product of PRODUCTS) {
+        assert.ok(Number.isInteger(product.unitPricePaise) && product.unitPricePaise >= 100, product.id);
+      }
     });
 
     test('reports payments as disabled for a non-test key', async () => {
@@ -124,11 +142,11 @@ describe('Payment order creation', () => {
     });
 
     test('sends Razorpay the amount in paise with our reference as the receipt', async () => {
-      const res = await post(orderBody({ productId: 'placeholder-product-b', quantity: 2 }));
+      const res = await post(orderBody({ productId: 'lava-stone', quantity: 2 }));
       const { data } = await res.json();
 
       assert.equal(razorpayCalls.length, 1);
-      assert.equal(razorpayCalls[0].amount, 50100); // ₹250.50 × 2, never a decimal
+      assert.equal(razorpayCalls[0].amount, 199800); // ₹999 × 2 in paise, never a decimal
       assert.equal(razorpayCalls[0].currency, 'INR');
       assert.equal(razorpayCalls[0].receipt, data.reference);
     });
@@ -168,7 +186,11 @@ describe('Payment order creation', () => {
     });
 
     test('rejects an unavailable product', async () => {
-      const res = await post(orderBody({ productId: 'placeholder-product-c', quantity: 1 }));
+      const product = findProduct('selenite');
+      product.available = false;
+      const res = await post(orderBody({ productId: 'selenite', quantity: 1 })).finally(() => {
+        product.available = true;
+      });
       const body = await res.json();
 
       assert.equal(res.status, 409);
@@ -223,6 +245,74 @@ describe('Payment order creation', () => {
       assert.equal(razorpayCalls[0].currency, 'INR');
       assert.equal(data.amountPaise, unitPrice);
       assert.equal(data.status, PAYMENT_STATUS.PENDING);
+    });
+  });
+
+  describe('Delivery details', () => {
+    test('are stored with the payment', async () => {
+      const res = await post(orderBody());
+      const { data } = await res.json();
+      const record = await Payment.findOne({ reference: data.reference }).lean();
+
+      assert.equal(res.status, 201);
+      assert.equal(record.customer.name, CUSTOMER.name);
+      assert.equal(record.customer.phone, CUSTOMER.phone);
+      assert.equal(record.customer.email, CUSTOMER.email);
+      assert.deepEqual(record.customer.address, CUSTOMER.address);
+    });
+
+    test('are never sent to Razorpay or returned to the browser', async () => {
+      const res = await post(orderBody());
+      const text = await res.text();
+      const sentToRazorpay = JSON.stringify(razorpayCalls[0]);
+
+      for (const value of [CUSTOMER.name, CUSTOMER.phone, CUSTOMER.email, CUSTOMER.address.line1, CUSTOMER.address.pincode]) {
+        assert.ok(!text.includes(value), `response must not include ${value}`);
+        assert.ok(!sentToRazorpay.includes(value), `Razorpay must not receive ${value}`);
+      }
+    });
+
+    test('are required', async () => {
+      const res = await post(orderBody({ customer: undefined }));
+      const body = await res.json();
+
+      assert.equal(res.status, 422);
+      assert.ok(body.error.fields.customer);
+      assert.equal(razorpayCalls.length, 0);
+    });
+
+    const invalid = [
+      ['name', { name: 'A' }],
+      ['phone', { phone: '12345' }],
+      ['email', { email: 'not-an-email' }],
+      ['address.line1', { address: { ...CUSTOMER.address, line1: '' } }],
+      ['address.city', { address: { ...CUSTOMER.address, city: '' } }],
+      ['address.state', { address: { ...CUSTOMER.address, state: '' } }],
+      ['address.pincode', { address: { ...CUSTOMER.address, pincode: '04460' } }]
+    ];
+    for (const [field, change] of invalid) {
+      test(`reject an invalid ${field} with a field-level error`, async () => {
+        const res = await post(orderBody({ customer: { ...CUSTOMER, ...change } }));
+        const body = await res.json();
+
+        assert.equal(res.status, 422);
+        assert.ok(body.error.fields[`customer.${field}`], JSON.stringify(body.error.fields));
+        assert.equal(razorpayCalls.length, 0);
+      });
+    }
+
+    test('changing the address under the same key is refused, not silently ignored', async () => {
+      const key = crypto.randomUUID();
+
+      await post(orderBody({ idempotencyKey: key }));
+      const res = await post(
+        orderBody({ idempotencyKey: key, customer: { ...CUSTOMER, address: { ...CUSTOMER.address, city: 'Nagpur' } } })
+      );
+      const body = await res.json();
+
+      assert.equal(res.status, 409);
+      assert.equal(body.error.code, 'IDEMPOTENCY_KEY_REUSED');
+      assert.equal(razorpayCalls.length, 1);
     });
   });
 
@@ -437,14 +527,25 @@ describe('Payment order creation', () => {
   });
 
   describe('Rate limiting', () => {
-    test('blocks excessive attempts from one client', async () => {
+    test('blocks excessive valid attempts from one client', async () => {
       const responses = [];
       for (let i = 0; i < 21; i += 1) {
-        responses.push(await post({}));
+        responses.push(await post(orderBody()));
       }
 
-      assert.equal(responses[19].status, 422);
+      assert.equal(responses[19].status, 201);
       assert.equal(responses[20].status, 429);
+      assert.equal(razorpayCalls.length, 20); // the 21st never reached Razorpay
+    });
+
+    test('invalid forms do not use up the limit', async () => {
+      for (let i = 0; i < 25; i += 1) {
+        const res = await post(orderBody({ customer: { ...CUSTOMER, address: { ...CUSTOMER.address, pincode: 'bad' } } }));
+        assert.equal(res.status, 422);
+      }
+
+      const valid = await post(orderBody());
+      assert.equal(valid.status, 201);
     });
   });
 
@@ -453,9 +554,10 @@ describe('Payment order creation', () => {
       reference: `RVP-TEST-${crypto.randomUUID()}`.slice(0, 40),
       statusToken: crypto.randomUUID(),
       idempotencyKey: crypto.randomUUID(),
-      product: { id: PRODUCT_A, name: 'Test', unitPricePaise: 10000, isPlaceholder: true },
+      product: { id: PRODUCT_A, name: 'Test', unitPricePaise: 10000, isPlaceholder: false },
       quantity: 1,
       amountPaise: 10000,
+      customer: CUSTOMER,
       ...overrides
     });
 

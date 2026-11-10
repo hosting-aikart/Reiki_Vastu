@@ -2,9 +2,10 @@ import React from 'react';
 import { FlaskConical } from 'lucide-react';
 
 /**
- * Shown on every page of the placeholder checkout so nobody mistakes it for a real shop.
+ * Shown on the checkout and payment status pages while payments run in
+ * Razorpay Test Mode, so nobody mistakes a test for a real purchase.
  */
-export default function TestModeBanner() {
+export default function TestModeBanner({ pricesConfirmed = false }) {
   return (
     <div
       role="note"
@@ -26,8 +27,8 @@ export default function TestModeBanner() {
       <style>{'@keyframes spin { to { transform: rotate(360deg); } }'}</style>
       <FlaskConical size={20} style={{ flexShrink: 0, marginTop: '2px' }} />
       <div>
-        <strong>Razorpay Test Mode: development preview.</strong> These products and prices are
-        placeholders, not real offerings. No real money is charged; use Razorpay test card details only.
+        <strong>Test Mode: no real money is charged.</strong> Use Razorpay test card or UPI details only.
+        {!pricesConfirmed && ' Prices shown are provisional.'}
       </div>
     </div>
   );

@@ -105,8 +105,23 @@ const paymentSchema = new mongoose.Schema(
       required: { type: Boolean, default: false },
       reason: { type: String, default: null }
     },
-    // Copied from Razorpay's payment data. Card numbers, CVVs and UPI PINs are never stored.
+    // Entered by the customer before paying, so the order can be delivered.
+    // Visible to administrators only: never returned by public endpoints or sent to Razorpay.
     customer: {
+      name: { type: String, required: true, trim: true, maxlength: 80 },
+      phone: { type: String, required: true, trim: true, maxlength: 15 },
+      email: { type: String, required: true, trim: true, lowercase: true, maxlength: 120 },
+      address: {
+        line1: { type: String, required: true, trim: true, maxlength: 200 },
+        line2: { type: String, trim: true, maxlength: 200, default: '' },
+        city: { type: String, required: true, trim: true, maxlength: 80 },
+        state: { type: String, required: true, trim: true, maxlength: 80 },
+        pincode: { type: String, required: true, trim: true, match: /^[1-9]\d{5}$/ }
+      }
+    },
+    // What the customer used inside Razorpay's window (may differ from the above).
+    // Card numbers, CVVs and UPI PINs are never stored.
+    razorpayCustomer: {
       email: { type: String, default: null },
       contact: { type: String, default: null }
     },

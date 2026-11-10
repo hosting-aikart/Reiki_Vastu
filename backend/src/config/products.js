@@ -1,19 +1,18 @@
 // ─────────────────────────────────────────────────────────────
-// DEVELOPMENT PLACEHOLDER CATALOG. NOT REAL PRODUCTS OR PRICES.
+// The backend's view of the product catalog.
 //
-// These entries exist only to exercise the Razorpay Test Mode flow.
-// To go live with real products, replace this array with information
-// supplied by the business.
+// Products and prices come from shared/products.js, the same file the
+// frontend displays. This module is the only place the server looks up a
+// price: the browser sends a product id and quantity, never an amount.
 //
-// This file is the only authority on price. The browser sends a
-// product id and quantity; the amount is always calculated here.
-//
-// Money is stored as integer paise (₹100.00 = 10000), which avoids
-// decimal rounding errors and matches what Razorpay expects.
-// Keep `id` stable once payment records refer to it.
+// ⚠️ Prices there are PROVISIONAL until the business confirms them
+// (PRICES_CONFIRMED). Payments are Test Mode only in any case.
 // ─────────────────────────────────────────────────────────────
 
-export const CURRENCY = 'INR';
+import { PRODUCTS as SHARED_PRODUCTS, PRODUCT_CURRENCY, PRICES_CONFIRMED } from '@reiki-vastu/shared/products.js';
+
+export const CURRENCY = PRODUCT_CURRENCY;
+export { PRICES_CONFIRMED };
 
 /** Razorpay rejects orders below INR 1.00. */
 export const MIN_ORDER_PAISE = 100;
@@ -21,44 +20,27 @@ export const MIN_ORDER_PAISE = 100;
 /** Upper limit for any product, applied by request validation. */
 export const MAX_QUANTITY = 10;
 
-export const PRODUCTS = [
-  {
-    id: 'placeholder-product-a',
-    name: '[TEST] Placeholder Product A',
-    description: 'Development placeholder. Not a real product.',
-    unitPricePaise: 10000, // ₹100.00 dummy price
-    maxQuantity: 5,
-    available: true,
-    isPlaceholder: true
-  },
-  {
-    id: 'placeholder-product-b',
-    name: '[TEST] Placeholder Product B',
-    description: 'Development placeholder. Not a real product.',
-    unitPricePaise: 25050, // ₹250.50 dummy price (shows paise handling)
-    maxQuantity: 3,
-    available: true,
-    isPlaceholder: true
-  },
-  {
-    id: 'placeholder-product-c',
-    name: '[TEST] Placeholder Product C (Unavailable)',
-    description: 'Development placeholder used to test the unavailable state.',
-    unitPricePaise: 5000, // ₹50.00 dummy price
-    maxQuantity: 5,
-    available: false,
-    isPlaceholder: true
-  }
-];
+export const PRODUCTS = SHARED_PRODUCTS.map((product) => ({
+  id: product.id,
+  name: product.title,
+  description: product.subtitle,
+  unitPricePaise: product.pricePaise,
+  maxQuantity: product.maxQuantity,
+  available: product.available,
+  isPlaceholder: false
+}));
 
 // A bad catalog edit should stop the server, not reach a customer.
 for (const product of PRODUCTS) {
   if (!Number.isInteger(product.unitPricePaise) || product.unitPricePaise < MIN_ORDER_PAISE) {
-    throw new Error(`Invalid unitPricePaise for product "${product.id}": must be an integer of at least ${MIN_ORDER_PAISE}.`);
+    throw new Error(`Invalid pricePaise for product "${product.id}": must be an integer of at least ${MIN_ORDER_PAISE}.`);
   }
   if (!Number.isInteger(product.maxQuantity) || product.maxQuantity < 1 || product.maxQuantity > MAX_QUANTITY) {
     throw new Error(`Invalid maxQuantity for product "${product.id}": must be an integer from 1 to ${MAX_QUANTITY}.`);
   }
+}
+if (new Set(PRODUCTS.map((product) => product.id)).size !== PRODUCTS.length) {
+  throw new Error('Product ids in shared/products.js must be unique.');
 }
 
 export function findProduct(productId) {
@@ -67,6 +49,7 @@ export function findProduct(productId) {
 
 export default {
   CURRENCY,
+  PRICES_CONFIRMED,
   MIN_ORDER_PAISE,
   MAX_QUANTITY,
   PRODUCTS,

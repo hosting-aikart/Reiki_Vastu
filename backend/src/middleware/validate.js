@@ -5,7 +5,9 @@ export function validate(schema) {
     if (!result.success) {
       const fieldErrors = {};
       for (const issue of result.error.issues) {
-        const fieldName = issue.path[0] || 'general';
+        // Nested fields are reported as e.g. "customer.address.pincode";
+        // for flat forms this is just the field name, as before.
+        const fieldName = issue.path.join('.') || 'general';
         if (!fieldErrors[fieldName]) {
           fieldErrors[fieldName] = issue.message;
         }

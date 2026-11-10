@@ -10,7 +10,9 @@ import {
 
 const router = Router();
 
-router.post('/orders', paymentOrderRateLimiter, validate(createOrderSchema), createOrder);
+// Validation runs BEFORE the rate limit here: a rejected form never reaches
+// Razorpay, so correcting typos must not use up the customer's attempts.
+router.post('/orders', validate(createOrderSchema), paymentOrderRateLimiter, createOrder);
 router.post('/verify', paymentVerifyRateLimiter, validate(verifyPaymentSchema), verifyPayment);
 router.get('/:statusToken/status', paymentStatusRateLimiter, getStatus);
 

@@ -2,7 +2,7 @@ import app from './app.js';
 import env, { isEmailConfigured } from './config/env.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import logger from './utils/logger.js';
-
+// Server entry point
 let server;
 
 async function bootstrap() {

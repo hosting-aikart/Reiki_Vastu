@@ -383,7 +383,7 @@ export default function ProductDetailPage({
                   }}
                 >
                   <ShoppingBag size={15} />
-                  <span>Order Now</span>
+                  <span>Buy Now</span>
                 </button>
 
                 <button

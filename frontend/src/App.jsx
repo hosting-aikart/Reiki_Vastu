@@ -15,41 +15,42 @@ import Footer from './components/Footer';
 import FloatingWidgets from './components/FloatingWidgets';
 import Modals from './components/Modals';
 import AdminDashboard from './components/admin/AdminDashboard';
-import TestProductsPage from './components/TestProductsPage';
 import CheckoutPage from './components/CheckoutPage';
 import PaymentStatusPage from './components/PaymentStatusPage';
 
-// Razorpay Test Mode pages. They have real URLs so a refresh lands on the same page,
-// and live under /test-checkout so they never clash with the real product pages.
-// /test-checkout          -> placeholder products
-// /test-checkout/<id>     -> checkout for one placeholder product
-// /payments/<token>       -> status of one payment
-function paymentRouteFromPath(pathname) {
+// Payment pages have real URLs so a refresh lands on the same page.
+// /checkout/<productId>?quantity=2  -> delivery details + payment for one product
+// /payments/<token>                 -> status of one payment
+function paymentRouteFromPath(pathname, search = '') {
   const status = pathname.match(/^\/payments\/([^/]+)\/?$/);
   if (status) {
-    return { view: 'payment-status', testProductId: null, statusToken: decodeURIComponent(status[1]) };
+    return { view: 'payment-status', checkoutProductId: null, checkoutQuantity: 1, statusToken: decodeURIComponent(status[1]) };
   }
-  const checkout = pathname.match(/^\/test-checkout(?:\/([^/]+))?\/?$/);
+  const checkout = pathname.match(/^\/checkout\/([^/]+)\/?$/);
   if (!checkout) return null;
-  return checkout[1]
-    ? { view: 'test-checkout', testProductId: decodeURIComponent(checkout[1]), statusToken: null }
-    : { view: 'test-products', testProductId: null, statusToken: null };
+  const quantity = Number.parseInt(new URLSearchParams(search).get('quantity'), 10);
+  return {
+    view: 'checkout',
+    checkoutProductId: decodeURIComponent(checkout[1]),
+    checkoutQuantity: Number.isFinite(quantity) && quantity > 0 ? quantity : 1,
+    statusToken: null
+  };
 }
 
-const PAYMENT_VIEWS = ['test-products', 'test-checkout', 'payment-status'];
+const PAYMENT_VIEWS = ['checkout', 'payment-status'];
+const currentPaymentRoute = () => paymentRouteFromPath(window.location.pathname, window.location.search);
 
 export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) return 'admin';
-    return paymentRouteFromPath(path)?.view || 'home';
+    return currentPaymentRoute()?.view || 'home';
   });
-  const [testProductId, setTestProductId] = useState(
-    () => paymentRouteFromPath(window.location.pathname)?.testProductId || null
-  );
-  const [statusToken, setStatusToken] = useState(
-    () => paymentRouteFromPath(window.location.pathname)?.statusToken || null
-  );
+  const [checkout, setCheckout] = useState(() => {
+    const route = currentPaymentRoute();
+    return { productId: route?.checkoutProductId || null, quantity: route?.checkoutQuantity || 1 };
+  });
+  const [statusToken, setStatusToken] = useState(() => currentPaymentRoute()?.statusToken || null);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [previousView, setPreviousView] = useState('home');
@@ -59,11 +60,11 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      const paymentRoute = paymentRouteFromPath(path);
+      const paymentRoute = currentPaymentRoute();
       if (path.startsWith('/admin')) {
         setCurrentView('admin');
       } else if (paymentRoute) {
-        setTestProductId(paymentRoute.testProductId);
+        setCheckout({ productId: paymentRoute.checkoutProductId, quantity: paymentRoute.checkoutQuantity });
         setStatusToken(paymentRoute.statusToken);
         setCurrentView(paymentRoute.view);
       } else {
@@ -143,10 +144,18 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navigateToTestCheckout = (productId = null) => {
-    window.history.pushState({}, '', productId ? `/test-checkout/${encodeURIComponent(productId)}` : '/test-checkout');
-    setTestProductId(productId);
-    setCurrentView(productId ? 'test-checkout' : 'test-products');
+  const navigateToCheckout = (productId, quantity = 1) => {
+    window.history.pushState({}, '', `/checkout/${encodeURIComponent(productId)}?quantity=${quantity}`);
+    setCheckout({ productId, quantity });
+    setCurrentView('checkout');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // From the checkout or status page back to the product pages (which have no URL of their own)
+  const leavePaymentPage = (view, productId = null) => {
+    window.history.pushState({}, '', '/');
+    if (productId) setSelectedProductId(productId);
+    setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -185,26 +194,21 @@ export default function App() {
 
       {/* Main Content Pages */}
       <main style={{ flex: 1 }}>
-        {currentView === 'test-products' ? (
-          /* ── Razorpay Test Mode: placeholder products ── */
-          <TestProductsPage
-            onSelectProduct={(productId) => navigateToTestCheckout(productId)}
-            onBack={() => changeView('home')}
-          />
-        ) : currentView === 'test-checkout' && testProductId ? (
-          /* ── Razorpay Test Mode: checkout for one placeholder product ── */
+        {currentView === 'checkout' && checkout.productId ? (
+          /* ── Checkout: delivery details + Razorpay payment ── */
           <CheckoutPage
-            key={testProductId}
-            productId={testProductId}
-            onBackToProducts={() => navigateToTestCheckout()}
+            key={`${checkout.productId}:${checkout.quantity}`}
+            productId={checkout.productId}
+            initialQuantity={checkout.quantity}
+            onBack={() => leavePaymentPage('product-detail', checkout.productId)}
             onPaymentSubmitted={navigateToPaymentStatus}
           />
         ) : currentView === 'payment-status' && statusToken ? (
-          /* ── Razorpay Test Mode: payment status (refresh-safe) ── */
+          /* ── Payment status (refresh-safe) ── */
           <PaymentStatusPage
             key={statusToken}
             statusToken={statusToken}
-            onBackToProducts={() => navigateToTestCheckout()}
+            onBackToProducts={() => leavePaymentPage('products')}
           />
         ) : currentView === 'course-detail' && selectedCourseId ? (
           /* ── Dedicated Single Course Detail Page ── */
@@ -236,11 +240,7 @@ export default function App() {
             productId={selectedProductId}
             onBack={handleBackFromProductDetail}
             onSelectProduct={handleSelectProduct}
-            onOrderProduct={(item) =>
-              openModal('contact', {
-                productTitle: `${item.title} (${item.price}${item.quantity > 1 ? ` × ${item.quantity}` : ''})`
-              })
-            }
+            onOrderProduct={(item) => navigateToCheckout(item.id, item.quantity)}
             onConsultClick={(prod) =>
               openModal(
                 'meeting',

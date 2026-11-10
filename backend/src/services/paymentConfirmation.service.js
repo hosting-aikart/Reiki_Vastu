@@ -91,7 +91,7 @@ export async function applyRazorpayPayments(payment, attempts, confirmedVia) {
       razorpayPaymentId: captured.id,
       paidAt: new Date(),
       confirmedVia,
-      customer: { email: captured.email || null, contact: captured.contact || null }
+      razorpayCustomer: { email: captured.email || null, contact: captured.contact || null }
     });
     if (updated) {
       logger.info(`Payment confirmed PAID: ${updated.reference} [${captured.id}] via ${confirmedVia}`);

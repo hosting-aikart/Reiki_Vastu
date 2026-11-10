@@ -40,10 +40,14 @@ export function getProducts() {
   return request('/api/products');
 }
 
-export function createPaymentOrder({ productId, quantity, idempotencyKey }) {
+/**
+ * Starts a payment. `customer` holds the delivery details:
+ * { name, phone, email, address: { line1, line2, city, state, pincode } }.
+ */
+export function createPaymentOrder({ productId, quantity, idempotencyKey, customer }) {
   return request('/api/payments/orders', {
     method: 'POST',
-    body: JSON.stringify({ productId, quantity, idempotencyKey })
+    body: JSON.stringify({ productId, quantity, idempotencyKey, customer })
   });
 }
 

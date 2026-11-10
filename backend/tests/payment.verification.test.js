@@ -19,6 +19,12 @@ const FAKE_KEY_SECRET = 'fake_key_secret_never_exposed';
 const ORDER_ID = 'order_TestOrder001';
 const PAYMENT_ID = 'pay_TestPayment001';
 const AMOUNT = 20000;
+const CUSTOMER = {
+  name: 'Asha Patil',
+  phone: '9822012345',
+  email: 'asha@example.com',
+  address: { line1: '12 Walcut Compound, Camp Road', line2: '', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
+};
 
 const sign = (orderId, paymentId, secret = FAKE_KEY_SECRET) => computeSignature(`${orderId}|${paymentId}`, secret);
 
@@ -91,12 +97,13 @@ describe('Payment verification and status', () => {
       reference: `RVP-TEST-${crypto.randomBytes(4).toString('hex')}`,
       statusToken: crypto.randomUUID(),
       idempotencyKey: crypto.randomUUID(),
-      product: { id: 'placeholder-product-a', name: '[TEST] Placeholder Product A', unitPricePaise: 10000, isPlaceholder: true },
+      product: { id: 'black-obsidian', name: 'Black Obsidian', unitPricePaise: 10000, isPlaceholder: false },
       quantity: 2,
       amountPaise: AMOUNT,
       status: PAYMENT_STATUS.PENDING,
       razorpayOrderId: ORDER_ID,
       orderCreatedAt: new Date(),
+      customer: CUSTOMER,
       ...overrides
     });
 
@@ -169,7 +176,7 @@ describe('Payment verification and status', () => {
       assert.equal(stored.confirmedVia, 'checkout');
       assert.equal(stored.verification.signatureVerified, true);
       assert.equal(stored.verification.paymentId, PAYMENT_ID);
-      assert.equal(stored.customer.email, 'buyer@example.com');
+      assert.equal(stored.razorpayCustomer.email, 'buyer@example.com');
       assert.ok(stored.paidAt);
     });
 
@@ -410,7 +417,11 @@ describe('Payment verification and status', () => {
 
       const text = await (await status(payment.statusToken)).text();
 
-      for (const hidden of ['buyer@example.com', '+919999999999', ORDER_ID, PAYMENT_ID, 'idempotencyKey', '_id', 'statusToken']) {
+      const hiddenValues = [
+        'buyer@example.com', '+919999999999', ORDER_ID, PAYMENT_ID, 'idempotencyKey', '_id', 'statusToken',
+        CUSTOMER.name, CUSTOMER.phone, CUSTOMER.email, CUSTOMER.address.line1, CUSTOMER.address.pincode
+      ];
+      for (const hidden of hiddenValues) {
         assert.ok(!text.includes(hidden), `response must not include ${hidden}`);
       }
     });
