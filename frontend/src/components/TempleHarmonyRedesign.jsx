@@ -162,6 +162,7 @@ export default function TempleHarmonyRedesign({
 }) {
   const rootRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isGlassCardPreview] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -228,63 +229,209 @@ export default function TempleHarmonyRedesign({
           <div className="th-hero-golden-overlay" />
         </div>
 
-        <div className="hm-container hero-lower-third-container">
-          <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
-            {/* Top Golden Lotus Ornamental Divider */}
-            <div className="th-golden-lotus-divider" aria-hidden="true">
-              <span className="th-golden-line th-golden-line--left" />
-              <img
-                src="/logo/lotus_pure.png"
-                alt=""
-                className="th-golden-lotus-icon"
-              />
-              <span className="th-golden-line th-golden-line--right" />
+        <div
+          className={`hm-container hero-lower-third-container ${
+            isGlassCardPreview ? 'hero-lower-third-container--glass-preview' : ''
+          }`}
+        >
+          {isGlassCardPreview ? (
+            /* ── PREVIEW MODE: Frosted Glass Hero Card (Matching Uploaded Reference) ── */
+            <div className="th-hero-glass-card th-reveal th-visible">
+              {/* Top Warm-Ivory Lotus Emblem */}
+              <div className="th-glass-top-lotus-wrap" aria-hidden="true">
+                <img
+                  src="/logo/lotus_pure.png"
+                  alt=""
+                  className="th-glass-top-lotus"
+                />
+              </div>
+
+              {/* 3-Line Warm Ivory Serif Heading */}
+              <h1 className="th-glass-title">
+                <span>Ancient Wisdom for a</span>
+                <span>Healthier, Happier &amp;</span>
+                <span>More Harmonious Life</span>
+              </h1>
+
+              {/* 3-Column Icon + Label Row with Vertical Dividers */}
+              <div className="th-glass-pillars">
+                <div className="th-glass-pillar">
+                  <img
+                    src="/logo/lotus_pure.png"
+                    alt=""
+                    aria-hidden="true"
+                    className="th-glass-pillar-lotus"
+                  />
+                  <span className="th-glass-pillar-label">Heal Your Mind</span>
+                </div>
+
+                <span className="th-glass-pillar-divider" aria-hidden="true" />
+
+                <div className="th-glass-pillar">
+                  <svg
+                    width="34"
+                    height="32"
+                    viewBox="0 0 36 34"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className="th-glass-pillar-svg"
+                  >
+                    <path
+                      d="M3 16.5L18 3.5L33 16.5"
+                      stroke="#e8be6a"
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M25.5 7V10L29 13V7H25.5Z"
+                      stroke="#e8be6a"
+                      strokeWidth="1.7"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M7.5 14.5V30H28.5V14.5"
+                      stroke="#e8be6a"
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M14.5 30V20.5H19.5V30"
+                      stroke="#e8be6a"
+                      strokeWidth="1.8"
+                      strokeLinejoin="round"
+                    />
+                    <rect
+                      x="22"
+                      y="19.5"
+                      width="3.5"
+                      height="3.5"
+                      stroke="#e8be6a"
+                      strokeWidth="1.6"
+                    />
+                  </svg>
+                  <span className="th-glass-pillar-label">Balance Your Space</span>
+                </div>
+
+                <span className="th-glass-pillar-divider" aria-hidden="true" />
+
+                <div className="th-glass-pillar">
+                  <svg
+                    width="34"
+                    height="32"
+                    viewBox="0 0 34 34"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    className="th-glass-pillar-svg"
+                  >
+                    <circle
+                      cx="17"
+                      cy="17"
+                      r="13.5"
+                      stroke="#f5dec0"
+                      strokeWidth="1.85"
+                    />
+                    <path
+                      d="M11.5 19.5C10.5 15.2 13.4 11 17.8 10.6C20 10.4 22 11.4 23.2 13"
+                      stroke="#f5dec0"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M22.5 14.5C23.5 18.8 20.6 23 16.2 23.4C14 23.6 12 22.6 10.8 21"
+                      stroke="#f5dec0"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="17" cy="17" r="2.2" fill="#f5dec0" />
+                  </svg>
+                  <span className="th-glass-pillar-label">Transform Your Life</span>
+                </div>
+              </div>
+
+              {/* Action Buttons Row */}
+              <div className="th-glass-actions">
+                <button
+                  type="button"
+                  onClick={onExploreCourses}
+                  className="th-btn th-glass-btn-primary"
+                >
+                  <span>Explore Our Courses</span>
+                  <ArrowRight size={16} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={onConsultClick}
+                  className="th-btn th-glass-btn-secondary"
+                >
+                  <span>Book a Consultation</span>
+                </button>
+              </div>
             </div>
+          ) : (
+            /* ── CURRENT HERO MODE (Unchanged) ── */
+            <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
+              {/* Top Golden Lotus Ornamental Divider */}
+              <div className="th-golden-lotus-divider" aria-hidden="true">
+                <span className="th-golden-line th-golden-line--left" />
+                <img
+                  src="/logo/lotus_pure.png"
+                  alt=""
+                  className="th-golden-lotus-icon"
+                />
+                <span className="th-golden-line th-golden-line--right" />
+              </div>
 
-            <h1 className="th-hero-title th-hero-title--golden">
-              <span className="th-hero-line-crimson">
-                Ancient Wisdom for a Healthier,
-              </span>
-              <span className="th-hero-line-gold">
-                Happier &amp; More Harmonious Life
-              </span>
-            </h1>
+              <h1 className="th-hero-title th-hero-title--golden">
+                <span className="th-hero-line-crimson">
+                  Ancient Wisdom for a Healthier,
+                </span>
+                <span className="th-hero-line-gold">
+                  Happier &amp; More Harmonious Life
+                </span>
+              </h1>
 
-            {/* Center Diamond Ornamental Rule */}
-            <div className="th-golden-diamond-rule" aria-hidden="true">
-              <span className="th-golden-diamond-line th-golden-diamond-line--left" />
-              <span className="th-golden-diamond-gem">◆</span>
-              <span className="th-golden-diamond-line th-golden-diamond-line--right" />
+              {/* Center Diamond Ornamental Rule */}
+              <div className="th-golden-diamond-rule" aria-hidden="true">
+                <span className="th-golden-diamond-line th-golden-diamond-line--left" />
+                <span className="th-golden-diamond-gem">◆</span>
+                <span className="th-golden-diamond-line th-golden-diamond-line--right" />
+              </div>
+
+              <p className="th-hero-subtitle th-hero-subtitle--golden">
+                <span>Heal Your Mind</span>
+                <span className="th-golden-dot" aria-hidden="true">&bull;</span>
+                <span>Balance Your Space</span>
+                <span className="th-golden-dot" aria-hidden="true">&bull;</span>
+                <span>Transform Your Life</span>
+              </p>
+
+              <div className="hero-modern-actions">
+                <button
+                  type="button"
+                  onClick={onExploreCourses}
+                  className="th-btn th-btn--golden-primary"
+                >
+                  <span>Explore Our Courses</span>
+                  <ArrowRight size={16} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={onConsultClick}
+                  className="th-btn th-btn--golden-secondary"
+                >
+                  <span>Book a Consultation</span>
+                </button>
+              </div>
             </div>
-
-            <p className="th-hero-subtitle th-hero-subtitle--golden">
-              <span>Heal Your Mind</span>
-              <span className="th-golden-dot" aria-hidden="true">&bull;</span>
-              <span>Balance Your Space</span>
-              <span className="th-golden-dot" aria-hidden="true">&bull;</span>
-              <span>Transform Your Life</span>
-            </p>
-
-            <div className="hero-modern-actions">
-              <button
-                type="button"
-                onClick={onExploreCourses}
-                className="th-btn th-btn--golden-primary"
-              >
-                <span>Explore Our Courses</span>
-                <ArrowRight size={16} />
-              </button>
-
-              <button
-                type="button"
-                onClick={onConsultClick}
-                className="th-btn th-btn--golden-secondary"
-              >
-                <span>Book a Consultation</span>
-              </button>
-            </div>
-          </div>
+          )}
         </div>
+
       </section>
 
       {/* ═════ 2. ABOUT DR. NARESH CHHABDIYA (Temple Ivory Aesthetic) ═════ */}

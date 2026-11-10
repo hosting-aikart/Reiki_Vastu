@@ -137,6 +137,12 @@ export default function App() {
             onEnroll={(title) => {
               openModal('enroll', { courseId: selectedCourseId, title });
             }}
+            onConsult={(title) => {
+              openModal('meeting', {
+                courseTitle: title,
+                note: `I would like to book a consultation regarding ${title}.`
+              });
+            }}
             onContact={(title) => {
               openModal('contact', { courseTitle: title });
             }}
