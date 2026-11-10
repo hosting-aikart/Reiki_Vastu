@@ -1,5 +1,6 @@
-import React from 'react';
-import { Sparkles, Shield, Gem, Layers, Clock } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Sparkles, Shield, Gem, Layers, Clock, FlaskConical } from 'lucide-react';
+import { getProducts } from '../api/paymentClient';
 
 // Only 4 cards instead of 6
 const COMING_SOON_CARDS = [
@@ -9,7 +10,22 @@ const COMING_SOON_CARDS = [
   { id: 4, icon: Layers, color: '#D2042D' }
 ];
 
-export default function BusinessNeeds() {
+export default function BusinessNeeds({ onOpenTestCheckout }) {
+  // Development preview link: only in `npm run dev` builds, and only when the
+  // backend has Test Mode payments enabled. Production builds never show it.
+  const [showTestCheckout, setShowTestCheckout] = useState(false);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV || !onOpenTestCheckout) return;
+    let active = true;
+    getProducts().then((res) => {
+      if (active && res.success && res.data.paymentsEnabled) setShowTestCheckout(true);
+    });
+    return () => {
+      active = false;
+    };
+  }, [onOpenTestCheckout]);
+
   return (
     <section
       id="products-section"
@@ -151,6 +167,29 @@ export default function BusinessNeeds() {
             );
           })}
         </div>
+
+        {import.meta.env.DEV && showTestCheckout && (
+          <div style={{ textAlign: 'center', marginTop: '28px' }}>
+            <button
+              onClick={onOpenTestCheckout}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: '#fffbeb',
+                border: '1.5px dashed #d97706',
+                color: '#78350f',
+                borderRadius: '50px',
+                padding: '9px 18px',
+                fontSize: '13px',
+                fontWeight: 700,
+                cursor: 'pointer'
+              }}
+            >
+              <FlaskConical size={15} /> Developer preview: Razorpay Test Mode checkout
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -15,6 +15,9 @@ const envSchema = z.object({
   MONGODB_URI: z.string().default('mongodb://localhost:27017/reiki_vastu'),
   DB_NAME: z.string().default('reiki_vastu'),
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
+  // Number of reverse proxies in front of the app (Render: 1). Lets req.ip be the
+  // visitor's real address. Leave 0 when not behind a proxy, or visitors could fake it.
+  TRUST_PROXY: z.coerce.number().int().min(0).max(5).default(0),
   JWT_SECRET: z.string().default('reiki-vastu-secret-jwt-key-for-dev-change-in-production-2026'),
   COOKIE_SECRET: z.string().default('reiki-vastu-cookie-secret-key-2026'),
   ADMIN_NOTIFICATION_EMAIL: z.string().email().optional().or(z.literal('')).transform(v => v || undefined),
@@ -28,7 +31,11 @@ const envSchema = z.object({
     .transform((val) => val === true || val === 'true' || val === '1'),
   SMTP_USER: z.string().optional().or(z.literal('')).transform(v => v || undefined),
   SMTP_PASS: z.string().optional().or(z.literal('')).transform(v => v || undefined),
-  SMTP_FROM: z.string().default('"Reiki & Vaastu World" <notifications@reikivaastuworld.com>')
+  SMTP_FROM: z.string().default('"Reiki & Vaastu World" <notifications@reikivaastuworld.com>'),
+  // Optional: the site runs without these; only payment operations are refused.
+  RAZORPAY_KEY_ID: z.string().optional().or(z.literal('')).transform(v => v || undefined),
+  RAZORPAY_KEY_SECRET: z.string().optional().or(z.literal('')).transform(v => v || undefined),
+  RAZORPAY_WEBHOOK_SECRET: z.string().optional().or(z.literal('')).transform(v => v || undefined)
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -55,6 +62,21 @@ export function isEmailConfigured() {
     return false;
   }
   return true;
+}
+
+/**
+ * Checks whether the Razorpay API credentials are present.
+ */
+export function isPaymentConfigured() {
+  return Boolean(env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET);
+}
+
+/**
+ * Checks for a Razorpay Test Mode key. This project must never process live
+ * payments, so anything without the test prefix is refused.
+ */
+export function isPaymentTestMode() {
+  return Boolean(env.RAZORPAY_KEY_ID?.startsWith('rzp_test_'));
 }
 
 export default env;

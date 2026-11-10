@@ -7,6 +7,17 @@ const COOKIE_NAME = 'admin_token';
 const TOKEN_EXPIRY = '7d';
 const COOKIE_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+// In production the frontend and API may be on different sites (e.g. two
+// onrender.com subdomains), and browsers only send a cookie to a different
+// site if it is SameSite=None (which in turn requires Secure / HTTPS).
+// State-changing admin requests send JSON, which triggers a CORS preflight,
+// so origins outside CORS_ORIGIN still cannot use the cookie.
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: env.NODE_ENV === 'production',
+  sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax'
+};
+
 export async function login(req, res, next) {
   try {
     const { email, password } = req.body;
@@ -57,9 +68,7 @@ export async function login(req, res, next) {
 
     // Set secure httpOnly cookie
     res.cookie(COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      ...COOKIE_OPTIONS,
       maxAge: COOKIE_MAX_AGE
     });
 
@@ -89,11 +98,7 @@ export async function login(req, res, next) {
 }
 
 export async function logout(req, res) {
-  res.clearCookie(COOKIE_NAME, {
-    httpOnly: true,
-    secure: env.NODE_ENV === 'production',
-    sameSite: 'lax'
-  });
+  res.clearCookie(COOKIE_NAME, COOKIE_OPTIONS); // must match the options used to set it
 
   res.status(200).json({
     success: true,
