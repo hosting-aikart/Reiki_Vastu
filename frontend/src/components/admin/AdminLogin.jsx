@@ -37,11 +37,12 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
     <div
       style={{
         minHeight: '100vh',
+        minHeight: '100dvh',
         background: 'linear-gradient(135deg, #12141a 0%, #1a1e28 50%, #0f1117 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '24px',
+        padding: 'clamp(14px, 4vw, 24px)',
         fontFamily: 'inherit'
       }}
     >
@@ -54,7 +55,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
           borderRadius: '16px',
           border: '1px solid rgba(197, 155, 39, 0.25)',
           boxShadow: '0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(197, 155, 39, 0.08)',
-          padding: '40px 32px'
+          padding: 'clamp(28px, 6vw, 40px) clamp(16px, 5vw, 32px)'
         }}
       >
         {/* Top Header */}

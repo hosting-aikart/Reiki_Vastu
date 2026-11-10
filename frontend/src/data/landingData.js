@@ -228,27 +228,27 @@ export const SEARCH_PLACEHOLDERS = [
 export const TESTIMONIALS_DATA = [
   {
     name: "Chetan Saraf",
-    location: "Amravati, Maharashtra",
-    quote: "We've certainly had a positive experience working with Dr. Naresh Chhabdiya. He delivers the highest quality results, and client satisfaction and spiritual peace is always his primary goal.",
-    role: "Business Owner • Vaastu Client"
+    location: "",
+    quote: "We've certainly had a positive experience working with Dr. Naresh Chhabdiya. He delivers the highest quality result. and client satisfaction is his major goal.",
+    role: ""
   },
   {
     name: "Mayur Wankhade",
-    location: "Nagpur, Maharashtra",
-    quote: "Always available to answer any question. Dr. Naresh is deeply knowledgeable about the services provided. The Reiki healing and Vaastu remedies brought rapid peace to our family.",
-    role: "Reiki Master Student"
+    location: "",
+    quote: "Always available to answer any question. very knowledgeable about services they provide. would recommend to anyone.",
+    role: ""
   },
   {
     name: "Shubham Patil",
-    location: "Maharashtra",
-    quote: "I am thoroughly impressed by the authenticity and depth of wisdom. Dr. Naresh is compassionate, courteous, and accurate. His remedies are simple, practical, and highly effective.",
-    role: "Astrology & Rudraksha Client"
+    location: "",
+    quote: "I am really impressed by the quality of services I received from webmedia. They were right on schedule, charged reasonable prices, were professional and courteous in dealings, and delivered well before time.",
+    role: ""
   },
   {
     name: "Neha Pande",
-    location: "Amravati, Maharashtra",
-    quote: "Reiki and Vaastu World provides excellent guidance, genuine and thoughtful insight, and delivers far more than expected. The free meditation and counselling helped hold my life together.",
-    role: "Meditation & Holistic Healing Seeker"
+    location: "",
+    quote: "Great results. Enjoyable to work with, and most importantly, enabled us to have the presence on the astro we needed to conduct business in today's market. Reiki and Vastu world provides excellent customer service, genuine and thoughtful insight, and delivers more than expected.",
+    role: ""
   }
 ];
 

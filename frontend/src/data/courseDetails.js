@@ -59,16 +59,9 @@ export const COURSE_DETAILS = {
         columns: [
           {
             numbered: [
-              'Helps reduce daily stress and tension',
-              'Cultivates inner calm and emotional balance',
-              'Encourages a healthier, more peaceful life'
-            ]
-          },
-          {
-            numbered: [
-              'Supports better quality of life',
-              'Connected with mind\u2013body well-being',
-              'May help reduce healthcare costs'
+              'Alleviates daily stress and mental tension to help you maintain composure through busy schedules.',
+              'Cultivates deep inner calm and emotional balance for a more grounded everyday experience.',
+              'Encourages a healthier, more peaceful lifestyle that supports long-term personal harmony.'
             ]
           }
         ]
@@ -104,7 +97,7 @@ export const COURSE_DETAILS = {
     },
     philosophy: {
       title: 'Reiki Philosophy & The Five Principles',
-      text: 'Reiki is guided by universal love and five sacred principles: Just for today, do not be angry; do not worry; be grateful; work with diligence; be kind to all living beings. It flows intelligently to where it is needed most to support natural healing.'
+      text: 'Reiki is guided by universal love and five sacred principles: Just for today, do not be angry; do not worry; be grateful; work with diligence; be kind to all living beings. It flows intelligently to where it is needed most to support healing.'
     },
     benefits: {
       title: 'Benefits of Reiki',
@@ -204,13 +197,13 @@ export const COURSE_DETAILS = {
     ],
     journey: {
       title: 'Begin Your Vaastu Journey',
-      text: 'Learn practical Vaastu principles and create spaces that bring harmony, prosperity and positive energy.'
+      text: 'Learn practical Vaastu principles and create spaces that bring harmony, prosperity and positivity.'
     }
   },
 
   /* ───────────────────────── FENG SHUI ───────────────────────── */
   'feng-shui': {
-    eyebrow: ['Harmony', 'Balance', 'Positive Energy'],
+    eyebrow: ['Harmony', 'Balance', 'Positivity'],
     title: 'Feng Shui',
     tagline: 'The Art of Harmonious Living',
     intro: 'Create balanced spaces by aligning with natural energies to attract peace, prosperity and well-being.',
@@ -221,7 +214,7 @@ export const COURSE_DETAILS = {
     },
     use: {
       title: 'How Can I Use Feng Shui?',
-      text: 'Feng Shui principles can be applied in homes, offices and other spaces by arranging furniture, objects and elements to improve the flow of positive energy (chi) and create a supportive environment.',
+      text: 'Feng Shui principles can be applied in homes, offices and other spaces by arranging furniture, objects and elements to improve the flow of positivity (chi) and create a supportive environment.',
       cta: 'Learn How Feng Shui Works',
       items: [
         { label: 'Homes & Residences', icon: 'Home' },
@@ -241,7 +234,7 @@ export const COURSE_DETAILS = {
         { label: 'Harmonious Spaces', icon: 'Flower2' },
         { label: 'Better Relationships', icon: 'Heart' },
         { label: 'Attracts Prosperity', icon: 'Coins' },
-        { label: 'Positive Energy Flow', icon: 'Leaf' },
+        { label: 'Positivity Flow', icon: 'Leaf' },
         { label: 'Health & Well-being', icon: 'PersonStanding' },
         { label: 'Enhanced Focus & Productivity', icon: 'Sun' },
         { label: 'Balance of Yin and Yang', icon: 'Shield' },
@@ -252,7 +245,7 @@ export const COURSE_DETAILS = {
       {
         type: 'elements',
         title: 'The Five Elements',
-        subtitle: 'Feng Shui works with the five elements of nature. Balancing these elements helps maintain positive energy in a space.',
+        subtitle: 'Feng Shui works with the five elements of nature. Balancing these elements helps maintain positivity in a space.',
         items: [
           { name: 'Wood', desc: 'Growth & Vitality', icon: 'TreeDeciduous' },
           { name: 'Water', desc: 'Flow & Abundance', icon: 'Droplet' },
@@ -264,7 +257,7 @@ export const COURSE_DETAILS = {
     ],
     journey: {
       title: 'Begin Your Feng Shui Journey',
-      text: 'Learn practical Feng Shui techniques and create spaces that bring harmony, balance and positive energy.'
+      text: 'Learn practical Feng Shui techniques and create spaces that bring harmony, balance and positivity.'
     }
   },
 
@@ -404,77 +397,6 @@ export const COURSE_DETAILS = {
     }
   },
 
-  /* ───────────────────────── ACUPRESSURE ───────────────────────── */
-  accupressure: {
-    eyebrow: ['Natural Healing', 'Balance', 'Vitality'],
-    title: 'Acupressure',
-    tagline: 'Healing Touch for a Healthier Life',
-    intro: 'Discover the power of acupressure \u2014 an ancient healing art that stimulates the body\u2019s natural self-curative abilities and supports overall well-being.',
-    what: {
-      title: 'What is Acupressure?',
-      icon: 'Hand',
-      text: 'Acupressure is an ancient healing art that uses finger pressure on specific points to stimulate the body\u2019s natural healing abilities. Developed in Asia over 5,000 years ago, it is a safe and effective technique for promoting physical, mental and emotional well-being.'
-    },
-    use: {
-      title: 'How Can I Use Acupressure?',
-      text: 'Acupressure can be easily incorporated into daily life. By applying gentle to firm pressure on key points, you can relieve stress, reduce pain, improve circulation and support preventive health care.',
-      cta: 'Learn How Acupressure Works',
-      items: [
-        { label: 'Self Care', icon: 'Flower2' },
-        { label: 'Stress Relief', icon: 'Heart' },
-        { label: 'Pain Management', icon: 'Shield' },
-        { label: 'Better Immunity', icon: 'Leaf' }
-      ]
-    },
-    philosophy: {
-      title: 'Healing Energy Work',
-      text: 'Acupressure points have high electrical conductivity and help channel the body\u2019s natural healing energy (Qi/Chi). By stimulating these points, energy flow through the meridians is improved, which supports the body\u2019s systems and overall well-being.'
-    },
-    benefits: {
-      title: 'Benefits of Acupressure',
-      subtitle: 'Acupressure offers many benefits for the body, mind and emotions.',
-      items: [
-        { label: 'Relieves Stress & Tension', icon: 'Flower2' },
-        { label: 'Reduces Pain', icon: 'Heart' },
-        { label: 'Improves Circulation', icon: 'TrendingUp' },
-        { label: 'Boosts Immunity', icon: 'Shield' },
-        { label: 'Supports Emotional Well-being', icon: 'PersonStanding' },
-        { label: 'Helps in Detoxification', icon: 'Leaf' },
-        { label: 'Enhances Vitality & Energy', icon: 'Sun' },
-        { label: 'Supports Overall Health', icon: 'Users' }
-      ]
-    },
-    extras: [
-      {
-        type: 'columns',
-        columns: [
-          {
-            title: 'Key Applications',
-            checklist: [
-              'Stress & Tension Relief',
-              'Emotional Balance & Anxiety',
-              'Body Detoxification',
-              'Immunity & Vitality Boost'
-            ]
-          },
-          {
-            title: 'Topics Covered in the Course',
-            numbered: [
-              'History & Philosophy',
-              'Point Pressure Techniques',
-              'Pain, Cold & Flu Relief',
-              'Safety & Best Practices'
-            ]
-          }
-        ]
-      }
-    ],
-    journey: {
-      title: 'Begin Your Acupressure Journey',
-      text: 'Learn simple and effective acupressure techniques for a healthier, more balanced life.'
-    }
-  },
-
   /* ───────────────────────── CRYSTAL THERAPY ───────────────────────── */
   'crystal-therapy': {
     eyebrow: ['Balance', 'Heal', 'Energize', 'Transform'],
@@ -508,37 +430,13 @@ export const COURSE_DETAILS = {
         { label: 'Promotes Relaxation', icon: 'Flower2' },
         { label: 'Reduces Stress & Anxiety', icon: 'Heart' },
         { label: 'Supports Emotional Balance', icon: 'Leaf' },
-        { label: 'Enhances Positive Energy', icon: 'Sun' },
+        { label: 'Enhances Positivity', icon: 'Sun' },
         { label: 'Supports Spiritual Growth', icon: 'PersonStanding' },
         { label: 'Strengthens Overall Well-being', icon: 'Shield' },
         { label: 'Brings Harmony', icon: 'Sparkles' },
         { label: 'Complements Daily Life', icon: 'TrendingUp' }
       ]
     },
-    extras: [
-      {
-        type: 'columns',
-        heading: 'A Gentle & Natural Approach',
-        columns: [
-          {
-            checklist: [
-              'Centuries-old tradition of crystal energy',
-              'Promotes inner peace, deep calm & harmony',
-              'Nurtures self-awareness and mindful living',
-              'Gentle support for overall vitality'
-            ]
-          },
-          {
-            checklist: [
-              'Ancient healing tradition with a rich history',
-              'A holistic approach for body, mind and spirit',
-              'A relaxing and non-invasive practice',
-              'Helps create a harmonious and positive environment'
-            ]
-          }
-        ]
-      }
-    ],
     journey: {
       title: 'Begin Your Crystal Therapy Journey',
       text: 'Learn how crystals can support your healing, bring balance and add more positivity to your life.'
@@ -547,10 +445,10 @@ export const COURSE_DETAILS = {
 
   /* ───────────────────────── PYRAMID ───────────────────────── */
   pyramid: {
-    eyebrow: ['Prosperity', 'Balance', 'Positive Energy'],
+    eyebrow: ['Prosperity', 'Balance', 'Positivity'],
     title: 'Pyramid',
     tagline: 'A Simple Tool for a Harmonious Life',
-    intro: 'Discover the power of Vastu pyramids and how they can bring prosperity, stability and positive energy to your home and workspace.',
+    intro: 'Discover the power of Vastu pyramids and how they can bring prosperity, stability and positivity to your home and workspace.',
     what: {
       title: 'What is a Pyramid?',
       icon: 'Triangle',
@@ -558,13 +456,13 @@ export const COURSE_DETAILS = {
     },
     use: {
       title: 'How Can I Use a Pyramid?',
-      text: 'Placing a pyramid in the right location can enhance positive energy, improve financial stability and bring harmony to your home or workspace. It works best when kept in the place where you spend most of your time.',
+      text: 'Placing a pyramid in the right location can enhance positivity, improve financial stability and bring harmony to your home or workspace. It works best when kept in the place where you spend most of your time.',
       cta: 'Learn How Pyramids Work',
       items: [
         { label: 'Homes & Living Spaces', icon: 'Home' },
         { label: 'Offices & Workspaces', icon: 'Briefcase' },
         { label: 'Wealth & Prosperity', icon: 'TrendingUp' },
-        { label: 'Positive Energy', icon: 'Flower2' }
+        { label: 'Positivity', icon: 'Flower2' }
       ]
     },
     philosophy: {
@@ -606,7 +504,7 @@ export const COURSE_DETAILS = {
     ],
     journey: {
       title: 'Begin Your Pyramid Journey',
-      text: 'Learn how a simple pyramid can bring prosperity, balance and positive energy to your life.'
+      text: 'Learn how a simple pyramid can bring prosperity, balance and positivity to your life.'
     }
   },
 
@@ -742,14 +640,14 @@ export const COURSE_DETAILS = {
 
   /* ───────────────────────── RUDRAKSHA ───────────────────────── */
   rudraksha: {
-    eyebrow: ['Spirituality', 'Protection', 'Positive Energy'],
+    eyebrow: ['Spirituality', 'Protection', 'Positivity'],
     title: 'Rudraksha',
     tagline: 'A Divine Seed for a Balanced Life',
     intro: 'Experience the powerful energy of Rudraksha, a sacred seed that creates positive vibrations and supports your spiritual, mental and physical well-being.',
     what: {
       title: 'What is Rudraksha?',
       icon: 'CircleDot',
-      text: 'Rudraksha is a sacred seed that creates unique vibrations and positive energy. The name Rudraksha comes from two words \u2014 Rudra (Lord Shiva) and Aksha (tears). It is believed that the seeds were formed from the tears of Lord Shiva, who was in a deep meditative state for the well-being of all beings.'
+      text: 'Rudraksha is a sacred seed that creates unique vibrations and positivity. The name Rudraksha comes from two words \u2014 Rudra (Lord Shiva) and Aksha (tears). It is believed that the seeds were formed from the tears of Lord Shiva, who was in a deep meditative state for the well-being of all beings.'
     },
     use: {
       title: 'How Can Rudraksha Help?',
@@ -776,7 +674,7 @@ export const COURSE_DETAILS = {
         { label: 'Provides Protection', icon: 'Shield' },
         { label: 'Supports Planetary Balance', icon: 'TrendingUp' },
         { label: 'Reduces Stress & Anxiety', icon: 'Leaf' },
-        { label: 'Boosts Positive Energy', icon: 'Sun' },
+        { label: 'Boosts Positivity', icon: 'Sun' },
         { label: 'Promotes Overall Well-being', icon: 'Users' }
       ]
     },
@@ -801,7 +699,7 @@ export const COURSE_DETAILS = {
     ],
     journey: {
       title: 'Begin Your Rudraksha Journey',
-      text: 'Invite positive energy, balance and spiritual growth into your life with the power of Rudraksha.'
+      text: 'Invite positivity, balance and spiritual growth into your life with the power of Rudraksha.'
     }
   },
 
@@ -809,7 +707,7 @@ export const COURSE_DETAILS = {
   'pranic-healing': {
     eyebrow: ['Cleanse', 'Energize', 'Heal', 'Balance'],
     title: 'Pranic Healing',
-    tagline: 'Activate Your Natural Healing Energy',
+    tagline: 'Activate Your Healing Energy',
     intro: 'A powerful no-touch healing system that uses life force energy (prana) to accelerate the body\u2019s innate ability to heal itself and bring balance to the body, mind and spirit.',
     what: {
       title: 'What is Pranic Healing?',
@@ -829,7 +727,7 @@ export const COURSE_DETAILS = {
     },
     philosophy: {
       title: 'Pranic Healing Philosophy',
-      text: 'The body has an innate ability to heal itself. Pranic Healing works by cleansing, energizing and balancing the body\u2019s energy field, removing stagnant and diseased energy and replenishing it with fresh prana (life force energy) to accelerate the natural healing process.'
+      text: 'The body has an innate ability to heal itself. Pranic Healing works by cleansing, energizing and balancing the body\u2019s energy field, removing stagnant and diseased energy and replenishing it with fresh prana (life force energy) to accelerate the healing process.'
     },
     benefits: {
       title: 'Benefits of Pranic Healing',
@@ -869,96 +767,6 @@ export const COURSE_DETAILS = {
     journey: {
       title: 'Begin Your Pranic Healing Journey',
       text: 'Discover the transformative power of prana and bring balance, health and harmony into your life.'
-    }
-  },
-
-  /* ───────────────────────── GEMS WITH REIKI ───────────────────────── */
-  'gems-with-reiki': {
-    eyebrow: ['Heal', 'Balance', 'Energize', 'Transform'],
-    title: 'Gems with Reiki',
-    tagline: 'The Synergy of Crystals and Reiki Energy',
-    intro: 'Crystals carry unique natural vibrations, and when combined with Reiki, they amplify the healing energy to release deeper emotional, mental and spiritual blocks, bringing balance and harmony to your life.',
-    what: {
-      title: 'What are Reiki Crystals?',
-      icon: 'Gem',
-      text: 'Crystals are natural energy tools that carry unique vibrations. A Reiki practitioner may use crystals during your Reiki session to add an extra element of healing by helping to release emotional, mental or spiritual blocks. Crystals may be placed on or around your body, or you may be asked to hold a crystal.'
-    },
-    use: {
-      title: 'How Do Crystals Enhance Reiki?',
-      text: 'Some practitioners have discovered that there are stronger Reiki effects when using crystals in their healings. The natural vibrations of crystals work in synergy with Reiki energy to clear blockages, balance your energy centers and deepen the healing experience.',
-      cta: 'Learn More About Crystals with Reiki',
-      items: [
-        { label: 'Amplifies Healing Energy', icon: 'Flower2' },
-        { label: 'Releases Emotional Blocks', icon: 'Brain' },
-        { label: 'Balances Chakras', icon: 'Layers' },
-        { label: 'Supports Spiritual Growth', icon: 'Leaf' }
-      ]
-    },
-    philosophy: {
-      title: 'The Power of Synergy',
-      text: 'When the healing energy of Reiki meets the natural vibrations of crystals, it creates a powerful synergy that enhances your physical, emotional and spiritual well-being.'
-    },
-    extras: [
-      {
-        type: 'steps',
-        title: 'What Are Reiki Stones & How Do You Create Them?',
-        subtitle: 'To program a crystal and create a Reiki stone, simply do the following:',
-        items: [
-          { title: 'Hold the Crystal', icon: 'Hand', text: 'Place it in your palm and activate Reiki (you\u2019ll need to be a certified Reiki practitioner to be able to do this).' },
-          { title: 'Set Your Intention', icon: 'Target', text: 'Focus on your healing intention and tell the crystal its purpose.' },
-          { title: 'Allow the Energy to Flow', icon: 'Sparkles', text: 'Let the energy flow between your palms and through the stone. This can last between 5 and 15 minutes, or until you feel the energy cooling off.' }
-        ]
-      },
-      {
-        type: 'steps',
-        title: 'How are Reiki Crystals Used?',
-        items: [
-          { title: 'Choose the Right Crystal', icon: 'Gem', text: 'First, we choose the healing crystal with the properties that are most compatible with the root problem we are trying to heal.' },
-          { title: 'Cleanse with Reiki', icon: 'HandHeart', text: 'Next, we cleanse the healing crystal with Reiki so that it becomes a Reiki stone.' },
-          { title: 'Place & Channel Reiki', icon: 'PersonStanding', text: 'Then, we place the healing crystal on the targeted body part of the client and pace our hands over it to channel Reiki.' }
-        ]
-      }
-    ],
-    journey: {
-      title: 'Begin Your Healing Journey',
-      text: 'Discover the beautiful combination of crystals and Reiki and bring balance, positivity and inner peace into your life.'
-    }
-  },
-
-  /* ───────────────────────── COLOUR THERAPY ───────────────────────── */
-  'color-therapy': {
-    eyebrow: ['Balance', 'Heal', 'Energize', 'Transform'],
-    title: 'Colour Therapy',
-    tagline: 'Heal with the Power of Colours',
-    intro: 'Colour therapy, or chromotherapy, uses specific colours on body areas to support well-being. It is a complementary therapy, not a substitute for medical care, and results may vary.',
-    what: {
-      title: 'What does Colour Therapy do?',
-      icon: 'Palette',
-      text: 'Colours are made up of reflected lights that hit our retinas as the wavelengths vibrate. Our brain interprets these wavelengths, which ultimately makes our perception of colour as a physical and sensory experience.'
-    },
-    use: {
-      title: 'The Basic Idea of Colour Therapy',
-      text: 'Colour therapy is based on the idea that colours create an electrical impulse in our brain, which stimulates hormonal and biochemical processes in our body. These processes either stimulate or calm us.',
-      items: [
-        { label: 'Stimulates Natural Healing', icon: 'Leaf' },
-        { label: 'Balances Emotions', icon: 'Flower2' },
-        { label: 'Supports Overall Well-being', icon: 'Sun' }
-      ]
-    },
-    extras: [
-      {
-        type: 'paragraphs',
-        title: 'How to Get Started with Colour Therapy?',
-        paragraphs: [
-          'Colour therapy uses rainbow colours to promote well-being, often combined with aromatherapy, coloured lights during massages, or coloured silk placed on the body to support mood and emotional balance. The choice of colours may vary according to individual needs and preferences.',
-
-        ]
-      }
-    ],
-    journey: {
-      title: 'Experience the Healing Power of Colours',
-      text: 'Discover how colours can bring balance, positivity and harmony to your life through the gentle and natural approach of colour therapy.',
-      rainbow: true
     }
   }
 };

@@ -6,11 +6,12 @@ export default function FloatingWidgets({ openModal }) {
 
   return (
     <div
+      className="floating-widget-wrap"
       style={{
         position: 'fixed',
         zIndex: 9990,
-        bottom: '24px',
-        right: '24px'
+        bottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+        right: '20px'
       }}
     >
       {/* Popover Bubble */}
@@ -160,9 +161,8 @@ export default function FloatingWidgets({ openModal }) {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Holistic Help & Consultations"
+        className="floating-widget-btn"
         style={{
-          width: '58px',
-          height: '58px',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
           border: '1.5px solid rgba(212, 175, 55, 0.5)',
@@ -178,7 +178,7 @@ export default function FloatingWidgets({ openModal }) {
         <img
           src="/logo/lotus_pure.png"
           alt="Reiki Mark"
-          style={{ width: '40px', height: 'auto', objectFit: 'contain' }}
+          style={{ width: '68%', height: 'auto', objectFit: 'contain' }}
         />
       </button>
     </div>

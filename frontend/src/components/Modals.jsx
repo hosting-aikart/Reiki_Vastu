@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star, ChevronDown, Check, AlertCircle } from 'lucide-react';
-import { submitEnquiry } from '../api/client.js';
+import { submitEnquiry, submitTestimonial } from '../api/client.js';
 import {
   LOCATIONS,
   CONSULTATION_SERVICES,
   TIME_SLOTS,
   COURSES,
+  STORY_SERVICES as CATALOG_STORY_SERVICES,
+  RATINGS as CATALOG_RATINGS,
   todayInBusinessTz,
   addDays,
   BOOKING_WINDOW_DAYS
@@ -31,20 +33,28 @@ const COURSE_OPTIONS = COURSES.map((c) => ({
   label: c.label
 }));
 
-const STORY_SERVICES = [
-  'Reiki Healing Session',
-  'Residential Vaastu Audit',
-  'Commercial Vaastu Audit',
-  'Kundali & Astrology Reading',
-  'Lama-Fera Cleansing',
-  'Reiki Level 1 & 2 Course'
+const EXPERIENCE_LEVEL_OPTIONS = [
+  { value: 'Beginner (Fresh Seeker)', label: 'Beginner (Fresh Seeker)' },
+  { value: 'Intermediate (Level 1 / Basic)', label: 'Intermediate (Level 1 / Basic)' },
+  { value: 'Advanced / Practitioner', label: 'Advanced / Practitioner' }
 ];
 
-const RATING_OPTIONS = [
-  { value: 5, label: '★★★★★ (5/5 Outstanding)' },
-  { value: 4, label: '★★★★☆ (4/5 Very Good)' },
-  { value: 3, label: '★★★☆☆ (3/5 Good)' }
+const BATCH_PREFERENCE_OPTIONS = [
+  { value: 'Weekend Batch (Sat–Sun)', label: 'Weekend Batch (Sat–Sun)' },
+  { value: 'Weekday Morning Batch', label: 'Weekday Morning Batch' },
+  { value: 'Weekday Evening Batch', label: 'Weekday Evening Batch' },
+  { value: 'Flexible / Online Live Sessions', label: 'Flexible / Online Live Sessions' }
 ];
+
+const STORY_SERVICE_OPTIONS = CATALOG_STORY_SERVICES.map((s) => ({
+  value: s.key,
+  label: s.label
+}));
+
+const RATING_OPTIONS = CATALOG_RATINGS.map((r) => ({
+  value: r.key,
+  label: r.label
+}));
 
 function CustomDropdown({ value, onChange, options, placeholder = 'Select an option' }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,6 +78,7 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
       {/* Trigger Box - clean form element, NO golden border */}
       <button
         type="button"
+        className="modal-dropdown-trigger"
         onClick={() => setIsOpen(!isOpen)}
         style={{
           width: '100%',
@@ -186,19 +197,30 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     phone: '',
     email: '',
     serviceKey: 'residential_vaastu_audit',
-    courseId: 'reiki',
     location: 'amravati',
     date: '',
     time: '10:00',
     note: '',
     website: ''
   });
+  const [enrollForm, setEnrollForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    courseId: 'reiki',
+    location: 'amravati',
+    experienceLevel: 'Beginner (Fresh Seeker)',
+    batchPreference: 'Weekend Batch (Sat–Sun)',
+    goals: '',
+    website: ''
+  });
   const [storyForm, setStoryForm] = useState({
     name: '',
     city: '',
-    service: 'Reiki Healing Session',
+    service: 'reiki_healing_session',
     story: '',
-    rating: 5
+    rating: 5,
+    website: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -217,15 +239,43 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     setSubmitError(null);
     setFieldErrors({});
     setSubmissionSuccess(null);
+    setSubmittedStatus(false);
     setIsSubmitting(false);
 
     if (modalData?.serviceKey) {
       setMeetingForm((prev) => ({ ...prev, serviceKey: modalData.serviceKey }));
     }
+    if (modalData?.note !== undefined) {
+      setMeetingForm((prev) => ({ ...prev, note: modalData.note }));
+    } else if (activeModal === 'meeting' || activeModal === 'schedule') {
+      setMeetingForm((prev) => ({ ...prev, note: '' }));
+    }
     if (modalData?.courseId) {
-      setMeetingForm((prev) => ({ ...prev, courseId: modalData.courseId }));
+      setEnrollForm((prev) => ({ ...prev, courseId: modalData.courseId }));
+    }
+    if (modalData?.productTitle && activeModal === 'contact') {
+      setContactForm((prev) => ({
+        ...prev,
+        message: `I would like to inquire about the Reiki Energized ${modalData.productTitle}.`
+      }));
+    } else if (modalData?.courseTitle && activeModal === 'contact') {
+      setContactForm((prev) => ({
+        ...prev,
+        message: `I have a question regarding the ${modalData.courseTitle} course.`
+      }));
     }
   }, [activeModal, modalData]);
+
+  // Lock background scroll while modal is open
+  useEffect(() => {
+    if (activeModal) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [activeModal]);
 
   if (!activeModal) return null;
 
@@ -244,6 +294,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
       email: contactForm.email || undefined,
       location: contactForm.location,
       message: contactForm.message,
+      sourcePage: window.location.pathname || '/',
       website: contactForm.website || undefined
     };
 
@@ -273,33 +324,19 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     setSubmitError(null);
     setFieldErrors({});
 
-    const isCourseEnquiry = modalData?.kind === 'course' || Boolean(modalData?.courseId);
-
-    const payload = isCourseEnquiry
-      ? {
-          type: 'course',
-          name: meetingForm.name,
-          phone: meetingForm.phone,
-          email: meetingForm.email || undefined,
-          location: meetingForm.location,
-          courseId: modalData?.courseId || meetingForm.courseId || 'reiki',
-          preferredDate: meetingForm.date || undefined,
-          preferredSlot: meetingForm.time || undefined,
-          message: meetingForm.note || undefined,
-          website: meetingForm.website || undefined
-        }
-      : {
-          type: 'consultation',
-          name: meetingForm.name,
-          phone: meetingForm.phone,
-          email: meetingForm.email || undefined,
-          location: meetingForm.location,
-          serviceKey: meetingForm.serviceKey,
-          preferredDate: meetingForm.date,
-          preferredSlot: meetingForm.time,
-          message: meetingForm.note || undefined,
-          website: meetingForm.website || undefined
-        };
+    const payload = {
+      type: 'consultation',
+      name: meetingForm.name,
+      phone: meetingForm.phone,
+      email: meetingForm.email || undefined,
+      location: meetingForm.location,
+      serviceKey: meetingForm.serviceKey,
+      preferredDate: meetingForm.date,
+      preferredSlot: meetingForm.time,
+      message: meetingForm.note || undefined,
+      sourcePage: window.location.pathname || '/',
+      website: meetingForm.website || undefined
+    };
 
     const res = await submitEnquiry(payload);
     setIsSubmitting(false);
@@ -321,13 +358,89 @@ export default function Modals({ activeModal, modalData, closeModal }) {
     }
   };
 
-  const handleStorySubmit = (e) => {
+  const handleEnrollSubmit = async (e) => {
     e.preventDefault();
-    setSubmittedStatus(true);
-    setTimeout(() => {
-      setSubmittedStatus(false);
-      closeModal();
-    }, 2800);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setFieldErrors({});
+
+    const detailsParts = [
+      `Level: ${enrollForm.experienceLevel}`,
+      `Batch: ${enrollForm.batchPreference}`
+    ];
+    if (enrollForm.goals && enrollForm.goals.trim()) {
+      detailsParts.push(`Goals: ${enrollForm.goals.trim()}`);
+    }
+
+    const payload = {
+      type: 'course',
+      name: enrollForm.name,
+      phone: enrollForm.phone,
+      email: enrollForm.email || undefined,
+      location: enrollForm.location,
+      courseId: enrollForm.courseId || modalData?.courseId || 'reiki',
+      message: detailsParts.join(' | ').slice(0, 1000),
+      sourcePage: window.location.pathname || '/',
+      website: enrollForm.website || undefined
+    };
+
+    const res = await submitEnquiry(payload);
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setSubmissionSuccess({
+        ...res.data,
+        message: res.message,
+        phone: enrollForm.phone,
+        courseId: payload.courseId
+      });
+      setEnrollForm((prev) => ({ ...prev, name: '', phone: '', email: '', goals: '', website: '' }));
+    } else {
+      if (res.fields) {
+        setFieldErrors(res.fields);
+      }
+      setSubmitError(res.message);
+    }
+  };
+
+  const handleStorySubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setFieldErrors({});
+
+    const payload = {
+      name: storyForm.name,
+      city: storyForm.city,
+      serviceKey: storyForm.service,
+      rating: Number(storyForm.rating),
+      story: storyForm.story,
+      website: storyForm.website || undefined
+    };
+
+    const res = await submitTestimonial(payload);
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setSubmittedStatus(true);
+      setStoryForm({
+        name: '',
+        city: '',
+        service: 'reiki_healing_session',
+        story: '',
+        rating: 5,
+        website: ''
+      });
+    } else {
+      if (res.fields) {
+        setFieldErrors(res.fields);
+      }
+      setSubmitError(res.message);
+    }
   };
 
   const runSandboxTest = () => {
@@ -365,60 +478,69 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── CONTACT US MODAL ─── */}
         {activeModal === 'contact' && (
-          <div style={{ padding: '36px', maxHeight: '85vh', overflowY: 'auto' }}>
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '11px',
+                fontSize: '10.5px',
                 fontWeight: 700,
-                letterSpacing: '0.14em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: '#dc2626',
+                color: '#D2042D',
                 background: '#fef2f2',
-                padding: '4px 12px',
-                borderRadius: '50px',
-                border: '1px solid #fecaca'
+                padding: '3px 10px',
+                borderRadius: '50px'
               }}
             >
               DIRECT HELPLINE
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, margin: '14px 0 6px', color: '#3b0a11' }}>
+            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
               Contact Reiki &amp; Vaastu World
             </h2>
-            <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 20px' }}>
+            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
               Have questions regarding courses, Vaastu site audits, or energized products? Reach our Amravati and Nagpur centers.
             </p>
 
             {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                <CheckCircle2 size={48} color="#16a34a" style={{ margin: '0 auto 12px' }} />
-                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
+                <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Enquiry Received!
                 </h3>
-                <div style={{ background: '#fdfbf7', border: '1.5px dashed #d4af37', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
-                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#784450', fontWeight: 600 }}>
+                <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
+                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 600 }}>
                     Reference Number
                   </span>
-                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#3b0a11', letterSpacing: '0.04em', marginTop: '2px' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
                     {submissionSuccess.reference}
                   </div>
                 </div>
-                <p style={{ color: '#784450', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.5 }}>
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 8px', lineHeight: 1.5 }}>
                   Thank you. Dr. Naresh Chhabdiya's team will contact you shortly via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong>.
                 </p>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="gnav-btn-primary"
-                  style={{ padding: '10px 24px', fontSize: '14px', margin: '0 auto' }}
+                  style={{
+                    padding: '8px 24px',
+                    borderRadius: '50px',
+                    border: '1px solid #d1d5db',
+                    background: '#ffffff',
+                    color: '#374151',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    margin: '0 auto',
+                    display: 'block'
+                  }}
                 >
                   Done
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {submitError && (
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <AlertCircle size={16} style={{ flexShrink: 0 }} />
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
                     <span>{submitError}</span>
                   </div>
                 )}
@@ -435,45 +557,71 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 />
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                     Full Name *
                   </label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Chetan Saraf"
-                    className="akf-nl-input"
+                    style={{
+                      width: '100%',
+                      height: '38px',
+                      padding: '0 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                     value={contactForm.name}
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                   />
                   {fieldErrors.name && (
-                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.name}
                     </span>
                   )}
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Phone / WhatsApp *
                     </label>
                     <input
                       type="tel"
                       required
                       placeholder="9423424596"
-                      className="akf-nl-input"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                       value={contactForm.phone}
                       onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                     />
                     {fieldErrors.phone && (
-                      <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.phone}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Preferred Center *
                     </label>
                     <CustomDropdown
@@ -482,7 +630,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={LOCATION_OPTIONS}
                     />
                     {fieldErrors.location && (
-                      <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.location}
                       </span>
                     )}
@@ -490,25 +638,38 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                     Email Address
                   </label>
                   <input
                     type="email"
                     placeholder="yourname@gmail.com"
-                    className="akf-nl-input"
+                    style={{
+                      width: '100%',
+                      height: '38px',
+                      padding: '0 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                     value={contactForm.email}
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                   />
                   {fieldErrors.email && (
-                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.email}
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                     How can we guide you? *
                   </label>
                   <textarea
@@ -517,55 +678,74 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     placeholder="Describe your inquiry (e.g. learn Reiki level 1, home Vaastu inspection, buy certified Rudraksha)..."
                     style={{
                       width: '100%',
-                      padding: '12px 16px',
-                      borderRadius: '16px',
-                      border: '1.5px solid #d4af37',
-                      background: '#fffdf9',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
                       outline: 'none',
-                      fontSize: '14px',
-                      fontFamily: 'inherit',
-                      color: '#3b0a11'
+                      resize: 'vertical',
+                      boxSizing: 'border-box',
+                      fontFamily: 'inherit'
                     }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#D2042D'; }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; }}
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   />
                   {fieldErrors.message && (
-                    <span style={{ color: '#dc2626', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.message}
                     </span>
                   )}
                 </div>
 
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', padding: '10px 14px', fontSize: '12.5px', color: '#881337' }}>
-                  📞 Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reiki.vastuworld@gmail.com</strong>
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#881337', textAlign: 'center' }}>
+                  Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reiki.vastuworld@gmail.com</strong>
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="gnav-btn-primary"
-                  style={{
-                    padding: '14px',
-                    fontSize: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    marginTop: '4px',
-                    opacity: isSubmitting ? 0.7 : 1,
-                    cursor: isSubmitting ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  <Send size={16} /> {isSubmitting ? 'Submitting Enquiry...' : 'Send Enquiry'}
-                </button>
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="modal-submit-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '10px 28px',
+                      height: '42px',
+                      borderRadius: '50px',
+                      border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                      background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
+                      color: '#ffffff',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.7 : 1,
+                      boxShadow: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <Send size={15} /> {isSubmitting ? 'Submitting Enquiry...' : 'Send Enquiry'}
+                  </button>
+                </div>
               </form>
             )}
           </div>
         )}
 
-        {/* ─── SCHEDULE CONSULTATION / COURSE ENROLMENT MODAL ─── */}
+        {/* ─── 1-ON-1 PERSONAL CONSULTATION MODAL ─── */}
         {(activeModal === 'schedule' || activeModal === 'meeting') && (
-          <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
                 fontSize: '10.5px',
@@ -578,22 +758,24 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 borderRadius: '50px'
               }}
             >
-              {modalData?.kind === 'course' || modalData?.courseId ? 'COURSE ENQUIRY & REGISTRATION' : '1-ON-1 HOLISTIC SESSION'}
+              1-ON-1 HOLISTIC CONSULTATION
             </span>
             <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
-              {modalData?.title || (modalData?.kind === 'course' ? 'Course Enrolment Enquiry' : 'Book Personal Consultation')}
+              {modalData?.productTitle
+                ? 'Ask Expert Consultation Advice'
+                : modalData?.title || 'Book Personal Consultation'}
             </h2>
             <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
-              {modalData?.kind === 'course' || modalData?.courseId
-                ? 'Submit your details to receive curriculum, schedule, and batch details from our team.'
-                : 'Choose your consultation service and preferred timing with Dr. Naresh Chhabdiya.'}
+              {modalData?.productTitle
+                ? `Schedule a 1-on-1 consultation with Dr. Naresh Chhabdiya for personalized guidance on ${modalData.productTitle}.`
+                : 'Choose your consultation service and preferred appointment timing with Dr. Naresh Chhabdiya.'}
             </p>
 
             {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
-                  {submissionSuccess.type === 'course' ? 'Enrolment Request Received!' : 'Consultation Request Received!'}
+                  Consultation Request Received!
                 </h3>
                 <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
                   <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 600 }}>
@@ -604,7 +786,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                 </div>
                 <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 8px', lineHeight: 1.5 }}>
-                  Thank you. Dr. Naresh's coordinator will contact you via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong> to confirm your details.
+                  Thank you. Dr. Naresh's coordinator will contact you via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong> to confirm your appointment slot.
                 </p>
                 <p style={{ fontSize: '12px', color: '#94a3b8', margin: '0 0 16px', fontStyle: 'italic' }}>
                   Please note: Preferred date and time are requests and subject to coordinator confirmation.
@@ -647,7 +829,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 />
 
                 {/* Row 1: Name & Phone */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Full Name *
@@ -708,8 +890,8 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                 </div>
 
-                {/* Row 2: Email & Service/Course */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                {/* Row 2: Email & Consultation Service */}
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Email Address
@@ -740,34 +922,26 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                      {modalData?.kind === 'course' || modalData?.courseId ? 'Selected Course *' : 'Consultation Service *'}
+                      Consultation Service *
                     </label>
-                    {modalData?.kind === 'course' || modalData?.courseId ? (
-                      <CustomDropdown
-                        value={meetingForm.courseId}
-                        onChange={(val) => setMeetingForm({ ...meetingForm, courseId: val })}
-                        options={COURSE_OPTIONS}
-                      />
-                    ) : (
-                      <CustomDropdown
-                        value={meetingForm.serviceKey}
-                        onChange={(val) => setMeetingForm({ ...meetingForm, serviceKey: val })}
-                        options={CONSULTATION_SERVICE_OPTIONS}
-                      />
-                    )}
-                    {(fieldErrors.serviceKey || fieldErrors.courseId) && (
+                    <CustomDropdown
+                      value={meetingForm.serviceKey}
+                      onChange={(val) => setMeetingForm({ ...meetingForm, serviceKey: val })}
+                      options={CONSULTATION_SERVICE_OPTIONS}
+                    />
+                    {fieldErrors.serviceKey && (
                       <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
-                        {fieldErrors.serviceKey || fieldErrors.courseId}
+                        {fieldErrors.serviceKey}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Row 3: Mode, Date */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                {/* Row 3: Consultation Mode & Preferred Date */}
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                      Meeting Mode *
+                      Consultation Mode *
                     </label>
                     <CustomDropdown
                       value={meetingForm.location}
@@ -782,13 +956,14 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                      Preferred Date {modalData?.kind === 'course' ? '(Optional)' : '*'}
+                      Preferred Date *
                     </label>
                     <input
                       type="date"
-                      required={modalData?.kind !== 'course'}
+                      required
                       min={todayInBusinessTz()}
                       max={addDays(todayInBusinessTz(), BOOKING_WINDOW_DAYS)}
+                      className="modal-input modal-date-input"
                       style={{
                         width: '100%',
                         height: '38px',
@@ -812,10 +987,10 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   </div>
                 </div>
 
-                {/* Row 4: Time Slot */}
+                {/* Row 4: Preferred Time Slot */}
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                    Preferred Time Slot {modalData?.kind === 'course' ? '(Optional)' : '*'}
+                    Preferred Time Slot *
                   </label>
                   <CustomDropdown
                     value={meetingForm.time}
@@ -829,10 +1004,10 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   )}
                 </div>
 
-                {/* Row 5: Notes / Requirements */}
+                {/* Row 5: Consultation Notes / Query */}
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
-                    Notes / Query (Optional)
+                    Consultation Query / Details
                   </label>
                   <textarea
                     rows={2}
@@ -856,10 +1031,11 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 {/* Submit button */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
                   <button
                     type="submit"
                     disabled={isSubmitting}
+                    className="modal-submit-btn"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -885,7 +1061,323 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       if (!isSubmitting) e.currentTarget.style.transform = 'translateY(0)';
                     }}
                   >
-                    <Calendar size={15} /> {isSubmitting ? 'Submitting Request...' : (modalData?.kind === 'course' ? 'Request Course Enrolment' : 'Confirm Appointment Request')}
+                    <Calendar size={15} /> {isSubmitting ? 'Submitting Request...' : 'Confirm Consultation Booking'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        )}
+
+        {/* ─── SACRED COURSE ENROLLMENT MODAL (DISTINCT FROM CONSULTATION) ─── */}
+        {activeModal === 'enroll' && (
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <span
+              style={{
+                fontSize: '10.5px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#9b5208',
+                background: '#fef6e4',
+                border: '1px solid rgba(212, 175, 55, 0.45)',
+                padding: '3px 11px',
+                borderRadius: '50px'
+              }}
+            >
+              ✦ CERTIFIED COURSE ENROLLMENT ✦
+            </span>
+            <h2 className="ff-redhat" style={{ fontSize: '21px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
+              Enroll in {COURSE_OPTIONS.find((c) => c.value === enrollForm.courseId)?.label || modalData?.title || 'Sacred'} Course
+            </h2>
+            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 12px', lineHeight: 1.4 }}>
+              Register for certified practitioner &amp; master training with Dr. Naresh Chhabdiya.
+            </p>
+
+            {/* Distinct Course Program Highlights Banner */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #fffaf0 0%, #fef2f2 100%)',
+                border: '1px solid rgba(212, 175, 55, 0.45)',
+                borderRadius: '10px',
+                padding: '9px 13px',
+                marginBottom: '14px',
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '8px',
+                fontSize: '11.5px',
+                fontWeight: 700,
+                color: '#7a0614'
+              }}
+            >
+              <span>✓ Master Attunement &amp; Practical Training</span>
+              <span>✓ Certified Manual &amp; Lifetime Free Alumni</span>
+            </div>
+
+            {submissionSuccess ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
+                <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
+                  Course Enrollment Request Received!
+                </h3>
+                <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
+                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 600 }}>
+                    Enrollment Reference ID
+                  </span>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
+                    {submissionSuccess.reference}
+                  </div>
+                </div>
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 14px', lineHeight: 1.5 }}>
+                  Thank you! Our course coordinator will contact you via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong> with the curriculum syllabus, fee structure, and upcoming batch schedule.
+                </p>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  style={{
+                    padding: '8px 24px',
+                    borderRadius: '50px',
+                    border: '1px solid #d1d5db',
+                    background: '#ffffff',
+                    color: '#374151',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleEnrollSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {submitError && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
+                {/* Honeypot field */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ display: 'none' }}
+                  value={enrollForm.website}
+                  onChange={(e) => setEnrollForm({ ...enrollForm, website: e.target.value })}
+                />
+
+                {/* Row 1: Student Full Name & Phone */}
+                <div className="modal-form-row">
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Student Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Neha Pande"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      value={enrollForm.name}
+                      onChange={(e) => setEnrollForm({ ...enrollForm, name: e.target.value })}
+                    />
+                    {fieldErrors.name && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.name}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Phone / WhatsApp Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="9823456789"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      value={enrollForm.phone}
+                      onChange={(e) => setEnrollForm({ ...enrollForm, phone: e.target.value })}
+                    />
+                    {fieldErrors.phone && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.phone}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Row 2: Email (for Study Material) & Course Discipline */}
+                <div className="modal-form-row">
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Email (for Certificate &amp; Notes)
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="student@email.com"
+                      style={{
+                        width: '100%',
+                        height: '38px',
+                        padding: '0 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d5db',
+                        background: '#ffffff',
+                        fontSize: '13px',
+                        color: '#1a1a1a',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                      value={enrollForm.email}
+                      onChange={(e) => setEnrollForm({ ...enrollForm, email: e.target.value })}
+                    />
+                    {fieldErrors.email && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.email}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Course Discipline *
+                    </label>
+                    <CustomDropdown
+                      value={enrollForm.courseId}
+                      onChange={(val) => setEnrollForm({ ...enrollForm, courseId: val })}
+                      options={COURSE_OPTIONS}
+                    />
+                    {fieldErrors.courseId && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.courseId}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Row 3: Training Center / Mode & Current Experience Level */}
+                <div className="modal-form-row">
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Training Center / Mode *
+                    </label>
+                    <CustomDropdown
+                      value={enrollForm.location}
+                      onChange={(val) => setEnrollForm({ ...enrollForm, location: val })}
+                      options={LOCATION_OPTIONS}
+                    />
+                    {fieldErrors.location && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.location}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                      Current Experience Level *
+                    </label>
+                    <CustomDropdown
+                      value={enrollForm.experienceLevel}
+                      onChange={(val) => setEnrollForm({ ...enrollForm, experienceLevel: val })}
+                      options={EXPERIENCE_LEVEL_OPTIONS}
+                    />
+                  </div>
+                </div>
+
+                {/* Row 4: Preferred Batch Schedule */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                    Preferred Batch Schedule *
+                  </label>
+                  <CustomDropdown
+                    value={enrollForm.batchPreference}
+                    onChange={(val) => setEnrollForm({ ...enrollForm, batchPreference: val })}
+                    options={BATCH_PREFERENCE_OPTIONS}
+                  />
+                </div>
+
+                {/* Row 5: Learning Goals / Questions */}
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
+                    Learning Goals / Questions for Dr. Naresh
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Share your interest in learning this sacred science or any questions about upcoming batches..."
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      border: '1px solid #d1d5db',
+                      background: '#ffffff',
+                      fontSize: '13px',
+                      color: '#1a1a1a',
+                      outline: 'none',
+                      resize: 'vertical',
+                      boxSizing: 'border-box',
+                      fontFamily: 'inherit'
+                    }}
+                    value={enrollForm.goals}
+                    onChange={(e) => setEnrollForm({ ...enrollForm, goals: e.target.value })}
+                  />
+                </div>
+
+                {/* Submit button */}
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="modal-submit-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '10px 28px',
+                      height: '42px',
+                      borderRadius: '50px',
+                      border: '1.5px solid rgba(212, 175, 55, 0.45)',
+                      background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
+                      color: '#ffffff',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.7 : 1,
+                      boxShadow: 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <Sparkles size={15} /> {isSubmitting ? 'Registering...' : 'Complete Course Enrollment'}
                   </button>
                 </div>
               </form>
@@ -895,7 +1387,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
         {/* ─── ADD YOUR STORY MODAL ─── */}
         {activeModal === 'addStory' && (
-          <div style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
                 fontSize: '10.5px',
@@ -923,13 +1415,47 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Thank You for Sharing!
                 </h3>
-                <p style={{ color: '#4b5563', fontSize: '13px', margin: 0 }}>
+                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 16px' }}>
                   Your story has been submitted and will be featured after our team verifies it.
                 </p>
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  style={{
+                    padding: '8px 24px',
+                    borderRadius: '50px',
+                    border: '1px solid #d1d5db',
+                    background: '#ffffff',
+                    color: '#374151',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Done
+                </button>
               </div>
             ) : (
               <form onSubmit={handleStorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                {submitError && (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <AlertCircle size={15} style={{ flexShrink: 0 }} />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
+                {/* Honeypot field for bot protection */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ display: 'none' }}
+                  value={storyForm.website}
+                  onChange={(e) => setStoryForm({ ...storyForm, website: e.target.value })}
+                />
+
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Your Name *
@@ -953,6 +1479,11 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={storyForm.name}
                       onChange={(e) => setStoryForm({ ...storyForm, name: e.target.value })}
                     />
+                    {fieldErrors.name && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.name}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
@@ -977,10 +1508,15 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       value={storyForm.city}
                       onChange={(e) => setStoryForm({ ...storyForm, city: e.target.value })}
                     />
+                    {fieldErrors.city && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.city}
+                      </span>
+                    )}
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="modal-form-row">
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
                       Experience / Course *
@@ -988,8 +1524,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     <CustomDropdown
                       value={storyForm.service}
                       onChange={(val) => setStoryForm({ ...storyForm, service: val })}
-                      options={STORY_SERVICES}
+                      options={STORY_SERVICE_OPTIONS}
                     />
+                    {fieldErrors.serviceKey && (
+                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                        {fieldErrors.serviceKey}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#374151', marginBottom: '4px' }}>
@@ -1010,7 +1551,8 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   <textarea
                     rows={3}
                     required
-                    placeholder="Share how Dr. Naresh's guidance or Reiki therapy helped you..."
+                    minLength={20}
+                    placeholder="Share how Dr. Naresh's guidance or Reiki therapy helped you (minimum 20 characters)..."
                     style={{
                       width: '100%',
                       height: '75px',
@@ -1028,11 +1570,18 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     value={storyForm.story}
                     onChange={(e) => setStoryForm({ ...storyForm, story: e.target.value })}
                   />
+                  {fieldErrors.story && (
+                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      {fieldErrors.story}
+                    </span>
+                  )}
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+                <div className="modal-submit-wrap" style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
                   <button
                     type="submit"
+                    disabled={isSubmitting}
+                    className="modal-submit-btn"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -1046,14 +1595,19 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       color: '#ffffff',
                       fontSize: '13.5px',
                       fontWeight: 700,
-                      cursor: 'pointer',
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.7 : 1,
                       boxShadow: 'none',
                       transition: 'all 0.2s ease'
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                    onMouseEnter={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSubmitting) e.currentTarget.style.transform = 'translateY(0)';
+                    }}
                   >
-                    <Send size={15} /> Submit Story
+                    <Send size={15} /> {isSubmitting ? 'Submitting Story...' : 'Submit Story'}
                   </button>
                 </div>
               </form>
@@ -1085,7 +1639,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   {modalData?.title || 'Cosmic Energy & Vaastu Scanner'}
                 </h3>
                 <span style={{ fontSize: '12px', color: '#b45309', fontWeight: 600 }}>
-                  Guided by Dr. Naresh Chhabdiya • 28+ Years Energy Expertise
+                  Guided by Dr. Naresh Chhabdiya • 31+ Years Energy Expertise
                 </span>
               </div>
             </div>

@@ -40,7 +40,7 @@ export default function BecomeSellerView({ onBackToHome }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
             gap: '12px',
             marginBottom: '40px'
           }}
@@ -82,7 +82,7 @@ export default function BecomeSellerView({ onBackToHome }) {
             margin: '0 auto',
             background: '#ffffff',
             borderRadius: '26px',
-            padding: '38px',
+            padding: 'clamp(20px, 5vw, 38px)',
             boxShadow: '0 12px 40px rgba(180,83,9,0.08)',
             border: '2px solid rgba(212,175,55,0.45)'
           }}
@@ -193,7 +193,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div className="modal-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
                     Phone / WhatsApp Number *
@@ -305,7 +305,7 @@ export default function BecomeSellerView({ onBackToHome }) {
 
               <div>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
-                  Any Specific Question or Intention for Dr. Naresh? (Optional)
+                  Any Specific Question or Intention for Dr. Naresh?
                 </label>
                 <textarea
                   rows={3}

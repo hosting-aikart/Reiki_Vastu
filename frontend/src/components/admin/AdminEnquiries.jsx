@@ -284,10 +284,12 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
           borderRadius: '12px',
           border: '1px solid #e5e7eb',
           boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-          overflowX: 'auto'
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          width: '100%'
         }}
       >
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+        <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
           <thead>
             <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb', color: '#4b5563' }}>
               <th style={{ padding: '12px 16px', fontWeight: 600 }}>Reference</th>

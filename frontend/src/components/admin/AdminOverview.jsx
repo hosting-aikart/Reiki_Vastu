@@ -94,7 +94,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
           gap: '18px'
         }}
       >

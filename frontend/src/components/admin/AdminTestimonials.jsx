@@ -159,7 +159,7 @@ export default function AdminTestimonials({ initialStatus = 'pending' }) {
           </p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '18px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '18px' }}>
           {testimonials.map((t) => {
             const isActing = actionLoadingId === t._id;
             return (

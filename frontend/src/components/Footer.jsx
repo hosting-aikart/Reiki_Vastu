@@ -34,7 +34,10 @@ export default function Footer({ setCurrentView, openModal }) {
               <div className="akf-links-row">
                 <button
                   type="button"
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  onClick={() => {
+                    if (setCurrentView) setCurrentView('home');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="akf-link-btn"
                 >
                   Home
@@ -50,7 +53,10 @@ export default function Footer({ setCurrentView, openModal }) {
                 <span className="akf-dot">•</span>
                 <button
                   type="button"
-                  onClick={() => scrollToSection('products-section')}
+                  onClick={() => {
+                    if (setCurrentView) setCurrentView('products');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="akf-link-btn"
                 >
                   Products
@@ -60,15 +66,7 @@ export default function Footer({ setCurrentView, openModal }) {
               <div className="akf-links-row">
                 <button
                   type="button"
-                  onClick={() => scrollToSection('products-section')}
-                  className="akf-link-btn"
-                >
-                  Products
-                </button>
-                <span className="akf-dot">•</span>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection('footer-contact')}
+                  onClick={() => openModal && openModal('contact')}
                   className="akf-link-btn"
                 >
                   Contact Us

@@ -65,9 +65,22 @@ function Column({ col }) {
 
       {col.checklist && (
         <ul className="cd-checklist">
-          {col.checklist.map((t) => (
-            <li key={t}><span className="cd-check"><Check size={13} strokeWidth={3} /></span>{t}</li>
-          ))}
+          {col.checklist.map((t) => {
+            const colonIdx = t.indexOf(': ');
+            return (
+              <li key={t}>
+                <span className="cd-check"><Check size={13} strokeWidth={3} /></span>
+                {colonIdx !== -1 ? (
+                  <span>
+                    <strong style={{ color: '#3b0a11' }}>{t.slice(0, colonIdx + 1)}</strong>{' '}
+                    {t.slice(colonIdx + 2)}
+                  </span>
+                ) : (
+                  t
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
 
@@ -118,7 +131,7 @@ function ExtraBlock({ block }) {
         <section className="cd-section cd-reveal">
           <div className="cd-container">
             {block.heading && <SectionHeading title={block.heading} />}
-            <div className="cd-cols">
+            <div className={`cd-cols${block.columns.length === 1 ? ' single' : ''}`}>
               {block.columns.map((c, i) => <Column key={i} col={c} />)}
             </div>
           </div>
@@ -174,7 +187,7 @@ function ExtraBlock({ block }) {
   }
 }
 
-export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact }) {
+export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult, onContact }) {
   const data = COURSE_DETAILS[courseId];
   const course = COURSES_15.find((c) => c.id === courseId);
   const ref = useReveal([courseId]);
@@ -191,8 +204,12 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
 
     const measure = () => {
       if (el) {
-        const w = el.offsetWidth;
-        if (w > 0) setActionsWidth(w);
+        if (window.innerWidth >= 961) {
+          const w = el.offsetWidth;
+          if (w > 0) setActionsWidth(w);
+        } else {
+          setActionsWidth(null);
+        }
       }
     };
 
@@ -212,14 +229,11 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
   if (!data) return null;
 
   const enroll = () => onEnroll && onEnroll(data.title);
-  const contact = () => {
-    const el = document.getElementById('footer-contact');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const consult = () => {
+    if (onConsult) {
+      onConsult(data.title);
     } else if (onContact) {
       onContact(data.title);
-    } else {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   };
 
@@ -252,14 +266,24 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
               <button type="button" className="cd-btn cd-btn-primary" onClick={enroll} id="course-detail-enroll">
                 Enroll in {data.title} Course <ArrowRight size={17} />
               </button>
-              <button type="button" className="cd-btn cd-btn-outline" onClick={contact} id="course-detail-contact">
-                Contact Us
+              <button type="button" className="cd-btn cd-btn-outline" onClick={consult} id="course-detail-consult">
+                Book Consultation
               </button>
             </div>
           </div>
           {course?.image && (
-            <div className="cd-hero-media">
-              <img src={course.image} alt={`${data.title} course`} />
+            <div
+              className="cd-hero-media"
+              style={course.imageBg ? { background: course.imageBg } : undefined}
+            >
+              <img
+                src={course.image}
+                alt={course.alt || `${data.title} course – ${data.tagline}`}
+                style={{
+                  objectFit: course.imageFit || 'cover',
+                  objectPosition: course.imagePosition || 'center center'
+                }}
+              />
             </div>
           )}
         </div>
@@ -310,8 +334,6 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
       {/* ═════ PHILOSOPHY BAND ═════ */}
       {data.philosophy && (
         <section className="cd-phil">
-          <div className="cd-phil-deco left"><Flower2 size={170} strokeWidth={0.6} /></div>
-          <div className="cd-phil-deco right"><Icon name={data.what.icon} size={130} strokeWidth={0.7} /></div>
           <div className="cd-phil-inner">
             <h2>{data.philosophy.title}</h2>
             <p>{data.philosophy.text}</p>
@@ -365,7 +387,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
               <button type="button" className="cd-btn cd-btn-gold" onClick={enroll}>
                 Explore {data.title} Course <ArrowRight size={17} />
               </button>
-              <button type="button" className="cd-btn cd-btn-ghost" onClick={contact}>Contact Us</button>
+              <button type="button" className="cd-btn cd-btn-ghost" onClick={consult}>Book Consultation</button>
             </div>
           </div>
         </section>
