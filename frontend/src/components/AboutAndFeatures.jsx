@@ -35,7 +35,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fef2f4', border: '1px solid #fecaca', padding: '6px 14px', borderRadius: '50px' }}>
                 <Award size={16} color="#D2042D" />
                 <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#88021e' }}>
-                  Practicing Since 1995 • 28+ Years Experience
+                  Practicing Since 1995 • 31+ Years Experience
                 </span>
               </div>
             </div>
@@ -54,11 +54,11 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                 ABOUT OUR FOUNDER &amp; MISSION
               </p>
               <h2 className="ff-redhat" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 700, color: '#1a1a1a', margin: '0 0 16px' }}>
-                Welcome to Reiki &amp; Vaastu World
+                Welcome to Reiki and Vaastu World
               </h2>
 
               <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#4a1923', margin: '0 0 16px' }}>
-                Dr. Naresh Chhabdiya has been practicing <strong>Reiki, Vaastu, Rudraksh, Astrology, and Numerology since 1995</strong>. A doctor by profession and motivational mentor with centers in <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people around the world with genuine Reiki and spiritual healing.
+                Dr. Naresh Chhabdiya has been practicing <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A doctor by profession and motivational mentor with centers in <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World was known as <strong>Sanjeevni Reiki and Vaastu Center</strong>.
               </p>
 
               <p

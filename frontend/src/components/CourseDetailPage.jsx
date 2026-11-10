@@ -275,10 +275,17 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onContact
             </div>
           </div>
           {course?.image && (
-            <div className="cd-hero-media">
+            <div
+              className="cd-hero-media"
+              style={course.imageBg ? { background: course.imageBg } : undefined}
+            >
               <img
                 src={course.image}
                 alt={course.alt || `${data.title} course – ${data.tagline}`}
+                style={{
+                  objectFit: course.imageFit || 'cover',
+                  objectPosition: course.imagePosition || 'center center'
+                }}
               />
             </div>
           )}

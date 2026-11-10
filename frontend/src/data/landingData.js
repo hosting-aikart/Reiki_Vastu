@@ -227,22 +227,28 @@ export const SEARCH_PLACEHOLDERS = [
 
 export const TESTIMONIALS_DATA = [
   {
-    name: "Prakash D.",
-    location: "Amravati",
-    quote: "After the Vaastu audit of our shop we moved the cash counter and entrance mat. Within months the place simply felt lighter, and so did our accounts.",
-    role: "Commercial Vaastu"
+    name: "Chetan Saraf",
+    location: "",
+    quote: "We've certainly had a positive experience working with Dr. Naresh Chhabdiya. He delivers the highest quality result. and client satisfaction is his major goal.",
+    role: ""
   },
   {
-    name: "Sneha K.",
-    location: "Dubai, UAE",
-    quote: "I attended the Reiki Level I and II course online from Dubai. The attunement was as powerful as in-person. Calm, patient and deeply knowledgeable teacher.",
-    role: "Reiki Course"
+    name: "Mayur Wankhade",
+    location: "",
+    quote: "Always available to answer any question. very knowledgeable about services they provide. would recommend to anyone.",
+    role: ""
   },
   {
-    name: "Rahul M.",
-    location: "Nagpur",
-    quote: "His reading of my chart was precise about the timing of my job change. Practical remedies, no fear-mongering. That is rare.",
-    role: "Vedic Astrology"
+    name: "Shubham Patil",
+    location: "",
+    quote: "I am really impressed by the quality of services I received from webmedia. They were right on schedule, charged reasonable prices, were professional and courteous in dealings, and delivered well before time.",
+    role: ""
+  },
+  {
+    name: "Neha Pande",
+    location: "",
+    quote: "Great results. Enjoyable to work with, and most importantly, enabled us to have the presence on the astro we needed to conduct business in today's market. Reiki and Vastu world provides excellent customer service, genuine and thoughtful insight, and delivers more than expected.",
+    role: ""
   }
 ];
 

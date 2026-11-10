@@ -46,6 +46,9 @@ export const COURSES_15 = [
     description: 'Align homes and workplaces with the five natural elements and directional energies for lasting harmony.',
     alt: 'Vaastu Shastra course – spatial harmony and directional balance for homes and offices',
     image: '/images/vastu.jpg',
+    imageFit: 'contain',
+    imagePosition: 'center center',
+    imageBg: '#f3e5d0',
     hasImage: true,
     icon: Home
   },
@@ -56,6 +59,9 @@ export const COURSES_15 = [
     description: 'Harmonize environmental Chi flow and balance Yin-Yang energies to attract peace and abundance.',
     alt: 'Feng-Shui course – harmonizing Chi energy and five elements in living spaces',
     image: '/images/Feng Shui.png',
+    imageFit: 'contain',
+    imagePosition: 'center center',
+    imageBg: '#f4ead8',
     hasImage: true,
     icon: Sun
   },
@@ -68,6 +74,7 @@ export const COURSES_15 = [
     description: 'Master pendulum radiesthesia to detect subtle earth energies, geopathic stress, and intuitive guidance.',
     alt: 'Dowsing course – pendulum radiesthesia and subtle energy detection',
     image: '/images/Dowsing.png',
+    imagePosition: 'center 62%',
     hasImage: true,
     icon: Compass
   },
@@ -78,6 +85,7 @@ export const COURSES_15 = [
     description: 'Experience ancient Tibetan Buddhist high-frequency healing to clear negative auras and deep blockages.',
     alt: 'Lama-Fera course – Tibetan Buddhist high-frequency spiritual healing',
     image: '/images/Lama Fera.png',
+    imagePosition: 'center center',
     hasImage: true,
     icon: Award
   },
@@ -88,6 +96,7 @@ export const COURSES_15 = [
     description: 'Harness the natural crystalline vibrations of sacred stones to cleanse chakras and restore emotional balance.',
     alt: 'Crystal Therapy course – healing gemstones and chakra energy alignment',
     image: '/images/crystal therapy.png',
+    imagePosition: 'center 58%',
     hasImage: true,
     icon: Gem
   },
@@ -98,6 +107,7 @@ export const COURSES_15 = [
     description: 'Utilize bio-cosmic pyramid geometry to amplify positive vibrations, relieve stress, and correct Vastu defects.',
     alt: 'Pyramid Therapy course – sacred geometric energy for positivity and Vastu rectification',
     image: '/images/pyramid.png',
+    imagePosition: 'center 55%',
     hasImage: true,
     icon: Layers
   },
@@ -177,9 +187,9 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
       {/* Card Top: Image Area */}
       <div
         style={{
-          height: showDescription ? '180px' : '145px',
+          aspectRatio: '4 / 3',
           width: '100%',
-          background: 'linear-gradient(135deg, #fef8f0 0%, #faf1e2 100%)',
+          background: course.imageBg || 'linear-gradient(135deg, #fef8f0 0%, #faf1e2 100%)',
           overflow: 'hidden',
           position: 'relative',
           display: 'flex',
@@ -195,8 +205,8 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
             style={{
               width: '100%',
               height: '100%',
-              aspectRatio: '16 / 9',
-              objectFit: 'cover',
+              objectFit: course.imageFit || 'cover',
+              objectPosition: course.imagePosition || 'center center',
               display: 'block',
               transition: 'transform 0.5s ease'
             }}
@@ -282,19 +292,6 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
             <ArrowRight size={13} />
           </div>
         </div>
-
-        {showDescription && course.description && (
-          <p
-            style={{
-              margin: '2px 0 0',
-              fontSize: '13px',
-              lineHeight: 1.5,
-              color: '#5c2d38'
-            }}
-          >
-            {course.description}
-          </p>
-        )}
       </div>
     </article>
   );
@@ -302,7 +299,7 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
 
 export default function CoursesGrid({ onSelectCourse, onSeeAllCourses, showAll = false }) {
   return (
-    <section id="courses-section" style={{ padding: '70px 0 90px', background: '#fdfbf7', overflow: 'hidden' }}>
+    <section id="courses-section" style={{ padding: showAll ? '24px 0 90px' : '70px 0 90px', background: '#faf5ee', overflow: 'hidden' }}>
       <div className="hm-container">
         {/* Section Header (home page only) */}
         {!showAll && (

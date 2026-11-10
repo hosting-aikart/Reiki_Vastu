@@ -119,9 +119,11 @@
   position: relative;
   width: 100%;
   max-width: 480px;
-  height: 380px;
+  aspect-ratio: 4 / 3;
+  height: auto;
   border-radius: 24px;
   overflow: hidden;
+  background: #f5ead8;
   box-shadow: 0 16px 40px rgba(181, 9, 31, 0.16);
   border: 2px solid var(--cd-gold);
   justify-self: center;
@@ -129,8 +131,10 @@
 .cd-hero-media img {
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
-.cd-hero-wave { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 3; line-height: 0; pointer-events: none; }
-.cd-hero-wave svg { width: 100%; height: 60px; display: block; }
+.cd-hero-wave { display: none; }
+.cd-hero {
+  border-bottom: 1.5px solid rgba(201, 154, 60, 0.3);
+}
 
 /* ═════════ WHAT IS ═════════ */
 .cd-what { padding: 46px 0 40px; position: relative; }
@@ -173,15 +177,15 @@
 /* ═════════ PHILOSOPHY BAND & RED SHAPED BLOCKS ═════════ */
 .red-shaped-block,
 .cd-phil {
-  --cut: clamp(16px, 4vw, 48px);
   position: relative;
   margin: 26px 0;
-  padding: calc(var(--cut) + 26px) 0;
+  padding: 44px 0;
   color: #fff;
   overflow: hidden;
   background: radial-gradient(ellipse at 50% 0%, #c0142b 0%, #8e0717 55%, #6a0512 100%);
-  clip-path: polygon(0 var(--cut), 50% 0, 100% var(--cut), 100% calc(100% - var(--cut)), 50% 100%, 0 calc(100% - var(--cut)));
+  clip-path: none;
   border-top: 3px solid var(--cd-gold);
+  border-bottom: 3px solid var(--cd-gold);
 }
 .cd-phil::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -315,16 +319,15 @@
 
 /* ═════════ JOURNEY CTA ═════════ */
 .cd-journey {
-  --cut: clamp(16px, 4vw, 48px);
   position: relative;
   margin-top: 30px;
-  padding-top: calc(var(--cut) + 28px);
-  padding-bottom: calc(var(--cut) + 24px);
+  padding: 46px 0;
   color: #fff;
   overflow: hidden;
   background: radial-gradient(ellipse at 30% 20%, #b3102a 0%, #800616 60%, #5c0410 100%);
-  clip-path: polygon(0 var(--cut), 30% calc(var(--cut) * 0.35), 60% 0, 100% var(--cut), 100% 100%, 0 100%);
+  clip-path: none;
   border-top: 3px solid var(--cd-gold);
+  border-bottom: 3px solid var(--cd-gold);
 }
 .cd-journey-grid {
   display: grid;
@@ -367,7 +370,8 @@
   }
   .cd-hero-media {
     order: -1;
-    height: 260px;
+    aspect-ratio: 4 / 3;
+    height: auto;
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
@@ -458,7 +462,7 @@
   .cd-col { padding: 0; }
   .cd-col + .cd-col { border-left: none; border-top: 1px solid rgba(181, 9, 31, 0.15); padding-top: 26px; margin-top: 26px; }
   .cd-journey {
-    padding-bottom: calc(var(--cut) + 54px) !important;
+    padding: 40px 0 !important;
   }
   .cd-journey-grid { grid-template-columns: 1fr; padding-left: 0; justify-items: center; text-align: center; }
   .cd-journey-text { text-align: center; }
@@ -593,7 +597,7 @@
 
 @media (max-width: 560px) {
   .cd-container { padding: 0 14px; }
-  .cd-hero-media { height: 180px; max-width: 300px; margin: 0 auto; border-radius: 16px; }
+  .cd-hero-media { aspect-ratio: 4 / 3; height: auto; max-width: 320px; margin: 0 auto; border-radius: 16px; }
   .cd-what { padding: 18px 0 14px; }
   .cd-what-grid { gap: 12px; }
   .cd-medallion {

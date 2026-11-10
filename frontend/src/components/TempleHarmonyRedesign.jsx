@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowRight,
   Sparkles,
@@ -80,15 +80,95 @@ export function OrnamentalFlourish() {
   );
 }
 
+const HERO_COURSE_SLIDES = [
+  {
+    id: 'meditation',
+    label: 'Meditation',
+    src: '/images/temple-harmony-hero.jpg',
+    position: 'center 24%',
+    mobilePosition: '50% 24%',
+    filter: 'brightness(0.96) contrast(1.08) saturate(1.14) sepia(0.08)',
+    topAlpha: 0.34,
+    midAlpha: 0.1,
+    bottomAlpha: 0.52,
+    amberWarmth: 0.18,
+    vignetteAlpha: 0.34
+  },
+  {
+    id: 'vaastu',
+    label: 'Vaastu',
+    src: '/images/vastu.jpg',
+    position: 'center 16%',
+    mobilePosition: '54% 16%',
+    filter: 'brightness(1.02) contrast(1.08) saturate(1.15) sepia(0.04)',
+    topAlpha: 0.22,
+    midAlpha: 0.08,
+    bottomAlpha: 0.46,
+    amberWarmth: 0.14,
+    vignetteAlpha: 0.3
+  },
+  {
+    id: 'reiki',
+    label: 'Reiki',
+    src: '/images/Reiki.png',
+    position: 'center 28%',
+    mobilePosition: '36% 28%',
+    filter: 'brightness(0.95) contrast(1.09) saturate(1.12) sepia(0.06)',
+    topAlpha: 0.28,
+    midAlpha: 0.14,
+    bottomAlpha: 0.5,
+    amberWarmth: 0.18,
+    vignetteAlpha: 0.34
+  },
+  {
+    id: 'crystal-therapy',
+    label: 'Crystal Therapy',
+    src: '/images/crystal therapy.png',
+    position: 'center 58%',
+    mobilePosition: '50% 58%',
+    filter: 'brightness(0.96) contrast(1.10) saturate(1.16) sepia(0.03)',
+    topAlpha: 0.32,
+    midAlpha: 0.08,
+    bottomAlpha: 0.48,
+    amberWarmth: 0.15,
+    vignetteAlpha: 0.32
+  },
+  {
+    id: 'lama-fera',
+    label: 'Lama-Fera',
+    src: '/images/Lama Fera.png',
+    position: 'center 26%',
+    mobilePosition: '34% 26%',
+    filter: 'brightness(1.0) contrast(1.08) saturate(1.14) sepia(0.05)',
+    topAlpha: 0.24,
+    midAlpha: 0.08,
+    bottomAlpha: 0.44,
+    amberWarmth: 0.14,
+    vignetteAlpha: 0.3
+  }
+];
+
 export default function TempleHarmonyRedesign({
   onConsultClick,
   onExploreCourses,
   onSelectCourse,
   onSeeAllCourses,
+  onSelectProduct,
+  onSeeAllProducts,
   onBookSession,
+  onProductInquiry,
+  onContactClick,
   onAddStory
 }) {
   const rootRef = useRef(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % HERO_COURSE_SLIDES.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -113,46 +193,75 @@ export default function TempleHarmonyRedesign({
   const bottomRowFeatures = TEMPLE_FEATURES.slice(3, 5);
 
   return (
-    <div ref={rootRef} className="th-redesign">
-      {/* ═════ 1. HERO (16:9 Full-Screen Video + Cormorant Garamond & Karla Lower-Third) ═════ */}
-      <section className="hero-section hero-fullscreen-16x9 th-hero">
-        <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }} aria-hidden="true">
-          <defs>
-            <filter id="hero-crisp-sharpen-redesign" colorInterpolationFilters="sRGB">
-              <feConvolveMatrix
-                order="3 3"
-                kernelMatrix="0 -0.22 0 -0.22 1.88 -0.22 0 -0.22 0"
-                preserveAlpha="true"
-              />
-            </filter>
-          </defs>
-        </svg>
-
+    <div ref={rootRef} className="th-redesign th-redesign--golden">
+      {/* ═════ 1. HERO (5 Top Courses Alternating Background + Cormorant Garamond & Karla) ═════ */}
+      <section className="hero-section hero-fullscreen-16x9 th-hero th-hero--golden">
         <div className="hero-bg-video-wrap" aria-hidden="true">
-          <img
-            src="/images/Meditation.png"
-            alt=""
-            className="hero-bg-video"
-          />
-          <div className="hero-bg-vignette" />
+          {HERO_COURSE_SLIDES.map((slide, index) => (
+            <div
+              key={slide.id}
+              data-slide={slide.id}
+              style={{
+                '--slide-top-alpha': slide.topAlpha,
+                '--slide-mid-alpha': slide.midAlpha,
+                '--slide-bottom-alpha': slide.bottomAlpha,
+                '--slide-amber-warmth': slide.amberWarmth,
+                '--slide-vignette-alpha': slide.vignetteAlpha,
+                '--slide-pos-desktop': slide.position,
+                '--slide-pos-mobile': slide.mobilePosition || slide.position,
+                '--slide-filter': slide.filter
+              }}
+              className={`th-hero-slide-layer ${
+                index === activeSlide ? 'th-hero-slide-layer--active' : ''
+              }`}
+            >
+              <img
+                src={slide.src}
+                alt=""
+                className={`hero-bg-video th-hero-slide ${
+                  index === activeSlide ? 'th-hero-slide--active' : ''
+                } th-hero-slide--golden-filter`}
+              />
+              <div className="th-hero-cinematic-grade" />
+            </div>
+          ))}
+          <div className="th-hero-golden-overlay" />
         </div>
 
         <div className="hm-container hero-lower-third-container">
-          <div className="hero-lower-third-content th-reveal th-visible">
-            <div className="th-hero-eyebrow">
-              <Sparkles size={13} color="#e5c168" />
-              <span>ALIGN &nbsp;&middot;&nbsp; BALANCE &nbsp;&middot;&nbsp; AWAKEN</span>
+          <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
+            {/* Top Golden Lotus Ornamental Divider */}
+            <div className="th-golden-lotus-divider" aria-hidden="true">
+              <span className="th-golden-line th-golden-line--left" />
+              <img
+                src="/logo/lotus_pure.png"
+                alt=""
+                className="th-golden-lotus-icon"
+              />
+              <span className="th-golden-line th-golden-line--right" />
             </div>
 
-            <h1 className="th-hero-title">
-              Ancient Wisdom for a Healthier, <em>Happier</em> &amp; More Harmonious Life
+            <h1 className="th-hero-title th-hero-title--golden">
+              <span className="th-hero-line-crimson">
+                Ancient Wisdom for a Healthier,
+              </span>
+              <span className="th-hero-line-gold">
+                Happier &amp; More Harmonious Life
+              </span>
             </h1>
 
-            <p className="th-hero-subtitle">
+            {/* Center Diamond Ornamental Rule */}
+            <div className="th-golden-diamond-rule" aria-hidden="true">
+              <span className="th-golden-diamond-line th-golden-diamond-line--left" />
+              <span className="th-golden-diamond-gem">◆</span>
+              <span className="th-golden-diamond-line th-golden-diamond-line--right" />
+            </div>
+
+            <p className="th-hero-subtitle th-hero-subtitle--golden">
               <span>Heal Your Mind</span>
-              <span className="hero-modern-dot" aria-hidden="true">&bull;</span>
+              <span className="th-golden-dot" aria-hidden="true">&bull;</span>
               <span>Balance Your Space</span>
-              <span className="hero-modern-dot" aria-hidden="true">&bull;</span>
+              <span className="th-golden-dot" aria-hidden="true">&bull;</span>
               <span>Transform Your Life</span>
             </p>
 
@@ -160,7 +269,7 @@ export default function TempleHarmonyRedesign({
               <button
                 type="button"
                 onClick={onExploreCourses}
-                className="th-btn th-btn--primary"
+                className="th-btn th-btn--golden-primary"
               >
                 <span>Explore Our Courses</span>
                 <ArrowRight size={16} />
@@ -169,7 +278,7 @@ export default function TempleHarmonyRedesign({
               <button
                 type="button"
                 onClick={onConsultClick}
-                className="th-btn th-btn--secondary"
+                className="th-btn th-btn--golden-secondary"
               >
                 <span>Book a Consultation</span>
               </button>
@@ -193,21 +302,23 @@ export default function TempleHarmonyRedesign({
                 Doctor by Profession &middot; Motivational Speaker &middot; Reiki Grandmaster
               </p>
               <div className="th-founder-badge">
-                <Award size={15} color="#b92b27" />
-                <span>Practicing Since 1995 &middot; 28+ Years Experience</span>
+                <Award size={15} color="#b5091f" />
+                <span>Practicing Since 1995 &middot; 31+ Years Experience</span>
               </div>
             </div>
 
             <div className="th-about-right">
               <p className="th-eyebrow">ABOUT OUR FOUNDER &amp; MISSION</p>
-              <h2 className="th-heading-left">Welcome to Reiki &amp; Vaastu World</h2>
+              <h2 className="th-heading-left">Welcome to Reiki and Vaastu World</h2>
               <div className="th-gold-rule-left" />
               <p className="th-body-p">
                 Dr. Naresh Chhabdiya has been practicing{' '}
-                <strong>Reiki, Vaastu, Rudraksh, Astrology, and Numerology since 1995</strong>. A
+                <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A
                 doctor by profession and motivational mentor with centers in{' '}
                 <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower
-                people around the world with genuine Reiki and spiritual healing.
+                people around the world with genuine Reiki and spiritual healing. Previously Reiki
+                and Vaastu World was known as{' '}
+                <strong>Sanjeevni Reiki and Vaastu Center</strong>.
               </p>
               <blockquote className="th-quote">
                 “It’s been a beautiful journey with Reiki; it has subtly yet powerfully helped
@@ -256,11 +367,18 @@ export default function TempleHarmonyRedesign({
                         onClick={() => onSelectCourse && onSelectCourse(course.id, course.title)}
                         className="th-course-card course-card-slider-item"
                       >
-                        <div className="th-course-img-wrap">
+                        <div
+                          className="th-course-img-wrap"
+                          style={course.imageBg ? { background: course.imageBg } : undefined}
+                        >
                           <img
                             src={course.image}
                             alt={course.alt || `${course.title} course`}
                             loading="lazy"
+                            style={{
+                              objectFit: course.imageFit || 'cover',
+                              objectPosition: course.imagePosition || 'center center'
+                            }}
                           />
                         </div>
                         <div className="th-course-body">
@@ -302,19 +420,6 @@ export default function TempleHarmonyRedesign({
         <span className="th-particle" style={{ bottom: '18%', right: '6%' }} aria-hidden="true" />
 
         <div className="hm-container">
-          {/* Temple Header Bar inside section (matching reference screenshot 1) */}
-          <div className="th-features-topbar th-reveal">
-            <div className="th-features-brand">
-              <div className="th-features-brand-badge">
-                <img src="/logo/lotus_pure.png" alt="" style={{ width: '22px', height: 'auto', filter: 'brightness(2.2)' }} />
-              </div>
-              <span className="th-features-brand-name">Reiki &amp; Vaastu World</span>
-            </div>
-            <div className="th-features-mantra">
-              ALIGN &nbsp;&middot;&nbsp; BALANCE &nbsp;&middot;&nbsp; AWAKEN
-            </div>
-          </div>
-
           {/* Section Heading: HOLISTIC TRANSFORMATION / OUR FEATURES */}
           <div className="th-section-header th-reveal">
             <p className="th-eyebrow">HOLISTIC TRANSFORMATION</p>
@@ -394,13 +499,19 @@ export default function TempleHarmonyRedesign({
             {SACRED_PRODUCTS.map((item, idx) => (
               <article
                 key={item.id}
+                onClick={() =>
+                  onSelectProduct
+                    ? onSelectProduct(item.id)
+                    : onProductInquiry && onProductInquiry(item)
+                }
                 className="th-feature-card th-reveal"
                 style={{
                   transitionDelay: `${idx * 90}ms`,
                   padding: 0,
                   overflow: 'hidden',
                   display: 'flex',
-                  flexDirection: 'column'
+                  flexDirection: 'column',
+                  cursor: 'pointer'
                 }}
               >
                 <div
@@ -425,37 +536,30 @@ export default function TempleHarmonyRedesign({
                 </div>
                 <div
                   style={{
-                    padding: '20px 18px 22px',
+                    padding: '18px 16px 20px',
                     display: 'flex',
                     flexDirection: 'column',
-                    flex: 1,
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <h3 className="th-feature-title" style={{ fontSize: '23px' }}>
                     {item.title}
                   </h3>
-                  <div className="th-feature-rule" style={{ margin: '10px auto 10px' }} />
-                  <p
-                    style={{
-                      fontFamily: 'var(--font-karla)',
-                      fontSize: '11.5px',
-                      fontWeight: 700,
-                      color: '#9a5b13',
-                      margin: '0 0 8px',
-                      letterSpacing: '0.03em'
-                    }}
-                  >
-                    {item.subtitle}
-                  </p>
-                  <p className="th-feature-desc" style={{ marginBottom: '14px', flex: 1 }}>
-                    {item.description}
-                  </p>
-                  <span className="th-coming-soon-pill">✦ Reiki Energized ✦</span>
+                  <div className="th-feature-rule" style={{ margin: '10px auto 0' }} />
                 </div>
               </article>
             ))}
           </div>
+
+          {onSeeAllProducts && (
+            <div className="th-center-cta th-reveal">
+              <button type="button" onClick={onSeeAllProducts} className="th-btn th-btn--primary">
+                <span>Explore All Products</span>
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

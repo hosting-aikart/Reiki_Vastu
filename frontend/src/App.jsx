@@ -8,6 +8,8 @@ import ReikiTherapy from './components/ReikiTherapy';
 import VideoTestimonials from './components/VideoTestimonials';
 import CoursesPage from './components/CoursesPage';
 import CourseDetailPage from './components/CourseDetailPage';
+import ProductsPage from './components/ProductsPage';
+import ProductDetailPage from './components/ProductDetailPage';
 import TempleHarmonyRedesign from './components/TempleHarmonyRedesign';
 import Footer from './components/Footer';
 import FloatingWidgets from './components/FloatingWidgets';
@@ -18,10 +20,10 @@ export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) return 'admin';
-    if (path.startsWith('/redesign')) return 'redesign';
     return 'home';
   });
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const [previousView, setPreviousView] = useState('home');
   const [activeModal, setActiveModal] = useState(null);
   const [modalData, setModalData] = useState(null);
@@ -31,8 +33,6 @@ export default function App() {
       const path = window.location.pathname;
       if (path.startsWith('/admin')) {
         setCurrentView('admin');
-      } else if (path.startsWith('/redesign')) {
-        setCurrentView('redesign');
       } else {
         setCurrentView('home');
       }
@@ -76,15 +76,12 @@ export default function App() {
   };
 
   const handleBackToHome = () => {
-    const target = window.location.pathname.startsWith('/redesign') ? 'redesign' : 'home';
-    setCurrentView(target);
+    setCurrentView('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackFromCourseDetail = () => {
-    if (previousView === 'redesign') {
-      setCurrentView('redesign');
-    } else if (previousView === 'home') {
+    if (previousView === 'home') {
       setCurrentView('home');
     } else {
       setCurrentView('courses');
@@ -92,35 +89,41 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const switchPreviewMode = (mode) => {
-    const nextPath = mode === 'redesign' ? '/redesign' : '/';
-    window.history.pushState({}, '', nextPath);
-    setCurrentView(mode);
+  const handleSelectProduct = (productId) => {
+    setPreviousView(currentView === 'product-detail' ? 'products' : currentView);
+    setSelectedProductId(productId);
+    setCurrentView('product-detail');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const isRedesign = currentView === 'redesign';
+  const handleSeeAllProducts = () => {
+    setCurrentView('products');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackFromProductDetail = () => {
+    if (previousView === 'home') {
+      setCurrentView('home');
+    } else {
+      setCurrentView('products');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div
-      className={isRedesign ? 'th-theme-active' : ''}
+      className="th-theme-active th-golden-harmony th-bolder-preview"
       style={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: isRedesign ? '#faf5ee' : '#fdfbf7'
+        background: '#faf5ee'
       }}
     >
       {/* Floating Pill Navbar */}
       <Navbar
-        currentView={currentView === 'redesign' ? 'home' : currentView}
-        setCurrentView={(view) => {
-          if (view === 'home' && window.location.pathname.startsWith('/redesign')) {
-            setCurrentView('redesign');
-          } else {
-            setCurrentView(view);
-          }
-        }}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
         openModal={openModal}
       />
 
@@ -132,10 +135,10 @@ export default function App() {
             courseId={selectedCourseId}
             onBack={handleBackFromCourseDetail}
             onEnroll={(title) => {
-              openModal('meeting', { kind: 'course', courseId: selectedCourseId, title });
+              openModal('enroll', { courseId: selectedCourseId, title });
             }}
             onContact={(title) => {
-              openModal('meeting', { kind: 'course', courseId: selectedCourseId, title });
+              openModal('contact', { courseTitle: title });
             }}
           />
         ) : currentView === 'courses' ? (
@@ -144,51 +147,46 @@ export default function App() {
             onSelectCourse={handleSelectCourse}
             onBack={handleBackToHome}
           />
-        ) : currentView === 'redesign' ? (
-          /* ── Option A: /redesign Preview Route (Cormorant Garamond + Karla Temple Harmony) ── */
+        ) : currentView === 'product-detail' && selectedProductId ? (
+          /* ── Dedicated Single Product Detail Page (E-Commerce) ── */
+          <ProductDetailPage
+            productId={selectedProductId}
+            onBack={handleBackFromProductDetail}
+            onSelectProduct={handleSelectProduct}
+            onOrderProduct={(item) =>
+              openModal('contact', {
+                productTitle: `${item.title} (${item.price}${item.quantity > 1 ? ` × ${item.quantity}` : ''})`
+              })
+            }
+            onConsultClick={(prod) =>
+              openModal(
+                'meeting',
+                prod
+                  ? {
+                      productTitle: prod.title,
+                      note: `I would like expert consultation advice regarding ${prod.title} (${prod.subtitle}).`
+                    }
+                  : null
+              )
+            }
+          />
+        ) : currentView === 'products' ? (
+          /* ── Dedicated Products Page ── */
+          <ProductsPage onSelectProduct={handleSelectProduct} />
+        ) : (
+          /* ── Golden Harmony Home Page ── */
           <TempleHarmonyRedesign
             onConsultClick={() => openModal('meeting')}
             onExploreCourses={handleSeeAllCourses}
             onSelectCourse={handleSelectCourse}
             onSeeAllCourses={handleSeeAllCourses}
+            onSelectProduct={handleSelectProduct}
+            onSeeAllProducts={handleSeeAllProducts}
             onBookSession={() => openModal('meeting', { serviceKey: 'reiki_healing_session' })}
+            onProductInquiry={(product) => openModal('contact', { productTitle: product.title })}
+            onContactClick={() => openModal('contact')}
             onAddStory={() => openModal('addStory')}
           />
-        ) : (
-          /* ── Original Home Page ── */
-          <>
-            {/* 1. Hero */}
-            <Hero
-              onSearch={() => {
-                const el = document.getElementById('courses-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              onConsultClick={() => openModal('meeting')}
-              onExploreCourses={() => {
-                setCurrentView('courses');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-
-            {/* 2. About Dr. Naresh + Courses Preview */}
-            <AboutAndFeatures
-              onConsultClick={() => openModal('meeting')}
-              onSelectCourse={handleSelectCourse}
-              onSeeAllCourses={handleSeeAllCourses}
-            />
-
-            {/* 3. OUR FEATURES */}
-            <OurFeatures />
-
-            {/* 4. Our Products (4 cards) */}
-            <BusinessNeeds />
-
-            {/* 5. Reiki Therapy Section */}
-            <ReikiTherapy onBookSession={() => openModal('meeting', { serviceKey: 'reiki_healing_session' })} />
-
-            {/* 6. Testimonials */}
-            <VideoTestimonials onAddStory={() => openModal('addStory')} />
-          </>
         )}
       </main>
 
@@ -196,36 +194,11 @@ export default function App() {
       {currentView !== 'course-detail' && (
         <Footer
           setCurrentView={(view) => {
-            if (view === 'home' && window.location.pathname.startsWith('/redesign')) {
-              setCurrentView('redesign');
-            } else {
-              setCurrentView(view);
-            }
+            setCurrentView(view);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           openModal={openModal}
         />
-      )}
-
-      {/* Temporary Floating Design Comparison Pill (/ vs /redesign) */}
-      {(currentView === 'home' || currentView === 'redesign') && (
-        <div className="th-preview-switcher" role="region" aria-label="Design comparison preview switcher">
-          <span className="th-preview-label">Preview:</span>
-          <button
-            type="button"
-            onClick={() => switchPreviewMode('home')}
-            className={`th-preview-pill ${!isRedesign ? 'th-preview-pill--active' : ''}`}
-          >
-            Original (/)
-          </button>
-          <button
-            type="button"
-            onClick={() => switchPreviewMode('redesign')}
-            className={`th-preview-pill ${isRedesign ? 'th-preview-pill--active' : ''}`}
-          >
-            Temple Harmony (/redesign)
-          </button>
-        </div>
       )}
 
       {/* Floating Spiritual Councillor Widget */}
