@@ -82,7 +82,11 @@ function toCheckoutResponse(payment) {
  * double click or network retry cannot create a second payable order.
  */
 function sameCustomer(stored, submitted) {
-  const fields = (c) => [c?.name, c?.phone, c?.email, c?.address?.line1, c?.address?.line2 || '', c?.address?.city, c?.address?.state, c?.address?.pincode];
+  const fields = (c) => [
+    c?.name, c?.phone, c?.email,
+    c?.address?.line1, c?.address?.line2 || '', c?.address?.city, c?.address?.state, c?.address?.pincode,
+    c?.location?.latitude ?? null, c?.location?.longitude ?? null
+  ];
   return JSON.stringify(fields(stored)) === JSON.stringify(fields(submitted));
 }
 

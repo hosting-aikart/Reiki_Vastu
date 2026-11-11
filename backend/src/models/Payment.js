@@ -117,6 +117,21 @@ const paymentSchema = new mongoose.Schema(
         city: { type: String, required: true, trim: true, maxlength: 80 },
         state: { type: String, required: true, trim: true, maxlength: 80 },
         pincode: { type: String, required: true, trim: true, match: /^[1-9]\d{5}$/ }
+      },
+      // Optional: shared by the customer with "Use my current location" to help
+      // the delivery person find the exact place. Reported by the browser, so
+      // it is a convenience, not proof of where the customer is.
+      location: {
+        type: new mongoose.Schema(
+          {
+            latitude: { type: Number, required: true, min: -90, max: 90 },
+            longitude: { type: Number, required: true, min: -180, max: 180 },
+            accuracyMeters: { type: Number, min: 0, default: null },
+            capturedAt: { type: Date, default: null }
+          },
+          { _id: false }
+        ),
+        default: null
       }
     },
     // Owner's "payment received" email (sent once, when the payment becomes PAID)

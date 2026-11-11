@@ -424,6 +424,20 @@ export function buildPaymentEmailData(payment) {
     { label: 'Razorpay Payment ID', value: payment.razorpayPaymentId || 'Not available' }
   ];
 
+  const location = c.location;
+  const mapUrl =
+    location && Number.isFinite(location.latitude) && Number.isFinite(location.longitude)
+      ? `https://www.google.com/maps?q=${Number(location.latitude).toFixed(6)},${Number(location.longitude).toFixed(6)}`
+      : null;
+  if (mapUrl) {
+    const accuracy = Number.isFinite(location.accuracyMeters) ? ` (accurate to about ${Math.round(location.accuracyMeters)} m)` : '';
+    contentRows.splice(8, 0, {
+      label: 'Live Location',
+      value: `<a href="${escapeHtml(mapUrl)}">Open in Google Maps</a>${escapeHtml(accuracy)}`,
+      isHtml: true
+    });
+  }
+
   const html = buildEmailTemplate({
     title: `Payment Received: ${amount}`,
     badge: isTestMode
@@ -450,6 +464,7 @@ export function buildPaymentEmailData(payment) {
     ``,
     `--- DELIVER TO ---`,
     ...(addressLines.length ? addressLines : ['Not provided']),
+    mapUrl ? `Live location: ${mapUrl}` : null,
     ``,
     `Razorpay Payment ID: ${payment.razorpayPaymentId || 'Not available'}`,
     dashboardUrl ? `Admin Dashboard: ${dashboardUrl}` : null

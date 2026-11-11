@@ -244,6 +244,25 @@ export default function AdminPayments() {
                           </>
                         ) : null}
                       </Detail>
+                      <Detail label="Live location">
+                        {payment.customer?.location ? (
+                          <>
+                            <a
+                              href={`https://www.google.com/maps?q=${payment.customer.location.latitude},${payment.customer.location.longitude}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: '#1d4ed8', fontWeight: 600 }}
+                            >
+                              Open in Google Maps
+                            </a>
+                            {payment.customer.location.accuracyMeters != null && (
+                              <span style={{ color: '#64748b' }}> (±{payment.customer.location.accuracyMeters} m)</span>
+                            )}
+                          </>
+                        ) : (
+                          <span style={{ color: '#94a3b8' }}>Not shared</span>
+                        )}
+                      </Detail>
                       <Detail label="Contact">
                         {payment.customer ? (<>{payment.customer.phone}<br />{payment.customer.email}</>) : null}
                       </Detail>

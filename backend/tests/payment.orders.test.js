@@ -301,6 +301,53 @@ describe('Payment order creation', () => {
       });
     }
 
+    test('stores an optional live location with the address', async () => {
+      const location = { latitude: 20.9374, longitude: 77.7796, accuracyMeters: 18, capturedAt: new Date().toISOString() };
+      const res = await post(orderBody({ customer: { ...CUSTOMER, location } }));
+      const { data } = await res.json();
+      const record = await Payment.findOne({ reference: data.reference }).lean();
+
+      assert.equal(res.status, 201);
+      assert.equal(record.customer.location.latitude, 20.9374);
+      assert.equal(record.customer.location.longitude, 77.7796);
+      assert.equal(record.customer.location.accuracyMeters, 18);
+      assert.ok(!JSON.stringify(razorpayCalls[0]).includes('20.9374'), 'location must not be sent to Razorpay');
+    });
+
+    test('an order without a location stores none', async () => {
+      const { data } = await (await post(orderBody())).json();
+      const record = await Payment.findOne({ reference: data.reference }).lean();
+
+      assert.equal(record.customer.location, null);
+    });
+
+    for (const [name, location] of [
+      ['latitude out of range', { latitude: 91, longitude: 77 }],
+      ['longitude out of range', { latitude: 20, longitude: 181 }],
+      ['non-numeric coordinates', { latitude: '20.9', longitude: '77.7' }],
+      ['missing longitude', { latitude: 20.9 }]
+    ]) {
+      test(`rejects a location with ${name}`, async () => {
+        const res = await post(orderBody({ customer: { ...CUSTOMER, location } }));
+        const body = await res.json();
+
+        assert.equal(res.status, 422);
+        assert.ok(Object.keys(body.error.fields).some((k) => k.startsWith('customer.location')), JSON.stringify(body.error.fields));
+        assert.equal(razorpayCalls.length, 0);
+      });
+    }
+
+    test('changing the location under the same key is refused', async () => {
+      const key = crypto.randomUUID();
+      const location = { latitude: 20.9374, longitude: 77.7796 };
+
+      await post(orderBody({ idempotencyKey: key, customer: { ...CUSTOMER, location } }));
+      const res = await post(orderBody({ idempotencyKey: key, customer: { ...CUSTOMER, location: { ...location, latitude: 21.1 } } }));
+
+      assert.equal(res.status, 409);
+      assert.equal(razorpayCalls.length, 1);
+    });
+
     test('changing the address under the same key is refused, not silently ignored', async () => {
       const key = crypto.randomUUID();
 

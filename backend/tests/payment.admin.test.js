@@ -157,6 +157,14 @@ describe('Admin payments, owner email, production checks and frontend contract',
       assert.equal(data.pagination.total, 2);
     });
 
+    test('includes the live location for delivery', async () => {
+      await createPayment({ customer: { ...CUSTOMER, location: { latitude: 20.9374, longitude: 77.7796, accuracyMeters: 18 } } });
+
+      const { data } = await (await adminGet('/api/admin/payments')).json();
+
+      assert.equal(data.payments[0].customer.location.latitude, 20.9374);
+    });
+
     test('never returns the status token or idempotency key', async () => {
       const payment = await createPayment();
 
@@ -295,6 +303,32 @@ describe('Admin payments, owner email, production checks and frontend contract',
       assert.ok(!html.includes('<script>'));
       assert.ok(!html.includes('<img src=x'));
       assert.ok(html.includes('&lt;script&gt;'));
+    });
+
+    test('includes a Google Maps link when a live location was shared', () => {
+      const { html, text } = buildPaymentEmailData({
+        reference: 'RVP-TEST',
+        amountPaise: AMOUNT,
+        quantity: 1,
+        product: { name: 'Black Obsidian' },
+        customer: { ...CUSTOMER, location: { latitude: 20.9374, longitude: 77.7796, accuracyMeters: 18 } }
+      });
+
+      assert.ok(html.includes('https://www.google.com/maps?q=20.937400,77.779600'));
+      assert.ok(text.includes('Live location: https://www.google.com/maps?q=20.937400,77.779600'));
+      assert.ok(html.includes('about 18 m'));
+    });
+
+    test('has no location line when none was shared', () => {
+      const { text } = buildPaymentEmailData({
+        reference: 'RVP-TEST',
+        amountPaise: AMOUNT,
+        quantity: 1,
+        product: { name: 'Black Obsidian' },
+        customer: CUSTOMER
+      });
+
+      assert.ok(!text.includes('Live location'));
     });
 
     test('says TEST MODE while using a test key', () => {

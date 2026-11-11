@@ -30,7 +30,18 @@ export const createOrderSchema = z.object({
         city: z.string().trim().min(2, 'Please enter your city').max(80),
         state: z.string().trim().min(2, 'Please enter your state').max(80),
         pincode: z.string().trim().regex(/^[1-9]\d{5}$/, 'Please enter a valid 6-digit PIN code')
-      })
+      }),
+      // Optional live location from the browser's geolocation feature
+      location: z
+        .object({
+          latitude: z.number().finite().min(-90).max(90),
+          longitude: z.number().finite().min(-180).max(180),
+          accuracyMeters: z.number().finite().min(0).max(100000).nullable().optional().default(null),
+          capturedAt: z.string().datetime().nullable().optional().default(null)
+        })
+        .nullable()
+        .optional()
+        .default(null)
     },
     { required_error: 'Delivery details are required', invalid_type_error: 'Delivery details are required' }
   )
