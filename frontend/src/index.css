@@ -284,13 +284,13 @@ p {
 .gnav-in {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 16px;
+  gap: 12px 28px;
   height: 74px;
   max-width: 1340px;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 22px 0 18px;
   border-radius: 50px;
   background: rgba(255, 253, 248, 0.22);
   backdrop-filter: blur(18px) saturate(160%);
@@ -371,9 +371,12 @@ p {
 .gnav-links {
   display: none;
   align-items: center;
-  gap: 36px;
   justify-content: center;
   justify-self: center;
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+  gap: 18px;
 }
 
 @media (min-width: 1024px) {
@@ -385,26 +388,21 @@ p {
 .gnav-link {
   color: var(--c-dark-wine);
   text-decoration: none;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
+  text-align: center;
   transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
   background: transparent;
   border: none;
-  padding: 8px 6px;
+  padding: 8px 14px;
   cursor: pointer;
 }
 
 .gnav-link:hover {
   color: #D2042D;
   transform: translateY(-1px);
-}
-
-.gnav-link-active {
-  color: #D2042D !important;
-  font-weight: 700;
-  border-bottom: 2.5px solid #d4af37;
 }
 
 .gnav-dark .gnav-link {
@@ -3070,10 +3068,6 @@ a.hm-cta-btn:hover,
   color: #3a1f28;
 }
 
-.th-theme-active .gnav-link-active {
-  font-weight: 700;
-}
-
 .th-theme-active .gnav-btn-primary {
   font-family: var(--font-karla);
   font-weight: 700;
@@ -3822,6 +3816,19 @@ a.hm-cta-btn:hover,
    GOLDEN HARMONY PREVIEW (Inspired by 5th Reference Image + Site-Wide Font & Color Coordination)
    ══════════════════════════════════════════════════════════════════ */
 
+/* Keep the hero headline, tagline, and buttons centered in the viewport */
+.th-hero--golden.hero-fullscreen-16x9 {
+  justify-content: center;
+}
+
+.th-hero--golden .hero-lower-third-container {
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 100%;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
 /* 1. Individually Calibrated Natural Warm Golden Color Grading Filter for All 5 Slides */
 .th-hero-slide--golden-filter {
   filter: var(--slide-filter, brightness(0.98) contrast(1.08) saturate(1.14) sepia(0.06)) !important;
@@ -4035,14 +4042,13 @@ a.hm-cta-btn:hover,
 
 .th-golden-harmony .gnav-link {
   font-family: var(--font-cormorant);
-  font-size: 19.5px;
+  font-size: 23px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.015em;
   color: #2b160e;
 }
 
-.th-golden-harmony .gnav-link:hover,
-.th-golden-harmony .gnav-link-active {
+.th-golden-harmony .gnav-link:hover {
   color: #7d1418 !important;
 }
 
@@ -4150,11 +4156,11 @@ a.hm-cta-btn:hover,
   }
 
   .gnav-links {
-    gap: 20px;
+    gap: 10px;
   }
 
   .th-golden-harmony .gnav-link {
-    font-size: 18px;
+    font-size: 21px;
   }
 
   .gnav-btn-primary {
@@ -4177,8 +4183,15 @@ a.hm-cta-btn:hover,
 
   .th-hero--golden {
     min-height: 100svh;
-    padding-top: 96px;
-    padding-bottom: 36px;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .th-hero--golden .hero-lower-third-container {
+    justify-content: center;
+    padding-top: 72px;
+    padding-bottom: 72px;
   }
 
   .th-hero-line-crimson {
@@ -4456,8 +4469,8 @@ a.hm-cta-btn:hover,
 
 .th-bolder-preview .gnav-link {
   font-weight: 700 !important;
-  font-size: 20px !important;
-  -webkit-text-stroke: 0.34px currentColor;
+  font-size: 23px !important;
+  -webkit-text-stroke: 0.45px currentColor;
 }
 
 .th-bolder-preview .gnav-btn-primary,
@@ -4662,11 +4675,11 @@ a.hm-cta-btn:hover,
   }
 
   .gnav-links {
-    gap: clamp(16px, 2vw, 28px);
+    gap: 8px;
   }
 
   .th-bolder-preview .gnav-link {
-    font-size: 18px !important;
+    font-size: 21px !important;
   }
 
   .gnav-btn-primary {
@@ -4788,6 +4801,8 @@ a.hm-cta-btn:hover,
   .product-detail-actions-row .th-btn {
     width: 100%;
     justify-content: center;
+    /* inline flex-basis (165px) would otherwise become the height in column layout */
+    flex: 0 0 auto !important;
   }
 
   #testimonials-section {
@@ -5082,6 +5097,246 @@ a.hm-cta-btn:hover,
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   13. VIEWPORT ADAPTATION
+   Desktop (above 900px, up to ~21:9) keeps the approved cover crop.
+   Portrait phones and ultra-wide screens show the full photograph
+   over a blurred copy of the same image, so subjects are not cut off.
+   ══════════════════════════════════════════════════════════════════ */
 
+.th-hero-slide-fill {
+  display: none;
+}
 
+@media (max-width: 900px), (min-aspect-ratio: 21/9) {
+  .th-hero--golden .th-hero-slide-fill {
+    display: block;
+    position: absolute;
+    inset: -8%;
+    width: 116%;
+    height: 116%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(26px) saturate(1.12) brightness(0.78);
+    transform: scale(1.08);
+    z-index: 0;
+  }
 
+  .th-hero--golden .th-hero-slide {
+    z-index: 1;
+    object-fit: contain;
+    object-position: center center;
+    transform: none;
+    max-width: none;
+    height: 100%;
+  }
+
+  .th-hero--golden .th-hero-slide--active {
+    transform: none;
+  }
+
+  .th-hero--golden .th-hero-cinematic-grade,
+  .th-hero--golden .th-hero-golden-overlay {
+    z-index: 2;
+  }
+}
+
+/* Portrait phones and tablets: show the full photograph, then the
+   heading and buttons underneath it, instead of cropping the photo
+   to fill the screen. */
+@media (max-width: 900px) and (orientation: portrait) {
+  .th-hero--golden.hero-fullscreen-16x9 {
+    height: auto;
+    min-height: 0;
+    justify-content: flex-start;
+    background:
+      linear-gradient(180deg, #2c160e 0%, #5a3018 46%, #7a4a28 100%);
+  }
+
+  /* Fixed 3:2 photo frame (the native ratio of most hero photos), so
+     every slide is shown whole and the heading/buttons below never
+     jump when the slideshow changes image. Square or 4:3 slides sit
+     inside the frame over their own blurred copy. */
+  .th-hero--golden .hero-bg-video-wrap {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    margin-top: calc(76px + env(safe-area-inset-top, 0px));
+  }
+
+  .th-hero--golden .th-hero-slide-layer {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .th-hero--golden .th-hero-slide {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: contain;
+  }
+
+  /* Line 1 sits on the dark panel here instead of a bright photo, so it
+     gets a soft warm halo to stay legible (same crimson colour). */
+  .th-bolder-preview .th-hero--golden .th-hero-line-crimson {
+    text-shadow:
+      0 0 1px rgba(255, 240, 215, 0.55),
+      0 0 7px rgba(255, 226, 180, 0.32) !important;
+  }
+
+  /* The tagline's dark antique gold (#855b16) is tuned for sitting over
+     the bright desktop photos; on this dark panel it would disappear,
+     so phones/tablets use the brighter logo gold here. */
+  .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+  .th-hero--golden .th-golden-dot {
+    color: #d4af37 !important;
+    -webkit-text-stroke-color: #d4af37;
+  }
+
+  .th-hero--golden .th-hero-slide-fill {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .th-hero--golden .hero-lower-third-container {
+    flex: 0 0 auto;
+    min-height: 0;
+    justify-content: flex-start;
+    padding: 18px 16px calc(28px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .th-hero--golden .hero-lower-third-content {
+    max-width: 640px;
+  }
+
+  .th-hero-subtitle--golden {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+}
+
+/* Landscape phones: the hero is shorter than its content, so let it
+   grow and start the content below the floating navbar. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .th-hero--golden.hero-fullscreen-16x9 {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .th-hero--golden .hero-lower-third-container {
+    min-height: 0;
+    padding-top: calc(86px + env(safe-area-inset-top, 0px));
+    padding-bottom: 28px;
+  }
+}
+
+@media (max-width: 390px) {
+  .th-hero-line-crimson,
+  .th-hero-line-gold {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .gnav-btn-primary,
+  .hero-modern-actions .th-btn {
+    min-height: 44px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   14. LARGE MONITORS, 2K/4K TELEVISIONS & ULTRA-WIDE DISPLAYS
+   The approved layout is drawn in fixed pixel sizes and is tuned for a
+   ~1920 x 1080 canvas. On bigger screens the whole page is scaled up
+   uniformly (exactly like OS display scaling) so 2K and 4K screens show
+   the same composition as Full HD, only sharper, instead of a small
+   desktop layout floating in empty space. The scale is chosen by BOTH
+   width and height, so ultra-wide monitors scale by their height and
+   use the extra width as balanced side margins.
+   --page-zoom lets viewport-height rules cancel the zoom (CSS zoom also
+   multiplies vh/dvh units).
+   ══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --page-zoom: 1;
+}
+
+/* Full HD and up: slightly wider content so 1920px screens (and the
+   scaled 2K/4K canvases built on them) don't leave wide empty margins.
+   Plain px values only - viewport units would be multiplied by zoom. */
+@media (min-width: 1920px) {
+  .hm-container {
+    max-width: 1480px;
+  }
+
+  .gnav-in {
+    max-width: 1560px;
+  }
+
+  .th-bolder-preview .gnav-link,
+  .th-golden-harmony .gnav-link {
+    font-size: 24px !important;
+  }
+}
+
+@media (min-width: 2200px) and (min-height: 1240px) {
+  :root { --page-zoom: 1.15; }
+}
+
+@media (min-width: 2400px) and (min-height: 1340px) {
+  :root { --page-zoom: 1.3333; }
+}
+
+@media (min-width: 2880px) and (min-height: 1600px) {
+  :root { --page-zoom: 1.5; }
+}
+
+@media (min-width: 3200px) and (min-height: 1780px) {
+  :root { --page-zoom: 1.6667; }
+}
+
+@media (min-width: 3800px) and (min-height: 2100px) {
+  :root { --page-zoom: 2; }
+}
+
+@media (min-width: 5000px) and (min-height: 2800px) {
+  :root { --page-zoom: 2.6667; }
+}
+
+@media (min-width: 2200px) and (min-height: 1240px) {
+  html {
+    zoom: var(--page-zoom);
+  }
+
+  html,
+  body,
+  #root,
+  .hero-lower-third-container--glass-preview {
+    min-height: calc(100dvh / var(--page-zoom));
+  }
+
+  .hero-section.hero-fullscreen-16x9 {
+    height: calc(100dvh / var(--page-zoom));
+    min-height: 580px;
+  }
+
+  .hero-lower-third-container {
+    padding-bottom: clamp(28px, calc(4.5vh / var(--page-zoom)), 52px);
+  }
+
+  .gnav-drawer-panel {
+    height: calc(100dvh / var(--page-zoom));
+  }
+
+  .modal-card,
+  .modal-body-content {
+    max-height: calc(100dvh / var(--page-zoom) - 24px);
+  }
+}

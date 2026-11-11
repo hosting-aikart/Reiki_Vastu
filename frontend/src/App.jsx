@@ -179,7 +179,7 @@ export default function App() {
     <div
       className="th-theme-active th-golden-harmony th-bolder-preview"
       style={{
-        minHeight: '100vh',
+        minHeight: 'calc(100vh / var(--page-zoom, 1))',
         display: 'flex',
         flexDirection: 'column',
         background: '#faf5ee'

@@ -219,6 +219,12 @@ export default function TempleHarmonyRedesign({
               <img
                 src={slide.src}
                 alt=""
+                aria-hidden="true"
+                className="th-hero-slide-fill"
+              />
+              <img
+                src={slide.src}
+                alt=""
                 className={`hero-bg-video th-hero-slide ${
                   index === activeSlide ? 'th-hero-slide--active' : ''
                 } th-hero-slide--golden-filter`}

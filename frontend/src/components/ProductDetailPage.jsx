@@ -34,7 +34,7 @@ export default function ProductDetailPage({
       style={{
         paddingTop: '108px',
         paddingBottom: '90px',
-        minHeight: '100vh',
+        minHeight: 'calc(100vh / var(--page-zoom, 1))',
         background: '#faf5ee'
       }}
     >

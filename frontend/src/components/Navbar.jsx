@@ -42,22 +42,21 @@ export default function Navbar({
               setCurrentView('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}
+            style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
             aria-label="Reiki and Vaastu World - Home"
           >
             <img
               src="/logo/lotus_pure.png"
-              alt="Reiki &amp; Vaastu World Lotus"
+              alt="Reiki and Vaastu World"
               className="gnav-logo-img"
             />
-            <span className="gnav-brand-title">Reiki and Vaastu World</span>
           </a>
 
           {/* Nav Links: Home, Courses, Products, Contact Us */}
           <nav className="gnav-links">
             <button
               type="button"
-              className={`gnav-link ${currentView === 'home' ? 'gnav-link-active' : ''}`}
+              className="gnav-link"
               onClick={() => {
                 setCurrentView('home');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -68,7 +67,7 @@ export default function Navbar({
 
             <button
               type="button"
-              className={`gnav-link ${currentView === 'courses' || currentView === 'course-detail' ? 'gnav-link-active' : ''}`}
+              className="gnav-link"
               onClick={() => {
                 setCurrentView('courses');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -79,7 +78,7 @@ export default function Navbar({
 
             <button
               type="button"
-              className={`gnav-link ${currentView === 'products' || currentView === 'product-detail' ? 'gnav-link-active' : ''}`}
+              className="gnav-link"
               onClick={() => {
                 setCurrentView('products');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -144,15 +143,12 @@ export default function Navbar({
       <div className={`gnav-drawer-panel ${isDrawerOpen ? 'gnav-drawer-panel--open' : ''}`}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', gap: '10px' }}>
           {/* Site Logo + Brand Title */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', minWidth: 0 }}>
             <img
               src="/logo/lotus_pure.png"
-              alt="Reiki &amp; Vaastu World Lotus"
+              alt="Reiki and Vaastu World"
               style={{ height: '34px', width: 'auto', objectFit: 'contain', flexShrink: 0 }}
             />
-            <span className="gnav-brand-title gnav-brand-title--drawer">
-              Reiki and Vaastu World
-            </span>
           </div>
           <button
             type="button"
