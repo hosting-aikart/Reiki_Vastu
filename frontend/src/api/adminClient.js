@@ -144,7 +144,27 @@ export async function deleteTestimonial(id) {
   });
 }
 
+// ── Payments API ────────────────────────────────────────────
+export async function listPayments(params = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.append('page', params.page);
+  if (params.limit) query.append('limit', params.limit);
+  if (params.status && params.status !== 'all') query.append('status', params.status);
+  if (params.search) query.append('search', params.search);
+
+  const qs = query.toString() ? `?${query.toString()}` : '';
+  return request(`/api/admin/payments${qs}`);
+}
+
+export async function recheckPayment(id) {
+  return request(`/api/admin/payments/${id}/recheck`, {
+    method: 'POST'
+  });
+}
+
 export default {
+  listPayments,
+  recheckPayment,
   adminLogin,
   adminLogout,
   getAdminProfile,

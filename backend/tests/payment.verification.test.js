@@ -9,6 +9,11 @@ import app from '../src/app.js';
 import Payment, { PAYMENT_STATUS } from '../src/models/Payment.js';
 import { paymentStatusRateLimiter, paymentVerifyRateLimiter } from '../src/middleware/rateLimiters.js';
 import { setTestRazorpayClient } from '../src/services/razorpay.service.js';
+import { setTestTransporter } from '../src/services/email.service.js';
+
+// Every email the code tries to send lands here; tests must never reach a real SMTP server
+const sentEmails = [];
+const FAKE_TRANSPORT = { sendMail: async (message) => { sentEmails.push(message); return { messageId: 'test' }; } };
 import { computeSignature, isValidSignature } from '../src/utils/razorpaySignature.js';
 
 const require = createRequire(import.meta.url);
@@ -116,6 +121,9 @@ describe('Payment verification and status', () => {
   });
 
   before(async () => {
+    setTestTransporter(FAKE_TRANSPORT);
+    originalEnv.adminEmail = env.ADMIN_NOTIFICATION_EMAIL;
+    env.ADMIN_NOTIFICATION_EMAIL = 'owner@example.com';
     mongod = await MongoMemoryServer.create();
     await mongoose.connect(mongod.getUri());
     await Payment.init();
@@ -127,6 +135,8 @@ describe('Payment verification and status', () => {
   });
 
   after(async () => {
+    setTestTransporter(null);
+    env.ADMIN_NOTIFICATION_EMAIL = originalEnv.adminEmail;
     env.RAZORPAY_KEY_ID = originalEnv.keyId;
     env.RAZORPAY_KEY_SECRET = originalEnv.keySecret;
     setTestRazorpayClient(null);

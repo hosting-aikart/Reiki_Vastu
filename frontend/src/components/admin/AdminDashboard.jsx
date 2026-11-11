@@ -4,10 +4,12 @@ import AdminLogin from './AdminLogin';
 import AdminOverview from './AdminOverview';
 import AdminEnquiries from './AdminEnquiries';
 import AdminTestimonials from './AdminTestimonials';
+import AdminPayments from './AdminPayments';
 import {
   LayoutDashboard,
   Inbox,
   MessageSquare,
+  CreditCard,
   LogOut,
   ExternalLink,
   Shield,
@@ -271,6 +273,29 @@ export default function AdminDashboard({ onExitToSite }) {
                 </span>
               )}
             </button>
+
+            <button
+              onClick={() => setActiveTab('payments')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '11px 14px',
+                borderRadius: '8px',
+                border: 'none',
+                background: activeTab === 'payments' ? '#1e293b' : 'transparent',
+                color: activeTab === 'payments' ? '#f8fafc' : '#94a3b8',
+                fontWeight: activeTab === 'payments' ? 700 : 500,
+                fontSize: '13px',
+                cursor: 'pointer',
+                textAlign: 'left'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <CreditCard size={18} color={activeTab === 'payments' ? '#c59b27' : '#94a3b8'} />
+                <span>Payments</span>
+              </div>
+            </button>
           </nav>
         </div>
 
@@ -403,6 +428,10 @@ export default function AdminDashboard({ onExitToSite }) {
 
           {activeTab === 'testimonials' && (
             <AdminTestimonials />
+          )}
+
+          {activeTab === 'payments' && (
+            <AdminPayments />
           )}
         </main>
       </div>

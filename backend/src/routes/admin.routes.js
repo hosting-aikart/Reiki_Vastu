@@ -13,6 +13,7 @@ import authController from '../controllers/admin.auth.controller.js';
 import overviewController from '../controllers/admin.overview.controller.js';
 import enquiryController from '../controllers/admin.enquiry.controller.js';
 import testimonialController from '../controllers/admin.testimonial.controller.js';
+import paymentController from '../controllers/admin.payment.controller.js';
 
 const router = Router();
 
@@ -57,5 +58,9 @@ router.patch(
 );
 router.patch('/testimonials/:id/featured', requireAdmin, testimonialController.toggleFeatured);
 router.delete('/testimonials/:id', requireAdmin, testimonialController.deleteTestimonial);
+
+// ── Payments (read-only, plus re-check with Razorpay) ───────
+router.get('/payments', requireAdmin, paymentController.listPayments);
+router.post('/payments/:id/recheck', requireAdmin, paymentController.recheckPayment);
 
 export default router;

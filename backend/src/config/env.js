@@ -9,6 +9,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config(); // fallback to current working directory if different
 
+// Development-only fallbacks. They are public (they're in this file), so the
+// server refuses to start in production while either is still in use.
+const DEV_JWT_SECRET = 'reiki-vastu-secret-jwt-key-for-dev-change-in-production-2026';
+const DEV_COOKIE_SECRET = 'reiki-vastu-cookie-secret-key-2026';
+const MIN_SECRET_LENGTH = 32;
+
 const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
@@ -18,8 +24,8 @@ const envSchema = z.object({
   // Number of reverse proxies in front of the app (Render: 1). Lets req.ip be the
   // visitor's real address. Leave 0 when not behind a proxy, or visitors could fake it.
   TRUST_PROXY: z.coerce.number().int().min(0).max(5).default(0),
-  JWT_SECRET: z.string().default('reiki-vastu-secret-jwt-key-for-dev-change-in-production-2026'),
-  COOKIE_SECRET: z.string().default('reiki-vastu-cookie-secret-key-2026'),
+  JWT_SECRET: z.string().default(DEV_JWT_SECRET),
+  COOKIE_SECRET: z.string().default(DEV_COOKIE_SECRET),
   ADMIN_NOTIFICATION_EMAIL: z.string().email().optional().or(z.literal('')).transform(v => v || undefined),
   ADMIN_DASHBOARD_URL: z.string().url().optional().or(z.literal('')).transform(v => v || undefined),
   SMTP_HOST: z.string().optional().or(z.literal('')).transform(v => v || undefined),
@@ -46,6 +52,24 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+// Anyone who knows JWT_SECRET can forge an admin login, so in production it
+// (and COOKIE_SECRET) must be set to a long, private value.
+if (env.NODE_ENV === 'production') {
+  const weak = [
+    ['JWT_SECRET', env.JWT_SECRET, DEV_JWT_SECRET],
+    ['COOKIE_SECRET', env.COOKIE_SECRET, DEV_COOKIE_SECRET]
+  ]
+    .filter(([, value, devDefault]) => value === devDefault || value.length < MIN_SECRET_LENGTH)
+    .map(([name]) => name);
+
+  if (weak.length) {
+    console.error(
+      `❌ Refusing to start in production: ${weak.join(' and ')} must be set to a private value of at least ${MIN_SECRET_LENGTH} characters.`
+    );
+    process.exit(1);
+  }
+}
 
 /**
  * Checks whether email notification has valid, non-placeholder credentials configured.

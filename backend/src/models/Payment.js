@@ -119,6 +119,11 @@ const paymentSchema = new mongoose.Schema(
         pincode: { type: String, required: true, trim: true, match: /^[1-9]\d{5}$/ }
       }
     },
+    // Owner's "payment received" email (sent once, when the payment becomes PAID)
+    notification: {
+      adminEmailSent: { type: Boolean, default: false },
+      lastError: { type: String, default: null }
+    },
     // What the customer used inside Razorpay's window (may differ from the above).
     // Card numbers, CVVs and UPI PINs are never stored.
     razorpayCustomer: {

@@ -3,7 +3,26 @@ import Payment, { PAYMENT_STATUS } from '../models/Payment.js';
 import { fetchOrderPayments, RazorpayError } from './razorpay.service.js';
 import { PaymentError } from './payment.service.js';
 import { isValidCheckoutSignature } from '../utils/razorpaySignature.js';
+import { sendAdminPaymentNotification } from './email.service.js';
 import logger from '../utils/logger.js';
+
+/**
+ * Emails the owner in the background. The payment is already PAID; an email
+ * problem must never delay the response or undo that.
+ */
+function notifyOwner(payment) {
+  sendAdminPaymentNotification(payment)
+    .then((result) => {
+      if (result.sent) {
+        return Payment.updateOne({ _id: payment._id }, { $set: { 'notification.adminEmailSent': true } });
+      }
+      if (result.error) {
+        return Payment.updateOne({ _id: payment._id }, { $set: { 'notification.lastError': result.error } });
+      }
+      return null;
+    })
+    .catch((err) => logger.error(`Error recording payment notification for ${payment.reference}:`, err));
+}
 
 // How often a single payment may be re-checked with Razorpay via the status endpoint
 const RECONCILE_INTERVAL_MS = 10000;
@@ -95,6 +114,9 @@ export async function applyRazorpayPayments(payment, attempts, confirmedVia) {
     });
     if (updated) {
       logger.info(`Payment confirmed PAID: ${updated.reference} [${captured.id}] via ${confirmedVia}`);
+      // Only the caller whose transition succeeded gets here, so the email is
+      // sent once even when the callback, a status check and a webhook all race.
+      notifyOwner(updated);
     }
     return updated || reload();
   }

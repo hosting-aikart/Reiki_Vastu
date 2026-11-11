@@ -9,6 +9,11 @@ import Payment, { PAYMENT_STATUS } from '../src/models/Payment.js';
 import WebhookEvent from '../src/models/WebhookEvent.js';
 import { paymentOrderRateLimiter } from '../src/middleware/rateLimiters.js';
 import { setTestRazorpayClient } from '../src/services/razorpay.service.js';
+import { setTestTransporter } from '../src/services/email.service.js';
+
+// Every email the code tries to send lands here; tests must never reach a real SMTP server
+const sentEmails = [];
+const FAKE_TRANSPORT = { sendMail: async (message) => { sentEmails.push(message); return { messageId: 'test' }; } };
 
 const WEBHOOK_SECRET = 'fake_webhook_secret_never_exposed';
 const KEY_SECRET = 'fake_key_secret_never_exposed';
@@ -93,6 +98,9 @@ describe('Razorpay webhook', () => {
     });
 
   before(async () => {
+    setTestTransporter(FAKE_TRANSPORT);
+    originalEnv.adminEmail = env.ADMIN_NOTIFICATION_EMAIL;
+    env.ADMIN_NOTIFICATION_EMAIL = 'owner@example.com';
     mongod = await MongoMemoryServer.create();
     await mongoose.connect(mongod.getUri());
     await Payment.init();
@@ -106,6 +114,8 @@ describe('Razorpay webhook', () => {
   });
 
   after(async () => {
+    setTestTransporter(null);
+    env.ADMIN_NOTIFICATION_EMAIL = originalEnv.adminEmail;
     env.RAZORPAY_WEBHOOK_SECRET = originalEnv.webhookSecret;
     env.RAZORPAY_KEY_ID = originalEnv.keyId;
     env.RAZORPAY_KEY_SECRET = originalEnv.keySecret;

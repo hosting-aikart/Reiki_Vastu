@@ -10,6 +10,7 @@ import {
   TIME_SLOTS,
   BUSINESS_TIMEZONE
 } from '@reiki-vastu/shared';
+import { formatPaise } from '@reiki-vastu/shared/products.js';
 
 let activeTransporter = null;
 let hasReportedUnconfigured = false;
@@ -391,9 +392,102 @@ export async function sendAdminTestimonialNotification(testimonial) {
   }
 }
 
+/**
+ * Builds the owner's "payment received" email: everything needed to ship the order.
+ * Customer-entered text is escaped by buildEmailTemplate (except the address
+ * block, which is escaped here line by line before being joined with <br>).
+ */
+export function buildPaymentEmailData(payment) {
+  const isTestMode = Boolean(env.RAZORPAY_KEY_ID?.startsWith('rzp_test_'));
+  const amount = formatPaise(payment.amountPaise);
+  const paidAt = formatISTDateTime(payment.paidAt || new Date());
+  const dashboardUrl = env.ADMIN_DASHBOARD_URL ? `${env.ADMIN_DASHBOARD_URL.replace(/\/$/, '')}/admin` : null;
+  const c = payment.customer || {};
+  const a = c.address || {};
+  const addressLines = [a.line1, a.line2, [a.city, a.state].filter(Boolean).join(', '), a.pincode].filter(Boolean);
+
+  const subject = `[Payment received - ${payment.reference}] ${amount} · ${payment.product.name} × ${payment.quantity}${isTestMode ? ' (TEST MODE)' : ''}`;
+
+  const contentRows = [
+    { label: 'Reference', value: payment.reference },
+    { label: 'Paid At', value: paidAt },
+    { label: 'Product', value: `${payment.product.name} × ${payment.quantity}` },
+    { label: 'Amount Paid', value: amount },
+    { label: 'Customer', value: c.name || 'Not provided' },
+    { label: 'Phone', value: c.phone || 'Not provided' },
+    { label: 'Email', value: c.email || 'Not provided' },
+    {
+      label: 'Deliver To',
+      value: addressLines.length ? addressLines.map(escapeHtml).join('<br>') : 'Not provided',
+      isHtml: true
+    },
+    { label: 'Razorpay Payment ID', value: payment.razorpayPaymentId || 'Not available' }
+  ];
+
+  const html = buildEmailTemplate({
+    title: `Payment Received: ${amount}`,
+    badge: isTestMode
+      ? { bgColor: '#b45309', textColor: '#ffffff', text: 'TEST MODE - NO REAL MONEY' }
+      : { bgColor: '#15803d', textColor: '#ffffff', text: 'PAID - READY TO SHIP' },
+    contentRows,
+    messageSection: isTestMode
+      ? { title: 'Test Mode', content: 'This payment was made in Razorpay Test Mode. No money was received and nothing should be shipped.' }
+      : null,
+    dashboardUrl
+  });
+
+  const text = [
+    `=== PAYMENT RECEIVED${isTestMode ? ' (TEST MODE - NO REAL MONEY)' : ''} ===`,
+    `Reference: ${payment.reference}`,
+    `Paid At: ${paidAt}`,
+    `Product: ${payment.product.name} × ${payment.quantity}`,
+    `Amount Paid: ${amount}`,
+    ``,
+    `--- CUSTOMER ---`,
+    `Name: ${c.name || 'Not provided'}`,
+    `Phone: ${c.phone || 'Not provided'}`,
+    `Email: ${c.email || 'Not provided'}`,
+    ``,
+    `--- DELIVER TO ---`,
+    ...(addressLines.length ? addressLines : ['Not provided']),
+    ``,
+    `Razorpay Payment ID: ${payment.razorpayPaymentId || 'Not available'}`,
+    dashboardUrl ? `Admin Dashboard: ${dashboardUrl}` : null
+  ]
+    .filter((line) => line !== null)
+    .join('\n');
+
+  return { subject, html, text };
+}
+
+/**
+ * Tells the owner a payment was confirmed, so the order can be shipped.
+ *
+ * Safe failure guarantee: Returns { sent, skipped?, error? } and never throws.
+ */
+export async function sendAdminPaymentNotification(payment) {
+  const adminEmail = env.ADMIN_NOTIFICATION_EMAIL;
+  const transporter = getTransporter();
+
+  if (!adminEmail || !transporter) {
+    return { sent: false, skipped: true };
+  }
+
+  try {
+    const { subject, html, text } = buildPaymentEmailData(payment);
+    await transporter.sendMail({ from: env.SMTP_FROM, to: adminEmail, subject, text, html });
+    return { sent: true };
+  } catch (err) {
+    logger.error(`Failed to dispatch payment notification for ${payment.reference}:`, err.message);
+    return { sent: false, error: err.message };
+  }
+}
+
 export default {
   sendAdminEnquiryNotification,
   sendAdminTestimonialNotification,
+  sendAdminPaymentNotification,
+  buildPaymentEmailData,
   buildEnquiryEmailData,
   buildTestimonialEmailData,
   escapeHtml,
