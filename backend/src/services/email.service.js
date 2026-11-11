@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import env, { isEmailConfigured } from '../config/env.js';
+import env, { isEmailConfigured, isResendConfigured } from '../config/env.js';
 import logger from '../utils/logger.js';
 import {
   labelFor,
@@ -56,6 +56,12 @@ export function getTransporter() {
     return null;
   }
 
+  if (isResendConfigured()) {
+    activeTransporter = createResendTransporter(env.RESEND_API_KEY, env.RESEND_FROM);
+    logger.info('Email notifications will be sent through the Resend HTTPS API.');
+    return activeTransporter;
+  }
+
   try {
     activeTransporter = nodemailer.createTransport({
       host: env.SMTP_HOST,
@@ -71,6 +77,49 @@ export function getTransporter() {
     logger.error('Failed to initialize nodemailer transporter:', err);
     return null;
   }
+}
+
+const RESEND_API_URL = 'https://api.resend.com/emails';
+const RESEND_TIMEOUT_MS = 10000;
+
+/**
+ * A transporter with the same sendMail() shape as nodemailer's, but sending
+ * through Resend's HTTPS API (port 443), which hosts that block SMTP allow.
+ *
+ * - `from` is replaced by the Resend sender, since Resend only accepts senders
+ *   it has verified.
+ * - An optional `idempotencyKey` makes Resend ignore a repeat of the same email
+ *   for 24 hours, so a retried notification is never delivered twice.
+ * - Throws on failure, like nodemailer, so the existing callers' error
+ *   handling (record the error, never fail the submission) applies unchanged.
+ */
+export function createResendTransporter(apiKey, from) {
+  return {
+    async sendMail({ to, subject, text, html, idempotencyKey }) {
+      let res;
+      try {
+        res = await fetch(RESEND_API_URL, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {})
+          },
+          body: JSON.stringify({ from, to: [to], subject, text, html }),
+          signal: AbortSignal.timeout(RESEND_TIMEOUT_MS)
+        });
+      } catch (err) {
+        throw new Error(err?.name === 'TimeoutError' ? 'Resend request timed out' : 'Could not reach Resend');
+      }
+
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        // Resend's message explains the cause (e.g. sending to an address other than the account owner's)
+        throw new Error(`Resend rejected the email (${res.status}): ${data?.message || data?.name || 'unknown error'}`);
+      }
+      return { messageId: data?.id };
+    }
+  };
 }
 
 /**
@@ -490,7 +539,14 @@ export async function sendAdminPaymentNotification(payment) {
 
   try {
     const { subject, html, text } = buildPaymentEmailData(payment);
-    await transporter.sendMail({ from: env.SMTP_FROM, to: adminEmail, subject, text, html });
+    await transporter.sendMail({
+      from: env.SMTP_FROM,
+      to: adminEmail,
+      subject,
+      text,
+      html,
+      idempotencyKey: `payment-paid-${payment.reference}` // used by Resend; ignored by SMTP
+    });
     return { sent: true };
   } catch (err) {
     logger.error(`Failed to dispatch payment notification for ${payment.reference}:`, err.message);

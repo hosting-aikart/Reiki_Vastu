@@ -38,6 +38,13 @@ const envSchema = z.object({
   SMTP_USER: z.string().optional().or(z.literal('')).transform(v => v || undefined),
   SMTP_PASS: z.string().optional().or(z.literal('')).transform(v => v || undefined),
   SMTP_FROM: z.string().default('"Reiki & Vaastu World" <notifications@reikivaastuworld.com>'),
+  // Optional: send email through Resend's HTTPS API instead of SMTP. Needed on
+  // hosts that block outgoing SMTP ports (e.g. Render's free plan). When set,
+  // it is used instead of SMTP.
+  RESEND_API_KEY: z.string().optional().or(z.literal('')).transform(v => v || undefined),
+  // Without a verified domain, Resend only allows onboarding@resend.dev as the
+  // sender, and only to your Resend account's own address.
+  RESEND_FROM: z.string().optional().or(z.literal('')).transform(v => v || 'Reiki & Vaastu World <onboarding@resend.dev>'),
   // Optional: the site runs without these; only payment operations are refused.
   RAZORPAY_KEY_ID: z.string().optional().or(z.literal('')).transform(v => v || undefined),
   RAZORPAY_KEY_SECRET: z.string().optional().or(z.literal('')).transform(v => v || undefined),
@@ -72,9 +79,19 @@ if (env.NODE_ENV === 'production') {
 }
 
 /**
+ * Checks whether Resend's HTTPS email API is configured (takes priority over SMTP).
+ */
+export function isResendConfigured() {
+  return Boolean(env.RESEND_API_KEY && env.RESEND_API_KEY.startsWith('re_'));
+}
+
+/**
  * Checks whether email notification has valid, non-placeholder credentials configured.
  */
 export function isEmailConfigured() {
+  if (env.ADMIN_NOTIFICATION_EMAIL && isResendConfigured()) {
+    return true;
+  }
   if (!env.ADMIN_NOTIFICATION_EMAIL || !env.SMTP_HOST || !env.SMTP_USER || !env.SMTP_PASS) {
     return false;
   }
