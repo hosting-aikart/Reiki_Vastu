@@ -1,5 +1,5 @@
 import app, { allowedOrigins } from './app.js';
-import env, { isEmailConfigured } from './config/env.js';
+import env, { isEmailConfigured, describePaymentKeys } from './config/env.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import logger from './utils/logger.js';
 // Server entry point
@@ -16,6 +16,7 @@ async function bootstrap() {
       logger.info(`Server running in ${env.NODE_ENV} mode on port ${env.PORT}`);
       logger.info(`Health check available at http://localhost:${env.PORT}/api/health`);
       logger.info(`CORS allowed origins: ${allowedOrigins.join(', ') || '(none)'}`);
+      logger.info(`Razorpay: ${describePaymentKeys()}`);
       if (isEmailConfigured()) {
         logger.info(`Owner email notifications: ENABLED (target: ${logger.maskEmail(env.ADMIN_NOTIFICATION_EMAIL)})`);
       } else {

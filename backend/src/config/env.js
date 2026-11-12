@@ -15,6 +15,13 @@ const DEV_JWT_SECRET = 'reiki-vastu-secret-jwt-key-for-dev-change-in-production-
 const DEV_COOKIE_SECRET = 'reiki-vastu-cookie-secret-key-2026';
 const MIN_SECRET_LENGTH = 32;
 
+// Strips surrounding whitespace and quotes from a credential; empty becomes undefined.
+export function cleanSecret(value) {
+  if (typeof value !== 'string') return undefined;
+  const cleaned = value.trim().replace(/^["']+|["']+$/g, '').trim();
+  return cleaned || undefined;
+}
+
 const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
@@ -46,9 +53,11 @@ const envSchema = z.object({
   // sender, and only to your Resend account's own address.
   RESEND_FROM: z.string().optional().or(z.literal('')).transform(v => v || 'Reiki & Vaastu World <onboarding@resend.dev>'),
   // Optional: the site runs without these; only payment operations are refused.
-  RAZORPAY_KEY_ID: z.string().optional().or(z.literal('')).transform(v => v || undefined),
-  RAZORPAY_KEY_SECRET: z.string().optional().or(z.literal('')).transform(v => v || undefined),
-  RAZORPAY_WEBHOOK_SECRET: z.string().optional().or(z.literal('')).transform(v => v || undefined)
+  // Spaces, line breaks and wrapping quotes pasted into a hosting dashboard are
+  // removed, since Razorpay rejects keys with any extra characters.
+  RAZORPAY_KEY_ID: z.string().optional().transform(cleanSecret),
+  RAZORPAY_KEY_SECRET: z.string().optional().transform(cleanSecret),
+  RAZORPAY_WEBHOOK_SECRET: z.string().optional().transform(cleanSecret)
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -118,6 +127,18 @@ export function isPaymentConfigured() {
  */
 export function isPaymentTestMode() {
   return Boolean(env.RAZORPAY_KEY_ID?.startsWith('rzp_test_'));
+}
+
+/**
+ * A non-secret summary of the Razorpay keys for startup logs: the key ID with
+ * its middle hidden, and only the length of each secret.
+ */
+export function describePaymentKeys() {
+  const id = env.RAZORPAY_KEY_ID;
+  const maskedId = id ? `${id.slice(0, 11)}***${id.slice(-3)} (${id.length} chars)` : 'missing';
+  const secretLen = env.RAZORPAY_KEY_SECRET ? `${env.RAZORPAY_KEY_SECRET.length} chars` : 'missing';
+  const webhookLen = env.RAZORPAY_WEBHOOK_SECRET ? 'set' : 'missing';
+  return `key id ${maskedId}, key secret ${secretLen}, webhook secret ${webhookLen}`;
 }
 
 export default env;
