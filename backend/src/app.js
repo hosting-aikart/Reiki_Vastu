@@ -30,7 +30,19 @@ export function normalizeOrigin(origin) {
   return origin.trim().replace(/^["']+|["']+$/g, '').trim().replace(/\/+$/, '').toLowerCase();
 }
 
-export const allowedOrigins = env.CORS_ORIGIN.split(',').map(normalizeOrigin).filter(Boolean);
+// The site's own production domains are always allowed, so the live site keeps
+// working even if CORS_ORIGIN on the host is missing or mistyped.
+export const PRODUCTION_ORIGINS = [
+  'https://www.reikiandvaastuworld.com',
+  'https://reikiandvaastuworld.com'
+];
+
+export const allowedOrigins = [
+  ...new Set([
+    ...env.CORS_ORIGIN.split(',').map(normalizeOrigin).filter(Boolean),
+    ...PRODUCTION_ORIGINS
+  ])
+];
 app.use(
   cors({
     origin: (origin, callback) => {
