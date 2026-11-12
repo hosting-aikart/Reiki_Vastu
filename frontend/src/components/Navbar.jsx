@@ -18,13 +18,18 @@ export default function Navbar({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile drawer is open
+  // Lock body scroll and allow Escape to close while the mobile drawer is open
   useEffect(() => {
     if (isDrawerOpen) {
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') setIsDrawerOpen(false);
+      };
+      document.addEventListener('keydown', handleKeyDown);
       return () => {
         document.body.style.overflow = prevOverflow;
+        document.removeEventListener('keydown', handleKeyDown);
       };
     }
   }, [isDrawerOpen]);
@@ -43,11 +48,11 @@ export default function Navbar({
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
-            aria-label="Reiki and Vaastu World - Home"
+            aria-label="Reiki and Vastu World - Home"
           >
             <img
               src="/logo/lotus_pure.png"
-              alt="Reiki and Vaastu World"
+              alt="Reiki and Vastu World"
               className="gnav-logo-img"
             />
           </a>
@@ -146,7 +151,7 @@ export default function Navbar({
           <div style={{ display: 'inline-flex', alignItems: 'center', minWidth: 0 }}>
             <img
               src="/logo/lotus_pure.png"
-              alt="Reiki and Vaastu World"
+              alt="Reiki and Vastu World"
               style={{ height: '34px', width: 'auto', objectFit: 'contain', flexShrink: 0 }}
             />
           </div>
@@ -230,7 +235,7 @@ export default function Navbar({
             onClick={() => setIsDrawerOpen(false)}
           >
             <Phone size={16} color="#f5d68a" />
-            <span>Call Helpline: 8446656677</span>
+            <span className="gnav-drawer-helpline-text">Call Helpline: 8446656677</span>
           </a>
           <button
             type="button"

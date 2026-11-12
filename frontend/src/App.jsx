@@ -273,8 +273,8 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer - hidden on course details page */}
-      {currentView !== 'course-detail' && (
+      {/* The footer is part of the home page only. */}
+      {currentView === 'home' && (
         <Footer
           setCurrentView={(view) => {
             changeView(view);

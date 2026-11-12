@@ -49,7 +49,7 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
           {/* Eyebrow Pill */}
           <div className="hero-modern-badge">
             <Sparkles size={14} color="#fbbf24" />
-            <span>Reiki &amp; Vaastu World &nbsp;&middot;&nbsp; Training &amp; Treatment Center</span>
+            <span>Reiki &amp; Vastu World &nbsp;&middot;&nbsp; Training &amp; Treatment Center</span>
           </div>
 
           {/* Clean Modern White Headline */}

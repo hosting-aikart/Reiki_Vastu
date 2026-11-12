@@ -49,7 +49,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
         {/* Header */}
         <div style={{ marginBottom: '28px' }}>
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
-            SACRED REIKI &amp; VAASTU CATALOG
+            SACRED REIKI &amp; VASTU CATALOG
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
             <div>
@@ -57,7 +57,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 Explore Courses, Products &amp; Therapies
               </h1>
               <p style={{ color: '#784450', fontSize: '15px', margin: 0, maxWidth: '680px' }}>
-                Discover certified courses, authentic energized Rudrakshas, non-destructive Vaastu consultations, and holistic energy therapies taught by Dr. Naresh Chhabdiya since 1995.
+                Discover certified courses, authentic energized Rudrakshas, non-destructive Vastu consultations, and holistic energy therapies taught by Dr. Naresh Chhabdiya since 1995.
               </p>
             </div>
 

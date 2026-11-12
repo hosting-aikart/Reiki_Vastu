@@ -136,9 +136,12 @@ p {
   }
 }
 
-/* Avoid persistent hover state on touch devices (Requirement I) */
+/* Avoid persistent hover state on touch devices (Requirement I).
+   The mobile nav drawer is excluded: a tap inside it (e.g. on the X button)
+   leaves it in a sticky :hover state, and forcing transform:none there kept
+   the panel on screen after it was closed. :where() keeps specificity at :hover. */
 @media (hover: none) {
-  *:hover {
+  *:where(:not(.gnav-drawer-panel)):hover {
     transform: none !important;
   }
 }
@@ -1441,6 +1444,10 @@ p {
   color: #d2cac6;
   padding: 40px 0 20px;
   overflow: hidden;
+}
+
+.akf-mobile-contacts {
+  display: none;
 }
 
 .akf-inner {
@@ -3757,6 +3764,15 @@ a.hm-cta-btn:hover,
   padding-left: 6px;
 }
 
+/* Helpline row: use the site's UI font (as on the drawer CTA and helpline footer)
+   instead of the display serif, whose old-style numerals read as decorative. */
+.gnav-drawer-helpline-text {
+  font-family: var(--font-karla);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
 .gnav-drawer-cta {
   margin-top: 10px;
   background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
@@ -3878,27 +3894,13 @@ a.hm-cta-btn:hover,
     );
 }
 
-/* 3. Top Ornamental Golden Lotus Divider (─────── 🪷 ───────) */
+/* 3. Top Golden Lotus Emblem (centred, no side rules) */
 .th-golden-lotus-divider {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
   margin-bottom: 10px;
-}
-
-.th-golden-line {
-  display: block;
-  width: clamp(80px, 15vw, 190px);
-  height: 1.5px;
-}
-
-.th-golden-line--left {
-  background: linear-gradient(90deg, rgba(133, 91, 22, 0) 0%, #855b16 100%);
-}
-
-.th-golden-line--right {
-  background: linear-gradient(270deg, rgba(133, 91, 22, 0) 0%, #855b16 100%);
 }
 
 .th-golden-lotus-icon {
@@ -4228,10 +4230,6 @@ a.hm-cta-btn:hover,
 
   .th-golden-lotus-icon {
     height: 28px;
-  }
-
-  .th-golden-line {
-    width: clamp(48px, 16vw, 90px);
   }
 
   .th-hero-line-crimson {
@@ -5099,16 +5097,17 @@ a.hm-cta-btn:hover,
 
 /* ══════════════════════════════════════════════════════════════════
    13. VIEWPORT ADAPTATION
-   Desktop (above 900px, up to ~21:9) keeps the approved cover crop.
-   Portrait phones and ultra-wide screens show the full photograph
-   over a blurred copy of the same image, so subjects are not cut off.
+   Desktop, tablets and phones keep the approved full-bleed cover crop
+   (phones use each slide's --slide-pos-mobile focal point).
+   Only ultra-wide screens show the full photograph over a blurred
+   copy of the same image, so subjects are not cut off.
    ══════════════════════════════════════════════════════════════════ */
 
 .th-hero-slide-fill {
   display: none;
 }
 
-@media (max-width: 900px), (min-aspect-ratio: 21/9) {
+@media (min-aspect-ratio: 21/9) {
   .th-hero--golden .th-hero-slide-fill {
     display: block;
     position: absolute;
@@ -5142,75 +5141,20 @@ a.hm-cta-btn:hover,
   }
 }
 
-/* Portrait phones and tablets: show the full photograph, then the
-   heading and buttons underneath it, instead of cropping the photo
-   to fill the screen. */
+/* Portrait phones and tablets: same composition as desktop. The photo
+   fills the full width and height of the hero (no side gaps, no separate
+   text panel) and the lotus, heading, tagline and buttons sit centred over
+   it. The hero is kept proportional to the screen width so the landscape
+   photos are not over-cropped; it grows if the content needs more room. */
 @media (max-width: 900px) and (orientation: portrait) {
   .th-hero--golden.hero-fullscreen-16x9 {
     height: auto;
-    min-height: 0;
-    justify-content: flex-start;
-    background:
-      linear-gradient(180deg, #2c160e 0%, #5a3018 46%, #7a4a28 100%);
-  }
-
-  /* Fixed 3:2 photo frame (the native ratio of most hero photos), so
-     every slide is shown whole and the heading/buttons below never
-     jump when the slideshow changes image. Square or 4:3 slides sit
-     inside the frame over their own blurred copy. */
-  .th-hero--golden .hero-bg-video-wrap {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    margin-top: calc(76px + env(safe-area-inset-top, 0px));
-  }
-
-  .th-hero--golden .th-hero-slide-layer {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-  }
-
-  .th-hero--golden .th-hero-slide {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-height: none;
-    object-fit: contain;
-  }
-
-  /* Line 1 sits on the dark panel here instead of a bright photo, so it
-     gets a soft warm halo to stay legible (same crimson colour). */
-  .th-bolder-preview .th-hero--golden .th-hero-line-crimson {
-    text-shadow:
-      0 0 1px rgba(255, 240, 215, 0.55),
-      0 0 7px rgba(255, 226, 180, 0.32) !important;
-  }
-
-  /* The tagline's dark antique gold (#855b16) is tuned for sitting over
-     the bright desktop photos; on this dark panel it would disappear,
-     so phones/tablets use the brighter logo gold here. */
-  .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
-  .th-hero--golden .th-golden-dot {
-    color: #d4af37 !important;
-    -webkit-text-stroke-color: #d4af37;
-  }
-
-  .th-hero--golden .th-hero-slide-fill {
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    min-height: min(100svh, max(560px, 160vw));
   }
 
   .th-hero--golden .hero-lower-third-container {
-    flex: 0 0 auto;
-    min-height: 0;
-    justify-content: flex-start;
-    padding: 18px 16px calc(28px + env(safe-area-inset-bottom, 0px));
+    padding: calc(84px + env(safe-area-inset-top, 0px)) 16px
+      calc(32px + env(safe-area-inset-bottom, 0px));
   }
 
   .th-hero--golden .hero-lower-third-content {
@@ -5220,6 +5164,25 @@ a.hm-cta-btn:hover,
   .th-hero-subtitle--golden {
     flex-wrap: wrap;
     row-gap: 4px;
+  }
+
+  /* On a narrow screen the crimson line and dark-gold tagline sit over the
+     photo's subject rather than open sky, so give them a soft warm-ivory
+     halo (same colours as desktop) to keep them legible on every slide. */
+  .th-bolder-preview .th-hero--golden .th-hero-line-crimson {
+    text-shadow:
+      0 0 2px rgba(255, 246, 228, 0.9),
+      0 0 8px rgba(255, 238, 208, 0.75),
+      0 0 18px rgba(255, 230, 190, 0.5) !important;
+  }
+
+  .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+  .th-hero--golden .th-golden-dot {
+    text-shadow:
+      0 0 2px rgba(255, 249, 236, 1),
+      0 0 6px rgba(255, 244, 222, 0.95),
+      0 0 14px rgba(255, 236, 204, 0.85),
+      0 0 26px rgba(255, 230, 190, 0.6) !important;
   }
 }
 
@@ -5290,6 +5253,273 @@ a.hm-cta-btn:hover,
   :root { --page-zoom: 1.15; }
 }
 
+/* Mobile layout refinements for the Temple Harmony home and listing pages. */
+@media (max-width: 640px) {
+  /* Keep the hero typography clean over the photo, matching the desktop look. */
+  .th-bolder-preview .th-hero--golden .th-hero-line-crimson,
+  .th-hero--golden .th-hero-subtitle--golden,
+  .th-hero--golden .th-golden-dot {
+    text-shadow: none !important;
+  }
+
+  /* Compact 3 + 2 feature cards instead of stacking every card full width. */
+  .th-features-row-3 {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .th-features-row-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+
+  .th-features-row-3 .th-feature-card,
+  .th-features-row-2 .th-feature-card {
+    min-width: 0;
+    padding: 12px 7px 10px;
+    border-radius: 14px;
+  }
+
+  .th-feature-icon-outer {
+    box-sizing: border-box;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+  }
+
+  .th-feature-icon-inner {
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(181, 9, 31, 0.2);
+  }
+
+  .th-feature-icon-inner svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
+
+  .th-features-row-3 .th-feature-title,
+  .th-features-row-2 .th-feature-title {
+    font-size: 12px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .th-features-row-3 .th-feature-desc,
+  .th-features-row-2 .th-feature-desc,
+  .th-feature-rule {
+    display: none;
+  }
+
+  /* Home products are capped at five in the component, with the existing
+     Explore All Products action leading to the full products page. */
+  .th-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  .th-products-grid .th-feature-card > div:last-child {
+    padding: 10px 7px !important;
+  }
+
+  .th-products-grid .th-feature-title {
+    font-size: 14px !important;
+    line-height: 1.2;
+  }
+
+  /* Two compact videos per row on phones. */
+  .th-videos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  .th-video-card {
+    border-radius: 12px;
+  }
+
+  .th-video-thumbnail-link,
+  .th-video-thumbnail-link img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .th-video-thumbnail-link img {
+    object-fit: cover;
+  }
+
+  .th-video-card-body {
+    padding: 9px 8px 10px !important;
+    gap: 6px;
+  }
+
+  .th-video-ep-badge,
+  .th-video-yt-link {
+    font-size: 8px;
+    padding: 4px 6px;
+    letter-spacing: 0;
+  }
+
+  .th-video-title {
+    font-size: 14px;
+  }
+
+  .testimonials-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  #testimonials-section .testimonial-editorial-card {
+    padding: 14px 10px !important;
+  }
+
+  #testimonials-section .testimonial-editorial-card p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Two course/product columns on their full listing pages. */
+  .courses-page-wrap .courses-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .courses-page-wrap .courses-grid > * {
+    min-width: 0;
+  }
+
+  .courses-page-wrap .course-card-slider-item {
+    flex-basis: 160px;
+    width: 160px;
+  }
+
+  .products-page-wrap .th-products-grid,
+  .product-detail-page .th-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+
+  /* Reduce the home footer's vertical footprint on phones. */
+  .akf {
+    padding: 22px 0 12px !important;
+  }
+
+  .akf-brand-row {
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .akf-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    padding-bottom: 14px !important;
+  }
+
+  .akf-col-brand {
+    grid-column: 1 / -1;
+  }
+
+  .akf-col-brand .akf-section-title,
+  .akf-col-brand .akf-links-block {
+    display: none !important;
+  }
+
+  .akf-col-centers {
+    grid-column: 1 / -1;
+  }
+
+  .akf-center-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .akf-center-details > .akf-detail-row:not(.akf-contact-row) {
+    align-items: flex-start;
+    min-width: 0;
+    gap: 5px;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .akf-center-details > .akf-contact-row {
+    display: none !important;
+  }
+
+  .akf-col-centers,
+  .akf-col-hours {
+    min-width: 0;
+  }
+
+  .akf-col-hours {
+    grid-column: 1;
+  }
+
+  .akf-mobile-contacts {
+    display: block;
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .akf-mobile-contacts .akf-detail-row {
+    align-items: flex-start;
+    gap: 5px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .akf-mobile-contacts .akf-contact-link {
+    overflow-wrap: anywhere;
+  }
+
+  .akf-hours-grid {
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .akf-hour-item {
+    flex-wrap: wrap;
+    gap: 3px 8px;
+  }
+
+  .akf-day,
+  .akf-time {
+    white-space: normal;
+  }
+
+  .akf-links-row {
+    gap: 7px;
+  }
+
+  .akf-bottom,
+  .akf-bottom-bar {
+    gap: 6px !important;
+    padding-top: 12px !important;
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .course-card-slider-item {
+    flex-basis: 160px !important;
+    width: 160px !important;
+  }
+}
+
 @media (min-width: 2400px) and (min-height: 1340px) {
   :root { --page-zoom: 1.3333; }
 }
@@ -5339,4 +5569,122 @@ a.hm-cta-btn:hover,
   .modal-body-content {
     max-height: calc(100dvh / var(--page-zoom) - 24px);
   }
+}
+
+/* Remove the warm white halo from the hero tagline at every viewport size. */
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+.th-bolder-preview .th-hero--golden .th-golden-dot {
+  text-shadow: none !important;
+}
+
+/* Match the full product card row on larger home screens; mobile keeps two. */
+@media (min-width: 700px) {
+  .th-home-products-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: clamp(12px, 1.8vw, 34px);
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 699px) {
+  .th-home-products-grid > .th-feature-card:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+/* Video carousel: three cards on wide screens, sliding one card per click. */
+.th-videos-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: -28px 0 16px;
+}
+
+.th-videos-nav-button {
+  min-width: 42px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(184, 137, 58, 0.45);
+  border-radius: 999px;
+  background: #fffdf9;
+  color: #8a5610;
+  font: 700 18px/1 var(--font-karla);
+  cursor: pointer;
+}
+
+.th-videos-next-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+}
+
+.th-videos-nav-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.th-videos-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.th-videos-grid {
+  display: flex;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 28px;
+  transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.th-video-card {
+  flex: 0 0 calc((100% - 56px) / 3);
+  min-width: 0;
+}
+
+.th-videos-grid--index-1 {
+  transform: translateX(calc(-33.333333% - 9.333px));
+}
+
+@media (max-width: 860px) {
+  .th-videos-controls {
+    margin: -18px 0 14px;
+  }
+
+  .th-videos-grid {
+    gap: 10px;
+  }
+
+  .th-video-card {
+    flex-basis: calc((100% - 10px) / 2);
+  }
+
+  .th-videos-grid--index-1 {
+    transform: translateX(calc(-50% - 5px));
+  }
+
+  .th-videos-grid--index-2 {
+    transform: translateX(calc(-100% - 10px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .th-videos-grid {
+    transition: none;
+  }
+}
+
+/* Soft white glow behind the home hero heading and tagline for legibility
+   over the background photo. Colours, sizes and layout are unchanged. */
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-hero-line-crimson,
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-hero-line-gold,
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot {
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.55),
+    0 0 12px rgba(255, 255, 255, 0.4),
+    0 0 24px rgba(255, 255, 255, 0.25) !important;
 }

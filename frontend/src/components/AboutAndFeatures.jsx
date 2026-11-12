@@ -14,7 +14,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0 auto 18px' }}>
                 <img
                   src="/logo/lotus_pure.png"
-                  alt="Reiki &amp; Vaastu Lotus"
+                  alt="Reiki &amp; Vastu Lotus"
                   style={{
                     width: '300px',
                     height: 'auto',

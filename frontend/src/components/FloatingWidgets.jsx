@@ -63,7 +63,7 @@ export default function FloatingWidgets({ openModal }) {
           </div>
 
           <p style={{ fontSize: '12.5px', color: '#784450', margin: '0 0 14px', lineHeight: 1.45 }}>
-            Connect directly with Dr. Naresh Chhabdiya's team for Vaastu audits, Reiki training, or Kundali consultations.
+            Connect directly with Dr. Naresh Chhabdiya's team for Vastu audits, Reiki training, or Kundali consultations.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -97,7 +97,7 @@ export default function FloatingWidgets({ openModal }) {
             </button>
 
             <a
-              href="https://wa.me/+918446656677/?text=Hello Dr. Naresh, I would like to inquire about Reiki and Vaastu consultation."
+              href="https://wa.me/+918446656677/?text=Hello Dr. Naresh, I would like to inquire about Reiki and Vastu consultation."
               target="_blank"
               rel="noopener noreferrer"
               style={{

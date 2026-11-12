@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Quote, Sparkles, Play, ExternalLink } from 'lucide-react';
 import { TESTIMONIALS_DATA, VIDEO_ITEMS } from '../data/landingData';
 
@@ -21,6 +21,21 @@ function FlourishDivider() {
 
 export default function VideoTestimonials({ onAddStory }) {
   const testimonials = TESTIMONIALS_DATA;
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const [visibleVideos, setVisibleVideos] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth <= 860 ? 2 : 3
+  );
+  const maxVideoIndex = Math.max(0, VIDEO_ITEMS.length - visibleVideos);
+
+  useEffect(() => {
+    const updateVisibleVideos = () => {
+      const count = window.innerWidth <= 860 ? 2 : 3;
+      setVisibleVideos(count);
+      setActiveVideoIndex((index) => Math.min(index, VIDEO_ITEMS.length - count));
+    };
+    window.addEventListener('resize', updateVisibleVideos);
+    return () => window.removeEventListener('resize', updateVisibleVideos);
+  }, []);
 
   return (
     <>
@@ -49,46 +64,80 @@ export default function VideoTestimonials({ onAddStory }) {
             <FlourishDivider />
             <p className="th-lead">
               Explore authentic sessions, spiritual discourses, and practical guidance on Reiki,
-              Vaastu Shastra, Lama-Fera, and Rudraksha by Dr. Naresh Chhabdiya.
+              Vastu Shastra, Lama-Fera, and Rudraksha by Dr. Naresh Chhabdiya.
             </p>
           </div>
 
-          <div className="th-videos-grid">
-            {VIDEO_ITEMS.map((video, idx) => (
-              <article key={video.id} className="th-video-card">
-                <div className="th-video-frame-wrap">
-                  <iframe
-                    src={`${video.embedUrl}?rel=0&modestbranding=1`}
-                    title={video.title}
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    className="th-video-iframe"
-                  />
-                </div>
+          <div className="th-videos-controls">
+            <button
+              type="button"
+              className="th-videos-nav-button"
+              onClick={() => setActiveVideoIndex((index) => Math.max(0, index - 1))}
+              disabled={activeVideoIndex === 0}
+              aria-label="Previous videos"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              className="th-videos-nav-button th-videos-next-button"
+              onClick={() =>
+                setActiveVideoIndex((index) => Math.min(maxVideoIndex, index + 1))
+              }
+              disabled={activeVideoIndex >= maxVideoIndex}
+              aria-label="Next videos"
+            >
+              <span>Next</span>
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
 
-                <div className="th-video-card-body">
-                  <div className="th-video-badge-row">
-                    <span className="th-video-ep-badge">
-                      <Play size={11} fill="#ffffff" />
-                      <span>Discourse 0{idx + 1}</span>
-                    </span>
-
+          <div className="th-videos-viewport">
+            <div
+              className={`th-videos-grid th-videos-grid--index-${activeVideoIndex}`}
+              aria-live="polite"
+            >
+              {VIDEO_ITEMS.map((video, idx) => (
+                <article key={video.id} className="th-video-card">
+                  <div className="th-video-frame-wrap">
                     <a
                       href={`https://www.youtube.com/watch?v=${video.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="th-video-yt-link"
+                      className="th-video-thumbnail-link"
+                      aria-label={`Watch ${video.title} on YouTube`}
                     >
-                      <span>Watch on YouTube</span>
-                      <ExternalLink size={12} />
+                      <img
+                        src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                        alt={video.title}
+                        loading="lazy"
+                      />
                     </a>
                   </div>
 
-                  <h3 className="th-video-title">{video.title}</h3>
-                </div>
-              </article>
-            ))}
+                  <div className="th-video-card-body">
+                    <div className="th-video-badge-row">
+                      <span className="th-video-ep-badge">
+                        <Play size={11} fill="#ffffff" />
+                        <span>Discourse 0{idx + 1}</span>
+                      </span>
+
+                      <a
+                        href={`https://www.youtube.com/watch?v=${video.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="th-video-yt-link"
+                      >
+                        <span>Watch on YouTube</span>
+                        <ExternalLink size={12} />
+                      </a>
+                    </div>
+
+                    <h3 className="th-video-title">{video.title}</h3>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -18,7 +18,7 @@ export default function HowItWorks() {
       <div className="hm-container">
         <div className="hm-mkt-header">
           <div>
-            <p className="hm-eyebrow hm-grad">HOW REIKI &amp; VAASTU WORLD WORKS</p>
+            <p className="hm-eyebrow hm-grad">HOW REIKI &amp; VASTU WORLD WORKS</p>
             <h2 className="ff-redhat hm-h2">From Diagnosis to Lifelong Transformation in Four Steps</h2>
           </div>
 

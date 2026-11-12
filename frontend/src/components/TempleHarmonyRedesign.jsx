@@ -60,7 +60,7 @@ const TEMPLE_PRODUCTS = [
   { id: 1, title: 'Energized Rudraksha', subtitle: 'Vedic Consecrated Beads', icon: Sparkles },
   { id: 2, title: 'Sacred Healing Crystals', subtitle: 'Natural Chakra Stones', icon: Gem },
   { id: 3, title: 'Shree Yantra & Meru', subtitle: 'Abundance Sacred Geometry', icon: Shield },
-  { id: 4, title: 'Bio-Cosmic Pyramids', subtitle: 'Non-Demolition Vaastu', icon: Layers }
+  { id: 4, title: 'Bio-Cosmic Pyramids', subtitle: 'Non-Demolition Vastu', icon: Layers }
 ];
 
 export function OrnamentalFlourish() {
@@ -93,19 +93,6 @@ const HERO_COURSE_SLIDES = [
     bottomAlpha: 0.52,
     amberWarmth: 0.18,
     vignetteAlpha: 0.34
-  },
-  {
-    id: 'vaastu',
-    label: 'Vaastu',
-    src: '/images/vastu.jpg',
-    position: 'center 16%',
-    mobilePosition: '54% 16%',
-    filter: 'brightness(1.02) contrast(1.08) saturate(1.15) sepia(0.04)',
-    topAlpha: 0.22,
-    midAlpha: 0.08,
-    bottomAlpha: 0.46,
-    amberWarmth: 0.14,
-    vignetteAlpha: 0.3
   },
   {
     id: 'reiki',
@@ -381,17 +368,6 @@ export default function TempleHarmonyRedesign({
           ) : (
             /* ── CURRENT HERO MODE (Unchanged) ── */
             <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
-              {/* Top Golden Lotus Ornamental Divider */}
-              <div className="th-golden-lotus-divider" aria-hidden="true">
-                <span className="th-golden-line th-golden-line--left" />
-                <img
-                  src="/logo/lotus_pure.png"
-                  alt=""
-                  className="th-golden-lotus-icon"
-                />
-                <span className="th-golden-line th-golden-line--right" />
-              </div>
-
               <h1 className="th-hero-title th-hero-title--golden">
                 <span className="th-hero-line-crimson">
                   Ancient Wisdom for a Healthier,
@@ -447,7 +423,7 @@ export default function TempleHarmonyRedesign({
             <div className="th-about-left">
               <img
                 src="/logo/lotus_pure.png"
-                alt="Reiki & Vaastu World Lotus"
+                alt="Reiki & Vastu World Lotus"
                 className="th-about-lotus"
               />
               <h3 className="th-founder-name">Dr. Naresh Chhabdiya</h3>
@@ -470,7 +446,7 @@ export default function TempleHarmonyRedesign({
                 doctor by profession and motivational mentor with centers in{' '}
                 <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower
                 people around the world with genuine Reiki and spiritual healing. Previously Reiki
-                and Vaastu World was known as{' '}
+                and Vastu World was known as{' '}
                 <strong>Sanjeevni Reiki and Vaastu Center</strong>.
               </p>
               <blockquote className="th-quote">
@@ -648,8 +624,8 @@ export default function TempleHarmonyRedesign({
             </p>
           </div>
 
-          <div className="th-products-grid">
-            {SACRED_PRODUCTS.map((item, idx) => (
+          <div className="th-products-grid th-home-products-grid">
+            {SACRED_PRODUCTS.slice(0, 5).map((item, idx) => (
               <article
                 key={item.id}
                 onClick={() =>
@@ -700,6 +676,22 @@ export default function TempleHarmonyRedesign({
                     {item.title}
                   </h3>
                   <div className="th-feature-rule" style={{ margin: '10px auto 0' }} />
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      marginTop: '14px',
+                      fontFamily: 'var(--font-karla)',
+                      fontSize: '12.5px',
+                      fontWeight: 700,
+                      color: '#b5091f',
+                      letterSpacing: '0.04em'
+                    }}
+                  >
+                    <span>View Details</span>
+                    <ArrowRight size={13} />
+                  </span>
                 </div>
               </article>
             ))}

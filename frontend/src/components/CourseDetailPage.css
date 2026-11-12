@@ -174,9 +174,8 @@
 .cd-element:hover .cd-icon-circle,
 .cd-tool:hover .cd-icon-circle { transform: translateY(-4px) scale(1.06); box-shadow: 0 10px 22px rgba(181, 9, 31, 0.18); }
 
-/* ═════════ PHILOSOPHY BAND & RED SHAPED BLOCKS ═════════ */
-.red-shaped-block,
-.cd-phil {
+/* ═════════ RED SHAPED BLOCKS ═════════ */
+.red-shaped-block {
   position: relative;
   margin: 26px 0;
   padding: 44px 0;
@@ -187,14 +186,6 @@
   border-top: 3px solid var(--cd-gold);
   border-bottom: 3px solid var(--cd-gold);
 }
-.cd-phil::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(255, 215, 140, 0.18), transparent 30%, transparent 70%, rgba(255, 215, 140, 0.18));
-}
-.cd-phil-inner { position: relative; z-index: 2; max-width: 660px; margin: 0 auto; text-align: center; padding: 0 24px; }
-.cd-phil h2 { font-family: var(--cd-serif); font-weight: 500; font-size: clamp(24px, 3vw, 36px); margin: 0 0 12px; color: #fff; }
-.cd-phil p { font-size: clamp(14px, 2.2vw, 15px); line-height: 1.75; color: #ffe9ea; margin: 0; }
-
 /* ═════════ SECTIONS ═════════ */
 .cd-section { padding: 30px 0; }
 .cd-sub { font-size: 14.5px; color: #6b4a50; margin: 0 auto 22px; max-width: 760px; }
@@ -459,6 +450,8 @@
     height: 46px !important;
   }
   .cd-use-grid, .cd-cols, .cd-rainbow { grid-template-columns: 1fr; }
+  .cd-use-grid { text-align: center; }
+  .cd-use-items { justify-content: center; }
   .cd-col { padding: 0; }
   .cd-col + .cd-col { border-left: none; border-top: 1px solid rgba(181, 9, 31, 0.15); padding-top: 26px; margin-top: 26px; }
   .cd-journey {
@@ -494,7 +487,7 @@
   .cd-use-item {
     flex: 0 1 calc(50% - 6px) !important;
     max-width: calc(50% - 6px) !important;
-    min-width: 200px !important;
+    min-width: 0 !important;
     padding: 14px 12px !important;
     font-size: 13px !important;
     line-height: 1.35 !important;
@@ -553,7 +546,7 @@
     font-size: 12.5px !important;
   }
 
-  /* Elements 2-column with centered odd 5th card */
+  /* Five Elements: 3 + 2 (two compact rows), second row centered */
   .cd-elements {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -562,9 +555,9 @@
     width: 100% !important;
   }
   .cd-element {
-    flex: 0 1 calc(50% - 5px) !important;
-    max-width: calc(50% - 5px) !important;
-    min-width: 180px !important;
+    flex: 0 1 calc((100% - 20px) / 3) !important;
+    max-width: calc((100% - 20px) / 3) !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
     border-left: none !important;
     padding: 12px 8px !important;
@@ -618,28 +611,29 @@
   .cd-journey-grid { padding: 0 16px; }
 }
 
-/* ── ≤420px: 1 Column Full-Width Stack for Small Phones (Bug 2 & 7) ── */
+/* ── ≤420px: compact multi-column small cards; content-heavy steps stay 1 column ── */
 @media (max-width: 420px) {
   .cd-page { padding-top: 78px; }
   .cd-use-items {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: stretch !important;
     gap: 10px !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
   }
   .cd-use-item {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
+    flex: 0 1 calc(50% - 5px) !important;
+    max-width: calc(50% - 5px) !important;
+    min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    padding: 14px 16px !important;
-    font-size: 13px !important;
+    padding: 12px 8px !important;
+    font-size: 12.5px !important;
     line-height: 1.4 !important;
     background: #ffffff !important;
     border: 1px solid rgba(201, 154, 60, 0.28) !important;
@@ -696,21 +690,21 @@
     line-height: 1.45 !important;
   }
 
-  /* Benefits 1-column full-width on <=420px */
+  /* Benefits: 2 compact columns on <=420px */
   .cd-benefits {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px !important;
     width: 100% !important;
   }
   .cd-benefit {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
-    padding: 12px 14px !important;
-    font-size: 13px !important;
+    padding: 12px 8px !important;
+    font-size: 12.5px !important;
+    line-height: 1.35 !important;
   }
   .cd-benefit .cd-icon-circle {
     width: 42px !important;
@@ -722,45 +716,59 @@
     height: 18px !important;
   }
 
-  /* Elements 1-column full-width on <=420px */
+  /* Five Elements: 3 + 2 (two compact rows) on <=420px */
   .cd-elements {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
     gap: 8px !important;
     width: 100% !important;
   }
   .cd-element {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
+    flex: 0 1 calc((100% - 16px) / 3) !important;
+    max-width: calc((100% - 16px) / 3) !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
-    padding: 12px 14px !important;
+    padding: 10px 4px !important;
     border-left: none !important;
+    background: linear-gradient(180deg, #fffdf9 0%, #fdf5ea 100%) !important;
+    border: 1px solid rgba(201, 154, 60, 0.28) !important;
+    border-radius: 12px !important;
   }
+  .cd-element .cd-icon-circle {
+    width: 50px !important;
+    height: 50px !important;
+    margin-bottom: 6px !important;
+  }
+  .cd-element .cd-icon-circle svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .cd-element strong { font-size: 14px !important; }
+  .cd-element span { display: block; font-size: 11.5px !important; line-height: 1.35; }
 
-  /* Tools 1-column full-width on <=420px */
+  /* Tools: 2 compact columns on <=420px, odd last card centered */
   .cd-tools {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
     gap: 8px !important;
     width: 100% !important;
   }
   .cd-tool {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
+    flex: 0 1 calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
-    padding: 12px 14px !important;
-    font-size: 13px !important;
+    padding: 10px 6px !important;
+    font-size: 12.5px !important;
   }
 }
 
 /* ── ≤360px: Ultra Narrow Screen Safeguards ── */
 @media (max-width: 360px) {
   .cd-use-item {
-    padding: 10px 12px !important;
+    padding: 10px 6px !important;
     font-size: 12px !important;
   }
   .cd-use-item .cd-icon-circle {
@@ -772,8 +780,8 @@
     width: 18px !important;
     height: 18px !important;
   }
-  .cd-benefit { padding: 10px 10px !important; font-size: 12px !important; }
-  .cd-element { padding: 10px 10px !important; }
+  .cd-benefit { padding: 10px 6px !important; font-size: 12px !important; }
+  .cd-element { padding: 8px 3px !important; }
   .cd-element strong { font-size: 12.5px !important; }
   .cd-element span { font-size: 10.5px !important; }
   .cd-step h4 { font-size: 13px !important; }

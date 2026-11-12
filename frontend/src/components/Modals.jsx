@@ -494,10 +494,10 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               DIRECT HELPLINE
             </span>
             <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 800, margin: '6px 0 3px', color: '#1a1a1a' }}>
-              Contact Reiki &amp; Vaastu World
+              Contact Reiki &amp; Vastu World
             </h2>
             <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
-              Have questions regarding courses, Vaastu site audits, or energized products? Reach our Amravati and Nagpur centers.
+              Have questions regarding courses, Vastu site audits, or energized products? Reach our Amravati and Nagpur centers.
             </p>
 
             {submissionSuccess ? (
@@ -675,7 +675,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   <textarea
                     rows={3}
                     required
-                    placeholder="Describe your inquiry (e.g. learn Reiki level 1, home Vaastu inspection, buy certified Rudraksha)..."
+                    placeholder="Describe your inquiry (e.g. learn Reiki level 1, home Vastu inspection, buy certified Rudraksha)..."
                     style={{
                       width: '100%',
                       padding: '8px 12px',
@@ -1636,7 +1636,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               </div>
               <div>
                 <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#3b0a11' }}>
-                  {modalData?.title || 'Cosmic Energy & Vaastu Scanner'}
+                  {modalData?.title || 'Cosmic Energy & Vastu Scanner'}
                 </h3>
                 <span style={{ fontSize: '12px', color: '#b45309', fontWeight: 600 }}>
                   Guided by Dr. Naresh Chhabdiya • 31+ Years Energy Expertise
@@ -1707,7 +1707,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               }}
             >
               {sandboxOutput ||
-                `✦ Awaiting input...\nPress "Run Cosmic Diagnosis" to evaluate the 5 Pancha Tattvas, chakra vibration, and non-destructive Vaastu remedies.`}
+                `✦ Awaiting input...\nPress "Run Cosmic Diagnosis" to evaluate the 5 Pancha Tattvas, chakra vibration, and non-destructive Vastu remedies.`}
             </div>
           </div>
         )}
@@ -1753,7 +1753,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             </div>
 
             <h2 className="ff-redhat" style={{ fontSize: '24px', fontWeight: 700, color: '#3b0a11', margin: '0 0 6px' }}>
-              {authTab === 'login' ? 'Welcome Back to Reiki & Vaastu World' : 'Join Our Sacred Learning Circle'}
+              {authTab === 'login' ? 'Welcome Back to Reiki & Vastu World' : 'Join Our Sacred Learning Circle'}
             </h2>
             <p style={{ color: '#784450', fontSize: '13.5px', margin: '0 0 20px' }}>
               Access your certified course materials, attunement certificates, and weekly free meditation gatherings.

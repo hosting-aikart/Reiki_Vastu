@@ -24,10 +24,10 @@ export const AGENTS_DATA = [
   },
   {
     id: "vastu-shastra-consultation",
-    title: "Complete Vaastu Shastra Site Consultation & Remedy Blueprint",
-    provider: "Reiki and Vaastu World",
+    title: "Complete Vastu Shastra Site Consultation & Remedy Blueprint",
+    provider: "Reiki and Vastu World",
     tagline: "Scientific non-demolition space harmonization for residences, commercial offices, and industrial plots.",
-    categories: ["Vaastu Shastra"],
+    categories: ["Vastu Shastra"],
     pricing_model: "Consultation",
     price: "Tailored to Property Size",
     rating: 4.9,
@@ -37,7 +37,7 @@ export const AGENTS_DATA = [
     bannerGradient: "linear-gradient(135deg, #D4AF37 0%, #B45309 50%, #DC2626 100%)",
     blobs: ["#D4AF37", "#B45309", "#DC2626"],
     accentColor: "#D4AF37",
-    description: "Vaastu Shastra is the timeless Vedic science of architecture and directional energies. Dr. Naresh conducts comprehensive site and blueprint audits to evaluate the 16 cardinal zones, 5 elements (Pancha Tattva), Brahmasthan, and energy vortexes. We provide 100% practical, non-destructive remedial recommendations—rebalancing negative geopathic lines, faulty entry gates, and kitchen/water placements through brass strips, pyramids, and energized yantras without breaking walls.",
+    description: "Vastu Shastra is the timeless Vedic science of architecture and directional energies. Dr. Naresh conducts comprehensive site and blueprint audits to evaluate the 16 cardinal zones, 5 elements (Pancha Tattva), Brahmasthan, and energy vortexes. We provide 100% practical, non-destructive remedial recommendations—rebalancing negative geopathic lines, faulty entry gates, and kitchen/water placements through brass strips, pyramids, and energized yantras without breaking walls.",
     highlights: [
       "Residential, commercial, and factory audits",
       "16 directional zones & compass degree alignment",
@@ -94,7 +94,7 @@ export const AGENTS_DATA = [
   {
     id: "authentic-energized-rudraksha",
     title: "Certified Authentic Himalayan Rudrakshas (1 to 14 Mukhi)",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Natural, lab-certified Rudraksha beads energized with Shiva-Parvati Vedic consecration rituals.",
     categories: ["Energized Products", "Rudraksha Therapy"],
     pricing_model: "Energized Product",
@@ -106,7 +106,7 @@ export const AGENTS_DATA = [
     bannerGradient: "linear-gradient(135deg, #B45309 0%, #D4AF37 50%, #DC2626 100%)",
     blobs: ["#B45309", "#D4AF37", "#DC2626"],
     accentColor: "#B45309",
-    description: "The Rudraksha is revered in Vedic scriptures as the tear of Lord Shiva, radiating intense electromagnetic energy to harmonize the central nervous system, regulate blood pressure, and awaken the chakras. Reiki & Vaastu World supplies 100% natural Nepali and Indonesian beads—from 1 Mukhi (Lord Shiva/Sun) to 7 Mukhi (Goddess Mahalakshmi/Saturn) and Gauri Shankar. Each bead is energized under Dr. Naresh's personal supervision with specific Beej mantras.",
+    description: "The Rudraksha is revered in Vedic scriptures as the tear of Lord Shiva, radiating intense electromagnetic energy to harmonize the central nervous system, regulate blood pressure, and awaken the chakras. Reiki & Vastu World supplies 100% natural Nepali and Indonesian beads—from 1 Mukhi (Lord Shiva/Sun) to 7 Mukhi (Goddess Mahalakshmi/Saturn) and Gauri Shankar. Each bead is energized under Dr. Naresh's personal supervision with specific Beej mantras.",
     highlights: [
       "100% Genuine with X-Ray / Lab Authenticity Certificates",
       "Pre-energized with authentic Vedic Pran-Pratishtha",
@@ -140,7 +140,7 @@ export const AGENTS_DATA = [
   {
     id: "scientific-acupressure",
     title: "Scientific Acupressure & Sujok Meridian Healing Therapy",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Ancient finger-pressure therapy stimulating vital reflex meridian points for natural pain relief.",
     categories: ["Our Courses", "Acupressure"],
     pricing_model: "Healing Therapy",
@@ -163,7 +163,7 @@ export const AGENTS_DATA = [
   {
     id: "pyramid-therapy-biochamber",
     title: "Bio-Cosmic Pyramid Therapy & Orgone Neutralizers",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Harness geometric pyramid energy to neutralize geopathic stress and accelerate cellular rejuvenation.",
     categories: ["Our Courses", "Pyramid Therapy", "Energized Products"],
     pricing_model: "Energized Product",
@@ -186,7 +186,7 @@ export const AGENTS_DATA = [
   {
     id: "crystal-chakra-therapy",
     title: "Chakra Crystal Therapy & Natural Gemstone Harmonizers",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Use natural raw and polished minerals to realign the 7 chakras and dispel energetic stagnation.",
     categories: ["Our Courses", "Crystal Therapy", "Energized Products"],
     pricing_model: "Certified Course",
@@ -231,10 +231,10 @@ export const AGENTS_DATA = [
   },
   {
     id: "shree-yantra-vastu-plates",
-    title: "Sacred 3D Meru Shree Yantra & Vaastu Dosh Nivaran Plates",
-    provider: "Reiki and Vaastu World",
+    title: "Sacred 3D Meru Shree Yantra & Vastu Dosh Nivaran Plates",
+    provider: "Reiki and Vastu World",
     tagline: "Sacred geometrical cosmic antennas cast in heavy brass and copper, consecrated with Sri Suktam.",
-    categories: ["Energized Products", "Vaastu Shastra"],
+    categories: ["Energized Products", "Vastu Shastra"],
     pricing_model: "Energized Product",
     price: "Panchdhatu Consecrated",
     rating: 5.0,
@@ -278,7 +278,7 @@ export const AGENTS_DATA = [
   {
     id: "feng-shui-space-harmony",
     title: "Modern & Classical Feng-Shui Space Harmonization",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Align environmental Qi energy forces to welcome abundance, health, and relationship bliss.",
     categories: ["Our Courses", "Feng-Shui"],
     pricing_model: "Consultation",
@@ -301,7 +301,7 @@ export const AGENTS_DATA = [
   {
     id: "pranic-energy-healing",
     title: "Pranic Energy Healing & Aura Cleansing Treatment",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Highly developed no-touch treatment using universal prana to revitalize the bioplasmic body.",
     categories: ["Our Courses", "Pranic Healing"],
     pricing_model: "Healing Therapy",
@@ -336,7 +336,7 @@ export const AGENTS_DATA = [
     bannerGradient: "linear-gradient(135deg, #D4AF37 0%, #DC2626 50%, #7C3AED 100%)",
     blobs: ["#D4AF37", "#DC2626", "#7C3AED"],
     accentColor: "#D4AF37",
-    description: "Gemstones formed over millions of years deep in Mother Earth carry distinct planetary vibrational signatures—such as Yellow Sapphire for Jupiter, Blue Sapphire for Saturn, Ruby for the Sun, and Emerald for Mercury. At Reiki & Vaastu World, every gem is personally certified untreated and natural, then charged in a special Reiki mandala with master symbols before you wear it.",
+    description: "Gemstones formed over millions of years deep in Mother Earth carry distinct planetary vibrational signatures—such as Yellow Sapphire for Jupiter, Blue Sapphire for Saturn, Ruby for the Sun, and Emerald for Mercury. At Reiki & Vastu World, every gem is personally certified untreated and natural, then charged in a special Reiki mandala with master symbols before you wear it.",
     highlights: [
       "100% Natural, unheated, untreated astrological grade",
       "Pran-Pratishtha energized with Cho Ku Rei & Dai Ko Myo symbols",
@@ -347,7 +347,7 @@ export const AGENTS_DATA = [
   {
     id: "chromotherapy-color-healing",
     title: "Chromotherapy & Light Spectrum Energy Treatment",
-    provider: "Reiki and Vaastu World",
+    provider: "Reiki and Vastu World",
     tagline: "Vibrational color frequency application to soothe emotional turmoil and balance endocrine glands.",
     categories: ["Our Courses", "Color Therapy"],
     pricing_model: "Healing Therapy",

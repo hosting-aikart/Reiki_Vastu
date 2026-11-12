@@ -41,10 +41,10 @@ export const COURSES_15 = [
   },
   {
     id: 'vaastu',
-    title: 'Vaastu',
+    title: 'Vastu',
     subtitle: 'Harmonious Spaces • Prosperity • Positivity',
     description: 'Align homes and workplaces with the five natural elements and directional energies for lasting harmony.',
-    alt: 'Vaastu Shastra course – spatial harmony and directional balance for homes and offices',
+    alt: 'Vastu Shastra course – spatial harmony and directional balance for homes and offices',
     image: '/images/vastu.jpg',
     imageFit: 'contain',
     imagePosition: 'center center',

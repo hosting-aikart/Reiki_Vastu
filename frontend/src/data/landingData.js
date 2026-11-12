@@ -260,7 +260,7 @@ export const VIDEO_ITEMS = [
   },
   {
     id: "-t-IJfUI-jY",
-    title: "Vaastu Shastra Principles for Peace & Abundance in Homes",
+    title: "Vastu Shastra Principles for Peace & Abundance in Homes",
     embedUrl: "https://www.youtube.com/embed/-t-IJfUI-jY"
   },
   {

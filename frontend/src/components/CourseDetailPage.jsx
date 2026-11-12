@@ -195,7 +195,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
   const [actionsWidth, setActionsWidth] = useState(null);
 
   useEffect(() => {
-    if (data) document.title = `${data.title} Course | Reiki & Vaastu World`;
+    if (data) document.title = `${data.title} Course | Reiki & Vastu World`;
   }, [data]);
 
   useEffect(() => {
@@ -330,16 +330,6 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
           </div>
         </div>
       </section>
-
-      {/* ═════ PHILOSOPHY BAND ═════ */}
-      {data.philosophy && (
-        <section className="cd-phil">
-          <div className="cd-phil-inner">
-            <h2>{data.philosophy.title}</h2>
-            <p>{data.philosophy.text}</p>
-          </div>
-        </section>
-      )}
 
       {/* ═════ BENEFITS ═════ */}
       {data.benefits && (

@@ -64,7 +64,7 @@ export const PRODUCTS = [
     chakra: "Crown Chakra (Sahasrara) & All 7 Chakras",
     energization: "Vedic Mantra & Usui Reiki Master Attuned",
     description: "Amplifies healing intentions, clears mental fog, and harmonizes all seven chakras with pure light.",
-    longDescription: "Revered across ancient traditions as the \"Master Healer,\" Clear Quartz amplifies pure prana, sharpens concentration, and aligns all seven chakras. Personally consecrated at Reiki and Vaastu World to hold your highest healing and manifestation intentions.",
+    longDescription: "Revered across ancient traditions as the \"Master Healer,\" Clear Quartz amplifies pure prana, sharpens concentration, and aligns all seven chakras. Personally consecrated at Reiki and Vastu World to hold your highest healing and manifestation intentions.",
     benefits: [
       "Amplifies positive intentions, prayers, and the energy of surrounding stones",
       "Clears mental fog, enhances memory, focus, and decision-making clarity",

@@ -25,7 +25,7 @@ export default function Footer({ setCurrentView, openModal }) {
           {/* Column 1: Brand & Quick Links */}
           <div className="akf-col akf-col-brand">
             <h3 className="akf-brand-title">
-              REIKI &amp; VAASTU WORLD
+              REIKI &amp; VASTU WORLD
             </h3>
 
             <h4 className="akf-section-title">QUICK LINKS</h4>
@@ -143,7 +143,7 @@ export default function Footer({ setCurrentView, openModal }) {
               <div className="akf-detail-row">
                 <MapPin size={15} className="akf-row-icon" />
                 <span className="akf-row-text">
-                  <strong className="akf-highlight">Nagpur:</strong> Reiki &amp; Vaastu World, Near New English High School Mahal.
+                  <strong className="akf-highlight">Nagpur:</strong> Reiki &amp; Vastu World, Near New English High School Mahal.
                 </span>
               </div>
 
@@ -195,12 +195,29 @@ export default function Footer({ setCurrentView, openModal }) {
               </div>
             </div>
           </div>
+
+          {/* Mobile contact column sits beside opening hours. */}
+          <div className="akf-mobile-contacts" aria-label="Contact information">
+            <h4 className="akf-section-title">CONTACT</h4>
+            <div className="akf-detail-row akf-contact-row">
+              <Phone size={14} className="akf-row-icon" />
+              <a href="tel:8446656677" className="akf-contact-link">
+                8446656677 / 9423424596
+              </a>
+            </div>
+            <div className="akf-detail-row akf-contact-row">
+              <Mail size={14} className="akf-row-icon" />
+              <a href="mailto:reiki.vastuworld@gmail.com" className="akf-contact-link">
+                reiki.vastuworld@gmail.com
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Bar: Copyright & Legal */}
         <div className="akf-bottom-bar">
           <div className="akf-copyright">
-            © 1995–2026 <strong className="akf-brand-bold">Reiki &amp; Vaastu World</strong>. Founded by Dr. Naresh Chhabdiya.
+            © 1995–2026 <strong className="akf-brand-bold">Reiki &amp; Vastu World</strong>. Founded by Dr. Naresh Chhabdiya.
           </div>
 
             <span className="akf-legal-item">Privacy Policy</span>
