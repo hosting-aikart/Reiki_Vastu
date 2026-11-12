@@ -77,7 +77,7 @@ export const BUSINESS_NEEDS = [
   {
     id: "mental-peace",
     title: "Mental Peace & Stress",
-    description: "Dissolve deep anxiety, insomnia and burnout through Pyramid Therapy & guided Meditation.",
+    description: "Ease everyday stress, restlessness and burnout through Pyramid Therapy & guided Meditation.",
     iconName: "Heart",
     tag: "Emotional Healing",
     color: "#7C3AED"
