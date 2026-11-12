@@ -23,12 +23,19 @@ app.set('trust proxy', env.TRUST_PROXY);
 app.use(helmet());
 
 // Cross-Origin Resource Sharing
-const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim());
+// Browsers send the origin as lowercase scheme://host with no trailing slash,
+// so entries are normalised the same way. Stray quotes, spaces, capitals or a
+// trailing "/" pasted into the hosting dashboard would otherwise never match.
+export function normalizeOrigin(origin) {
+  return origin.trim().replace(/^["']+|["']+$/g, '').trim().replace(/\/+$/, '').toLowerCase();
+}
+
+export const allowedOrigins = env.CORS_ORIGIN.split(',').map(normalizeOrigin).filter(Boolean);
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps, curl, or server-to-server)
-      if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      if (!origin || allowedOrigins.includes(normalizeOrigin(origin)) || allowedOrigins.includes('*')) {
         return callback(null, true);
       }
       return callback(new Error(`CORS policy does not allow access from origin: ${origin}`));

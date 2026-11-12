@@ -1,4 +1,4 @@
-import app from './app.js';
+import app, { allowedOrigins } from './app.js';
 import env, { isEmailConfigured } from './config/env.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import logger from './utils/logger.js';
@@ -15,6 +15,7 @@ async function bootstrap() {
     server = app.listen(env.PORT, () => {
       logger.info(`Server running in ${env.NODE_ENV} mode on port ${env.PORT}`);
       logger.info(`Health check available at http://localhost:${env.PORT}/api/health`);
+      logger.info(`CORS allowed origins: ${allowedOrigins.join(', ') || '(none)'}`);
       if (isEmailConfigured()) {
         logger.info(`Owner email notifications: ENABLED (target: ${logger.maskEmail(env.ADMIN_NOTIFICATION_EMAIL)})`);
       } else {
