@@ -457,9 +457,9 @@ export default function TempleHarmonyRedesign({
                 <button type="button" className="th-btn th-btn--primary" onClick={onConsultClick}>
                   <span>Book Session with Dr. Naresh</span>
                 </button>
-                <a href="mailto:reki.vastuworld@gmail.com" className="th-btn th-btn--outline-dark">
+                <a href="mailto:reiki.vastuworld@gmail.com" className="th-btn th-btn--outline-dark">
                   <Mail size={15} color="#b92b27" />
-                  <span>reki.vastuworld@gmail.com</span>
+                  <span>reiki.vastuworld@gmail.com</span>
                 </a>
               </div>
             </div>
