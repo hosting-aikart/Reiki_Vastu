@@ -1,12 +1,14 @@
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { z } from 'zod';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const envFilePath = path.resolve(__dirname, '../../.env');
 
 // Explicitly load .env from the backend root directory (works regardless of cwd)
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: envFilePath });
 dotenv.config(); // fallback to current working directory if different
 
 // Development-only fallbacks. They are public (they're in this file), so the
@@ -68,6 +70,18 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+// Hot-reload .env changes in development so editing backend/.env takes effect without restarting node --watch
+if (env.NODE_ENV === 'development' && fs.existsSync(envFilePath)) {
+  fs.watchFile(envFilePath, { persistent: false, interval: 1000 }, () => {
+    dotenv.config({ path: envFilePath, override: true });
+    const updated = envSchema.safeParse(process.env);
+    if (updated.success) {
+      Object.assign(env, updated.data);
+      console.log(`[INFO] ${new Date().toISOString()} - Reloaded backend/.env (RAZORPAY_KEY_ID=${env.RAZORPAY_KEY_ID || 'unset'})`);
+    }
+  });
+}
 
 // Anyone who knows JWT_SECRET can forge an admin login, so in production it
 // (and COOKIE_SECRET) must be set to a long, private value.

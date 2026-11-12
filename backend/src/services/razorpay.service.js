@@ -5,17 +5,21 @@ import env from '../config/env.js';
 const REQUEST_TIMEOUT_MS = 10000;
 
 let client = null;
+let isTestMock = false;
+let clientKey = null;
 
 /**
- * Builds the client on first use. The SDK throws without a key, so building
- * it at import time would stop the whole site from starting.
+ * Builds the client on first use (or when credentials change). The SDK throws
+ * without a key, so building it at import time would stop the whole site from starting.
  */
 function getClient() {
-  if (!client) {
+  const currentKey = `${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`;
+  if (!client || (!isTestMock && clientKey !== currentKey)) {
     client = new Razorpay({
       key_id: env.RAZORPAY_KEY_ID,
       key_secret: env.RAZORPAY_KEY_SECRET
     });
+    clientKey = currentKey;
   }
   return client;
 }
@@ -25,6 +29,7 @@ function getClient() {
  */
 export function setTestRazorpayClient(mockClient) {
   client = mockClient;
+  isTestMock = Boolean(mockClient);
 }
 
 /**
