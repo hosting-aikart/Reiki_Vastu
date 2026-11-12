@@ -17,6 +17,8 @@ import Modals from './components/Modals';
 import AdminDashboard from './components/admin/AdminDashboard';
 import CheckoutPage from './components/CheckoutPage';
 import PaymentStatusPage from './components/PaymentStatusPage';
+import PolicyPage from './components/PolicyPage';
+import { policySlugFromPath } from './data/policies';
 
 // Payment pages have real URLs so a refresh lands on the same page.
 // /checkout/<productId>?quantity=2  -> delivery details + payment for one product
@@ -44,8 +46,12 @@ export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) return 'admin';
+    if (policySlugFromPath(path)) return 'policy';
     return currentPaymentRoute()?.view || 'home';
   });
+  // Legal pages (/privacy-policy, /terms-and-conditions, ...) have real URLs so
+  // they can be opened and linked directly, e.g. by Razorpay's website review.
+  const [policySlug, setPolicySlug] = useState(() => policySlugFromPath(window.location.pathname));
   const [checkout, setCheckout] = useState(() => {
     const route = currentPaymentRoute();
     return { productId: route?.checkoutProductId || null, quantity: route?.checkoutQuantity || 1 };
@@ -63,6 +69,9 @@ export default function App() {
       const paymentRoute = currentPaymentRoute();
       if (path.startsWith('/admin')) {
         setCurrentView('admin');
+      } else if (policySlugFromPath(path)) {
+        setPolicySlug(policySlugFromPath(path));
+        setCurrentView('policy');
       } else if (paymentRoute) {
         setCheckout({ productId: paymentRoute.checkoutProductId, quantity: paymentRoute.checkoutQuantity });
         setStatusToken(paymentRoute.statusToken);
@@ -166,10 +175,20 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToPolicy = (slug) => {
+    window.history.pushState({}, '', `/${slug}`);
+    setPolicySlug(slug);
+    setCurrentView('policy');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Navbar and Footer switch views without changing the URL. Leaving a payment
-  // page that way must also leave its URL, or a refresh would reopen it.
+  // or policy page that way must also leave its URL, or a refresh would reopen it.
   const changeView = (view) => {
-    if (paymentRouteFromPath(window.location.pathname) && !PAYMENT_VIEWS.includes(view)) {
+    const path = window.location.pathname;
+    const onPaymentPage = paymentRouteFromPath(path) && !PAYMENT_VIEWS.includes(view);
+    const onPolicyPage = policySlugFromPath(path) && view !== 'policy';
+    if (onPaymentPage || onPolicyPage) {
       window.history.pushState({}, '', '/');
     }
     setCurrentView(view);
@@ -194,7 +213,18 @@ export default function App() {
 
       {/* Main Content Pages */}
       <main style={{ flex: 1 }}>
-        {currentView === 'checkout' && checkout.productId ? (
+        {currentView === 'policy' && policySlug ? (
+          /* ── Legal pages: privacy, terms, refund, shipping, contact ── */
+          <PolicyPage
+            key={policySlug}
+            slug={policySlug}
+            onNavigate={navigateToPolicy}
+            onBack={() => {
+              changeView('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        ) : currentView === 'checkout' && checkout.productId ? (
           /* ── Checkout: delivery details + Razorpay payment ── */
           <CheckoutPage
             key={`${checkout.productId}:${checkout.quantity}`}
@@ -273,14 +303,15 @@ export default function App() {
         )}
       </main>
 
-      {/* The footer is part of the home page only. */}
-      {currentView === 'home' && (
+      {/* The footer is part of the home page and the legal pages. */}
+      {(currentView === 'home' || currentView === 'policy') && (
         <Footer
           setCurrentView={(view) => {
             changeView(view);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           openModal={openModal}
+          onOpenPolicy={navigateToPolicy}
         />
       )}
 
