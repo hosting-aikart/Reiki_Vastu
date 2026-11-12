@@ -472,12 +472,12 @@ shared/                         # NEW npm workspace (the root already uses works
 NODE_ENV=development
 PORT=5000
 MONGO_URI=mongodb+srv://...
-CORS_ORIGINS=http://localhost:5173,https://www.reikiandvastuworld.com
+CORS_ORIGINS=http://localhost:5173,https://www.reikiandvaastuworld.com
 TRUST_PROXY=1                      # needed behind Render/Nginx for correct rate-limit IPs
 IP_HASH_SALT=change-me
 # Email
 SMTP_HOST=  SMTP_PORT=587  SMTP_USER=  SMTP_PASS=
-MAIL_FROM="Reiki & Vaastu World <no-reply@reikiandvastuworld.com>"
+MAIL_FROM="Reiki & Vaastu World <no-reply@reikiandvaastuworld.com>"
 ADMIN_NOTIFY_EMAILS=reiki.vastuworld@gmail.com      # comma-separated
 SEND_CUSTOMER_CONFIRMATION=false
 # P1
@@ -502,7 +502,7 @@ Frontend: `VITE_API_BASE_URL` for production, plus a Vite dev proxy from `/api` 
 
 | Option | Setup | Pros | Cons |
 |---|---|---|---|
-| **A (recommended)** | Frontend on Vercel or Netlify at `www.reikiandvastuworld.com`. API on Render or Railway at `api.reikiandvastuworld.com`. MongoDB Atlas (free M0). | Free or cheap tiers, simple CI from Git. **The same parent domain means SameSite=Lax cookies work for admin.** | Free Render instances sleep, giving a slow first request (paid tier about $7/month avoids this) |
+| **A (recommended)** | Frontend on Vercel or Netlify at `www.reikiandvaastuworld.com`. API on Render or Railway at `api.reikiandvaastuworld.com`. MongoDB Atlas (free M0). | Free or cheap tiers, simple CI from Git. **The same parent domain means SameSite=Lax cookies work for admin.** | Free Render instances sleep, giving a slow first request (paid tier about $7/month avoids this) |
 | B | One VPS (or Render) where Express serves the built `frontend/dist` as well as `/api` | Single origin, so no CORS. One deploy. | You manage the server, and frontend deploys are coupled to the backend |
 
 Email deliverability: for customer confirmations, use a domain sender with **SPF and DKIM** through Brevo or Resend. Gmail SMTP is fine for admin-only notifications.
@@ -583,9 +583,9 @@ Turnstile CAPTCHA, WhatsApp or SMS alerts, slot capacity rules, Google Calendar 
 6. **Products:** will they be sold online? If so, roughly when? (This affects whether a "notify me" list is worth building.)
 7. **Dead code:** can I **delete** the unreachable `auth` and `sandbox` modals, the six orphaned marketplace components, `agents.js`, `categories.js` and the `Agent` backend?
 8. **Phone numbers:** do you need to accept **international** numbers for online clients, or only Indian mobiles?
-9. **Customer emails:** should clients who give an email get an automatic confirmation? Do you have (or want) a sending domain such as `no-reply@reikiandvastuworld.com`?
+9. **Customer emails:** should clients who give an email get an automatic confirmation? Do you have (or want) a sending domain such as `no-reply@reikiandvaastuworld.com`?
 10. **Testimonials:** should submitted ratings be displayed? Should staff be able to edit the wording before publishing?
-11. **Hosting:** is `reikiandvastuworld.com` already hosted somewhere (an existing site, cPanel or VPS)? Do you prefer free-tier hosting, or is a small monthly cost (about $7–10) acceptable?
+11. **Hosting:** is `reikiandvaastuworld.com` already hosted somewhere (an existing site, cPanel or VPS)? Do you prefer free-tier hosting, or is a small monthly cost (about $7–10) acceptable?
 12. **Legal:** do Privacy Policy and Terms pages exist, or should they be added as part of this work?
 13. **Content editing:** how often will course text, videos or testimonials change? Does the client need to edit them without a developer?
 
