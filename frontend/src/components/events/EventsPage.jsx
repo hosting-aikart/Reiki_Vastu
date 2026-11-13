@@ -18,7 +18,7 @@ export default function EventsPage() {
         events.map((event) => <EventDetail key={event.id} event={event} />)
       ) : (
         <div className="ev-container ev-empty">
-          <img src="/logo/lotus_pure.png" alt="" aria-hidden="true" />
+          <img src="/logo/lotus_pure.webp" alt="" aria-hidden="true" />
           <h2>New workshops coming soon</h2>
           <p>
             For details of our next batch, call <a href="tel:8446656677">8446656677</a> /{' '}

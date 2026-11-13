@@ -23,8 +23,8 @@ export const PRODUCT_CURRENCY = 'INR';
 export const PRODUCTS = [
   {
     id: "black-obsidian",
-    pricePaise: 119900,
-    originalPricePaise: 159900,
+    pricePaise: 69900,
+    originalPricePaise: 129900,
     maxQuantity: 5,
     available: true,
     title: "Black Obsidian",
@@ -45,13 +45,13 @@ export const PRODUCTS = [
       "Ideal for professionals, healers, and individuals exposed to heavy public environments"
     ],
     howToWear: "Wear on your left wrist (receiving hand) to absorb protective grounding energy, or on your right wrist to project strength and ward off negativity.",
-    image: "/Products/Black obsidian.png",
+    image: "/Products/Black obsidian.webp",
     alt: "Energized Black Obsidian crystal bracelet for protection and grounding"
   },
   {
     id: "clear-quartz",
-    pricePaise: 129900,
-    originalPricePaise: 169900,
+    pricePaise: 59900,
+    originalPricePaise: 119900,
     maxQuantity: 5,
     available: true,
     title: "Clear Quartz",
@@ -72,13 +72,13 @@ export const PRODUCTS = [
       "Supports deep meditation, spiritual awakening, and restorative sleep"
     ],
     howToWear: "Best worn on the left wrist during meditation, study, or daily work to invite clarity and high-frequency prana.",
-    image: "/Products/Clear Quartz.png",
+    image: "/Products/Clear Quartz.webp",
     alt: "Energized Clear Quartz crystal bracelet for clarity and chakra healing"
   },
   {
     id: "green-aventurine",
-    pricePaise: 114900,
-    originalPricePaise: 149900,
+    pricePaise: 69900,
+    originalPricePaise: 129900,
     maxQuantity: 5,
     available: true,
     title: "Green Aventurine",
@@ -99,13 +99,13 @@ export const PRODUCTS = [
       "Balances electromagnetic stress from daily computer and mobile usage"
     ],
     howToWear: "Wear on your left wrist to welcome abundance, luck, and harmonious relationships into your life.",
-    image: "/Products/Green aventurine.png",
+    image: "/Products/Green aventurine bracelet.webp",
     alt: "Energized Green Aventurine crystal bracelet for prosperity and abundance"
   },
   {
     id: "lava-stone",
-    pricePaise: 99900,
-    originalPricePaise: 139900,
+    pricePaise: 54900,
+    originalPricePaise: 99900,
     maxQuantity: 5,
     available: true,
     title: "Lava Stone",
@@ -126,13 +126,13 @@ export const PRODUCTS = [
       "Promotes emotional resilience and steady grounded focus"
     ],
     howToWear: "Wear daily on either wrist; add a single drop of pure essential oil to 1–2 lava beads for continuous aromatic calm.",
-    image: "/Products/Lawa stone.png",
+    image: "/Products/Lava stone.webp",
     alt: "Energized Lava Stone bracelet for strength, courage, and grounding"
   },
   {
     id: "selenite",
-    pricePaise: 124900,
-    originalPricePaise: 164900,
+    pricePaise: 69900,
+    originalPricePaise: 129900,
     maxQuantity: 5,
     available: true,
     title: "Selenite",
@@ -153,17 +153,16 @@ export const PRODUCTS = [
       "Brings instant serenity, mental stillness, and spiritual protection"
     ],
     howToWear: "Wear on the left wrist during meditation, healing sessions, or daily routines; keep away from prolonged water immersion.",
-    image: "/Products/selenite.png",
+    image: "/Products/selenite.webp",
     alt: "Energized Selenite crystal bracelet for aura cleansing and peace"
   },
-  // ── Added Nov 2026. Prices set by the business (₹699 / MRP ₹1,299 and
-  // ₹799 / MRP ₹1,399). No rating or review count yet, so none is shown;
+  // ── Added Nov 2026. No rating or review count yet, so none is shown;
   // bead size, wrist size and energization details are not confirmed and
   // are left out rather than guessed.
   {
     id: "carnelian",
-    pricePaise: 69900,
-    originalPricePaise: 129900,
+    pricePaise: 59900,
+    originalPricePaise: 119900,
     maxQuantity: 5,
     available: true,
     title: "Carnelian",
@@ -180,7 +179,7 @@ export const PRODUCTS = [
       "Worn to encourage a warm, positive, and energetic outlook"
     ],
     howToWear: "Wear on the left wrist to invite its warm, motivating energy, or on the right wrist when you want to express confidence outwardly.",
-    image: "/Products/Carnelian.jpg",
+    image: "/Products/Carnelian.webp",
     alt: "Carnelian crystal bracelet with Buddha charm for motivation and confidence"
   },
   {
@@ -203,13 +202,13 @@ export const PRODUCTS = [
       "Worn to encourage a calm, balanced, and open heart"
     ],
     howToWear: "Wear on the left wrist, closest to the heart, to receive its gentle loving energy throughout the day.",
-    image: "/Products/Rose Quartz.jpg",
+    image: "/Products/Rose Quartz.webp",
     alt: "Rose Quartz crystal bracelet with Buddha charm for love and emotional harmony"
   },
   {
     id: "pyrite",
-    pricePaise: 79900,
-    originalPricePaise: 139900,
+    pricePaise: 59900,
+    originalPricePaise: 119900,
     maxQuantity: 5,
     available: true,
     title: "Pyrite",
@@ -226,14 +225,14 @@ export const PRODUCTS = [
       "Popular with professionals and entrepreneurs as a prosperity stone"
     ],
     howToWear: "Wear on the left wrist to welcome abundance, or on the right wrist to project confidence and drive.",
-    image: "/Products/Pyrite.jpg",
+    image: "/Products/Pyrite.webp",
     alt: "Pyrite crystal bracelet with Buddha charm for abundance and prosperity"
   },
   {
     // Supplied as "Tirega"; the bracelet in the photo is Tiger Eye.
     id: "tiger-eye",
-    pricePaise: 79900,
-    originalPricePaise: 139900,
+    pricePaise: 69900,
+    originalPricePaise: 129900,
     maxQuantity: 5,
     available: true,
     title: "Tiger Eye",
@@ -250,7 +249,7 @@ export const PRODUCTS = [
       "Linked with grounded confidence and the Solar Plexus Chakra (Manipura)"
     ],
     howToWear: "Wear on the right wrist to project courage and protection, or on the left wrist to draw in steady, grounding energy.",
-    image: "/Products/Tiger Eye.jpg",
+    image: "/Products/Tiger Eye.webp",
     alt: "Tiger Eye crystal bracelet with Buddha charm for courage and focus"
   }
 ];

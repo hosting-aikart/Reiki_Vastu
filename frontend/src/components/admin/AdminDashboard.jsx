@@ -159,7 +159,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 }}
               >
                 <img
-                  src="/logo/lotus_pure.png"
+                  src="/logo/lotus_pure.webp"
                   alt="Reiki & Vaastu Lotus"
                   style={{ width: '26px', height: '26px', objectFit: 'contain' }}
                 />

@@ -13,7 +13,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
             <div style={{ textAlign: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0 auto 18px' }}>
                 <img
-                  src="/logo/lotus_pure.png"
+                  src="/logo/lotus_pure.webp"
                   alt="Reiki &amp; Vaastu Lotus"
                   style={{
                     width: '300px',

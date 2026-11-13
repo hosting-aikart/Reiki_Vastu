@@ -25,7 +25,7 @@ export const COURSES_15 = [
     subtitle: 'Inner Peace • Mindfulness • Self Growth',
     description: 'Cultivate deep mindfulness, emotional calm, and thoughtless awareness through guided meditation practices.',
     alt: 'Meditation course – guided mindfulness and inner peace practice',
-    image: '/images/Meditation.png',
+    image: '/images/Meditation.webp',
     hasImage: true,
     icon: Heart
   },
@@ -35,7 +35,7 @@ export const COURSES_15 = [
     subtitle: 'Healing Energy • Balance • Well-being',
     description: 'Channel universal life-force energy with traditional Usui Reiki attunements for self-healing and chakra balance.',
     alt: 'Reiki healing course – universal life force energy and chakra balancing',
-    image: '/images/Reiki.png',
+    image: '/images/Reiki.webp',
     hasImage: true,
     icon: Sparkles
   },
@@ -45,7 +45,7 @@ export const COURSES_15 = [
     subtitle: 'Harmonious Spaces • Prosperity • Positivity',
     description: 'Align homes and workplaces with the five natural elements and directional energies for lasting harmony.',
     alt: 'Vaastu Shastra course – spatial harmony and directional balance for homes and offices',
-    image: '/images/vastu.jpg',
+    image: '/images/vastu.webp',
     imageFit: 'contain',
     imagePosition: 'center center',
     imageBg: '#f3e5d0',
@@ -58,7 +58,7 @@ export const COURSES_15 = [
     subtitle: 'Flow of Energy • Balance • Abundance',
     description: 'Harmonize environmental Chi flow and balance Yin-Yang energies to attract peace and abundance.',
     alt: 'Feng-Shui course – harmonizing Chi energy and five elements in living spaces',
-    image: '/images/Feng Shui.png',
+    image: '/images/Feng Shui.webp',
     imageFit: 'contain',
     imagePosition: 'center center',
     imageBg: '#f4ead8',
@@ -73,7 +73,7 @@ export const COURSES_15 = [
     subtitle: 'Energy Detection • Subtle Vibrations',
     description: 'Master pendulum radiesthesia to detect subtle earth energies, geopathic stress, and intuitive guidance.',
     alt: 'Dowsing course – pendulum radiesthesia and subtle energy detection',
-    image: '/images/Dowsing.png',
+    image: '/images/Dowsing.webp',
     imagePosition: 'center 62%',
     hasImage: true,
     icon: Compass
@@ -84,7 +84,7 @@ export const COURSES_15 = [
     subtitle: 'Spiritual Healing • Enlightenment • Transformation',
     description: 'Experience ancient Tibetan Buddhist high-frequency healing to clear negative auras and deep blockages.',
     alt: 'Lama-Fera course – Tibetan Buddhist high-frequency spiritual healing',
-    image: '/images/Lama Fera.png',
+    image: '/images/Lama Fera.webp',
     imagePosition: 'center center',
     hasImage: true,
     icon: Award
@@ -95,7 +95,7 @@ export const COURSES_15 = [
     subtitle: 'Energy Cleansing • Emotional Healing',
     description: 'Harness the natural crystalline vibrations of sacred stones to cleanse chakras and restore emotional balance.',
     alt: 'Crystal Therapy course – healing gemstones and chakra energy alignment',
-    image: '/images/crystal therapy.png',
+    image: '/images/crystal therapy.webp',
     imagePosition: 'center 58%',
     hasImage: true,
     icon: Gem
@@ -106,7 +106,7 @@ export const COURSES_15 = [
     subtitle: 'Positivity • Manifestation • Growth',
     description: 'Utilize bio-cosmic pyramid geometry to amplify positive vibrations, relieve stress, and correct Vaastu defects.',
     alt: 'Pyramid Therapy course – sacred geometric energy for positivity and Vaastu rectification',
-    image: '/images/pyramid.png',
+    image: '/images/pyramid.webp',
     imagePosition: 'center 55%',
     hasImage: true,
     icon: Layers
@@ -119,7 +119,7 @@ export const COURSES_15 = [
     subtitle: 'Decode Numbers • Understand Life • Find Purpose',
     description: 'Decode the vibrational power of birth dates and names to uncover life purpose, timing, and auspicious remedies.',
     alt: 'Numerology course – decoding sacred numbers, birth dates, and life path insights',
-    image: '/images/Numerology.png',
+    image: '/images/Numerology.webp',
     hasImage: true,
     icon: Hash
   },
@@ -129,7 +129,7 @@ export const COURSES_15 = [
     subtitle: 'Guidance • Self-Discovery • Life Clarity',
     description: 'Explore Vedic Jyotish natal charts, planetary transits, and practical remedies for career and life clarity.',
     alt: 'Vedic Astrology course – birth chart analysis, planetary wisdom, and life guidance',
-    image: '/images/Astrology.png',
+    image: '/images/Astrology.webp',
     hasImage: true,
     icon: Compass
   },
@@ -139,7 +139,7 @@ export const COURSES_15 = [
     subtitle: 'Spiritual Protection • Focus • Positivity',
     description: 'Learn the science of sacred Mukhi Rudraksha beads for spiritual protection, focus, and planetary harmony.',
     alt: 'Rudraksha therapy course – sacred Mukhi beads for spiritual protection and focus',
-    image: '/images/Rudraksha.png',
+    image: '/images/Rudraksha.webp',
     hasImage: true,
     icon: Shield
   },
@@ -149,7 +149,7 @@ export const COURSES_15 = [
     subtitle: 'Life Energy • Healing • Vitality',
     description: 'Practice no-touch bio-plasmic energy cleansing and energizing techniques to accelerate physical and emotional recovery.',
     alt: 'Pranic Healing course – no-touch life energy cleansing and vitality restoration',
-    image: '/images/Pranic Healing.png',
+    image: '/images/Pranic Healing.webp',
     hasImage: true,
     icon: Droplets
   }

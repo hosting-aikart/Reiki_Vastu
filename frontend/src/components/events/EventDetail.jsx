@@ -25,7 +25,7 @@ function LotusRule({ className = '' }) {
   return (
     <span className={`ev-lotus-rule ${className}`} aria-hidden="true">
       <span className="ev-lotus-rule-line" />
-      <img src="/logo/lotus_pure.png" alt="" />
+      <img src="/logo/lotus_pure.webp" alt="" />
       <span className="ev-lotus-rule-line" />
     </span>
   );
@@ -69,7 +69,7 @@ function EventHero({ event, headingId }) {
         </figure>
 
         <div className="ev-hero-center">
-          <img className="ev-hero-lotus" src="/logo/lotus_pure.png" alt="" aria-hidden="true" />
+          <img className="ev-hero-lotus" src="/logo/lotus_pure.webp" alt="" aria-hidden="true" />
           <p className="ev-hero-org">{event.organizer}</p>
           <p className="ev-hero-since">
             <span className="ev-hero-since-line" aria-hidden="true" />
@@ -171,6 +171,7 @@ function EventDetailsAndAbout({ event, id }) {
 
       <img
         className="ev-about-art"
+        loading="lazy"
         src={art.aboutArt.src}
         alt=""
         aria-hidden="true"

@@ -65,7 +65,7 @@ export default function Navbar({
             aria-label="Reiki and Vaastu World - Home"
           >
             <img
-              src="/logo/lotus_pure.png"
+              src="/logo/lotus_pure.webp"
               alt="Reiki and Vaastu World"
               className="gnav-logo-img"
             />
@@ -184,7 +184,7 @@ export default function Navbar({
           {/* Site Logo + Brand Title */}
           <div style={{ display: 'inline-flex', alignItems: 'center', minWidth: 0 }}>
             <img
-              src="/logo/lotus_pure.png"
+              src="/logo/lotus_pure.webp"
               alt="Reiki and Vaastu World"
               style={{ height: '34px', width: 'auto', objectFit: 'contain', flexShrink: 0 }}
             />

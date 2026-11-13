@@ -366,6 +366,9 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                 </select>
               </dd>
 
+              <dt style={{ color: '#475569' }}>Shipping &amp; Delivery</dt>
+              <dd style={{ margin: 0, fontWeight: 750, color: '#15803d' }}>FREE (Free Delivery Available)</dd>
+
               <dt style={{ fontWeight: 850, color: '#3b0a11', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>Total</dt>
               <dd style={{ margin: 0, fontWeight: 850, fontSize: '19px', color: '#D2042D', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>
                 {formatPaise(product.unitPricePaise * quantity)}

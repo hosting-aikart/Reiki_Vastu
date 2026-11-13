@@ -31,7 +31,7 @@ export default function Hero({ onSearch, onConsultClick, onExploreCourses }) {
       <div className="hero-bg-video-wrap" aria-hidden="true">
         <video
           src="/images/main-video.mp4"
-          poster="/images/Meditation.png"
+          poster="/images/Meditation.webp"
           preload="metadata"
           autoPlay
           muted

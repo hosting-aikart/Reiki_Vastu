@@ -58,7 +58,7 @@ const HERO_COURSE_SLIDES = [
   {
     id: 'meditation',
     label: 'Meditation',
-    src: '/images/temple-harmony-hero.jpg',
+    src: '/images/temple-harmony-hero.webp',
     position: 'center 24%',
     mobilePosition: '50% 24%',
     filter: 'brightness(0.96) contrast(1.08) saturate(1.14) sepia(0.08)',
@@ -71,7 +71,7 @@ const HERO_COURSE_SLIDES = [
   {
     id: 'reiki',
     label: 'Reiki',
-    src: '/images/Reiki.png',
+    src: '/images/Reiki.webp',
     position: 'center 28%',
     mobilePosition: '36% 28%',
     filter: 'brightness(0.95) contrast(1.09) saturate(1.12) sepia(0.06)',
@@ -84,7 +84,7 @@ const HERO_COURSE_SLIDES = [
   {
     id: 'crystal-therapy',
     label: 'Crystal Therapy',
-    src: '/images/crystal therapy.png',
+    src: '/images/crystal therapy.webp',
     position: 'center 58%',
     mobilePosition: '50% 58%',
     filter: 'brightness(0.96) contrast(1.10) saturate(1.16) sepia(0.03)',
@@ -95,9 +95,22 @@ const HERO_COURSE_SLIDES = [
     vignetteAlpha: 0.32
   },
   {
+    id: 'vaastu',
+    label: 'Vaastu',
+    src: '/images/vastu.webp',
+    position: 'center 6%',
+    mobilePosition: '46% 62%',
+    filter: 'brightness(0.96) contrast(1.08) saturate(1.12) sepia(0.05)',
+    topAlpha: 0.3,
+    midAlpha: 0.1,
+    bottomAlpha: 0.48,
+    amberWarmth: 0.16,
+    vignetteAlpha: 0.32
+  },
+  {
     id: 'lama-fera',
     label: 'Lama-Fera',
-    src: '/images/Lama Fera.png',
+    src: '/images/Lama Fera.webp',
     position: 'center 26%',
     mobilePosition: '34% 26%',
     filter: 'brightness(1.0) contrast(1.08) saturate(1.14) sepia(0.05)',
@@ -123,6 +136,19 @@ export default function TempleHarmonyRedesign({
 }) {
   const rootRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  // Only the first hero photo loads with the page; the other slides start
+  // downloading once the page has finished loading, so they don't compete
+  // with the first screen.
+  const [loadOtherSlides, setLoadOtherSlides] = useState(false);
+  useEffect(() => {
+    const start = () => setLoadOtherSlides(true);
+    if (document.readyState === 'complete') {
+      start();
+      return undefined;
+    }
+    window.addEventListener('load', start, { once: true });
+    return () => window.removeEventListener('load', start);
+  }, []);
   const [isGlassCardPreview] = useState(false);
 
   useEffect(() => {
@@ -175,14 +201,17 @@ export default function TempleHarmonyRedesign({
               }`}
             >
               <img
-                src={slide.src}
+                src={index === 0 || loadOtherSlides ? slide.src : undefined}
                 alt=""
                 aria-hidden="true"
                 className="th-hero-slide-fill"
+                decoding="async"
               />
               <img
-                src={slide.src}
+                src={index === 0 || loadOtherSlides ? slide.src : undefined}
                 alt=""
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                decoding="async"
                 className={`hero-bg-video th-hero-slide ${
                   index === activeSlide ? 'th-hero-slide--active' : ''
                 } th-hero-slide--golden-filter`}
@@ -204,7 +233,7 @@ export default function TempleHarmonyRedesign({
               {/* Top Warm-Ivory Lotus Emblem */}
               <div className="th-glass-top-lotus-wrap" aria-hidden="true">
                 <img
-                  src="/logo/lotus_pure.png"
+                  src="/logo/lotus_pure.webp"
                   alt=""
                   className="th-glass-top-lotus"
                 />
@@ -221,7 +250,7 @@ export default function TempleHarmonyRedesign({
               <div className="th-glass-pillars">
                 <div className="th-glass-pillar">
                   <img
-                    src="/logo/lotus_pure.png"
+                    src="/logo/lotus_pure.webp"
                     alt=""
                     aria-hidden="true"
                     className="th-glass-pillar-lotus"

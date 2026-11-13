@@ -5,7 +5,8 @@ import {
   Sparkles,
   CheckCircle2,
   Star,
-  ShoppingBag
+  ShoppingBag,
+  Truck
 } from 'lucide-react';
 import { SACRED_PRODUCTS } from './BusinessNeeds';
 import { OrnamentalFlourish } from './TempleHarmonyRedesign';
@@ -234,19 +235,39 @@ export default function ProductDetailPage({
                   )}
                 </div>
 
-                <span
-                  style={{
-                    fontFamily: 'var(--font-karla)',
-                    fontSize: '11px',
-                    fontWeight: 750,
-                    color: '#b5091f',
-                    background: 'rgba(181, 9, 31, 0.08)',
-                    padding: '3px 10px',
-                    borderRadius: '999px'
-                  }}
-                >
-                  Vedic &amp; Reiki Energized
-                </span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      fontFamily: 'var(--font-karla)',
+                      fontSize: '11.5px',
+                      fontWeight: 750,
+                      color: '#15803d',
+                      background: 'rgba(21, 128, 61, 0.09)',
+                      border: '1px solid rgba(21, 128, 61, 0.25)',
+                      padding: '4px 11px',
+                      borderRadius: '999px'
+                    }}
+                  >
+                    <Truck size={13} />
+                    <span>Free Shipping &middot; Free Delivery Available</span>
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-karla)',
+                      fontSize: '11px',
+                      fontWeight: 750,
+                      color: '#b5091f',
+                      background: 'rgba(181, 9, 31, 0.08)',
+                      padding: '3px 10px',
+                      borderRadius: '999px'
+                    }}
+                  >
+                    Vedic &amp; Reiki Energized
+                  </span>
+                </div>
               </div>
 
               {/* Quantity Selector + Order Now + Ask Expert Advice */}
