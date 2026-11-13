@@ -247,7 +247,7 @@ export const TESTIMONIALS_DATA = [
   {
     name: "Neha Pande",
     location: "",
-    quote: "Great results. Enjoyable to work with, and most importantly, enabled us to have the presence on the astro we needed to conduct business in today's market. Reiki and Vastu world provides excellent customer service, genuine and thoughtful insight, and delivers more than expected.",
+    quote: "Great results. Enjoyable to work with, and most importantly, enabled us to have the presence on the astro we needed to conduct business in today's market. Reiki and Vaastu World provides excellent customer service, genuine and thoughtful insight, and delivers more than expected.",
     role: ""
   }
 ];

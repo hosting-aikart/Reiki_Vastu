@@ -26,24 +26,31 @@ export const BUSINESS = {
     },
     {
       name: 'Nagpur Center',
-      address: 'Reiki & Vastu World, Near New English High School, Mahal, Nagpur, Maharashtra, India'
+      address: 'Reiki & Vaastu World, Near New English High School, Mahal, Nagpur, Maharashtra, India'
     }
   ],
-  jurisdiction: 'Amravati, Maharashtra'
+  jurisdiction: 'Amravati, Maharashtra',
+  // Person who handles customer complaints (required by Razorpay's merchant terms, clause 6.2)
+  grievanceOfficer: 'Yash Naresh Chhabdiya'
 };
 
 export const POLICY_TERMS = {
-  lastUpdated: '12 November 2026',
+  lastUpdated: '13 November 2026',
   dispatchDays: '2–4 business days',
   deliveryDays: '5–10 business days',
   claimWindowHours: 48,
   refundDays: '5–7 business days',
-  rescheduleNoticeHours: 24
+  rescheduleNoticeHours: 24,
+  // Razorpay requires merchants to respond to customer complaints within 5 business days.
+  grievanceResponseDays: 5
 };
 
 const B = BUSINESS;
 const T = POLICY_TERMS;
 const phoneText = B.phones.join(' / ');
+
+/** Customer grievance redressal: who handles complaints, how to reach them, and how fast they reply. */
+export const GRIEVANCE_TEXT = `If you have a complaint about an order, payment, refund, delivery or our services, contact our Grievance Officer, ${B.grievanceOfficer}, by phone or WhatsApp at ${phoneText}, by email at ${B.email}, or by post at ${B.registeredAddress}. Please include your name, phone number and order reference if you have one. We acknowledge every complaint and respond within ${T.grievanceResponseDays} business days of receiving it.`;
 
 /**
  * Each page: { slug, title, intro, sections: [{ heading, paragraphs?, list?, note? }] }
@@ -116,7 +123,7 @@ export const POLICIES = [
       {
         heading: 'Grievance officer',
         paragraphs: [
-          `In line with the Information Technology Act, 2000 and the Digital Personal Data Protection Act, 2023, any complaint about your personal data can be sent to our Grievance Officer: ${B.owner}, ${B.brand}, ${B.registeredAddress}. Email: ${B.email}. Phone: ${phoneText}.`
+          `In line with the Information Technology Act, 2000 and the Digital Personal Data Protection Act, 2023, any complaint about your personal data can be sent to our Grievance Officer: ${B.owner}, ${B.brand}, ${B.registeredAddress}. Email: ${B.email}. Phone: ${phoneText}. We respond within ${T.grievanceResponseDays} business days of receiving your complaint.`
         ]
       },
       {
@@ -144,7 +151,8 @@ export const POLICIES = [
         heading: 'Products, prices and payment',
         list: [
           'All prices are in Indian Rupees (INR) and are the total amount payable for the product, including delivery within India, unless stated otherwise at checkout.',
-          'Crystals and gemstones are natural materials, so colour, pattern and size may vary slightly from the photographs.',
+          'Crystals and gemstones are natural materials, so colour, pattern and size may vary slightly from the photographs. Product images are for reference only.',
+          'Descriptions of a product’s traditional, spiritual or energetic properties (for example protection, prosperity or calm) reflect traditional beliefs. They are not promises of any health, financial, career or other outcome.',
           'Payments are processed securely by Razorpay. An order is confirmed only after the payment is successfully received.',
           'We may correct pricing or listing errors and may cancel an order affected by such an error, with a full refund of any amount paid.',
           'We may limit quantities or decline orders at our discretion, for example where an item is out of stock. Any amount paid for an order we cannot fulfil is refunded in full.'
@@ -159,7 +167,7 @@ export const POLICIES = [
       {
         heading: 'Important disclaimer',
         paragraphs: [
-          'Reiki, Vastu, astrology, numerology, crystal therapy and related practices are traditional and complementary holistic practices. They are not a substitute for professional medical, psychological, legal or financial advice, diagnosis or treatment. Always consult a qualified professional for such matters. Individual experiences differ, and we do not guarantee any specific result.'
+          'Reiki, Vastu, astrology, numerology, crystal therapy and related practices are traditional and complementary holistic practices. They are not a substitute for professional medical, psychological, legal or financial advice, diagnosis or treatment. Always consult a qualified professional for such matters, and do not stop or delay any medical treatment, or make important legal, financial or business decisions, based only on a consultation or product. Individual experiences differ, and we do not guarantee any specific result.'
         ]
       },
       {
@@ -178,6 +186,10 @@ export const POLICIES = [
       {
         heading: 'Governing law',
         paragraphs: [`These terms are governed by the laws of India. Any dispute is subject to the exclusive jurisdiction of the courts at ${B.jurisdiction}.`]
+      },
+      {
+        heading: 'Grievance redressal',
+        paragraphs: [GRIEVANCE_TEXT]
       },
       {
         heading: 'Contact',
@@ -226,6 +238,10 @@ export const POLICIES = [
       {
         heading: 'Contact for cancellations and refunds',
         paragraphs: [`Email ${B.email} or call ${phoneText}. Please include your order reference.`]
+      },
+      {
+        heading: 'Grievance redressal',
+        paragraphs: [GRIEVANCE_TEXT]
       }
     ]
   },

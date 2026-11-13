@@ -494,7 +494,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               DIRECT HELPLINE
             </span>
             <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
-              Contact Reiki &amp; Vastu World
+              Contact Reiki &amp; Vaastu World
             </h2>
             <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
               Have questions regarding courses, Vastu site audits, or energized products? Reach our Amravati and Nagpur centers.
@@ -1753,7 +1753,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             </div>
 
             <h2 className="ff-redhat" style={{ fontSize: '24px', fontWeight: 750, color: '#3b0a11', margin: '0 0 6px' }}>
-              {authTab === 'login' ? 'Welcome Back to Reiki & Vastu World' : 'Join Our Sacred Learning Circle'}
+              {authTab === 'login' ? 'Welcome Back to Reiki & Vaastu World' : 'Join Our Sacred Learning Circle'}
             </h2>
             <p style={{ color: '#784450', fontSize: '13.5px', margin: '0 0 20px' }}>
               Access your certified course materials, attunement certificates, and weekly free meditation gatherings.

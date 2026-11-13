@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeft, Mail, MapPin, Phone, User } from 'lucide-react';
-import { BUSINESS, CONTACT_PAGE, POLICIES, POLICY_LINKS, POLICY_TERMS } from '../data/policies';
+import { BUSINESS, CONTACT_PAGE, GRIEVANCE_TEXT, POLICIES, POLICY_LINKS, POLICY_TERMS } from '../data/policies';
 
 const colors = { ink: '#3b0a11', body: '#4a2a30', muted: '#7a5a60', red: '#D2042D', card: '#ffffff', line: '#ecdccb' };
 
@@ -112,6 +112,17 @@ function ContactDetails() {
         For an existing order, please mention your order reference (it starts with “RVP-”). We usually reply within one
         business day.
       </p>
+
+      <h2 style={sectionHeadingStyle}>Grievance Officer</h2>
+      <div style={rowStyle}>
+        <User size={18} style={iconStyle} />
+        <span>
+          <strong>{BUSINESS.grievanceOfficer}</strong>
+          <br />
+          {BUSINESS.brand}
+        </span>
+      </div>
+      <p style={textStyle}>{GRIEVANCE_TEXT}</p>
     </>
   );
 }

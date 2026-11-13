@@ -404,7 +404,7 @@ export default function TempleHarmonyRedesign({
               <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A
               doctor by profession and motivational mentor with centers in{' '}
               <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people
-              around the world with genuine Reiki and spiritual healing. Previously Reiki and Vastu World
+              around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World
               was known as <strong>Sanjeevni Reiki and Vaastu Center</strong>.
             </p>
           </div>

@@ -387,7 +387,7 @@ export default function AdminDashboard({ onExitToSite }) {
           }}
         >
           <div style={{ fontSize: '13px', color: '#64748b' }}>
-            Workspace: <strong style={{ color: '#0f172a' }}>Reiki & Vastu World (Amravati & Nagpur)</strong>
+            Workspace: <strong style={{ color: '#0f172a' }}>Reiki & Vaastu World (Amravati & Nagpur)</strong>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
