@@ -308,7 +308,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
     <div style={{ paddingTop: '110px', paddingBottom: '70px', minHeight: '100vh', background: '#faf5ee' }}>
       <div className="hm-container" style={{ maxWidth: '720px', margin: '0 auto' }}>
         <button onClick={onBack} style={linkButtonStyle} disabled={phase === 'open' || phase === 'starting' || phase === 'verifying'}>
-          <ArrowLeft size={16} /> Back to product
+          <ArrowLeft size={16} /> {display?.isEvent ? 'Back to event' : 'Back to product'}
         </button>
 
         <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>

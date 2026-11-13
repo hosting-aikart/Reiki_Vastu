@@ -5,7 +5,7 @@ import { PRODUCTS, formatPaise } from '@reiki-vastu/shared/products.js';
 // Product data and prices live in shared/products.js, the same file the backend
 // uses to calculate what to charge. `price` and `originalPrice` are formatted
 // here so the existing components keep working unchanged.
-export const SACRED_PRODUCTS = PRODUCTS.map((product) => ({
+export const SACRED_PRODUCTS = PRODUCTS.filter((product) => !product.isEvent).map((product) => ({
   ...product,
   price: formatPaise(product.pricePaise),
   originalPrice: product.originalPricePaise ? formatPaise(product.originalPricePaise) : null

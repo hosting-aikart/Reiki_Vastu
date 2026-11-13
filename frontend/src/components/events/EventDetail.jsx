@@ -4,7 +4,20 @@ import { formatRupees, whatsappRegistrationLink } from '../../data/events';
 
 /* ── Small shared pieces ─────────────────────────────────────────── */
 
-function RegisterButton({ event, variant = 'crimson', label = 'Register Now' }) {
+function RegisterButton({ event, variant = 'crimson', label = 'Register Now', onRegister }) {
+  if (onRegister) {
+    return (
+      <button
+        type="button"
+        onClick={() => onRegister(event)}
+        className={`ev-btn ev-btn--${variant}`}
+        aria-label={`${label} for the ${event.title}`}
+      >
+        {label}
+        <ArrowRight size={17} aria-hidden="true" className="ev-btn-arrow" />
+      </button>
+    );
+  }
   return (
     <a
       href={whatsappRegistrationLink(event)}
@@ -59,7 +72,7 @@ function PhoneLinks({ numbers }) {
 
 /* ── Sections ────────────────────────────────────────────────────── */
 
-function EventHero({ event, headingId }) {
+function EventHero({ event, headingId, onRegister }) {
   const { heroTitle, art } = event;
   return (
     <section className="ev-hero">
@@ -87,7 +100,7 @@ function EventHero({ event, headingId }) {
           <LotusRule />
 
           <div className="ev-hero-actions">
-            <RegisterButton event={event} />
+            <RegisterButton event={event} onRegister={onRegister} />
             <a href={`tel:${event.contacts[0]}`} className="ev-btn ev-btn--outline">
               <Phone size={16} aria-hidden="true" /> Call {event.contacts[0]}
             </a>
@@ -136,7 +149,7 @@ function EventBenefits({ benefits, id }) {
   );
 }
 
-function EventDetailsAndAbout({ event, id }) {
+function EventDetailsAndAbout({ event, id, onRegister }) {
   const { schedule, art } = event;
   const items = [
     { label: 'Date', value: schedule.date, note: schedule.day, icon: CalendarDays },
@@ -166,7 +179,7 @@ function EventDetailsAndAbout({ event, id }) {
         {event.description.map((paragraph) => (
           <p key={paragraph.slice(0, 32)}>{paragraph}</p>
         ))}
-        <RegisterButton event={event} variant="gold" />
+        <RegisterButton event={event} variant="gold" onRegister={onRegister} />
       </div>
 
       <img
@@ -201,7 +214,7 @@ function EventExpect({ items, id }) {
   );
 }
 
-function EventOffer({ event, id }) {
+function EventOffer({ event, id, onRegister }) {
   const { pricing } = event;
   return (
     <section className="ev-container ev-offer-wrap" aria-labelledby={id}>
@@ -218,7 +231,7 @@ function EventOffer({ event, id }) {
         </div>
         <span className="ev-offer-divider" aria-hidden="true" />
         <div className="ev-offer-col">
-          <RegisterButton event={event} variant="gold" />
+          <RegisterButton event={event} variant="gold" onRegister={onRegister} />
         </div>
       </div>
       <p className="ev-contact-line">
@@ -230,7 +243,7 @@ function EventOffer({ event, id }) {
   );
 }
 
-export default function EventDetail({ event }) {
+export default function EventDetail({ event, onRegister }) {
   const ids = {
     title: `${event.id}-title`,
     benefits: `${event.id}-benefits`,
@@ -240,11 +253,11 @@ export default function EventDetail({ event }) {
   };
   return (
     <article className="ev-event" aria-labelledby={ids.title}>
-      <EventHero event={event} headingId={ids.title} />
+      <EventHero event={event} headingId={ids.title} onRegister={onRegister} />
       <EventBenefits benefits={event.benefits} id={ids.benefits} />
-      <EventDetailsAndAbout event={event} id={ids.about} />
+      <EventDetailsAndAbout event={event} id={ids.about} onRegister={onRegister} />
       {event.whatToExpect?.length > 0 && <EventExpect items={event.whatToExpect} id={ids.expect} />}
-      <EventOffer event={event} id={ids.offer} />
+      <EventOffer event={event} id={ids.offer} onRegister={onRegister} />
     </article>
   );
 }

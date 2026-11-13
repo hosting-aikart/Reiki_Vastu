@@ -27,7 +27,7 @@ function rememberDismissed(eventId) {
  * Announcement popup for the next upcoming event, shown as soon as the site opens.
  * Renders nothing when there is no upcoming event or it was already closed this session.
  */
-export default function EventPopup({ onViewDetails }) {
+export default function EventPopup({ onViewDetails, onRegister }) {
   const [event] = useState(() => getUpcomingEvents()[0] || null);
   const [open, setOpen] = useState(() => Boolean(event) && !wasDismissed(event.id));
   const cardRef = useRef(null);
@@ -109,16 +109,30 @@ export default function EventPopup({ onViewDetails }) {
           </div>
 
           <div className="evp-actions">
-            <a
-              href={whatsappRegistrationLink(event)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="evp-btn evp-btn-primary"
-              onClick={close}
-              aria-label={`Register Now for the ${event.title} on WhatsApp (opens in a new tab)`}
-            >
-              <MessageCircle size={17} aria-hidden="true" /> Register Now
-            </a>
+            {onRegister ? (
+              <button
+                type="button"
+                className="evp-btn evp-btn-primary"
+                onClick={() => {
+                  close();
+                  onRegister(event);
+                }}
+                aria-label={`Register Now for the ${event.title}`}
+              >
+                Register Now <ArrowRight size={16} aria-hidden="true" />
+              </button>
+            ) : (
+              <a
+                href={whatsappRegistrationLink(event)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="evp-btn evp-btn-primary"
+                onClick={close}
+                aria-label={`Register Now for the ${event.title} on WhatsApp (opens in a new tab)`}
+              >
+                <MessageCircle size={17} aria-hidden="true" /> Register Now
+              </a>
+            )}
             <button
               type="button"
               className="evp-btn evp-btn-outline"

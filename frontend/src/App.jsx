@@ -21,6 +21,7 @@ import EventsPage from './components/events/EventsPage';
 import EventPopup from './components/events/EventPopup';
 import PolicyPage from './components/PolicyPage';
 import { policySlugFromPath } from './data/policies';
+import { findProductById } from '@reiki-vastu/shared/products.js';
 
 // Payment pages have real URLs so a refresh lands on the same page.
 // /checkout/<productId>?quantity=2  -> delivery details + payment for one product
@@ -242,7 +243,11 @@ export default function App() {
             key={`${checkout.productId}:${checkout.quantity}`}
             productId={checkout.productId}
             initialQuantity={checkout.quantity}
-            onBack={() => leavePaymentPage('product-detail', checkout.productId)}
+            onBack={() =>
+              findProductById(checkout.productId)?.isEvent
+                ? changeView('events')
+                : leavePaymentPage('product-detail', checkout.productId)
+            }
             onPaymentSubmitted={navigateToPaymentStatus}
           />
         ) : currentView === 'payment-status' && statusToken ? (
@@ -297,7 +302,7 @@ export default function App() {
           />
         ) : currentView === 'events' ? (
           /* ── Upcoming Events Page ── */
-          <EventsPage />
+          <EventsPage onRegister={(event) => navigateToCheckout(event.id, 1)} />
         ) : currentView === 'products' ? (
           /* ── Dedicated Products Page ── */
           <ProductsPage onSelectProduct={handleSelectProduct} />
@@ -336,6 +341,7 @@ export default function App() {
       {/* Upcoming event announcement, shown when the site opens */}
       {showEventPopup && (
         <EventPopup
+          onRegister={(event) => navigateToCheckout(event.id, 1)}
           onViewDetails={() => {
             changeView('events');
             window.scrollTo({ top: 0, behavior: 'smooth' });

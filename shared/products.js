@@ -251,6 +251,20 @@ export const PRODUCTS = [
     howToWear: "Wear on the right wrist to project courage and protection, or on the left wrist to draw in steady, grounding energy.",
     image: "/Products/Tiger Eye.webp",
     alt: "Tiger Eye crystal bracelet with Buddha charm for courage and focus"
+  },
+  {
+    id: "online-reiki-level-1-workshop-2026-11",
+    isEvent: true,
+    pricePaise: 49900,
+    originalPricePaise: 310000,
+    maxQuantity: 5,
+    available: true,
+    title: "Online Reiki 1st Level Workshop",
+    subtitle: "Live Online Workshop • 22 November 2026 (6:00 PM – 8:30 PM)",
+    badge: "Special Anniversary Offer",
+    description: "Online Reiki 1st Level Workshop — Celebrating 25 Years of Reiki Journey (22 November 2026, 6:00 PM – 8:30 PM)",
+    image: "/images/events/reiki-level-1-workshop.jpg",
+    alt: "Online Reiki 1st Level Workshop poster"
   }
 ];
 
