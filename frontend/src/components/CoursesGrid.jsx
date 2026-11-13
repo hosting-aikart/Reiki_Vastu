@@ -243,13 +243,16 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
         }}
       >
         <div
+          className="th-course-body"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '10px'
+            gap: '10px',
+            padding: 0
           }}
         >
           <div
+            className="th-course-icon"
             style={{
               width: '32px',
               height: '32px',
@@ -266,16 +269,17 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
             <Icon size={16} />
           </div>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <h4 style={{ margin: '0 0 2px', fontSize: showDescription ? '16px' : '14.5px', fontWeight: 750, color: '#3b0a11', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div className="th-course-text" style={{ flex: 1, minWidth: 0 }}>
+            <h4 className="th-course-title" style={{ margin: '0 0 2px', fontSize: showDescription ? '16px' : '14.5px', fontWeight: 750, color: '#3b0a11', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {course.title}
             </h4>
-            <p style={{ margin: 0, fontSize: showDescription ? '11.5px' : '10.5px', color: '#8c5360', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <p className="th-course-sub" style={{ margin: 0, fontSize: showDescription ? '11.5px' : '10.5px', color: '#8c5360', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {course.subtitle}
             </p>
           </div>
 
           <div
+            className="th-course-arrow"
             style={{
               width: '24px',
               height: '24px',

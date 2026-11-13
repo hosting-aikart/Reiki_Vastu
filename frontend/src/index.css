@@ -5403,9 +5403,67 @@ a.hm-cta-btn:hover,
     min-width: 0;
   }
 
-  .courses-page-wrap .course-card-slider-item {
-    flex-basis: 160px;
-    width: 160px;
+  .courses-page-wrap .course-card-slider-item,
+  .course-card-slider-item {
+    flex: 0 0 calc((100vw - 44px) / 1.5) !important;
+    width: calc((100vw - 44px) / 1.5) !important;
+  }
+
+  /* Elongate Sacred Disciplines cards on mobile: text on top, icon + arrow button at bottom */
+  .th-course-card {
+    min-height: 276px;
+  }
+
+  .th-course-card .th-course-img-wrap {
+    aspect-ratio: 4 / 3.1;
+  }
+
+  .th-course-body {
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "text text"
+      "icon arrow";
+    align-items: start;
+    gap: 12px 10px !important;
+    padding: 14px 14px 14px !important;
+    flex: 1;
+  }
+
+  .th-course-text {
+    grid-area: text;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .th-course-body .th-course-title {
+    font-size: 17.5px !important;
+    line-height: 1.22 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    margin-bottom: 4px !important;
+  }
+
+  .th-course-body .th-course-sub {
+    font-size: 12px !important;
+    line-height: 1.38 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  .th-course-icon {
+    grid-area: icon;
+    align-self: center;
+    justify-self: start;
+  }
+
+  .th-course-arrow {
+    grid-area: arrow;
+    align-self: center;
+    justify-self: end;
   }
 
   .products-page-wrap .th-products-grid,
@@ -5517,8 +5575,8 @@ a.hm-cta-btn:hover,
 
 @media (max-width: 430px) {
   .course-card-slider-item {
-    flex-basis: 160px !important;
-    width: 160px !important;
+    flex: 0 0 calc((100vw - 44px) / 1.5) !important;
+    width: calc((100vw - 44px) / 1.5) !important;
   }
 }
 
@@ -5723,6 +5781,21 @@ a.hm-cta-btn:hover,
   -webkit-text-stroke: 0.3px #000000 !important;
   font-weight: 800 !important;
   text-shadow: none !important;
+}
+
+@media (max-width: 640px) {
+  .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+  .th-hero--golden .th-hero-subtitle--golden {
+    font-size: clamp(13px, 3.5vw, 15px) !important;
+    line-height: 1.4 !important;
+    gap: 5px !important;
+    -webkit-text-stroke: 0.2px #000000 !important;
+  }
+
+  .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot,
+  .th-hero--golden .th-golden-dot {
+    font-size: 12px !important;
+  }
 }
 
 .th-hero--golden .th-golden-diamond-line--left {

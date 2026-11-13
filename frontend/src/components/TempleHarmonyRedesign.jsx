@@ -519,7 +519,7 @@ export default function TempleHarmonyRedesign({
                           <div className="th-course-icon">
                             <Icon size={16} />
                           </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
+                          <div className="th-course-text" style={{ flex: 1, minWidth: 0 }}>
                             <h4 className="th-course-title">{course.title}</h4>
                             <p className="th-course-sub">{course.subtitle}</p>
                           </div>
