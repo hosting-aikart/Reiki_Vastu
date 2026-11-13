@@ -383,7 +383,7 @@ export default function ProductDetailPage({
                     marginLeft: '5px'
                   }}
                 >
-                  {product.rating} ({product.reviewsCount} Verified Seekers)
+                  {product.rating} ({product.reviewsCount} ratings from past clients)
                 </span>
               </div>
               )}
