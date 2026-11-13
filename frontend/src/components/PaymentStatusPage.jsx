@@ -84,7 +84,7 @@ export default function PaymentStatusPage({ statusToken, onBackToProducts }) {
           Payment Status
         </h1>
 
-        <TestModeBanner />
+        {payment?.testMode && <TestModeBanner />}
 
         {error && <p style={{ color: '#b91c1c' }}>{error}</p>}
 

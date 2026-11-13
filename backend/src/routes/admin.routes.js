@@ -7,13 +7,15 @@ import {
   updateEnquiryStatusSchema,
   addEnquiryNoteSchema,
   setFollowUpDateSchema,
-  moderateTestimonialSchema
+  moderateTestimonialSchema,
+  updateProductPriceSchema
 } from '../validators/admin.schema.js';
 import authController from '../controllers/admin.auth.controller.js';
 import overviewController from '../controllers/admin.overview.controller.js';
 import enquiryController from '../controllers/admin.enquiry.controller.js';
 import testimonialController from '../controllers/admin.testimonial.controller.js';
 import paymentController from '../controllers/admin.payment.controller.js';
+import productAdminController from '../controllers/admin.product.controller.js';
 
 const router = Router();
 
@@ -62,5 +64,15 @@ router.delete('/testimonials/:id', requireAdmin, testimonialController.deleteTes
 // ── Payments (read-only, plus re-check with Razorpay) ───────
 router.get('/payments', requireAdmin, paymentController.listPayments);
 router.post('/payments/:id/recheck', requireAdmin, paymentController.recheckPayment);
+
+// ── Product Catalog & Pricing Management ────────────────────
+router.get('/products', requireAdmin, productAdminController.listAdminProducts);
+router.patch(
+  '/products/:id',
+  requireAdmin,
+  validate(updateProductPriceSchema),
+  productAdminController.updateProductPrice
+);
+router.delete('/products/:id/override', requireAdmin, productAdminController.resetProductPrice);
 
 export default router;

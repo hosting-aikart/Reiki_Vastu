@@ -111,8 +111,17 @@ describe('Payment order creation', () => {
       }
     });
 
-    test('reports payments as disabled for a non-test key', async () => {
-      env.RAZORPAY_KEY_ID = 'rzp_live_notAllowed';
+    test('reports payments as enabled for a live key as well', async () => {
+      env.RAZORPAY_KEY_ID = 'rzp_live_validLiveKey';
+      const res = await fetch(`${baseUrl}/api/products`);
+      const { data } = await res.json();
+
+      assert.equal(data.paymentsEnabled, true);
+      assert.equal(data.testMode, false);
+    });
+
+    test('reports payments as disabled for an invalid key prefix', async () => {
+      env.RAZORPAY_KEY_ID = 'invalid_prefix_key';
       const res = await fetch(`${baseUrl}/api/products`);
       const { data } = await res.json();
 
@@ -376,14 +385,14 @@ describe('Payment order creation', () => {
       assert.equal(await Payment.countDocuments(), 0);
     });
 
-    test('refuses a live key without contacting Razorpay', async () => {
-      env.RAZORPAY_KEY_ID = 'rzp_live_notAllowed';
+    test('refuses an invalid key prefix without contacting Razorpay', async () => {
+      env.RAZORPAY_KEY_ID = 'invalid_prefix_key';
 
       const res = await post(orderBody());
       const body = await res.json();
 
       assert.equal(res.status, 503);
-      assert.equal(body.error.code, 'PAYMENTS_TEST_MODE_ONLY');
+      assert.equal(body.error.code, 'PAYMENTS_UNCONFIGURED');
       assert.equal(razorpayCalls.length, 0);
     });
   });

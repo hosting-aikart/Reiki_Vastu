@@ -129,15 +129,18 @@ export function isEmailConfigured() {
 }
 
 /**
- * Checks whether the Razorpay API credentials are present.
+ * Checks whether valid Razorpay API credentials (test or live) are present.
  */
 export function isPaymentConfigured() {
-  return Boolean(env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET);
+  return Boolean(
+    env.RAZORPAY_KEY_ID &&
+    /^rzp_(test|live)_/.test(env.RAZORPAY_KEY_ID) &&
+    env.RAZORPAY_KEY_SECRET
+  );
 }
 
 /**
- * Checks for a Razorpay Test Mode key. This project must never process live
- * payments, so anything without the test prefix is refused.
+ * Checks whether the configured Razorpay key is a Test Mode key.
  */
 export function isPaymentTestMode() {
   return Boolean(env.RAZORPAY_KEY_ID?.startsWith('rzp_test_'));

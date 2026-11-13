@@ -1,6 +1,7 @@
 import app, { allowedOrigins } from './app.js';
 import env, { isEmailConfigured, describePaymentKeys } from './config/env.js';
 import { connectDB, disconnectDB } from './config/db.js';
+import { syncProductPricesFromDB } from './config/products.js';
 import logger from './utils/logger.js';
 // Server entry point
 let server;
@@ -10,6 +11,7 @@ async function bootstrap() {
     // 1. Connect to Database
     logger.info('Connecting to MongoDB...');
     await connectDB();
+    await syncProductPricesFromDB();
 
     // 2. Start HTTP Server
     server = app.listen(env.PORT, () => {

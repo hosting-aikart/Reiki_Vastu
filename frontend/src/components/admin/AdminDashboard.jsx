@@ -5,11 +5,13 @@ import AdminOverview from './AdminOverview';
 import AdminEnquiries from './AdminEnquiries';
 import AdminTestimonials from './AdminTestimonials';
 import AdminPayments from './AdminPayments';
+import AdminProducts from './AdminProducts';
 import {
   LayoutDashboard,
   Inbox,
   MessageSquare,
   CreditCard,
+  ShoppingBag,
   LogOut,
   ExternalLink,
   Shield,
@@ -296,6 +298,29 @@ export default function AdminDashboard({ onExitToSite }) {
                 <span>Payments</span>
               </div>
             </button>
+
+            <button
+              onClick={() => setActiveTab('products')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '11px 14px',
+                borderRadius: '8px',
+                border: 'none',
+                background: activeTab === 'products' ? '#1e293b' : 'transparent',
+                color: activeTab === 'products' ? '#f8fafc' : '#94a3b8',
+                fontWeight: activeTab === 'products' ? 750 : 550,
+                fontSize: '13px',
+                cursor: 'pointer',
+                textAlign: 'left'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <ShoppingBag size={18} color={activeTab === 'products' ? '#c59b27' : '#94a3b8'} />
+                <span>Products &amp; Pricing</span>
+              </div>
+            </button>
           </nav>
         </div>
 
@@ -432,6 +457,10 @@ export default function AdminDashboard({ onExitToSite }) {
 
           {activeTab === 'payments' && (
             <AdminPayments />
+          )}
+
+          {activeTab === 'products' && (
+            <AdminProducts />
           )}
         </main>
       </div>
