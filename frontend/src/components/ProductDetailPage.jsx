@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { SACRED_PRODUCTS } from './BusinessNeeds';
 import { OrnamentalFlourish } from './TempleHarmonyRedesign';
+import { getProducts } from '../api/paymentClient';
+import { formatPaise } from '@reiki-vastu/shared/products.js';
 
 export default function ProductDetailPage({
   productId,
@@ -18,12 +20,41 @@ export default function ProductDetailPage({
   onConsultClick
 }) {
   const [quantity, setQuantity] = useState(1);
+  const [liveCatalog, setLiveCatalog] = useState({});
 
-  const product =
+  const baseProduct =
     SACRED_PRODUCTS.find((p) => p.id === productId) || SACRED_PRODUCTS[0];
+  const liveOverride = liveCatalog[baseProduct.id];
+  const product = liveOverride
+    ? {
+        ...baseProduct,
+        pricePaise: liveOverride.unitPricePaise,
+        price: formatPaise(liveOverride.unitPricePaise),
+        originalPrice:
+          liveOverride.originalPricePaise != null
+            ? formatPaise(liveOverride.originalPricePaise)
+            : null,
+        available: liveOverride.available
+      }
+    : baseProduct;
 
   useEffect(() => {
     setQuantity(1);
+  }, [productId]);
+
+  useEffect(() => {
+    let active = true;
+    getProducts().then((res) => {
+      if (!active || !res.success) return;
+      const map = {};
+      for (const item of res.data?.products || []) {
+        map[item.id] = item;
+      }
+      setLiveCatalog(map);
+    });
+    return () => {
+      active = false;
+    };
   }, [productId]);
 
   const relatedProducts = SACRED_PRODUCTS.filter((p) => p.id !== product.id);

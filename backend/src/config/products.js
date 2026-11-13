@@ -9,7 +9,9 @@
 // (PRICES_CONFIRMED). Payments are Test Mode only in any case.
 // ─────────────────────────────────────────────────────────────
 
+import mongoose from 'mongoose';
 import { PRODUCTS as SHARED_PRODUCTS, PRODUCT_CURRENCY, PRICES_CONFIRMED } from '@reiki-vastu/shared/products.js';
+import ProductPrice from '../models/ProductPrice.js';
 
 export const CURRENCY = PRODUCT_CURRENCY;
 export { PRICES_CONFIRMED };
@@ -24,10 +26,16 @@ export const PRODUCTS = SHARED_PRODUCTS.map((product) => ({
   id: product.id,
   name: product.title,
   description: product.subtitle,
+  image: product.image,
   unitPricePaise: product.pricePaise,
+  originalPricePaise: product.originalPricePaise ?? null,
+  defaultUnitPricePaise: product.pricePaise,
+  defaultOriginalPricePaise: product.originalPricePaise ?? null,
+  defaultAvailable: product.available,
   maxQuantity: product.maxQuantity,
   available: product.available,
-  isPlaceholder: false
+  isPlaceholder: false,
+  updatedAt: null
 }));
 
 // A bad catalog edit should stop the server, not reach a customer.
@@ -47,11 +55,53 @@ export function findProduct(productId) {
   return PRODUCTS.find((product) => product.id === productId) || null;
 }
 
+export function applyProductOverride(productId, override) {
+  const product = findProduct(productId);
+  if (!product) return null;
+  if (typeof override.unitPricePaise === 'number') {
+    product.unitPricePaise = override.unitPricePaise;
+  }
+  if (override.originalPricePaise !== undefined) {
+    product.originalPricePaise = override.originalPricePaise;
+  }
+  if (typeof override.available === 'boolean') {
+    product.available = override.available;
+  }
+  product.updatedAt = override.updatedAt || new Date();
+  return product;
+}
+
+export function resetProductToDefault(productId) {
+  const product = findProduct(productId);
+  if (!product) return null;
+  product.unitPricePaise = product.defaultUnitPricePaise;
+  product.originalPricePaise = product.defaultOriginalPricePaise;
+  product.available = product.defaultAvailable;
+  product.updatedAt = null;
+  return product;
+}
+
+export async function syncProductPricesFromDB() {
+  if (mongoose.connection.readyState !== 1) return PRODUCTS;
+  try {
+    const overrides = await ProductPrice.find().lean();
+    for (const override of overrides) {
+      applyProductOverride(override.productId, override);
+    }
+  } catch {
+    // Fallback to in-memory catalog if DB read fails transiently
+  }
+  return PRODUCTS;
+}
+
 export default {
   CURRENCY,
   PRICES_CONFIRMED,
   MIN_ORDER_PAISE,
   MAX_QUANTITY,
   PRODUCTS,
-  findProduct
+  findProduct,
+  applyProductOverride,
+  resetProductToDefault,
+  syncProductPricesFromDB
 };

@@ -162,9 +162,30 @@ export async function recheckPayment(id) {
   });
 }
 
+// ── Products & Pricing API ──────────────────────────────────
+export async function listAdminProducts() {
+  return request('/api/admin/products');
+}
+
+export async function updateAdminProductPrice(id, payload) {
+  return request(`/api/admin/products/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload)
+  });
+}
+
+export async function resetAdminProductPrice(id) {
+  return request(`/api/admin/products/${encodeURIComponent(id)}/override`, {
+    method: 'DELETE'
+  });
+}
+
 export default {
   listPayments,
   recheckPayment,
+  listAdminProducts,
+  updateAdminProductPrice,
+  resetAdminProductPrice,
   adminLogin,
   adminLogout,
   getAdminProfile,

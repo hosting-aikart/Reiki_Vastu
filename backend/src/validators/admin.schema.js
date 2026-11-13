@@ -44,10 +44,27 @@ export const moderateTestimonialSchema = z.object({
   featured: z.boolean().optional()
 });
 
+export const updateProductPriceSchema = z.object({
+  unitPricePaise: z
+    .number({ invalid_type_error: 'Price must be a number in paise' })
+    .int('Price must be a whole integer in paise')
+    .min(100, 'Price must be at least ₹1.00 (100 paise)')
+    .max(50000000, 'Price cannot exceed ₹5,00,000'),
+  originalPricePaise: z
+    .number()
+    .int('Original price must be a whole integer in paise')
+    .min(100, 'Original price must be at least ₹1.00 (100 paise)')
+    .max(50000000, 'Original price cannot exceed ₹5,00,000')
+    .nullable()
+    .optional(),
+  available: z.boolean().optional()
+});
+
 export default {
   adminLoginSchema,
   updateEnquiryStatusSchema,
   addEnquiryNoteSchema,
   setFollowUpDateSchema,
-  moderateTestimonialSchema
+  moderateTestimonialSchema,
+  updateProductPriceSchema
 };

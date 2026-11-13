@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import env, { isPaymentConfigured } from '../config/env.js';
-import { CURRENCY, findProduct } from '../config/products.js';
+import { CURRENCY, findProduct, syncProductPricesFromDB } from '../config/products.js';
 import Payment, { PAYMENT_STATUS } from '../models/Payment.js';
 import { createRazorpayOrder } from './razorpay.service.js';
 import logger from '../utils/logger.js';
@@ -144,6 +144,7 @@ async function markOrderFailed(payment, razorpayError) {
  */
 export async function createPaymentOrder({ productId, quantity, idempotencyKey, customer }) {
   assertPaymentsAvailable();
+  await syncProductPricesFromDB();
 
   const { product, amountPaise } = priceOrder(productId, quantity);
 
