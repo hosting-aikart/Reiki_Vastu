@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
+import { getUpcomingEvents } from '../data/events';
+
+// Short date of the next upcoming event (e.g. "22 Nov"), or null when none is scheduled.
+function nextEventDateLabel() {
+  const next = getUpcomingEvents()[0];
+  if (!next) return null;
+  return new Date(next.startsAt).toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'Asia/Kolkata'
+  });
+}
 
 export default function Navbar({
   currentView,
@@ -8,6 +20,8 @@ export default function Navbar({
   isDarkTheme = false
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  // While an event is upcoming, the Events link is highlighted everywhere in the nav.
+  const [eventDate] = useState(nextEventDateLabel);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -57,7 +71,7 @@ export default function Navbar({
             />
           </a>
 
-          {/* Nav Links: Home, Courses, Products, Contact Us */}
+          {/* Nav Links: Home, Courses, Products, Events, Contact Us */}
           <nav className="gnav-links">
             <button
               type="button"
@@ -90,6 +104,25 @@ export default function Navbar({
               }}
             >
               Products
+            </button>
+
+            <button
+              type="button"
+              className={`gnav-link${eventDate ? ' gnav-link--event' : ''}`}
+              aria-current={currentView === 'events' ? 'page' : undefined}
+              onClick={() => {
+                setCurrentView('events');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              {eventDate && <span className="gnav-event-dot" aria-hidden="true" />}
+              Events
+              {eventDate && (
+                <span className="gnav-event-date">
+                  <span className="gnav-visually-hidden">, next workshop on </span>
+                  {eventDate}
+                </span>
+              )}
             </button>
 
             <button
@@ -130,10 +163,11 @@ export default function Navbar({
             <button
               type="button"
               className="gnav-hamburger"
-              aria-label="Toggle menu"
+              aria-label={eventDate ? 'Toggle menu (new upcoming event)' : 'Toggle menu'}
               onClick={() => setIsDrawerOpen(true)}
             >
               <Menu size={24} />
+              {eventDate && <span className="gnav-hamburger-dot" aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -215,6 +249,25 @@ export default function Navbar({
           </button>
           <button
             type="button"
+            className={`gnav-drawer-link${eventDate ? ' gnav-drawer-link--event' : ''}`}
+            aria-current={currentView === 'events' ? 'page' : undefined}
+            onClick={() => {
+              setIsDrawerOpen(false);
+              setCurrentView('events');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            {eventDate && <span className="gnav-event-dot" aria-hidden="true" />}
+            Upcoming Events
+            {eventDate && (
+              <span className="gnav-event-date">
+                <span className="gnav-visually-hidden">, next workshop on </span>
+                {eventDate}
+              </span>
+            )}
+          </button>
+          <button
+            type="button"
             className="gnav-drawer-link"
             onClick={() => {
               setIsDrawerOpen(false);
@@ -250,10 +303,10 @@ export default function Navbar({
         </div>
 
         <div style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid rgba(212,175,55,0.3)' }}>
-          <p style={{ color: '#fbbf24', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+          <p style={{ color: '#fbbf24', fontSize: '12px', fontWeight: 750, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
             Direct Helpline:
           </p>
-          <p style={{ color: '#ffffff', fontSize: '15px', fontWeight: 600, margin: '0 0 6px' }}>
+          <p style={{ color: '#ffffff', fontSize: '15px', fontWeight: 650, margin: '0 0 6px' }}>
             +91 8446656677 / 9423424596
           </p>
           <p style={{ color: '#fecaca', fontSize: '13px', margin: 0 }}>

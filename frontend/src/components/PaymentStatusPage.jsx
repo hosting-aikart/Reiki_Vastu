@@ -80,7 +80,7 @@ export default function PaymentStatusPage({ statusToken, onBackToProducts }) {
           <ArrowLeft size={16} /> Back to products
         </button>
 
-        <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 800, color: '#3b0a11', margin: '12px 0 20px' }}>
+        <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
           Payment Status
         </h1>
 

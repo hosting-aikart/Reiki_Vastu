@@ -155,6 +155,103 @@ export const PRODUCTS = [
     howToWear: "Wear on the left wrist during meditation, healing sessions, or daily routines; keep away from prolonged water immersion.",
     image: "/Products/selenite.png",
     alt: "Energized Selenite crystal bracelet for aura cleansing and peace"
+  },
+  // ── Added Nov 2026. Prices set by the business (₹699 / MRP ₹1,299 and
+  // ₹799 / MRP ₹1,399). No rating or review count yet, so none is shown;
+  // bead size, wrist size and energization details are not confirmed and
+  // are left out rather than guessed.
+  {
+    id: "carnelian",
+    pricePaise: 69900,
+    originalPricePaise: 129900,
+    maxQuantity: 5,
+    available: true,
+    title: "Carnelian",
+    subtitle: "Motivation • Confidence • Creativity",
+    badge: "Courage Stone",
+    beadSize: "Natural Carnelian Beads with Buddha Charm",
+    chakra: "Sacral Chakra (Svadhisthana)",
+    description: "Traditionally worn to spark motivation, confidence, and creative energy with a warm, positive outlook.",
+    longDescription: "Glowing in fiery shades of orange and red, Carnelian has long been associated with vitality, courage, and creative fire. In crystal traditions it is linked with the Sacral Chakra and is worn to encourage motivation, self-belief, and a positive, action-oriented mindset.",
+    benefits: [
+      "Traditionally associated with motivation and the drive to take action",
+      "Believed to support confidence, courage, and self-expression",
+      "Linked with creativity and the Sacral Chakra (Svadhisthana)",
+      "Worn to encourage a warm, positive, and energetic outlook"
+    ],
+    howToWear: "Wear on the left wrist to invite its warm, motivating energy, or on the right wrist when you want to express confidence outwardly.",
+    image: "/Products/Carnelian.jpg",
+    alt: "Carnelian crystal bracelet with Buddha charm for motivation and confidence"
+  },
+  {
+    id: "rose-quartz",
+    pricePaise: 69900,
+    originalPricePaise: 129900,
+    maxQuantity: 5,
+    available: true,
+    title: "Rose Quartz",
+    subtitle: "Love • Compassion • Emotional Harmony",
+    badge: "Love Stone",
+    beadSize: "Natural Rose Quartz Beads with Buddha Charm",
+    chakra: "Heart Chakra (Anahata)",
+    description: "The traditional Stone of Love, worn for compassion, self-love, and gentle emotional balance.",
+    longDescription: "Soft pink Rose Quartz is widely known as the \"Stone of Unconditional Love.\" Associated with the Heart Chakra, it is traditionally worn to nurture compassion, self-love, and harmony in relationships, and to bring a gentle sense of emotional calm.",
+    benefits: [
+      "Traditionally associated with love, kindness, and compassion",
+      "Believed to nurture self-love and emotional healing",
+      "Linked with harmony in family and relationships",
+      "Worn to encourage a calm, balanced, and open heart"
+    ],
+    howToWear: "Wear on the left wrist, closest to the heart, to receive its gentle loving energy throughout the day.",
+    image: "/Products/Rose Quartz.jpg",
+    alt: "Rose Quartz crystal bracelet with Buddha charm for love and emotional harmony"
+  },
+  {
+    id: "pyrite",
+    pricePaise: 79900,
+    originalPricePaise: 139900,
+    maxQuantity: 5,
+    available: true,
+    title: "Pyrite",
+    subtitle: "Abundance • Prosperity • Confidence",
+    badge: "Prosperity Stone",
+    beadSize: "Natural Pyrite Beads with Buddha Charm",
+    chakra: "Solar Plexus Chakra (Manipura)",
+    description: "Known as \"Fool's Gold,\" traditionally worn to attract abundance, prosperity, and confident action.",
+    longDescription: "With its metallic golden shine, Pyrite has long been regarded as a stone of abundance and good fortune. Associated with the Solar Plexus Chakra, it is traditionally worn by professionals and entrepreneurs to encourage confidence, focus, motivation, and a prosperity mindset.",
+    benefits: [
+      "Traditionally associated with abundance, wealth, and good fortune",
+      "Believed to support confidence, willpower, and decisive action",
+      "Linked with focus and motivation in work and business",
+      "Popular with professionals and entrepreneurs as a prosperity stone"
+    ],
+    howToWear: "Wear on the left wrist to welcome abundance, or on the right wrist to project confidence and drive.",
+    image: "/Products/Pyrite.jpg",
+    alt: "Pyrite crystal bracelet with Buddha charm for abundance and prosperity"
+  },
+  {
+    // Supplied as "Tirega"; the bracelet in the photo is Tiger Eye.
+    id: "tiger-eye",
+    pricePaise: 79900,
+    originalPricePaise: 139900,
+    maxQuantity: 5,
+    available: true,
+    title: "Tiger Eye",
+    subtitle: "Courage • Focus • Protection",
+    badge: "Courage & Focus",
+    beadSize: "Natural Tiger Eye Beads with Buddha Charm",
+    chakra: "Solar Plexus Chakra (Manipura)",
+    description: "Traditionally worn for courage, focus, and protection, with grounded confidence in decisions.",
+    longDescription: "With its striking golden-brown bands, Tiger Eye has been valued across cultures as a protective stone. Associated with the Solar Plexus Chakra, it is traditionally worn to encourage courage, clear focus, and steady, grounded confidence when facing challenges and decisions.",
+    benefits: [
+      "Traditionally associated with courage and inner strength",
+      "Believed to support focus, clarity, and sound decision-making",
+      "Worn as a protective stone against negativity",
+      "Linked with grounded confidence and the Solar Plexus Chakra (Manipura)"
+    ],
+    howToWear: "Wear on the right wrist to project courage and protection, or on the left wrist to draw in steady, grounding energy.",
+    image: "/Products/Tiger Eye.jpg",
+    alt: "Tiger Eye crystal bracelet with Buddha charm for courage and focus"
   }
 ];
 

@@ -102,7 +102,7 @@ export const COURSES_15 = [
   },
   {
     id: 'pyramid',
-    title: 'Pyramid',
+    title: 'Pyramid Therapy',
     subtitle: 'Positivity • Manifestation • Growth',
     description: 'Utilize bio-cosmic pyramid geometry to amplify positive vibrations, relieve stress, and correct Vastu defects.',
     alt: 'Pyramid Therapy course – sacred geometric energy for positivity and Vastu rectification',
@@ -224,7 +224,7 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
               justifyContent: 'center'
             }}
           >
-            <span style={{ fontSize: '11px', color: '#b45309', fontWeight: 600, letterSpacing: '0.06em', opacity: 0.5 }}>
+            <span style={{ fontSize: '11px', color: '#b45309', fontWeight: 650, letterSpacing: '0.06em', opacity: 0.5 }}>
               [ Vacant Space ]
             </span>
           </div>
@@ -267,7 +267,7 @@ function CourseCard({ course, onSelectCourse, isSlider = false, showDescription 
           </div>
 
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h4 style={{ margin: '0 0 2px', fontSize: showDescription ? '16px' : '14.5px', fontWeight: 700, color: '#3b0a11', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <h4 style={{ margin: '0 0 2px', fontSize: showDescription ? '16px' : '14.5px', fontWeight: 750, color: '#3b0a11', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {course.title}
             </h4>
             <p style={{ margin: 0, fontSize: showDescription ? '11.5px' : '10.5px', color: '#8c5360', lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -306,13 +306,13 @@ export default function CoursesGrid({ onSelectCourse, onSeeAllCourses, showAll =
           <div style={{ textAlign: 'center', marginBottom: '38px' }}>
             <p
               className="hm-eyebrow"
-              style={{ color: '#D2042D', marginBottom: '6px', fontWeight: 800, letterSpacing: '0.14em' }}
+              style={{ color: '#D2042D', marginBottom: '6px', fontWeight: 850, letterSpacing: '0.14em' }}
             >
               OUR SACRED COURSES &amp; TRAINING
             </p>
             <h2
               className="ff-redhat"
-              style={{ fontSize: 'clamp(28px, 3.4vw, 42px)', fontWeight: 700, color: '#3b0a11', margin: '0 0 10px' }}
+              style={{ fontSize: 'clamp(28px, 3.4vw, 42px)', fontWeight: 750, color: '#3b0a11', margin: '0 0 10px' }}
             >
               Explore Our Certified Holistic Sciences
             </h2>

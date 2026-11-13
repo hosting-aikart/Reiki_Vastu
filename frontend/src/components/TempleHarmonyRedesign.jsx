@@ -4,12 +4,6 @@ import {
   Sparkles,
   Award,
   Mail,
-  SlidersHorizontal,
-  CalendarHeart,
-  Heart,
-  Users,
-  Megaphone,
-  Clock,
   Shield,
   Gem,
   Layers
@@ -18,49 +12,29 @@ import { COURSES_15 } from './CoursesGrid';
 import { SACRED_PRODUCTS } from './BusinessNeeds';
 import VideoTestimonials from './VideoTestimonials';
 
-const TEMPLE_FEATURES = [
-  {
-    id: 'practically-implemented',
-    title: 'Practically Implemented',
-    description:
-      'Implementation is the execution or practice of a plan, a method for doing something.',
-    icon: SlidersHorizontal
-  },
-  {
-    id: 'lifetime-entry-free',
-    title: 'Lifetime Entry Free',
-    description:
-      "Every time you visit Life Time, you're taking steps toward living a healthier, happier life.",
-    icon: CalendarHeart
-  },
-  {
-    id: 'free-of-cost-meditation',
-    title: 'Free of Cost Meditation',
-    description:
-      "Every time you visit Life Time, you're taking steps toward living a healthier, happier life.",
-    icon: Heart
-  },
-  {
-    id: 'free-counselling',
-    title: 'Free Counselling',
-    description:
-      'You can access many free support, online counselling, also group therapy sessions.',
-    icon: Users
-  },
-  {
-    id: 'motivational-speech',
-    title: 'Motivational Speech',
-    description:
-      'A motivational speech is a speech intended to inspire an audience to make a change in their lives.',
-    icon: Megaphone
-  }
-];
-
 const TEMPLE_PRODUCTS = [
   { id: 1, title: 'Energized Rudraksha', subtitle: 'Vedic Consecrated Beads', icon: Sparkles },
   { id: 2, title: 'Sacred Healing Crystals', subtitle: 'Natural Chakra Stones', icon: Gem },
   { id: 3, title: 'Shree Yantra & Meru', subtitle: 'Abundance Sacred Geometry', icon: Shield },
   { id: 4, title: 'Bio-Cosmic Pyramids', subtitle: 'Non-Demolition Vastu', icon: Layers }
+];
+
+// Profiles shown in the "About" section of the home page.
+const TEAM = [
+  {
+    name: 'Dr. Naresh Chhabdiya',
+    role: 'Doctor by Profession · Motivational Speaker · Reiki Grandmaster',
+    badge: 'Practicing Since 1995 · 31+ Years Experience',
+    photo: '/images/team/dr-naresh-chhabdiya.jpg',
+    photoPosition: '58% 18%'
+  },
+  {
+    name: 'Dr. Yash Chhabdiya',
+    role: 'Reiki Practitioner',
+    badge: 'Practicing Reiki Since the Age of 7',
+    photo: '/images/team/dr-yash-chhabdiya.jpg',
+    photoPosition: '50% 14%'
+  }
 ];
 
 export function OrnamentalFlourish() {
@@ -176,9 +150,6 @@ export default function TempleHarmonyRedesign({
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
-
-  const topRowFeatures = TEMPLE_FEATURES.slice(0, 3);
-  const bottomRowFeatures = TEMPLE_FEATURES.slice(3, 5);
 
   return (
     <div ref={rootRef} className="th-redesign th-redesign--golden">
@@ -368,6 +339,8 @@ export default function TempleHarmonyRedesign({
           ) : (
             /* ── CURRENT HERO MODE (Unchanged) ── */
             <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
+              {/* Heading, rule and tagline share a soft golden glow behind them */}
+              <div className="th-hero-text-glow">
               <h1 className="th-hero-title th-hero-title--golden">
                 <span className="th-hero-line-crimson">
                   Ancient Wisdom for a Healthier,
@@ -391,6 +364,7 @@ export default function TempleHarmonyRedesign({
                 <span className="th-golden-dot" aria-hidden="true">&bull;</span>
                 <span>Transform Your Life</span>
               </p>
+              </div>
 
               <div className="hero-modern-actions">
                 <button
@@ -416,53 +390,58 @@ export default function TempleHarmonyRedesign({
 
       </section>
 
-      {/* ═════ 2. ABOUT DR. NARESH CHHABDIYA (Temple Ivory Aesthetic) ═════ */}
-      <section className="th-section th-section--ivory">
+      {/* ═════ 2. ABOUT US & OUR GUIDES (Temple Ivory Aesthetic) ═════ */}
+      <section className="th-section th-section--ivory" aria-labelledby="about-heading">
         <div className="hm-container">
-          <div className="th-about-card th-reveal">
-            <div className="th-about-left">
-              <img
-                src="/logo/lotus_pure.png"
-                alt="Reiki & Vastu World Lotus"
-                className="th-about-lotus"
-              />
-              <h3 className="th-founder-name">Dr. Naresh Chhabdiya</h3>
-              <p className="th-founder-role">
-                Doctor by Profession &middot; Motivational Speaker &middot; Reiki Grandmaster
-              </p>
-              <div className="th-founder-badge">
-                <Award size={15} color="#b5091f" />
-                <span>Practicing Since 1995 &middot; 31+ Years Experience</span>
-              </div>
-            </div>
+          <div className="th-section-header th-reveal">
+            <p className="th-eyebrow">ABOUT US &amp; OUR MISSION</p>
+            <h2 id="about-heading" className="th-heading-gradient th-about-heading">
+              Welcome to Reiki and Vaastu World
+            </h2>
+            <OrnamentalFlourish />
+            <p className="th-body-p th-about-story">
+              Dr. Naresh Chhabdiya has been practicing{' '}
+              <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A
+              doctor by profession and motivational mentor with centers in{' '}
+              <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people
+              around the world with genuine Reiki and spiritual healing. Previously Reiki and Vastu World
+              was known as <strong>Sanjeevni Reiki and Vaastu Center</strong>.
+            </p>
+          </div>
 
-            <div className="th-about-right">
-              <p className="th-eyebrow">ABOUT OUR FOUNDER &amp; MISSION</p>
-              <h2 className="th-heading-left">Welcome to Reiki and Vaastu World</h2>
-              <div className="th-gold-rule-left" />
-              <p className="th-body-p">
-                Dr. Naresh Chhabdiya has been practicing{' '}
-                <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A
-                doctor by profession and motivational mentor with centers in{' '}
-                <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower
-                people around the world with genuine Reiki and spiritual healing. Previously Reiki
-                and Vastu World was known as{' '}
-                <strong>Sanjeevni Reiki and Vaastu Center</strong>.
-              </p>
-              <blockquote className="th-quote">
-                “It’s been a beautiful journey with Reiki; it has subtly yet powerfully helped
-                thousands hold their lives together, conquer illness, and achieve deep peace.”
-              </blockquote>
-              <div className="th-btn-row">
-                <button type="button" className="th-btn th-btn--primary" onClick={onConsultClick}>
-                  <span>Book Session with Dr. Naresh</span>
-                </button>
-                <a href="mailto:reki.vastuworld@gmail.com" className="th-btn th-btn--outline-dark">
-                  <Mail size={15} color="#b92b27" />
-                  <span>reki.vastuworld@gmail.com</span>
-                </a>
-              </div>
-            </div>
+          <div className="th-team-grid">
+            {TEAM.map((person) => (
+              <article key={person.name} className="th-profile-card th-reveal">
+                <figure className="th-profile-photo">
+                  <img
+                    src={person.photo}
+                    alt={`Portrait of ${person.name}`}
+                    width="720"
+                    height="788"
+                    loading="lazy"
+                    style={{ objectPosition: person.photoPosition }}
+                  />
+                </figure>
+                <h3 className="th-founder-name">{person.name}</h3>
+                <p className="th-founder-role">{person.role}</p>
+                <div className="th-founder-badge">
+                  <Award size={15} color="#b5091f" aria-hidden="true" />
+                  <span>{person.badge}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+
+
+          <div className="th-btn-row th-about-actions th-reveal">
+            <button type="button" className="th-btn th-btn--primary" onClick={onConsultClick}>
+              <span>Book a Session</span>
+            </button>
+            <a href="mailto:reki.vastuworld@gmail.com" className="th-btn th-btn--outline-dark">
+              <Mail size={15} color="#b92b27" />
+              <span>reki.vastuworld@gmail.com</span>
+            </a>
           </div>
         </div>
       </section>
@@ -539,76 +518,7 @@ export default function TempleHarmonyRedesign({
         </div>
       </section>
 
-      {/* ═════ 4. OUR FEATURES (Exact Reiki Vaastu Harmony Temple Card Layout) ═════ */}
-      <section id="features-section" className="th-section th-features-sec">
-        {/* Subtle floating golden prana particles */}
-        <span className="th-particle" style={{ top: '14%', left: '7%' }} aria-hidden="true" />
-        <span className="th-particle" style={{ top: '26%', right: '11%' }} aria-hidden="true" />
-        <span className="th-particle" style={{ top: '38%', left: '49%' }} aria-hidden="true" />
-        <span className="th-particle" style={{ bottom: '28%', left: '4%' }} aria-hidden="true" />
-        <span className="th-particle" style={{ bottom: '18%', right: '6%' }} aria-hidden="true" />
-
-        <div className="hm-container">
-          {/* Section Heading: HOLISTIC TRANSFORMATION / OUR FEATURES */}
-          <div className="th-section-header th-reveal">
-            <p className="th-eyebrow">HOLISTIC TRANSFORMATION</p>
-            <h2 className="th-heading-gradient">OUR FEATURES</h2>
-            <OrnamentalFlourish />
-            <p className="th-lead">
-              Experience holistic transformation through authentic ancient practices, lifetime
-              mentorship, and dedicated personal guidance.
-            </p>
-          </div>
-
-          {/* Top Row: 3 Temple Cards */}
-          <div className="th-features-row-3">
-            {topRowFeatures.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.id}
-                  className="th-feature-card th-reveal"
-                  style={{ transitionDelay: `${idx * 110}ms` }}
-                >
-                  <div className="th-feature-icon-outer">
-                    <div className="th-feature-icon-inner">
-                      <Icon size={25} color="#fffdf9" strokeWidth={1.8} />
-                    </div>
-                  </div>
-                  <h3 className="th-feature-title">{item.title}</h3>
-                  <div className="th-feature-rule" />
-                  <p className="th-feature-desc">{item.description}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Bottom Row: 2 Centered Temple Cards */}
-          <div className="th-features-row-2">
-            {bottomRowFeatures.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.id}
-                  className="th-feature-card th-reveal"
-                  style={{ transitionDelay: `${(idx + 3) * 110}ms` }}
-                >
-                  <div className="th-feature-icon-outer">
-                    <div className="th-feature-icon-inner">
-                      <Icon size={25} color="#fffdf9" strokeWidth={1.8} />
-                    </div>
-                  </div>
-                  <h3 className="th-feature-title">{item.title}</h3>
-                  <div className="th-feature-rule" />
-                  <p className="th-feature-desc">{item.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ═════ 5. OUR PRODUCTS (Sacred Collection) ═════ */}
+      {/* ═════ 4. OUR PRODUCTS (Sacred Collection) ═════ */}
       <section id="products-section" className="th-section th-section--ivory">
         <div className="hm-container">
           <div className="th-section-header th-reveal">
@@ -684,7 +594,7 @@ export default function TempleHarmonyRedesign({
                       marginTop: '14px',
                       fontFamily: 'var(--font-karla)',
                       fontSize: '12.5px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#b5091f',
                       letterSpacing: '0.04em'
                     }}
@@ -708,26 +618,32 @@ export default function TempleHarmonyRedesign({
         </div>
       </section>
 
-      {/* ═════ 6. OUR REIKI THERAPY ═════ */}
+      {/* ═════ 5. OUR REIKI THERAPY ═════ */}
       <section id="reiki-therapy-section" className="th-section th-section--cream">
         <div className="hm-container">
           <div className="th-therapy-card th-reveal">
-            <p className="th-eyebrow">✦ ANCIENT HEALING ART ✦</p>
             <h2 className="th-heading-gradient" style={{ marginBottom: '6px' }}>
               OUR REIKI THERAPY
             </h2>
             <OrnamentalFlourish />
             <p className="th-body-p" style={{ maxWidth: '720px', margin: '0 auto 16px' }}>
-              <strong style={{ color: '#9a5b13' }}>Our best offers.</strong> Advocates believe that
-              there is an energy field around the body and that disrupting it can lead to ailments.
-              Reiki therapy aims to remedy these disruptions and the subsequent conditions. In Reiki
-              treatment, practitioners will place their hands over various parts of a person&apos;s
-              body and transfer healing energy.
+              <strong style={{ color: '#9a5b13' }}>Experience the power of gentle healing.</strong>
+            </p>
+            <p className="th-body-p" style={{ maxWidth: '720px', margin: '0 auto 16px' }}>
+              Reiki is a calming energy healing practice that promotes relaxation, inner peace, and
+              emotional balance. It may help reduce stress, calm the mind, improve sleep quality,
+              enhance self-awareness, and encourage positive thinking.
+            </p>
+            <p className="th-body-p" style={{ maxWidth: '720px', margin: '0 auto 16px' }}>
+              Reiki also supports mental, emotional, and spiritual well-being, helping you feel more
+              balanced, confident, and connected with your inner energy. It encourages love,
+              compassion, forgiveness, and understanding, nurturing healthier relationships and
+              greater harmony in everyday life.
             </p>
             <p className="th-body-p" style={{ maxWidth: '720px', margin: '0 auto 30px' }}>
-              During a session, practitioners may focus their energy on the sources of specific
-              conditions. Typically a single treatment session will last{' '}
-              <strong style={{ color: '#b92b27' }}>45–90 minutes</strong>.
+              <strong style={{ color: '#9a5b13' }}>
+                Discover the path to inner peace and holistic well-being.
+              </strong>
             </p>
             <button type="button" onClick={onBookSession} className="th-btn th-btn--primary">
               <span>Book a Reiki Session</span>
@@ -737,7 +653,7 @@ export default function TempleHarmonyRedesign({
         </div>
       </section>
 
-      {/* ═════ 7. TESTIMONIALS (IN THEIR WORDS) ═════ */}
+      {/* ═════ 6. TESTIMONIALS (IN THEIR WORDS) ═════ */}
       <div className="th-reveal">
         <VideoTestimonials onAddStory={onAddStory} />
       </div>

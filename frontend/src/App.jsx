@@ -17,6 +17,8 @@ import Modals from './components/Modals';
 import AdminDashboard from './components/admin/AdminDashboard';
 import CheckoutPage from './components/CheckoutPage';
 import PaymentStatusPage from './components/PaymentStatusPage';
+import EventsPage from './components/events/EventsPage';
+import EventPopup from './components/events/EventPopup';
 
 // Payment pages have real URLs so a refresh lands on the same page.
 // /checkout/<productId>?quantity=2  -> delivery details + payment for one product
@@ -38,13 +40,18 @@ function paymentRouteFromPath(pathname, search = '') {
 }
 
 const PAYMENT_VIEWS = ['checkout', 'payment-status'];
+
+// Content pages that have their own shareable URL.
+const VIEW_PATHS = { events: '/events' };
+const viewFromPath = (pathname) =>
+  Object.keys(VIEW_PATHS).find((view) => pathname.replace(/\/+$/, '') === VIEW_PATHS[view]) || null;
 const currentPaymentRoute = () => paymentRouteFromPath(window.location.pathname, window.location.search);
 
 export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) return 'admin';
-    return currentPaymentRoute()?.view || 'home';
+    return currentPaymentRoute()?.view || viewFromPath(path) || 'home';
   });
   const [checkout, setCheckout] = useState(() => {
     const route = currentPaymentRoute();
@@ -55,6 +62,9 @@ export default function App() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [previousView, setPreviousView] = useState('home');
   const [activeModal, setActiveModal] = useState(null);
+  // The event announcement opens with the site, except on pages where it would
+  // get in the way: the events page itself and the checkout / payment pages.
+  const [showEventPopup] = useState(() => !['events', ...PAYMENT_VIEWS].includes(currentView));
   const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
@@ -68,7 +78,7 @@ export default function App() {
         setStatusToken(paymentRoute.statusToken);
         setCurrentView(paymentRoute.view);
       } else {
-        setCurrentView('home');
+        setCurrentView(viewFromPath(path) || 'home');
       }
     };
     window.addEventListener('popstate', handlePopState);
@@ -169,7 +179,13 @@ export default function App() {
   // Navbar and Footer switch views without changing the URL. Leaving a payment
   // page that way must also leave its URL, or a refresh would reopen it.
   const changeView = (view) => {
-    if (paymentRouteFromPath(window.location.pathname) && !PAYMENT_VIEWS.includes(view)) {
+    const path = window.location.pathname;
+    if (VIEW_PATHS[view]) {
+      if (viewFromPath(path) !== view) window.history.pushState({}, '', VIEW_PATHS[view]);
+    } else if (
+      (paymentRouteFromPath(path) && !PAYMENT_VIEWS.includes(view)) ||
+      viewFromPath(path)
+    ) {
       window.history.pushState({}, '', '/');
     }
     setCurrentView(view);
@@ -253,6 +269,9 @@ export default function App() {
               )
             }
           />
+        ) : currentView === 'events' ? (
+          /* ── Upcoming Events Page ── */
+          <EventsPage />
         ) : currentView === 'products' ? (
           /* ── Dedicated Products Page ── */
           <ProductsPage onSelectProduct={handleSelectProduct} />
@@ -273,7 +292,7 @@ export default function App() {
         )}
       </main>
 
-      {/* The footer is part of the home page only. */}
+      {/* The footer is shown on the home page only. */}
       {currentView === 'home' && (
         <Footer
           setCurrentView={(view) => {
@@ -286,6 +305,16 @@ export default function App() {
 
       {/* Floating Spiritual Councillor Widget */}
       <FloatingWidgets openModal={openModal} />
+
+      {/* Upcoming event announcement, shown when the site opens */}
+      {showEventPopup && (
+        <EventPopup
+          onViewDetails={() => {
+            changeView('events');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      )}
 
       {/* Universal Modals Manager */}
       <Modals

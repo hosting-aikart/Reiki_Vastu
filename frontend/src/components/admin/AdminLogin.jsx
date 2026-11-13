@@ -79,7 +79,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
             style={{
               margin: '0 0 6px',
               fontSize: '22px',
-              fontWeight: 700,
+              fontWeight: 750,
               color: '#fdfbf7',
               letterSpacing: '-0.3px'
             }}
@@ -121,7 +121,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
               style={{
                 display: 'block',
                 fontSize: '12px',
-                fontWeight: 600,
+                fontWeight: 650,
                 color: '#d1d5db',
                 marginBottom: '6px',
                 textTransform: 'uppercase',
@@ -165,7 +165,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
               style={{
                 display: 'block',
                 fontSize: '12px',
-                fontWeight: 600,
+                fontWeight: 650,
                 color: '#d1d5db',
                 marginBottom: '6px',
                 textTransform: 'uppercase',
@@ -216,7 +216,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
               border: 'none',
               borderRadius: '8px',
               fontSize: '14px',
-              fontWeight: 700,
+              fontWeight: 750,
               cursor: loading ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',

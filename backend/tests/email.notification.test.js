@@ -78,7 +78,7 @@ describe('Email Notification Service', () => {
       assert.ok(text.includes('General Contact Enquiry'), 'Text should display enquiry type');
       assert.ok(text.includes('9876543210'), 'Text should include phone number');
       assert.ok(text.includes('rohan@example.com'), 'Text should include email');
-      assert.ok(text.includes('Nagpur Center (Mahal)'), 'Text should resolve location label');
+      assert.ok(text.includes('Nagpur Center (Dharmpeth)'), 'Text should resolve location label');
       assert.ok(text.includes('Interested in learning more'), 'Text should include user message');
       assert.ok(text.includes('http://localhost:5173/admin'), 'Text should include admin dashboard link when configured');
       assert.ok(html.includes('http://localhost:5173/admin'), 'HTML should include admin dashboard button when configured');

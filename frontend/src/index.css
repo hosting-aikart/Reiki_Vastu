@@ -81,6 +81,7 @@ body {
   min-height: 100dvh;
   font-family: var(--font-inter);
   font-size: 16px;
+  font-weight: 450;
   background-color: var(--c-bg-page);
   color: var(--c-text-main);
   -webkit-font-smoothing: antialiased;
@@ -218,7 +219,7 @@ p {
 
 .hm-eyebrow {
   font-family: var(--font-inter);
-  font-weight: 700;
+  font-weight: 750;
   font-size: 13.5px;
   line-height: 1.4;
   letter-spacing: 0.18em;
@@ -228,7 +229,7 @@ p {
 
 .hm-h2 {
   font-family: var(--font-red-hat);
-  font-weight: 600;
+  font-weight: 650;
   font-size: clamp(28px, 3.2vw, 40px);
   line-height: 1.18;
   letter-spacing: -0.01em;
@@ -354,7 +355,7 @@ p {
 .gnav-brand-title {
   font-family: var(--font-cormorant);
   font-size: clamp(24px, 2.2vw, 29px);
-  font-weight: 700;
+  font-weight: 750;
   line-height: 1.1;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -392,7 +393,7 @@ p {
   color: var(--c-dark-wine);
   text-decoration: none;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.01em;
   white-space: nowrap;
   text-align: center;
@@ -490,7 +491,7 @@ p {
   cursor: pointer;
   white-space: nowrap;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 650;
   color: var(--c-dark-wine);
   border: none;
 }
@@ -544,7 +545,7 @@ p {
   padding: 10px 24px;
   background: linear-gradient(135deg, #D2042D 0%, #8b0000 100%);
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 750;
   font-size: 14px;
   border-radius: 50px;
   text-decoration: none;
@@ -673,7 +674,7 @@ p {
 
 .hm-hero-title {
   max-width: 920px;
-  font-weight: 700;
+  font-weight: 750;
   color: #fffdf9;
   font-size: clamp(34px, 4.8vw, 56px);
   line-height: 1.18;
@@ -701,7 +702,7 @@ p {
   border-radius: 50px;
   color: #fffdf9;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 650;
   text-shadow: 0 1px 4px rgba(59, 10, 17, 0.6);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
@@ -730,7 +731,7 @@ p {
   color: var(--c-dark-wine);
   padding: 0 10px;
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 550;
 }
 
 .hm-search-ai {
@@ -740,7 +741,7 @@ p {
   border-radius: 999px;
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 750;
   font-size: 14.5px;
   cursor: pointer;
   display: flex;
@@ -911,7 +912,7 @@ p {
 .hm-mkt-body h3 {
   font-family: var(--font-poppins);
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 750;
   margin: 0 0 6px;
   color: #fffdf9;
   line-height: 1.25;
@@ -921,7 +922,7 @@ p {
 .hm-mkt-body p.ff-inter {
   font-family: var(--font-inter);
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 650;
   color: #fef3c7;
   margin: 0 0 8px;
   line-height: 1.35;
@@ -931,7 +932,7 @@ p {
 .hm-mkt-body p {
   font-family: var(--font-inter);
   font-size: 12.5px;
-  font-weight: 400;
+  font-weight: 450;
   color: rgba(255, 255, 255, 0.88);
   margin: 0;
   line-height: 1.45;
@@ -1039,7 +1040,7 @@ p {
 .hm-need-card h3 {
   font-family: var(--font-poppins);
   font-size: 19px;
-  font-weight: 700;
+  font-weight: 750;
   color: var(--c-dark-wine);
   margin: 0 0 8px;
 }
@@ -1147,7 +1148,7 @@ p {
 
 .hm-work-pill-title {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 750;
   margin: 0 0 8px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
@@ -1168,7 +1169,7 @@ p {
   justify-content: center;
   color: #fbbf24;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.1em;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
@@ -1276,7 +1277,7 @@ p {
 }
 
 .hm-scard-n {
-  font-weight: 700;
+  font-weight: 750;
   font-size: 15px;
   letter-spacing: 0.14em;
   color: #fbbf24;
@@ -1299,7 +1300,7 @@ p {
 .hm-scard-t {
   font-family: var(--font-poppins);
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 650;
   color: #fffdf9;
 }
 
@@ -1326,7 +1327,7 @@ p {
 
 .hm-cta h3 {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 750;
   margin: 0 0 4px;
   color: #fffdf9;
 }
@@ -1343,7 +1344,7 @@ p {
   justify-content: center;
   background: linear-gradient(135deg, #d4af37 0%, #b45309 100%);
   color: #3b0a11;
-  font-weight: 700;
+  font-weight: 750;
   font-size: 15px;
   padding: 12px 32px;
   border-radius: 999px;
@@ -1422,14 +1423,14 @@ p {
 }
 
 .tools-item-name {
-  font-weight: 700;
+  font-weight: 750;
   font-size: 14.5px;
   color: var(--c-dark-wine);
 }
 
 .tools-item-tag {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 650;
   background: #fef2f2;
   color: #dc2626;
   padding: 3px 8px;
@@ -1478,7 +1479,7 @@ p {
 .akf-brand-title {
   font-family: var(--font-cinzel), 'Cinzel', serif;
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 750;
   color: #fdfbf6;
   letter-spacing: 0.05em;
   margin: 0 0 16px;
@@ -1488,7 +1489,7 @@ p {
 
 .akf-section-title {
   font-size: 13.5px;
-  font-weight: 800;
+  font-weight: 850;
   color: #fdfbf6;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1518,7 +1519,7 @@ p {
   padding: 0;
   color: #d2cac6;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 550;
   cursor: pointer;
   transition: color 0.2s ease;
   font-family: inherit;
@@ -1586,7 +1587,7 @@ p {
 
 .akf-highlight {
   color: #fdfbf6;
-  font-weight: 700;
+  font-weight: 750;
 }
 
 .akf-contact-row {
@@ -1596,7 +1597,7 @@ p {
 .akf-contact-link {
   color: #d2cac6;
   font-size: 13.5px;
-  font-weight: 500;
+  font-weight: 550;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -1615,20 +1616,21 @@ p {
 
 .akf-hour-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 4px 20px;
 }
 
 .akf-day {
   color: #fdfbf6;
-  font-weight: 600;
+  font-weight: 650;
   white-space: nowrap;
 }
 
 .akf-time {
   color: #c0b1af;
-  font-weight: 500;
+  font-weight: 550;
   white-space: nowrap;
 }
 
@@ -1639,7 +1641,7 @@ p {
   padding: 2px 10px;
   border-radius: 6px;
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.02em;
   display: inline-block;
   text-align: center;
@@ -1661,7 +1663,7 @@ p {
 
 .akf-brand-bold {
   color: #c0b1af;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .akf-legal {
@@ -2669,7 +2671,7 @@ video {
   color: rgba(255, 255, 255, 0.92);
   font-family: var(--font-inter);
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 16px;
@@ -2678,7 +2680,7 @@ video {
 .hero-modern-title {
   font-family: var(--font-red-hat), var(--font-inter), sans-serif;
   font-size: clamp(28px, 3.6vw, 50px);
-  font-weight: 700;
+  font-weight: 750;
   line-height: 1.16;
   letter-spacing: -0.02em;
   color: #ffffff;
@@ -2695,7 +2697,7 @@ video {
   gap: 12px;
   font-family: var(--font-inter);
   font-size: clamp(14px, 1.2vw, 17px);
-  font-weight: 500;
+  font-weight: 550;
   letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.84);
   margin: 0 0 28px;
@@ -2723,7 +2725,7 @@ video {
   border-radius: 999px;
   font-family: var(--font-inter);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.01em;
   cursor: pointer;
   box-shadow: none !important;
@@ -3070,14 +3072,14 @@ a.hm-cta-btn:hover,
 
 .th-theme-active .gnav-link {
   font-family: var(--font-karla);
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.03em;
   color: #3a1f28;
 }
 
 .th-theme-active .gnav-btn-primary {
   font-family: var(--font-karla);
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.04em;
   background: linear-gradient(135deg, #c13028 0%, #9b1f19 100%);
 }
@@ -3085,7 +3087,7 @@ a.hm-cta-btn:hover,
 .th-theme-active .akf-brand-title {
   font-family: var(--font-cormorant);
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.04em;
   text-transform: none;
 }
@@ -3198,7 +3200,7 @@ a.hm-cta-btn:hover,
 .th-features-brand-name {
   font-family: var(--font-cormorant);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 650;
   color: #2b1d42;
   letter-spacing: 0.01em;
 }
@@ -3206,7 +3208,7 @@ a.hm-cta-btn:hover,
 .th-features-mantra {
   font-family: var(--font-karla);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.26em;
   color: #b92b27;
   text-transform: uppercase;
@@ -3222,7 +3224,7 @@ a.hm-cta-btn:hover,
 .th-eyebrow {
   font-family: var(--font-karla);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: #b92b27;
@@ -3232,7 +3234,7 @@ a.hm-cta-btn:hover,
 .th-heading-gradient {
   font-family: var(--font-cormorant);
   font-size: clamp(26px, 4.2vw, 52px);
-  font-weight: 600;
+  font-weight: 650;
   line-height: 1.12;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -3255,7 +3257,7 @@ a.hm-cta-btn:hover,
 .th-lead {
   font-family: var(--font-karla);
   font-size: clamp(15px, 1.3vw, 17px);
-  font-weight: 400;
+  font-weight: 450;
   line-height: 1.7;
   color: #7c5652;
   max-width: 640px;
@@ -3328,7 +3330,7 @@ a.hm-cta-btn:hover,
 .th-feature-title {
   font-family: var(--font-cormorant);
   font-size: 25px;
-  font-weight: 600;
+  font-weight: 650;
   line-height: 1.24;
   color: #2b1d42;
   margin: 0;
@@ -3344,7 +3346,7 @@ a.hm-cta-btn:hover,
 .th-feature-desc {
   font-family: var(--font-karla);
   font-size: 14.5px;
-  font-weight: 400;
+  font-weight: 450;
   line-height: 1.68;
   color: #7c5652;
   margin: 0 auto;
@@ -3363,7 +3365,7 @@ a.hm-cta-btn:hover,
   color: #f8eed9;
   font-family: var(--font-karla);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   margin-bottom: 14px;
@@ -3373,7 +3375,7 @@ a.hm-cta-btn:hover,
   font-family: var(--font-cormorant);
   font-style: normal;
   font-size: clamp(32px, 4.3vw, 58px);
-  font-weight: 600;
+  font-weight: 650;
   line-height: 1.12;
   letter-spacing: -0.01em;
   color: #fffdf9;
@@ -3396,7 +3398,7 @@ a.hm-cta-btn:hover,
   border-radius: 999px;
   font-family: var(--font-karla);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.06em;
   color: rgba(255, 253, 249, 0.82);
   background: rgba(255, 253, 249, 0.14);
@@ -3426,7 +3428,7 @@ a.hm-cta-btn:hover,
   gap: 12px;
   font-family: var(--font-karla);
   font-size: clamp(14.5px, 1.2vw, 17px);
-  font-weight: 400;
+  font-weight: 450;
   letter-spacing: 0.06em;
   color: rgba(255, 252, 245, 0.88);
   margin: 0 0 28px;
@@ -3443,7 +3445,7 @@ a.hm-cta-btn:hover,
   border-radius: 999px;
   font-family: var(--font-karla);
   font-size: 14.5px;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.04em;
   text-decoration: none;
   cursor: pointer;
@@ -3518,7 +3520,7 @@ a.hm-cta-btn:hover,
 .th-founder-name {
   font-family: var(--font-cormorant);
   font-size: clamp(24px, 2.5vw, 30px);
-  font-weight: 700;
+  font-weight: 750;
   color: #2b1d42;
   margin: 0 0 6px;
 }
@@ -3526,7 +3528,7 @@ a.hm-cta-btn:hover,
 .th-founder-role {
   font-family: var(--font-karla);
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 650;
   color: #9a5b13;
   letter-spacing: 0.03em;
   margin: 0 0 14px;
@@ -3542,14 +3544,14 @@ a.hm-cta-btn:hover,
   border: 1px solid rgba(185, 43, 39, 0.22);
   font-family: var(--font-karla);
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 650;
   color: #881b18;
 }
 
 .th-heading-left {
   font-family: var(--font-cormorant);
   font-size: clamp(28px, 3.2vw, 40px);
-  font-weight: 600;
+  font-weight: 650;
   color: #2b1d42;
   margin: 0 0 12px;
   line-height: 1.18;
@@ -3574,7 +3576,7 @@ a.hm-cta-btn:hover,
   font-family: var(--font-cormorant);
   font-style: italic;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 550;
   line-height: 1.55;
   color: #7c2320;
   margin: 0 0 24px;
@@ -3651,7 +3653,7 @@ a.hm-cta-btn:hover,
 .th-course-title {
   font-family: var(--font-cormorant);
   font-size: 19px;
-  font-weight: 700;
+  font-weight: 750;
   color: #2b1d42;
   margin: 0 0 2px;
   white-space: nowrap;
@@ -3698,7 +3700,7 @@ a.hm-cta-btn:hover,
   display: inline-block;
   font-family: var(--font-karla);
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #b5091f;
@@ -3748,7 +3750,7 @@ a.hm-cta-btn:hover,
   color: #fff8ec;
   font-family: var(--font-cormorant);
   font-size: 21px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.02em;
   text-align: left;
   padding: 11px 0;
@@ -3769,7 +3771,7 @@ a.hm-cta-btn:hover,
 .gnav-drawer-helpline-text {
   font-family: var(--font-karla);
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.01em;
 }
 
@@ -3781,7 +3783,7 @@ a.hm-cta-btn:hover,
   color: #ffffff;
   font-family: var(--font-karla);
   font-size: 14.5px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.04em;
   padding: 12px 20px;
   min-height: 46px;
@@ -3914,7 +3916,7 @@ a.hm-cta-btn:hover,
 .th-hero-title--golden {
   font-family: var(--font-cormorant) !important;
   font-style: normal !important;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   line-height: 1.12 !important;
   letter-spacing: -0.005em !important;
   margin: 0 auto 10px !important;
@@ -3930,7 +3932,7 @@ a.hm-cta-btn:hover,
   display: block;
   font-family: var(--font-cormorant);
   font-size: clamp(32px, 4.3vw, 56px);
-  font-weight: 700;
+  font-weight: 750;
   color: #b5091f;
   background: none;
   -webkit-text-fill-color: #b5091f;
@@ -3942,7 +3944,7 @@ a.hm-cta-btn:hover,
   display: inline-block;
   font-family: var(--font-cormorant);
   font-size: clamp(33px, 4.45vw, 58px);
-  font-weight: 700;
+  font-weight: 750;
   color: #ffffff;
   background: none;
   -webkit-text-fill-color: #ffffff;
@@ -3985,7 +3987,7 @@ a.hm-cta-btn:hover,
 .th-hero-subtitle--golden {
   font-family: var(--font-cormorant) !important;
   font-size: clamp(17.5px, 1.55vw, 22px) !important;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   letter-spacing: 0.02em !important;
   color: #855b16 !important;
   margin: 0 0 22px !important;
@@ -4003,7 +4005,7 @@ a.hm-cta-btn:hover,
   color: #ffffff;
   border: 1.5px solid transparent;
   font-family: var(--font-karla);
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.03em;
   box-shadow: 0 8px 22px rgba(181, 9, 31, 0.32) !important;
 }
@@ -4024,7 +4026,7 @@ a.hm-cta-btn:hover,
   color: #2b160e;
   border: 1.5px solid #c28228;
   font-family: var(--font-karla);
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.03em;
 }
 
@@ -4045,7 +4047,7 @@ a.hm-cta-btn:hover,
 .th-golden-harmony .gnav-link {
   font-family: var(--font-cormorant);
   font-size: 23px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.015em;
   color: #2b160e;
 }
@@ -4056,7 +4058,7 @@ a.hm-cta-btn:hover,
 
 .th-golden-harmony .gnav-btn-primary {
   font-family: var(--font-karla);
-  font-weight: 700;
+  font-weight: 750;
   background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
   color: #ffffff;
   border: 1.5px solid transparent;
@@ -4075,7 +4077,7 @@ a.hm-cta-btn:hover,
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 700;
+  font-weight: 750;
 }
 
 .th-golden-harmony .th-heading-left,
@@ -4084,13 +4086,13 @@ a.hm-cta-btn:hover,
 .th-golden-harmony .th-course-title {
   font-family: var(--font-cormorant) !important;
   color: #381812;
-  font-weight: 700;
+  font-weight: 750;
 }
 
 .th-golden-harmony .th-eyebrow {
   font-family: var(--font-karla) !important;
   color: #7d1418;
-  font-weight: 700;
+  font-weight: 750;
 }
 
 /* Coordinate Testimonials section fonts & colors (override Playfair Display & stark white) */
@@ -4108,7 +4110,7 @@ a.hm-cta-btn:hover,
 .th-golden-harmony #testimonials-section .testimonial-editorial-card p {
   font-family: var(--font-cormorant) !important;
   font-size: 18.5px !important;
-  font-weight: 500 !important;
+  font-weight: 550 !important;
   color: #3b2119 !important;
 }
 
@@ -4386,7 +4388,7 @@ a.hm-cta-btn:hover,
   color: #ffffff;
   font-family: var(--font-karla);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 850;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(181, 9, 31, 0.25);
@@ -4403,7 +4405,7 @@ a.hm-cta-btn:hover,
   color: #8a5610;
   font-family: var(--font-karla);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 750;
   text-decoration: none;
   transition: all 0.25s ease;
 }
@@ -4420,7 +4422,7 @@ a.hm-cta-btn:hover,
   margin: 0;
   font-family: var(--font-cormorant);
   font-size: clamp(20px, 1.9vw, 24px);
-  font-weight: 700;
+  font-weight: 750;
   line-height: 1.3;
   color: #2b1810;
   transition: color 0.25s ease;
@@ -4451,7 +4453,7 @@ a.hm-cta-btn:hover,
   -webkit-text-fill-color: #b5091f !important;
   color: #b5091f !important;
   font-size: clamp(24px, 2.2vw, 29px);
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   paint-order: stroke fill;
   -webkit-text-stroke: 0.85px #b5091f;
   text-shadow: 0.35px 0 0 #b5091f, -0.35px 0 0 #b5091f;
@@ -4466,19 +4468,19 @@ a.hm-cta-btn:hover,
 }
 
 .th-bolder-preview .gnav-link {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   font-size: 23px !important;
   -webkit-text-stroke: 0.45px currentColor;
 }
 
 .th-bolder-preview .gnav-btn-primary,
 .th-bolder-preview .gnav-drawer-cta {
-  font-weight: 800 !important;
+  font-weight: 850 !important;
   letter-spacing: 0.045em;
 }
 
 .th-bolder-preview .gnav-drawer-link {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   -webkit-text-stroke: 0.3px currentColor;
 }
 
@@ -4489,7 +4491,7 @@ a.hm-cta-btn:hover,
   background-clip: border-box !important;
   -webkit-text-fill-color: #b5091f !important;
   color: #b5091f !important;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   paint-order: stroke fill;
   -webkit-text-stroke: 0.45px #b5091f;
   filter: none !important;
@@ -4502,7 +4504,7 @@ a.hm-cta-btn:hover,
   background-clip: border-box !important;
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   paint-order: stroke fill;
   -webkit-text-stroke: 0.45px #ffffff;
   filter: none !important;
@@ -4510,7 +4512,7 @@ a.hm-cta-btn:hover,
 }
 
 .th-bolder-preview .th-hero-subtitle--golden {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   font-size: clamp(18.5px, 1.65vw, 23px) !important;
   color: #855b16 !important;
   paint-order: stroke fill;
@@ -4521,13 +4523,13 @@ a.hm-cta-btn:hover,
 .th-bolder-preview .th-btn,
 .th-bolder-preview .th-btn--golden-primary,
 .th-bolder-preview .th-btn--golden-secondary {
-  font-weight: 800 !important;
+  font-weight: 850 !important;
   letter-spacing: 0.04em;
 }
 
 /* 3. Section Eyebrows, Single-Color Vibrant Headings (Course Detail Red) & Card Titles */
 .th-bolder-preview .th-eyebrow {
-  font-weight: 800 !important;
+  font-weight: 850 !important;
   letter-spacing: 0.25em;
   color: #9e580e !important;
   -webkit-text-stroke: 0.18px currentColor;
@@ -4539,7 +4541,7 @@ a.hm-cta-btn:hover,
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   color: #b5091f !important;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   -webkit-text-stroke: 0.45px rgba(181, 9, 31, 0.55);
   filter: drop-shadow(0 2px 10px rgba(181, 9, 31, 0.12));
 }
@@ -4550,7 +4552,7 @@ a.hm-cta-btn:hover,
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   color: #b5091f !important;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   -webkit-text-stroke: 0.38px rgba(181, 9, 31, 0.55);
 }
 
@@ -4558,48 +4560,48 @@ a.hm-cta-btn:hover,
 .th-bolder-preview .th-feature-title,
 .th-bolder-preview .th-course-title,
 .th-bolder-preview .th-video-title {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   -webkit-text-stroke: 0.36px currentColor;
 }
 
 /* 4. Body Copy, Lead Text, Subtitles, Quotes & Badges */
 .th-bolder-preview .th-lead {
-  font-weight: 600 !important;
+  font-weight: 650 !important;
   color: #4f2f2c !important;
 }
 
 .th-bolder-preview .th-body-p,
 .th-bolder-preview .th-feature-desc {
-  font-weight: 600 !important;
+  font-weight: 650 !important;
   color: #4b2c29 !important;
 }
 
 .th-bolder-preview .th-course-sub {
-  font-weight: 600 !important;
+  font-weight: 650 !important;
   color: #5e3b37 !important;
 }
 
 .th-bolder-preview .th-quote {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   -webkit-text-stroke: 0.25px currentColor;
 }
 
 .th-bolder-preview .th-founder-role,
 .th-bolder-preview .th-founder-badge,
 .th-bolder-preview .th-coming-soon-pill {
-  font-weight: 800 !important;
+  font-weight: 850 !important;
 }
 
 /* 5. Testimonials Section */
 .th-bolder-preview #testimonials-section .testimonial-editorial-card p {
-  font-weight: 600 !important;
+  font-weight: 650 !important;
   -webkit-text-stroke: 0.24px currentColor;
 }
 
 .th-bolder-preview #testimonials-section .testimonial-editorial-card > p:last-child,
 .th-bolder-preview #testimonials-section button,
 .th-bolder-preview #testimonials-section span {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
 }
 
 /* 6. Courses Page, Course Detail Page, Footer & Modals */
@@ -4614,7 +4616,7 @@ a.hm-cta-btn:hover,
 .th-bolder-preview footer h2,
 .th-bolder-preview footer h3,
 .th-bolder-preview footer h4 {
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   -webkit-text-stroke: 0.36px currentColor;
 }
 
@@ -4627,7 +4629,7 @@ a.hm-cta-btn:hover,
 .th-bolder-preview footer a,
 .th-bolder-preview footer li,
 .th-bolder-preview footer span {
-  font-weight: 600 !important;
+  font-weight: 650 !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -4889,7 +4891,7 @@ a.hm-cta-btn:hover,
 .th-glass-title {
   font-family: var(--font-cormorant) !important;
   font-size: clamp(27px, 3.7vw, 46px) !important;
-  font-weight: 600 !important;
+  font-weight: 650 !important;
   line-height: 1.16 !important;
   letter-spacing: 0.005em !important;
   color: #fffaf3 !important;
@@ -4938,7 +4940,7 @@ a.hm-cta-btn:hover,
 .th-glass-pillar-label {
   font-family: var(--font-cormorant);
   font-size: clamp(15.5px, 1.55vw, 19.5px);
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.01em;
   color: #fffaf3;
   white-space: nowrap;
@@ -4971,7 +4973,7 @@ a.hm-cta-btn:hover,
   min-width: 230px;
   font-family: var(--font-karla);
   font-size: 15px;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   letter-spacing: 0.02em;
   box-shadow: 0 8px 22px rgba(42, 4, 10, 0.34) !important;
 }
@@ -4990,7 +4992,7 @@ a.hm-cta-btn:hover,
   min-width: 220px;
   font-family: var(--font-karla);
   font-size: 15px;
-  font-weight: 700 !important;
+  font-weight: 750 !important;
   letter-spacing: 0.02em;
   box-shadow: 0 8px 22px rgba(42, 4, 10, 0.24) !important;
 }
@@ -5022,7 +5024,7 @@ a.hm-cta-btn:hover,
 
 .th-preview-label {
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #f3dec0;
@@ -5035,7 +5037,7 @@ a.hm-cta-btn:hover,
   padding: 6px 13px;
   font-family: var(--font-karla);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 750;
   cursor: pointer;
   background: transparent;
   color: #d8c8c2;
@@ -5609,7 +5611,7 @@ a.hm-cta-btn:hover,
   border-radius: 999px;
   background: #fffdf9;
   color: #8a5610;
-  font: 700 18px/1 var(--font-karla);
+  font: 750 18px/1 var(--font-karla);
   cursor: pointer;
 }
 
@@ -5687,4 +5689,412 @@ a.hm-cta-btn:hover,
     0 0 4px rgba(255, 255, 255, 0.55),
     0 0 12px rgba(255, 255, 255, 0.4),
     0 0 24px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   HERO TEXT LEGIBILITY
+   Plain text colours only: no glow, outline or shadow on any line.
+   (The same-colour stroke only thickens the letters; it is not visible
+   as an edge.)
+   ══════════════════════════════════════════════════════════════════ */
+/* Line 1: the red of the site's primary buttons (middle tone of their
+   #d1132e -> #9b0718 gradient), plain. */
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-hero-line-crimson {
+  background: none !important;
+  color: #c0102a !important;
+  -webkit-text-fill-color: #c0102a !important;
+  -webkit-text-stroke: 0.45px #c0102a !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* Line 2: plain white. */
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-hero-line-gold {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-stroke: 0.45px #ffffff !important;
+  text-shadow: none !important;
+}
+
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  -webkit-text-stroke: 0.3px #000000 !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+}
+
+.th-hero--golden .th-golden-diamond-line--left {
+  background: linear-gradient(90deg, rgba(92, 54, 6, 0) 0%, #5c3606 100%);
+  height: 1.5px;
+}
+
+.th-hero--golden .th-golden-diamond-line--right {
+  background: linear-gradient(270deg, rgba(92, 54, 6, 0) 0%, #5c3606 100%);
+  height: 1.5px;
+}
+
+.th-hero--golden .th-golden-diamond-gem {
+  color: #5c3606;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ABOUT: OUR GUIDES (home page)
+   Shared intro, then two matching profile cards. Each portrait sits
+   in a temple-arch frame with a double gold rule; name, role, badge
+   line up across both cards.
+   ══════════════════════════════════════════════════════════════════ */
+/* Section heading on one line: sized to the screen so it always fits.
+   Phones are too narrow for one readable line, so it wraps there. */
+.th-about-heading {
+  white-space: nowrap !important;
+  font-size: clamp(22px, 3.4vw, 46px) !important;
+}
+
+@media (max-width: 640px) {
+  .th-about-heading {
+    white-space: normal !important;
+    font-size: clamp(24px, 7vw, 30px) !important;
+  }
+}
+
+/* Founder story, between the heading and the two profile cards */
+.th-about-story {
+  max-width: 860px;
+  margin: 4px auto 0 !important;
+  font-size: clamp(15px, 1.25vw, 17px);
+  line-height: 1.8;
+}
+
+.th-team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 36px);
+  max-width: 880px;
+  margin: 8px auto 0;
+}
+
+.th-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 36px) clamp(26px, 3vw, 34px);
+  background: linear-gradient(160deg, rgba(255, 253, 249, 0.97) 0%, rgba(249, 240, 226, 0.9) 100%);
+  border: 1px solid rgba(184, 137, 58, 0.3);
+  border-radius: 28px;
+  box-shadow: 0 16px 42px rgba(120, 75, 40, 0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.th-profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(120, 75, 40, 0.12);
+}
+
+/* Temple-arch portrait: gold ring + cream gap + thin gold outer rule */
+.th-profile-photo {
+  width: min(100%, 220px);
+  aspect-ratio: 4 / 4.6;
+  margin: 0 0 18px;
+  padding: 6px;
+  border-radius: 999px 999px 26px 26px;
+  background: linear-gradient(160deg, #f3d48d 0%, #c99a3c 50%, #9a6a1c 100%);
+  box-shadow:
+    0 0 0 5px #fffaf2,
+    0 0 0 6.5px rgba(201, 154, 60, 0.55),
+    0 18px 36px rgba(120, 75, 40, 0.18);
+}
+
+.th-profile-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px 999px 21px 21px;
+  background: #efe4d3;
+}
+
+.th-profile-card .th-founder-role {
+  max-width: 400px;
+  line-height: 1.55;
+}
+
+.th-about-actions {
+  justify-content: center;
+  margin-top: clamp(24px, 3vw, 32px);
+}
+
+/* Tablets and large phones: keep the two profiles side by side, smaller */
+@media (max-width: 860px) {
+  .th-profile-photo {
+    width: min(100%, 180px);
+  }
+
+  .th-profile-card {
+    padding: 22px 16px 24px;
+    border-radius: 22px;
+  }
+}
+
+/* Phones: one profile per row, compact so each fits on screen at once */
+@media (max-width: 560px) {
+  .th-team-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    gap: 16px;
+  }
+
+  .th-profile-photo {
+    width: min(100%, 170px);
+    margin-bottom: 14px;
+  }
+
+  .th-profile-card {
+    padding: 20px 16px 22px;
+  }
+
+  .th-profile-card .th-founder-name {
+    font-size: 23px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .th-profile-card,
+  .th-profile-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   HERO TEXT BACKDROP
+   A soft, feathered greyish-black shape behind the heading, rule and
+   tagline only (not the buttons). The mask fades every edge, so it is
+   an organic shape rather than a box. On this dark backdrop the
+   tagline and divider are light, since black would disappear.
+   ══════════════════════════════════════════════════════════════════ */
+.th-hero--golden .th-hero-text-glow {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.th-hero--golden .th-hero-text-glow::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -34px -15% -22px;
+  pointer-events: none;
+  /* Greyish-black, slightly see-through so the photo still shows faintly */
+  background: radial-gradient(
+    ellipse 60% 70% at 50% 50%,
+    rgba(28, 28, 30, 0.78) 0%,
+    rgba(40, 40, 42, 0.7) 55%,
+    rgba(48, 48, 50, 0.6) 100%
+  );
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 68%, transparent 100%);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+/* Breathing room between the glow and the buttons */
+.th-hero--golden .th-hero-text-glow + .hero-modern-actions {
+  margin-top: 18px;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .th-hero--golden .th-hero-text-glow::before {
+    inset: -30px -18px -18px;
+    -webkit-mask-image: radial-gradient(ellipse 54% 52% at 50% 50%, #000 66%, transparent 100%);
+    mask-image: radial-gradient(ellipse 54% 52% at 50% 50%, #000 66%, transparent 100%);
+  }
+}
+
+/* Tagline and divider in light tones on the dark backdrop */
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
+.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot {
+  color: #f5ece0 !important;
+  -webkit-text-fill-color: #f5ece0 !important;
+  -webkit-text-stroke: 0.3px #f5ece0 !important;
+}
+
+.th-hero--golden .th-golden-diamond-line--left {
+  background: linear-gradient(90deg, rgba(226, 184, 96, 0) 0%, #e2b860 100%);
+}
+
+.th-hero--golden .th-golden-diamond-line--right {
+  background: linear-gradient(270deg, rgba(226, 184, 96, 0) 0%, #e2b860 100%);
+}
+
+.th-hero--golden .th-golden-diamond-gem {
+  color: #e2b860;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   NAVBAR: HIGHLIGHTED "EVENTS" LINK (only while an event is upcoming)
+   Gold pill with a light sweeping across it, a pulsing red "live" dot
+   and a red date badge. In the mobile drawer the same treatment is
+   used, and the menu button gets a pulsing dot so phone visitors know
+   there is something new before opening the menu.
+   ══════════════════════════════════════════════════════════════════ */
+.gnav-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.th-golden-harmony .gnav-link.gnav-link--event,
+.gnav-link.gnav-link--event {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(133, 91, 22, 0.45);
+  color: #3b0a11 !important;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0) 62%) no-repeat,
+    linear-gradient(135deg, #fbe6b4 0%, #ecc777 48%, #c99a3c 100%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: 160% 0, 0 0;
+  box-shadow:
+    0 4px 14px rgba(201, 154, 60, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: gnav-event-shine 3.6s ease-in-out infinite;
+}
+
+.th-golden-harmony .gnav-link.gnav-link--event:hover,
+.gnav-link.gnav-link--event:hover {
+  color: #3b0a11 !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(201, 154, 60, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.gnav-link.gnav-link--event[aria-current='page'] {
+  border-color: #b5091f;
+}
+
+@keyframes gnav-event-shine {
+  0%, 55% { background-position: 160% 0, 0 0; }
+  100% { background-position: -60% 0, 0 0; }
+}
+
+/* Pulsing red "live" dot */
+.gnav-event-dot {
+  position: relative;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d1132e;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+
+.gnav-event-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #d1132e;
+  animation: gnav-event-pulse 1.8s ease-out infinite;
+}
+
+@keyframes gnav-event-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Red date badge on the pill's corner */
+.gnav-link--event .gnav-event-date {
+  position: absolute;
+  top: -10px;
+  right: -12px;
+  padding: 2px 7px 3px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 0;
+  font-family: var(--font-karla);
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(155, 7, 24, 0.35);
+  border: 1.5px solid #fffaf0;
+}
+
+/* Mobile drawer: gold-tinted row with dot and date chip */
+.gnav-drawer-link.gnav-drawer-link--event {
+  gap: 10px;
+  margin: 4px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(245, 214, 138, 0.55);
+  background: linear-gradient(135deg, rgba(245, 214, 138, 0.22) 0%, rgba(201, 154, 60, 0.12) 100%);
+  color: #f5d68a;
+}
+
+.gnav-drawer-link.gnav-drawer-link--event:hover {
+  padding-left: 16px;
+}
+
+.gnav-drawer-link--event .gnav-event-date {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 0;
+  font-family: var(--font-karla);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+/* Menu button: small pulsing dot */
+.gnav-hamburger {
+  position: relative;
+}
+
+.gnav-hamburger-dot {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d1132e;
+  box-shadow: 0 0 0 2px #fffaf0;
+}
+
+.gnav-hamburger-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #d1132e;
+  animation: gnav-event-pulse 1.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gnav-link.gnav-link--event,
+  .gnav-event-dot::after,
+  .gnav-hamburger-dot::after {
+    animation: none;
+  }
 }

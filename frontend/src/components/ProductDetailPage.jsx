@@ -54,7 +54,7 @@ export default function ProductDetailPage({
             color: '#b5091f',
             fontFamily: 'var(--font-karla)',
             fontSize: '13.5px',
-            fontWeight: 700,
+            fontWeight: 750,
             cursor: 'pointer',
             marginBottom: '24px',
             boxShadow: '0 4px 14px rgba(120, 75, 40, 0.06)',
@@ -114,7 +114,7 @@ export default function ProductDetailPage({
                   color: '#ffffff',
                   fontFamily: 'var(--font-karla)',
                   fontSize: '11.5px',
-                  fontWeight: 700,
+                  fontWeight: 750,
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   padding: '6px 14px',
@@ -196,7 +196,7 @@ export default function ProductDetailPage({
               style={{
                 fontFamily: 'var(--font-karla)',
                 fontSize: '14px',
-                fontWeight: 700,
+                fontWeight: 750,
                 color: '#9a5b13',
                 letterSpacing: '0.04em',
                 margin: '0 0 18px',
@@ -209,7 +209,7 @@ export default function ProductDetailPage({
 
             {/* 2. Information About That Product */}
             <div style={{ marginBottom: '20px' }}>
-              <p className="th-body-p" style={{ marginBottom: '10px', fontWeight: 600, color: '#3b2119' }}>
+              <p className="th-body-p" style={{ marginBottom: '10px', fontWeight: 650, color: '#3b2119' }}>
                 {product.description}
               </p>
               <p className="th-body-p" style={{ marginBottom: 0 }}>
@@ -246,7 +246,7 @@ export default function ProductDetailPage({
                     style={{
                       fontFamily: 'var(--font-karla)',
                       fontSize: '12px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       textTransform: 'uppercase',
                       letterSpacing: '0.08em',
                       color: '#7c5652'
@@ -258,7 +258,7 @@ export default function ProductDetailPage({
                     style={{
                       fontFamily: 'var(--font-cormorant)',
                       fontSize: '28px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#b5091f',
                       lineHeight: 1
                     }}
@@ -283,7 +283,7 @@ export default function ProductDetailPage({
                   style={{
                     fontFamily: 'var(--font-karla)',
                     fontSize: '11px',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     color: '#b5091f',
                     background: 'rgba(181, 9, 31, 0.08)',
                     padding: '3px 10px',
@@ -326,7 +326,7 @@ export default function ProductDetailPage({
                       border: 'none',
                       background: 'transparent',
                       fontSize: '17px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#381812',
                       cursor: 'pointer'
                     }}
@@ -339,7 +339,7 @@ export default function ProductDetailPage({
                       textAlign: 'center',
                       fontFamily: 'var(--font-karla)',
                       fontSize: '14.5px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#381812'
                     }}
                   >
@@ -356,7 +356,7 @@ export default function ProductDetailPage({
                       border: 'none',
                       background: 'transparent',
                       fontSize: '17px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#381812',
                       cursor: 'pointer'
                     }}
@@ -413,6 +413,8 @@ export default function ProductDetailPage({
                 paddingTop: '4px'
               }}
             >
+              {/* Only products with real ratings show the star line */}
+              {product.rating && (
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} size={15} fill="#d49a3a" color="#d49a3a" />
@@ -421,7 +423,7 @@ export default function ProductDetailPage({
                   style={{
                     fontFamily: 'var(--font-karla)',
                     fontSize: '13.5px',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     color: '#381812',
                     marginLeft: '5px'
                   }}
@@ -429,6 +431,7 @@ export default function ProductDetailPage({
                   {product.rating} ({product.reviewsCount} Verified Seekers)
                 </span>
               </div>
+              )}
 
               <span
                 style={{
@@ -437,7 +440,7 @@ export default function ProductDetailPage({
                   gap: '5px',
                   fontFamily: 'var(--font-karla)',
                   fontSize: '12px',
-                  fontWeight: 700,
+                  fontWeight: 750,
                   color: '#15803d',
                   background: 'rgba(21, 128, 61, 0.09)',
                   border: '1px solid rgba(21, 128, 61, 0.25)',
@@ -522,7 +525,7 @@ export default function ProductDetailPage({
                       gap: '5px',
                       fontFamily: 'var(--font-karla)',
                       fontSize: '12px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#b5091f'
                     }}
                   >

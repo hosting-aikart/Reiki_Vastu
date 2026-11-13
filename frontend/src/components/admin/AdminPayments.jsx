@@ -31,7 +31,7 @@ const formatDate = (value) =>
 function StatusBadge({ status }) {
   const style = STATUS_STYLE[status] || STATUS_STYLE.CREATED;
   return (
-    <span style={{ background: style.bg, color: style.fg, fontWeight: 700, fontSize: '11px', padding: '3px 9px', borderRadius: '999px', whiteSpace: 'nowrap' }}>
+    <span style={{ background: style.bg, color: style.fg, fontWeight: 750, fontSize: '11px', padding: '3px 9px', borderRadius: '999px', whiteSpace: 'nowrap' }}>
       {style.label}
     </span>
   );
@@ -40,7 +40,7 @@ function StatusBadge({ status }) {
 function Detail({ label, children }) {
   return (
     <div>
-      <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '3px' }}>{label}</div>
+      <div style={{ fontSize: '11px', fontWeight: 750, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '3px' }}>{label}</div>
       <div style={{ fontSize: '13px', color: '#0f172a', wordBreak: 'break-word' }}>{children || '—'}</div>
     </div>
   );
@@ -107,7 +107,7 @@ export default function AdminPayments() {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', marginBottom: '20px' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 850, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <CreditCard size={22} color="#c59b27" /> Payments
           </h1>
           <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#64748b' }}>
@@ -124,7 +124,7 @@ export default function AdminPayments() {
               style={{ padding: '8px 10px 8px 32px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', width: '240px' }}
             />
           </div>
-          <button type="submit" style={{ padding: '8px 14px', borderRadius: '8px', border: 'none', background: '#0f172a', color: '#f8fafc', fontWeight: 600, fontSize: '13px', cursor: 'pointer' }}>
+          <button type="submit" style={{ padding: '8px 14px', borderRadius: '8px', border: 'none', background: '#0f172a', color: '#f8fafc', fontWeight: 650, fontSize: '13px', cursor: 'pointer' }}>
             Search
           </button>
         </form>
@@ -145,7 +145,7 @@ export default function AdminPayments() {
                 border: `1px solid ${active ? '#0f172a' : '#cbd5e1'}`,
                 background: active ? '#0f172a' : '#ffffff',
                 color: active ? '#f8fafc' : '#334155',
-                fontWeight: 600,
+                fontWeight: 650,
                 fontSize: '12px',
                 cursor: 'pointer'
               }}
@@ -251,7 +251,7 @@ export default function AdminPayments() {
                               href={`https://www.google.com/maps?q=${payment.customer.location.latitude},${payment.customer.location.longitude}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              style={{ color: '#1d4ed8', fontWeight: 600 }}
+                              style={{ color: '#1d4ed8', fontWeight: 650 }}
                             >
                               Open in Google Maps
                             </a>
@@ -289,7 +289,7 @@ export default function AdminPayments() {
                       <button
                         onClick={() => recheck(payment)}
                         disabled={recheckingId === payment._id}
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', fontSize: '12px', fontWeight: 650, cursor: 'pointer' }}
                       >
                         <RefreshCw size={13} /> {recheckingId === payment._id ? 'Checking with Razorpay...' : 'Re-check with Razorpay'}
                       </button>

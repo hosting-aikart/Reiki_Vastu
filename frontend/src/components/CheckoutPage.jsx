@@ -310,7 +310,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
           <ArrowLeft size={16} /> Back to product
         </button>
 
-        <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 800, color: '#3b0a11', margin: '12px 0 20px' }}>
+        <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
           Checkout
         </h1>
 
@@ -340,14 +340,14 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                 />
               )}
               <div>
-                <h2 style={{ fontSize: '19px', fontWeight: 800, color: '#3b0a11', margin: '0 0 4px' }}>{product.name}</h2>
+                <h2 style={{ fontSize: '19px', fontWeight: 850, color: '#3b0a11', margin: '0 0 4px' }}>{product.name}</h2>
                 <p style={{ fontSize: '14px', color: '#5e2732', margin: 0 }}>{product.description}</p>
               </div>
             </div>
 
             <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 8px', fontSize: '15px' }}>
               <dt style={{ color: '#475569' }}>Price</dt>
-              <dd style={{ margin: 0, fontWeight: 600 }}>{formatPaise(product.unitPricePaise)}</dd>
+              <dd style={{ margin: 0, fontWeight: 650 }}>{formatPaise(product.unitPricePaise)}</dd>
 
               <dt style={{ color: '#475569' }}>
                 <label htmlFor="checkout-quantity">Quantity</label>
@@ -366,8 +366,8 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                 </select>
               </dd>
 
-              <dt style={{ fontWeight: 800, color: '#3b0a11', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>Total</dt>
-              <dd style={{ margin: 0, fontWeight: 800, fontSize: '19px', color: '#D2042D', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>
+              <dt style={{ fontWeight: 850, color: '#3b0a11', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>Total</dt>
+              <dd style={{ margin: 0, fontWeight: 850, fontSize: '19px', color: '#D2042D', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>
                 {formatPaise(product.unitPricePaise * quantity)}
               </dd>
             </dl>
@@ -378,7 +378,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
             )}
 
             {/* ── Delivery details ── */}
-            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
+            <h3 style={{ fontSize: '16px', fontWeight: 850, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
 
             {/* ── Optional live location ── */}
             <div style={{ background: '#fffaf0', border: '1px solid #f1e5c4', borderRadius: '12px', padding: '14px 16px', marginBottom: '16px' }}>
@@ -425,7 +425,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                       border: '1.5px solid #d4af37',
                       background: '#ffffff',
                       color: '#3b0a11',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       fontSize: '14px',
                       cursor: busy || location.status === 'locating' ? 'wait' : 'pointer'
                     }}
@@ -448,7 +448,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px 14px', marginBottom: '20px' }}>
               {FIELDS.map((field) => (
-                <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '13px', fontWeight: 600, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
+                <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '13px', fontWeight: 650, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
                   {field.label}
                   <input
                     name={field.key}
@@ -466,12 +466,12 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                       borderRadius: '10px',
                       border: `1.5px solid ${fieldErrors[field.key] ? '#dc2626' : '#e7d7b5'}`,
                       fontSize: '15px',
-                      fontWeight: 400,
+                      fontWeight: 450,
                       color: '#1e293b',
                       background: '#ffffff'
                     }}
                   />
-                  {fieldErrors[field.key] && <span style={{ color: '#b91c1c', fontWeight: 500 }}>{fieldErrors[field.key]}</span>}
+                  {fieldErrors[field.key] && <span style={{ color: '#b91c1c', fontWeight: 550 }}>{fieldErrors[field.key]}</span>}
                 </label>
               ))}
             </div>
@@ -497,7 +497,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                     <button
                       type="button"
                       onClick={() => onPaymentSubmitted(notice.statusToken)}
-                      style={{ background: 'none', border: 'none', padding: 0, color: '#1d4ed8', fontWeight: 700, textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}
+                      style={{ background: 'none', border: 'none', padding: 0, color: '#1d4ed8', fontWeight: 750, textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}
                     >
                       Check payment status
                     </button>

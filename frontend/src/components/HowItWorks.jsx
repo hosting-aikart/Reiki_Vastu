@@ -62,7 +62,7 @@ export default function HowItWorks() {
                     <span
                       style={{
                         fontSize: '11px',
-                        fontWeight: 700,
+                        fontWeight: 750,
                         letterSpacing: '0.14em',
                         color: '#fbbf24',
                         textTransform: 'uppercase',
@@ -88,7 +88,7 @@ export default function HowItWorks() {
                             padding: '4px 12px',
                             borderRadius: '50px',
                             fontSize: '12px',
-                            fontWeight: 600,
+                            fontWeight: 650,
                             color: '#fffdf9'
                           }}
                         >

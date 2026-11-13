@@ -80,7 +80,7 @@ export default function MarketplaceCarousel({ onCardClick }) {
                     }}
                   >
                     <IconComponent size={12} color="#fbbf24" />
-                    <span style={{ color: '#fffdf9', fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    <span style={{ color: '#fffdf9', fontSize: '11px', fontWeight: 750, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                       {card.badge}
                     </span>
                   </div>

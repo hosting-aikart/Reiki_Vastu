@@ -30,7 +30,7 @@ export default function ReikiTherapy({ onBookSession }) {
         <p
           style={{
             fontSize: '12px',
-            fontWeight: 800,
+            fontWeight: 850,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
             color: '#D2042D',
@@ -61,10 +61,10 @@ export default function ReikiTherapy({ onBookSession }) {
             lineHeight: 1.8,
             color: '#5e2732',
             margin: '0 0 16px',
-            fontWeight: 500
+            fontWeight: 550
           }}
         >
-          <strong style={{ color: '#b45309', fontWeight: 700 }}>Our best offers.</strong> Advocates believe that there is an energy field around
+          <strong style={{ color: '#b45309', fontWeight: 750 }}>Our best offers.</strong> Advocates believe that there is an energy field around
           the body and that disrupting it can lead to ailments. Reiki therapy aims to remedy these disruptions and the
           subsequent conditions. In Reiki treatment, practitioners will place their hands over various parts of a person's
           body and transfer healing energy.
@@ -75,12 +75,12 @@ export default function ReikiTherapy({ onBookSession }) {
             lineHeight: 1.8,
             color: '#5e2732',
             margin: '0 0 32px',
-            fontWeight: 500
+            fontWeight: 550
           }}
         >
           During a session, practitioners may focus their energy on the sources of specific conditions. Typically a single
           treatment session will last{' '}
-          <strong style={{ color: '#D2042D', fontWeight: 700, fontSize: '16.5px' }}>45–90 minutes</strong>.
+          <strong style={{ color: '#D2042D', fontWeight: 750, fontSize: '16.5px' }}>45–90 minutes</strong>.
         </p>
 
         {/* CTA Button */}

@@ -25,7 +25,7 @@ export default function Footer({ setCurrentView, openModal }) {
           {/* Column 1: Brand & Quick Links */}
           <div className="akf-col akf-col-brand">
             <h3 className="akf-brand-title">
-              REIKI &amp; VASTU WORLD
+              REIKI AND VAASTU WORLD
             </h3>
 
             <h4 className="akf-section-title">QUICK LINKS</h4>
@@ -97,7 +97,7 @@ export default function Footer({ setCurrentView, openModal }) {
               </a>
 
               <a
-                href="https://www.youtube.com/@reikiandvastuworld"
+                href="https://www.youtube.com/results?search_query=reiki+and+vastu+world"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
@@ -109,7 +109,7 @@ export default function Footer({ setCurrentView, openModal }) {
               </a>
 
               <a
-                href="https://www.instagram.com/vastuworld/?hl=en"
+                href="https://www.instagram.com/reikiandvaastuworld"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -136,14 +136,14 @@ export default function Footer({ setCurrentView, openModal }) {
               <div className="akf-detail-row">
                 <MapPin size={15} className="akf-row-icon" />
                 <span className="akf-row-text">
-                  <strong className="akf-highlight">Amravati:</strong> Sanjiwani Center, Khatri Complex, 1st Lane, Shop 4, Walcut Compound.
+                  <strong className="akf-highlight">Amravati:</strong> Sanjivani Reiki and Vaastu Center, Khatri Complex, 1st Lane, Shop 4, Walcut Compound.
                 </span>
               </div>
 
               <div className="akf-detail-row">
                 <MapPin size={15} className="akf-row-icon" />
                 <span className="akf-row-text">
-                  <strong className="akf-highlight">Nagpur:</strong> Reiki &amp; Vastu World, Near New English High School Mahal.
+                  <strong className="akf-highlight">Nagpur:</strong> Reiki and Vaastu World near Dharmpeth Mahila Urban Bank, near Radhekrishna Apartment, 1st Floor, Flat No. 102.
                 </span>
               </div>
 
@@ -175,18 +175,8 @@ export default function Footer({ setCurrentView, openModal }) {
 
             <div className="akf-hours-grid">
               <div className="akf-hour-item">
-                <span className="akf-day">Mon – Tue:</span>
-                <span className="akf-time">6am – 10pm</span>
-              </div>
-
-              <div className="akf-hour-item">
-                <span className="akf-day">Wed – Thu:</span>
-                <span className="akf-time">8am – 6pm</span>
-              </div>
-
-              <div className="akf-hour-item">
-                <span className="akf-day">Friday:</span>
-                <span className="akf-time">3pm – 8pm</span>
+                <span className="akf-day">Monday – Saturday:</span>
+                <span className="akf-time">12:00 PM – 8:00 PM</span>
               </div>
 
               <div className="akf-hour-item">
@@ -217,7 +207,7 @@ export default function Footer({ setCurrentView, openModal }) {
         {/* Bottom Bar: Copyright & Legal */}
         <div className="akf-bottom-bar">
           <div className="akf-copyright">
-            © 1995–2026 <strong className="akf-brand-bold">Reiki &amp; Vastu World</strong>. Founded by Dr. Naresh Chhabdiya.
+            © 1995–2026 <strong className="akf-brand-bold">Reiki and Vaastu World</strong>. Founded by Dr. Naresh Chhabdiya.
           </div>
 
             <span className="akf-legal-item">Privacy Policy</span>

@@ -28,7 +28,7 @@ export default function BecomeSellerView({ onBackToHome }) {
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
             PRACTITIONER ONBOARDING &amp; CERTIFICATION
           </p>
-          <h1 className="ff-redhat" style={{ fontSize: '38px', fontWeight: 700, margin: '0 0 12px', color: '#3b0a11' }}>
+          <h1 className="ff-redhat" style={{ fontSize: '38px', fontWeight: 750, margin: '0 0 12px', color: '#3b0a11' }}>
             Become a Certified Healer &amp; Vastu Consultant
           </h1>
           <p style={{ color: '#784450', fontSize: '16px', lineHeight: 1.6, margin: 0 }}>
@@ -65,10 +65,10 @@ export default function BecomeSellerView({ onBackToHome }) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: step.color }}>{step.num}</span>
+                  <span style={{ fontSize: '12px', fontWeight: 750, color: step.color }}>{step.num}</span>
                   {isCompleted && <CheckCircle2 size={16} color="#16a34a" />}
                 </div>
-                <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#3b0a11' }}>{step.title}</div>
+                <div style={{ fontSize: '13.5px', fontWeight: 750, color: '#3b0a11' }}>{step.title}</div>
                 <div style={{ fontSize: '11px', color: '#8c5360', marginTop: '2px' }}>{step.subtitle}</div>
               </div>
             );
@@ -107,7 +107,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                 <CheckCircle2 size={38} />
               </div>
 
-              <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 700, color: '#3b0a11', margin: '0 0 10px' }}>
+              <h2 className="ff-redhat" style={{ fontSize: '26px', fontWeight: 750, color: '#3b0a11', margin: '0 0 10px' }}>
                 Application Received Successfully!
               </h2>
 
@@ -126,10 +126,10 @@ export default function BecomeSellerView({ onBackToHome }) {
                   textAlign: 'left'
                 }}
               >
-                <p style={{ margin: '0 0 6px', fontSize: '13px', color: '#881337', fontWeight: 700 }}>
+                <p style={{ margin: '0 0 6px', fontSize: '13px', color: '#881337', fontWeight: 750 }}>
                   ✦ Immediate Questions? Call Center Directly:
                 </p>
-                <p style={{ margin: 0, fontSize: '14px', color: '#3b0a11', fontWeight: 600 }}>
+                <p style={{ margin: 0, fontSize: '14px', color: '#3b0a11', fontWeight: 650 }}>
                   Amravati / Nagpur Helpline: +91 8446656677 / 9423424596
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                 <span
                   style={{
                     fontSize: '11px',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     letterSpacing: '0.14em',
                     textTransform: 'uppercase',
                     color: '#dc2626',
@@ -161,7 +161,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                 >
                   Practitioner Application Form
                 </span>
-                <h3 className="ff-redhat" style={{ fontSize: '22px', fontWeight: 700, color: '#3b0a11', margin: '12px 0 4px' }}>
+                <h3 className="ff-redhat" style={{ fontSize: '22px', fontWeight: 750, color: '#3b0a11', margin: '12px 0 4px' }}>
                   Begin Your Journey of Sacred Mastery
                 </h3>
                 <p style={{ color: '#784450', fontSize: '13.5px', margin: 0 }}>
@@ -170,7 +170,7 @@ export default function BecomeSellerView({ onBackToHome }) {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                   Full Name *
                 </label>
                 <input
@@ -195,7 +195,7 @@ export default function BecomeSellerView({ onBackToHome }) {
 
               <div className="modal-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                     Phone / WhatsApp Number *
                   </label>
                   <input
@@ -219,7 +219,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                     Your City &amp; State *
                   </label>
                   <input
@@ -244,7 +244,7 @@ export default function BecomeSellerView({ onBackToHome }) {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                   Modality / Course of Interest *
                 </label>
                 <select
@@ -260,7 +260,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                     fontSize: '14px',
                     color: '#3b0a11',
                     outline: 'none',
-                    fontWeight: 600
+                    fontWeight: 650
                   }}
                 >
                   <option>Reiki Energy Healing (Levels 1 to Grandmaster)</option>
@@ -277,7 +277,7 @@ export default function BecomeSellerView({ onBackToHome }) {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                   Your Current Experience Level
                 </label>
                 <select
@@ -304,7 +304,7 @@ export default function BecomeSellerView({ onBackToHome }) {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, color: '#3b0a11', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                   Any Specific Question or Intention for Dr. Naresh?
                 </label>
                 <textarea
@@ -328,7 +328,7 @@ export default function BecomeSellerView({ onBackToHome }) {
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fef2f2', padding: '10px 14px', borderRadius: '12px', border: '1px solid #fecaca' }}>
                 <ShieldCheck size={18} color="#dc2626" style={{ flexShrink: 0 }} />
-                <span style={{ fontSize: '12.5px', color: '#881337', fontWeight: 600 }}>
+                <span style={{ fontSize: '12.5px', color: '#881337', fontWeight: 650 }}>
                   Includes Lifetime Free Entry to ongoing alumni meditation circles and personal mentorship by Dr. Naresh Chhabdiya.
                 </span>
               </div>

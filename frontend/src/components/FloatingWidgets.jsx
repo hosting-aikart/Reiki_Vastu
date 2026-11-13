@@ -35,10 +35,10 @@ export default function FloatingWidgets({ openModal }) {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
             <div>
-              <p style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#dc2626', letterSpacing: '0.04em' }}>
+              <p style={{ margin: 0, fontSize: '13px', fontWeight: 750, color: '#dc2626', letterSpacing: '0.04em' }}>
                 ✦ NAMASTE &amp; BLESSINGS
               </p>
-              <h3 style={{ margin: '4px 0 0', fontSize: '17px', fontWeight: 700, color: '#3b0a11' }}>
+              <h3 style={{ margin: '4px 0 0', fontSize: '17px', fontWeight: 750, color: '#3b0a11' }}>
                 How can we assist you today?
               </h3>
             </div>
@@ -82,7 +82,7 @@ export default function FloatingWidgets({ openModal }) {
                 border: 'none',
                 padding: '11px 18px',
                 fontSize: '13px',
-                fontWeight: 700,
+                fontWeight: 750,
                 color: '#3b0a11',
                 cursor: 'pointer',
                 textAlign: 'left',
@@ -109,7 +109,7 @@ export default function FloatingWidgets({ openModal }) {
                 border: 'none',
                 padding: '11px 18px',
                 fontSize: '13px',
-                fontWeight: 700,
+                fontWeight: 750,
                 color: '#1a1a1a',
                 cursor: 'pointer',
                 textDecoration: 'none',
@@ -139,7 +139,7 @@ export default function FloatingWidgets({ openModal }) {
                 border: 'none',
                 padding: '11px 18px',
                 fontSize: '13px',
-                fontWeight: 700,
+                fontWeight: 750,
                 color: '#3b0a11',
                 cursor: 'pointer',
                 textAlign: 'left',

@@ -82,7 +82,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
     <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {/* Page Title */}
       <div>
-        <h1 style={{ margin: '0 0 6px', fontSize: '24px', fontWeight: 700, color: '#111827' }}>
+        <h1 style={{ margin: '0 0 6px', fontSize: '24px', fontWeight: 750, color: '#111827' }}>
           Center Operations Overview
         </h1>
         <p style={{ margin: 0, color: '#6b7280', fontSize: '14px' }}>
@@ -126,7 +126,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#4b5563' }}>{c.title}</span>
+                <span style={{ fontSize: '13px', fontWeight: 650, color: '#4b5563' }}>{c.title}</span>
                 <div
                   style={{
                     width: '38px',
@@ -143,12 +143,12 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
               </div>
 
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>{c.value}</span>
+                <span style={{ fontSize: '28px', fontWeight: 850, color: '#111827' }}>{c.value}</span>
                 {c.badge && (
                   <span
                     style={{
                       fontSize: '11px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       padding: '3px 8px',
                       borderRadius: '999px',
                       background: c.bg,
@@ -184,7 +184,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
           }}
         >
           <div>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#111827' }}>
+            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 750, color: '#111827' }}>
               Recent Submissions
             </h2>
             <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#6b7280' }}>
@@ -197,7 +197,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
               background: 'none',
               border: 'none',
               color: '#c59b27',
-              fontWeight: 600,
+              fontWeight: 650,
               fontSize: '13px',
               display: 'flex',
               alignItems: 'center',
@@ -239,7 +239,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                       borderRadius: '50%',
                       background: '#fef3c7',
                       color: '#92400e',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       fontSize: '14px',
                       display: 'flex',
                       alignItems: 'center',
@@ -250,7 +250,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>{item.name}</span>
+                      <span style={{ fontSize: '14px', fontWeight: 650, color: '#111827' }}>{item.name}</span>
                       <span style={{ fontSize: '12px', color: '#6b7280' }}>({item.reference})</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '2px', fontSize: '12px', color: '#6b7280' }}>
@@ -267,7 +267,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                   <span
                     style={{
                       fontSize: '11px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       textTransform: 'uppercase',
                       padding: '3px 8px',
                       borderRadius: '4px',

@@ -51,7 +51,7 @@ export default function PaymentResult({ variant: variantKey, payment, polling, o
   return (
     <div style={{ ...cardStyle, textAlign: 'center' }} aria-live="polite">
       <Icon size={44} color={variant.color} style={{ marginBottom: '10px' }} />
-      <h2 style={{ fontSize: '22px', fontWeight: 800, color: variant.color, margin: '0 0 8px' }}>{variant.title}</h2>
+      <h2 style={{ fontSize: '22px', fontWeight: 850, color: variant.color, margin: '0 0 8px' }}>{variant.title}</h2>
       <p style={{ color: '#5e2732', fontSize: '14px', lineHeight: 1.6, margin: '0 auto 18px', maxWidth: '480px' }}>
         {variant.text}
       </p>
@@ -67,11 +67,11 @@ export default function PaymentResult({ variant: variantKey, payment, polling, o
       )}
 
       <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '6px 16px', textAlign: 'left', maxWidth: '380px', margin: '0 auto 22px', fontSize: '14px' }}>
-        <dt style={{ fontWeight: 700, color: '#475569' }}>Reference</dt>
+        <dt style={{ fontWeight: 750, color: '#475569' }}>Reference</dt>
         <dd style={{ margin: 0 }}>{payment.reference}</dd>
-        <dt style={{ fontWeight: 700, color: '#475569' }}>Product</dt>
+        <dt style={{ fontWeight: 750, color: '#475569' }}>Product</dt>
         <dd style={{ margin: 0 }}>{payment.product.name} × {payment.quantity}</dd>
-        <dt style={{ fontWeight: 700, color: '#475569' }}>Amount</dt>
+        <dt style={{ fontWeight: 750, color: '#475569' }}>Amount</dt>
         <dd style={{ margin: 0 }}>{formatPaise(payment.amountPaise)}</dd>
       </dl>
 

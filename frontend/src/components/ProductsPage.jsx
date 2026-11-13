@@ -85,7 +85,7 @@ export default function ProductsPage({ onSelectProduct }) {
                     gap: '6px',
                     fontFamily: 'var(--font-karla)',
                     fontSize: '12.5px',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     color: '#b5091f',
                     letterSpacing: '0.04em'
                   }}

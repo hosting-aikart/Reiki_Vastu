@@ -196,7 +196,7 @@ export default function VideoTestimonials({ onAddStory }) {
                       margin: '0 0 26px',
                       fontFamily: "var(--font-cormorant)",
                       fontSize: '18.5px',
-                      fontWeight: 500,
+                      fontWeight: 550,
                       lineHeight: 1.65,
                       color: '#3b2119'
                     }}
@@ -214,7 +214,7 @@ export default function VideoTestimonials({ onAddStory }) {
                     color: '#7c5652'
                   }}
                 >
-                  <strong style={{ fontWeight: 700, color: '#2b161b' }}>- {item.name}</strong>
+                  <strong style={{ fontWeight: 750, color: '#2b161b' }}>- {item.name}</strong>
                   {item.location ? ` · ${item.location}` : ''}
                   {item.role ? ` · ${item.role}` : ''}
                 </p>

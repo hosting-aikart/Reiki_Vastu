@@ -1,0 +1,928 @@
+/* ═══════════════════════════════════════════════════════════
+   UPCOMING EVENTS PAGE  (prefix: ev-)
+   Layout follows the event poster design; colours and type are
+   the site's own: crimson / wine / gold on warm cream, with
+   Cormorant Garamond display type, Cinzel caps and Karla text.
+   ═══════════════════════════════════════════════════════════ */
+.ev-page {
+  --ev-crimson: #b5091f;
+  --ev-crimson-deep: #7a0614;
+  --ev-wine: #3b0a11;
+  --ev-gold: #c99a3c;
+  --ev-gold-deep: #855b16;
+  --ev-gold-light: #f7dca0;
+  --ev-cream: #fdf8f1;
+  --ev-text: #4a3036;
+  --ev-display: 'Cormorant Garamond', Georgia, serif;
+  --ev-caps: 'Cinzel', 'Cormorant Garamond', serif;
+  --ev-body: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ev-card-border: 1px solid rgba(201, 154, 60, 0.38);
+  --ev-card-shadow: 0 14px 40px rgba(122, 6, 20, 0.07);
+
+  padding: 96px 0 clamp(56px, 7vw, 88px);
+  overflow-x: hidden;
+  color: var(--ev-text);
+  font-family: var(--ev-body);
+  /* Cormorant's default old-style figures make prices and dates look uneven */
+  font-variant-numeric: lining-nums;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(247, 220, 160, 0.45) 0%, rgba(247, 220, 160, 0) 70%),
+    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(181, 9, 31, 0.06) 0%, rgba(181, 9, 31, 0) 70%),
+    linear-gradient(180deg, #fff9f0 0%, var(--ev-cream) 40%, #fbf1e4 100%);
+}
+
+.ev-page *,
+.ev-page *::before,
+.ev-page *::after {
+  box-sizing: border-box;
+}
+
+.ev-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ev-container {
+  width: min(100% - 32px, 1180px);
+  margin-inline: auto;
+}
+
+.ev-event + .ev-event {
+  margin-top: 72px;
+  padding-top: 72px;
+  border-top: var(--ev-card-border);
+}
+
+/* ── Buttons ── */
+.ev-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-family: var(--ev-body);
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease, background 0.25s ease;
+}
+
+.ev-btn-arrow {
+  transition: transform 0.25s ease;
+}
+
+.ev-btn:hover .ev-btn-arrow {
+  transform: translateX(4px);
+}
+
+.ev-btn--crimson {
+  background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(181, 9, 31, 0.3);
+}
+
+.ev-btn--crimson:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(181, 9, 31, 0.4);
+}
+
+.ev-btn--gold {
+  background: linear-gradient(135deg, #fbe6b4 0%, #e6bf6c 48%, #c99a3c 100%);
+  color: var(--ev-wine);
+  border-color: rgba(133, 91, 22, 0.35);
+  box-shadow: 0 10px 24px rgba(133, 91, 22, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  font-family: var(--ev-display);
+  font-size: 20px;
+  font-weight: 700;
+  padding: 10px 32px;
+}
+
+.ev-btn--gold:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.ev-btn--outline {
+  background: #fff;
+  color: var(--ev-crimson);
+  border-color: rgba(181, 9, 31, 0.45);
+}
+
+.ev-btn--outline:hover {
+  background: #fff3f4;
+  border-color: var(--ev-crimson);
+  transform: translateY(-2px);
+}
+
+/* ── Decorative rules ── */
+.ev-lotus-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 14px auto;
+}
+
+.ev-lotus-rule img {
+  width: 34px;
+  height: auto;
+}
+
+.ev-lotus-rule-line {
+  width: clamp(48px, 8vw, 90px);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 154, 60, 0), var(--ev-gold));
+}
+
+.ev-lotus-rule-line:last-child {
+  background: linear-gradient(270deg, rgba(201, 154, 60, 0), var(--ev-gold));
+}
+
+.ev-lotus-rule--left {
+  justify-content: flex-start;
+  margin: 4px 0 18px;
+}
+
+.ev-lotus-rule--left .ev-lotus-rule-line:first-child {
+  display: none;
+}
+
+.ev-lotus-rule--tight {
+  margin: -6px auto 26px;
+}
+
+.ev-script-heading {
+  margin: 0;
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(30px, 3.4vw, 42px);
+  line-height: 1.1;
+  color: var(--ev-crimson);
+}
+
+.ev-ruled-heading {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.ev-ruled-heading h3 {
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.ev-ruled-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 154, 60, 0), var(--ev-gold));
+}
+
+.ev-ruled-line:last-child {
+  background: linear-gradient(270deg, rgba(201, 154, 60, 0), var(--ev-gold));
+}
+
+/* ═════════ 1. HERO ═════════ */
+.ev-hero {
+  padding: 18px 0 8px;
+}
+
+.ev-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(12px, 2vw, 28px);
+}
+
+.ev-hero-portrait {
+  margin: 0;
+  align-self: end;
+}
+
+.ev-hero-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+  /* Feather the photo into the cream page instead of a hard edge */
+  -webkit-mask-image: radial-gradient(ellipse 60% 58% at 52% 44%, #000 42%, transparent 100%);
+  mask-image: radial-gradient(ellipse 60% 58% at 52% 44%, #000 42%, transparent 100%);
+}
+
+.ev-hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ev-hero-lotus {
+  width: 62px;
+  height: auto;
+  margin-bottom: 4px;
+}
+
+.ev-hero-org {
+  margin: 0;
+  font-family: var(--ev-display);
+  font-weight: 700;
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.15;
+  color: var(--ev-wine);
+}
+
+.ev-hero-since {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 14px;
+  font-family: var(--ev-caps);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--ev-gold-deep);
+}
+
+.ev-hero-since-line {
+  width: 46px;
+  height: 1px;
+  background: var(--ev-gold);
+}
+
+.ev-hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  line-height: 1;
+}
+
+/* "Online" on a crimson brush stroke */
+.ev-hero-kicker {
+  position: relative;
+  z-index: 1;
+  padding: 4px 30px 6px;
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(26px, 2.6vw, 34px);
+  color: #fff;
+}
+
+.ev-hero-kicker::before {
+  content: '';
+  position: absolute;
+  inset: 4px 0 2px;
+  z-index: -1;
+  background: linear-gradient(100deg, rgba(181, 9, 31, 0) 0%, rgba(181, 9, 31, 0.92) 12%, #9b0718 55%, rgba(155, 7, 24, 0.9) 88%, rgba(155, 7, 24, 0) 100%);
+  border-radius: 40% 55% 45% 60% / 60% 45% 55% 40%;
+  transform: skewX(-12deg) rotate(-2deg);
+}
+
+/* Big "Reiki" */
+.ev-hero-main {
+  margin: -4px 0 -10px;
+  padding: 0 0.08em;
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(88px, 10vw, 148px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  background: linear-gradient(180deg, #c8102e 0%, #9b0718 55%, #6b0512 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 3px 6px rgba(122, 6, 20, 0.18));
+}
+
+/* "1st Level Workshop" on a gold ribbon */
+.ev-hero-ribbon {
+  position: relative;
+  display: inline-block;
+  padding: 10px 46px 12px;
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(26px, 2.9vw, 38px);
+  color: var(--ev-wine);
+  background: linear-gradient(180deg, #fbe6b4 0%, #e9c573 45%, #cfa14a 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(133, 91, 22, 0.45);
+  box-shadow: 0 10px 22px rgba(133, 91, 22, 0.25);
+  transform: rotate(-2deg);
+  clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 4% 50%);
+}
+
+.ev-hero-tagline {
+  max-width: 360px;
+  margin: 22px 0 0;
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(19px, 1.7vw, 23px);
+  line-height: 1.35;
+  color: var(--ev-wine);
+}
+
+.ev-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.ev-hero-actions .ev-btn {
+  padding: 11px 20px;
+  font-size: 15px;
+}
+
+.ev-hero-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Anniversary medallion: wine disc with a double gold ring */
+.ev-medallion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: clamp(170px, 16vw, 214px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  background: radial-gradient(circle at 35% 30%, #8a1022 0%, #5a0a18 55%, var(--ev-wine) 100%);
+  border: 4px solid #e2b860;
+  box-shadow:
+    0 0 0 3px #fdf8f1,
+    0 0 0 6px var(--ev-gold),
+    0 18px 38px rgba(59, 10, 17, 0.32);
+}
+
+.ev-medallion-top,
+.ev-medallion-bottom {
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.15;
+}
+
+.ev-medallion-bottom {
+  max-width: 70%;
+}
+
+.ev-medallion-num {
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(56px, 5.4vw, 74px);
+  line-height: 0.95;
+  background: linear-gradient(180deg, #fff3cf 0%, #f2cf7c 45%, #c99a3c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ev-hero-yogi {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+}
+
+/* ═════════ 2. WORKSHOP BENEFITS ═════════ */
+.ev-benefits-wrap {
+  /* leaves room for the "Workshop Benefits" pill, which sits half above the card */
+  margin-top: 64px;
+}
+
+.ev-benefits-card {
+  position: relative;
+  padding: 0 clamp(14px, 2vw, 28px) 26px;
+  background: rgba(255, 255, 255, 0.7);
+  border: var(--ev-card-border);
+  border-radius: 30px;
+  box-shadow: var(--ev-card-shadow);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.ev-pill-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transform: translateY(-50%);
+}
+
+.ev-pill-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(201, 154, 60, 0), var(--ev-gold));
+}
+
+.ev-pill-line:last-child {
+  background: linear-gradient(270deg, rgba(201, 154, 60, 0), var(--ev-gold));
+}
+
+.ev-pill {
+  margin: 0;
+  padding: 8px 34px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c8102e 0%, #8a0617 100%);
+  border: 2px solid #e2b860;
+  box-shadow: 0 8px 20px rgba(122, 6, 20, 0.25);
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.1;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.ev-benefits {
+  list-style: none;
+  margin: -6px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.ev-benefit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  text-align: center;
+  font-family: var(--ev-display);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--ev-wine);
+}
+
+.ev-benefit + .ev-benefit {
+  border-left: 1px solid rgba(201, 154, 60, 0.35);
+}
+
+.ev-benefit svg {
+  color: var(--ev-crimson);
+}
+
+/* ═════════ 3. DETAILS + ABOUT ═════════ */
+.ev-about {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: 56px;
+}
+
+.ev-facts-card {
+  margin: 0;
+  display: grid;
+  gap: 22px;
+  padding: 30px 32px;
+  background: rgba(255, 255, 255, 0.78);
+  border: var(--ev-card-border);
+  border-radius: 26px;
+  box-shadow: var(--ev-card-shadow);
+}
+
+.ev-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.ev-fact svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--ev-crimson);
+}
+
+.ev-fact dt {
+  font-family: var(--ev-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ev-wine);
+}
+
+.ev-fact dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--ev-display);
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--ev-wine);
+}
+
+.ev-fact dd strong {
+  font-size: clamp(22px, 2vw, 26px);
+  font-weight: 700;
+  color: var(--ev-crimson);
+}
+
+.ev-about-text {
+  position: relative;
+  z-index: 1;
+  padding-right: clamp(0px, 16vw, 230px);
+}
+
+.ev-about-text p {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ev-text);
+}
+
+.ev-about-text .ev-btn {
+  margin-top: 8px;
+}
+
+.ev-about-art {
+  position: absolute;
+  right: -40px;
+  bottom: -30px;
+  z-index: 0;
+  width: clamp(200px, 24vw, 320px);
+  height: auto;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 55% 60%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 55% 60%, #000 45%, transparent 100%);
+}
+
+/* ═════════ 4. WHAT TO EXPECT ═════════ */
+.ev-expect {
+  margin-top: 72px;
+}
+
+.ev-expect-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ev-expect-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 18px 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.72);
+  border: var(--ev-card-border);
+  border-radius: 20px;
+  box-shadow: var(--ev-card-shadow);
+  font-family: var(--ev-display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.25;
+  color: var(--ev-wine);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ev-expect-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 44px rgba(122, 6, 20, 0.12);
+}
+
+.ev-expect-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  color: var(--ev-crimson);
+  background: radial-gradient(circle, #fff 0%, #fdf1dd 100%);
+  border: 1px solid rgba(201, 154, 60, 0.5);
+}
+
+/* ═════════ 5. OFFER BAND ═════════ */
+.ev-offer-wrap {
+  margin-top: 64px;
+}
+
+.ev-offer {
+  display: grid;
+  grid-template-columns: 1fr auto 1.3fr auto 1fr;
+  align-items: center;
+  gap: clamp(14px, 3vw, 36px);
+  padding: 24px clamp(22px, 4vw, 56px);
+  border-radius: 999px;
+  color: #fff;
+  background:
+    radial-gradient(ellipse 60% 120% at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(120deg, #3b0a11 0%, #7a0614 48%, #9b0718 100%);
+  border: 3px solid #e2b860;
+  box-shadow: 0 0 0 4px #fdf8f1, 0 0 0 6px rgba(201, 154, 60, 0.6), 0 20px 46px rgba(59, 10, 17, 0.3);
+}
+
+.ev-offer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ev-offer-label {
+  margin: 0;
+  font-family: var(--ev-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px;
+  color: #f8e3bb;
+}
+
+.ev-offer-label--light {
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(22px, 2.2vw, 28px);
+  color: #fff;
+}
+
+.ev-offer-actual s {
+  font-family: var(--ev-display);
+  font-weight: 700;
+  font-size: clamp(30px, 3vw, 40px);
+  color: #f8e3bb;
+  text-decoration-color: #ff5a6e;
+  text-decoration-thickness: 3px;
+}
+
+.ev-offer-special strong {
+  font-family: var(--ev-display);
+  font-weight: 700;
+  font-size: clamp(56px, 6vw, 80px);
+  line-height: 1;
+  background: linear-gradient(180deg, #fff3cf 0%, #f2cf7c 50%, #d7a648 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ev-offer-save {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #f8e3bb;
+}
+
+.ev-offer-divider {
+  width: 1.5px;
+  height: 84px;
+  background: linear-gradient(180deg, rgba(226, 184, 96, 0), #e2b860, rgba(226, 184, 96, 0));
+}
+
+.ev-contact-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 10px;
+  margin: 28px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ev-wine);
+}
+
+.ev-contact-line svg {
+  color: var(--ev-crimson);
+}
+
+.ev-phones {
+  display: inline-flex;
+  gap: 8px;
+  color: var(--ev-gold-deep);
+}
+
+.ev-phones a {
+  color: var(--ev-crimson);
+  font-weight: 800;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(181, 9, 31, 0.4);
+}
+
+.ev-phones a:hover {
+  border-bottom-style: solid;
+}
+
+/* ── No upcoming events ── */
+.ev-empty {
+  padding: 60px 0 20px;
+  text-align: center;
+}
+
+.ev-empty img {
+  width: 70px;
+}
+
+.ev-empty h2 {
+  margin: 10px 0 8px;
+  font-family: var(--ev-display);
+  font-size: 34px;
+  color: var(--ev-crimson);
+}
+
+.ev-empty a {
+  color: var(--ev-crimson);
+  font-weight: 700;
+}
+
+/* ═════════ RESPONSIVE ═════════ */
+
+/* Tablet: title on top, the two pictures side by side beneath it */
+@media (max-width: 1024px) {
+  .ev-hero-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'center center'
+      'portrait side';
+  }
+
+  .ev-hero-center { grid-area: center; }
+  .ev-hero-portrait { grid-area: portrait; justify-self: center; }
+  .ev-hero-side { grid-area: side; }
+
+  .ev-benefits {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 22px;
+  }
+
+  .ev-benefit:nth-child(3n + 1) {
+    border-left: 0;
+  }
+
+  .ev-about {
+    grid-template-columns: 1fr;
+  }
+
+  .ev-about-text {
+    padding-right: 0;
+  }
+
+  .ev-about-art {
+    display: none;
+  }
+
+  .ev-expect-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ev-offer {
+    grid-template-columns: 1fr auto 1.3fr;
+    border-radius: 40px;
+  }
+
+  .ev-offer > .ev-offer-divider:nth-of-type(2),
+  .ev-offer > .ev-offer-col:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .ev-offer > .ev-offer-divider:nth-of-type(2) {
+    display: none;
+  }
+}
+
+/* Phone */
+@media (max-width: 640px) {
+  .ev-page {
+    padding-top: 88px;
+  }
+
+  .ev-hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 6px;
+  }
+
+  .ev-hero-main {
+    font-size: clamp(76px, 24vw, 104px);
+  }
+
+  .ev-hero-ribbon {
+    padding: 8px 30px 10px;
+  }
+
+  .ev-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .ev-medallion {
+    width: 138px;
+  }
+
+  .ev-medallion-top,
+  .ev-medallion-bottom {
+    font-size: 15px;
+  }
+
+  .ev-medallion-num {
+    font-size: 48px;
+  }
+
+  .ev-hero-yogi {
+    max-width: 170px;
+  }
+
+  .ev-benefits-wrap {
+    margin-top: 52px;
+  }
+
+  .ev-pill {
+    padding: 7px 22px 9px;
+  }
+
+  .ev-benefits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ev-benefit {
+    font-size: 16.5px;
+  }
+
+  .ev-benefit:nth-child(3n + 1) {
+    border-left: 1px solid rgba(201, 154, 60, 0.35);
+  }
+
+  .ev-benefit:nth-child(2n + 1) {
+    border-left: 0;
+  }
+
+  .ev-facts-card {
+    padding: 24px 20px;
+  }
+
+  .ev-ruled-heading {
+    gap: 12px;
+  }
+
+  .ev-expect-grid {
+    gap: 12px;
+  }
+
+  .ev-expect-card {
+    padding: 20px 12px;
+    font-size: 17px;
+  }
+
+  .ev-offer {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 26px 20px;
+    border-radius: 28px;
+  }
+
+  .ev-offer-divider {
+    display: none;
+  }
+
+  .ev-offer .ev-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-btn,
+  .ev-btn-arrow,
+  .ev-expect-card {
+    transition: none;
+  }
+}
+
+/* Tablet: date, time and mode side by side instead of a wide, half-empty card */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .ev-facts-card {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -26,15 +26,15 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                 />
               </div>
 
-              <h3 className="ff-cinzel" style={{ fontSize: 'clamp(20px, 2.2vw, 24px)', fontWeight: 800, color: '#1a1a1a', margin: '0 0 6px' }}>
+              <h3 className="ff-cinzel" style={{ fontSize: 'clamp(20px, 2.2vw, 24px)', fontWeight: 850, color: '#1a1a1a', margin: '0 0 6px' }}>
                 Dr. Naresh Chhabdiya
               </h3>
-              <p style={{ fontSize: '13.5px', color: '#b45309', fontWeight: 700, margin: '0 0 14px', letterSpacing: '0.04em' }}>
+              <p style={{ fontSize: '13.5px', color: '#b45309', fontWeight: 750, margin: '0 0 14px', letterSpacing: '0.04em' }}>
                 Doctor by Profession • Motivational Speaker • Reiki Grandmaster
               </p>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fef2f4', border: '1px solid #fecaca', padding: '6px 14px', borderRadius: '50px' }}>
                 <Award size={16} color="#D2042D" />
-                <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#88021e' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 750, color: '#88021e' }}>
                   Practicing Since 1995 • 31+ Years Experience
                 </span>
               </div>
@@ -47,18 +47,18 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                 style={{
                   color: '#D2042D',
                   marginBottom: '6px',
-                  fontWeight: 800,
+                  fontWeight: 850,
                   letterSpacing: '0.14em'
                 }}
               >
                 ABOUT OUR FOUNDER &amp; MISSION
               </p>
-              <h2 className="ff-redhat" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 700, color: '#1a1a1a', margin: '0 0 16px' }}>
+              <h2 className="ff-redhat" style={{ fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 750, color: '#1a1a1a', margin: '0 0 16px' }}>
                 Welcome to Reiki and Vaastu World
               </h2>
 
               <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#4a1923', margin: '0 0 16px' }}>
-                Dr. Naresh Chhabdiya has been practicing <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A doctor by profession and motivational mentor with centers in <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World was known as <strong>Sanjeevni Reiki and Vaastu Center</strong>.
+                Dr. Naresh Chhabdiya has been practicing <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A doctor by profession and motivational mentor with centers in <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World was known as <strong>Sanjivani Reiki and Vaastu Center</strong>.
               </p>
 
               <p
@@ -69,7 +69,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                   color: '#88021e',
                   fontSize: '15px',
                   lineHeight: 1.65,
-                  fontWeight: 500
+                  fontWeight: 550
                 }}
               >
                 “It’s been a beautiful journey with Reiki; it has subtly yet powerfully helped thousands hold their lives together, conquer illness, and achieve deep peace.”
@@ -99,7 +99,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                     border: '1.5px solid #d4af37',
                     background: '#ffffff',
                     color: '#3b0a11',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     fontSize: '13.5px',
                     textDecoration: 'none',
                     flexShrink: 0,

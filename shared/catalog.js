@@ -9,7 +9,7 @@
 /** Centres / meeting modes. */
 export const LOCATIONS = [
   { key: 'amravati', label: 'Amravati Center (Walcut Compound)', modeLabel: 'In-Person (Amravati Center)' },
-  { key: 'nagpur', label: 'Nagpur Center (Mahal)', modeLabel: 'In-Person (Nagpur Center)' },
+  { key: 'nagpur', label: 'Nagpur Center (Dharmpeth)', modeLabel: 'In-Person (Nagpur Center)' },
   { key: 'online', label: 'Online Video Consultation', modeLabel: 'Online Video Call (Zoom / Meet)' }
 ];
 
@@ -45,7 +45,7 @@ export const COURSES = [
   { key: 'dowsing', label: 'Dowsing' },
   { key: 'lama-fera', label: 'Lama-Fera' },
   { key: 'crystal-therapy', label: 'Crystal Therapy' },
-  { key: 'pyramid', label: 'Pyramid' },
+  { key: 'pyramid', label: 'Pyramid Therapy' },
   { key: 'numerology', label: 'Numerology' },
   { key: 'astrology', label: 'Astrology' },
   { key: 'rudraksha', label: 'Rudraksha' },

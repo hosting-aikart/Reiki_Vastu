@@ -100,7 +100,7 @@ export default function AdminDashboard({ onExitToSite }) {
         }}
       >
         <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', marginBottom: '12px', color: '#c59b27' }} />
-        <p style={{ margin: 0, fontWeight: 600 }}>Verifying administrator credentials...</p>
+        <p style={{ margin: 0, fontWeight: 650 }}>Verifying administrator credentials...</p>
       </div>
     );
   }
@@ -165,7 +165,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 />
               </div>
               <div>
-                <div style={{ fontWeight: 800, fontSize: '15px', color: '#f8fafc', letterSpacing: '-0.3px' }}>
+                <div style={{ fontWeight: 850, fontSize: '15px', color: '#f8fafc', letterSpacing: '-0.3px' }}>
                   Reiki & Vastu
                 </div>
                 <div style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -188,7 +188,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 border: 'none',
                 background: activeTab === 'overview' ? '#1e293b' : 'transparent',
                 color: activeTab === 'overview' ? '#f8fafc' : '#94a3b8',
-                fontWeight: activeTab === 'overview' ? 700 : 500,
+                fontWeight: activeTab === 'overview' ? 750 : 550,
                 fontSize: '13px',
                 cursor: 'pointer',
                 textAlign: 'left'
@@ -211,7 +211,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 border: 'none',
                 background: activeTab === 'enquiries' ? '#1e293b' : 'transparent',
                 color: activeTab === 'enquiries' ? '#f8fafc' : '#94a3b8',
-                fontWeight: activeTab === 'enquiries' ? 700 : 500,
+                fontWeight: activeTab === 'enquiries' ? 750 : 550,
                 fontSize: '13px',
                 cursor: 'pointer',
                 textAlign: 'left'
@@ -226,7 +226,7 @@ export default function AdminDashboard({ onExitToSite }) {
                   style={{
                     background: '#f59e0b',
                     color: '#0f172a',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     fontSize: '11px',
                     padding: '1px 6px',
                     borderRadius: '999px'
@@ -248,7 +248,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 border: 'none',
                 background: activeTab === 'testimonials' ? '#1e293b' : 'transparent',
                 color: activeTab === 'testimonials' ? '#f8fafc' : '#94a3b8',
-                fontWeight: activeTab === 'testimonials' ? 700 : 500,
+                fontWeight: activeTab === 'testimonials' ? 750 : 550,
                 fontSize: '13px',
                 cursor: 'pointer',
                 textAlign: 'left'
@@ -263,7 +263,7 @@ export default function AdminDashboard({ onExitToSite }) {
                   style={{
                     background: '#8b5cf6',
                     color: '#ffffff',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     fontSize: '11px',
                     padding: '1px 6px',
                     borderRadius: '999px'
@@ -285,7 +285,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 border: 'none',
                 background: activeTab === 'payments' ? '#1e293b' : 'transparent',
                 color: activeTab === 'payments' ? '#f8fafc' : '#94a3b8',
-                fontWeight: activeTab === 'payments' ? 700 : 500,
+                fontWeight: activeTab === 'payments' ? 750 : 550,
                 fontSize: '13px',
                 cursor: 'pointer',
                 textAlign: 'left'
@@ -312,14 +312,14 @@ export default function AdminDashboard({ onExitToSite }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: 700,
+                fontWeight: 750,
                 fontSize: '13px'
               }}
             >
               {admin.name ? admin.name[0] : 'A'}
             </div>
             <div style={{ overflow: 'hidden' }}>
-              <div style={{ fontSize: '13px', fontWeight: 600, color: '#f8fafc', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+              <div style={{ fontSize: '13px', fontWeight: 650, color: '#f8fafc', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                 {admin.name}
               </div>
               <div style={{ fontSize: '11px', color: '#94a3b8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
@@ -357,7 +357,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 background: 'rgba(239, 68, 68, 0.1)',
                 color: '#f87171',
                 fontSize: '12px',
-                fontWeight: 600,
+                fontWeight: 650,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -398,7 +398,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 color: '#065f46',
                 padding: '3px 10px',
                 borderRadius: '999px',
-                fontWeight: 600,
+                fontWeight: 650,
                 border: '1px solid #a7f3d0'
               }}
             >

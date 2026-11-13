@@ -446,7 +446,7 @@ export const COURSE_DETAILS = {
   /* ───────────────────────── PYRAMID ───────────────────────── */
   pyramid: {
     eyebrow: ['Prosperity', 'Balance', 'Positivity'],
-    title: 'Pyramid',
+    title: 'Pyramid Therapy',
     tagline: 'A Simple Tool for a Harmonious Life',
     intro: 'Discover the power of Vastu pyramids and how they can bring prosperity, stability and positivity to your home and workspace.',
     what: {

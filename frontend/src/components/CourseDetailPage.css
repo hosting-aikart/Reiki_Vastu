@@ -26,7 +26,7 @@
   display: inline-flex; align-items: center; gap: 6px;
   margin: 14px 0 0; padding: 7px 14px; border-radius: 50px;
   background: #fff; border: 1px solid var(--cd-gold-soft);
-  color: var(--cd-red); font-size: 13px; font-weight: 600; cursor: pointer;
+  color: var(--cd-red); font-size: 13px; font-weight: 650; cursor: pointer;
   transition: all 0.25s ease;
 }
 .cd-back:hover { background: var(--cd-red); color: #fff; transform: translateX(-3px); }
@@ -37,11 +37,11 @@
 }
 
 .cd-h2 {
-  font-family: var(--cd-serif); font-weight: 600; color: var(--cd-red);
+  font-family: var(--cd-serif); font-weight: 650; color: var(--cd-red);
   font-size: clamp(26px, 3vw, 36px); line-height: 1.2; margin: 0 0 12px;
 }
 .cd-h3 {
-  font-family: var(--cd-serif); font-weight: 600; color: var(--cd-red);
+  font-family: var(--cd-serif); font-weight: 650; color: var(--cd-red);
   font-size: clamp(21px, 2.2vw, 27px); line-height: 1.25; margin: 0 0 10px;
 }
 .cd-p { font-size: 15px; line-height: 1.75; color: var(--cd-text); margin: 0 0 12px; }
@@ -50,7 +50,7 @@
 /* ── Buttons ── */
 .cd-btn {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 13px 28px; border-radius: 50px; font-size: 15px; font-weight: 600;
+  padding: 13px 28px; border-radius: 50px; font-size: 15px; font-weight: 650;
   cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1.5px solid transparent; font-family: inherit;
 }
@@ -96,7 +96,7 @@
 }
 .cd-eyebrow span + span::before { content: '·'; margin: 0 10px; color: var(--cd-gold); }
 .cd-hero-title {
-  font-family: var(--cd-display); font-weight: 800; line-height: 1.06;
+  font-family: var(--cd-display); font-weight: 850; line-height: 1.06;
   font-size: clamp(28px, 3.8vw, 48px); margin: 0 0 6px; letter-spacing: 0.01em;
   background: linear-gradient(180deg, #c3122c 0%, #7a0614 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
@@ -106,7 +106,7 @@
 }
 .cd-hero-tagline {
   font-family: var(--cd-serif); font-size: clamp(18px, 2.2vw, 25px);
-  color: var(--cd-red-deep); margin: 0 0 14px; font-weight: 500;
+  color: var(--cd-red-deep); margin: 0 0 14px; font-weight: 550;
   max-width: var(--hero-actions-w, 440px);
 }
 .cd-hero-intro {
@@ -245,7 +245,7 @@
   font-family: 'Poppins', 'Inter', -apple-system, sans-serif;
   font-variant-numeric: tabular-nums;
   background: linear-gradient(135deg, #e7bd6c 0%, #c08a2e 100%); color: #fff;
-  font-size: 12px; font-weight: 700; box-shadow: 0 2px 6px rgba(192, 138, 46, 0.35);
+  font-size: 12px; font-weight: 750; box-shadow: 0 2px 6px rgba(192, 138, 46, 0.35);
 }
 .cd-numbered.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
 
@@ -259,7 +259,7 @@
 .cd-element { text-align: center; padding: 8px 10px; }
 .cd-element + .cd-element { border-left: 1px solid rgba(201, 154, 60, 0.35); }
 .cd-element .cd-icon-circle { width: 68px; height: 68px; color: var(--cd-gold); }
-.cd-element strong { display: block; font-size: 16px; color: var(--cd-wine); margin-bottom: 2px; font-weight: 600; }
+.cd-element strong { display: block; font-size: 16px; color: var(--cd-wine); margin-bottom: 2px; font-weight: 650; }
 .cd-element span { font-size: 13px; color: #7a5a60; }
 .cd-element:nth-child(2) .cd-icon-circle { color: #2a8fd6; }
 .cd-element:nth-child(3) .cd-icon-circle { color: #e2541f; }
@@ -277,12 +277,12 @@
   display: grid; place-items: center;
   line-height: 1; text-align: center;
   font-family: 'Poppins', 'Inter', -apple-system, sans-serif;
-  font-size: 17px; font-weight: 700;
+  font-size: 17px; font-weight: 750;
   font-variant-numeric: tabular-nums;
   background: radial-gradient(circle at 35% 30%, #d8203a 0%, #8e0717 100%); color: #fff;
   box-shadow: 0 4px 10px rgba(142, 7, 23, 0.35);
 }
-.cd-step h4 { font-family: var(--cd-serif); font-size: 17px; color: var(--cd-red); margin: 6px 0 8px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cd-step h4 { font-family: var(--cd-serif); font-size: 17px; color: var(--cd-red); margin: 6px 0 8px; font-weight: 650; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .cd-step h4 svg { color: var(--cd-red); flex-shrink: 0; }
 .cd-step p { font-size: 13.5px; line-height: 1.6; margin: 0; }
 
@@ -326,7 +326,7 @@
   gap: 30px;
   align-items: center;
 }
-.cd-journey h2 { font-family: var(--cd-serif); font-weight: 500; font-size: clamp(24px, 2.6vw, 32px); margin: 0 0 10px; color: #fff; }
+.cd-journey h2 { font-family: var(--cd-serif); font-weight: 550; font-size: clamp(24px, 2.6vw, 32px); margin: 0 0 10px; color: #fff; }
 .cd-journey p { color: #ffe3e6; font-size: 14.5px; line-height: 1.7; margin: 0; max-width: 460px; }
 .cd-journey-text { text-align: left; }
 .cd-journey-actions { display: flex; gap: 16px; flex-wrap: wrap; }

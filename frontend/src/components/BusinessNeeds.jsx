@@ -42,7 +42,7 @@ export default function BusinessNeeds() {
             <span
               style={{
                 fontSize: '12px',
-                fontWeight: 800,
+                fontWeight: 850,
                 color: '#D2042D',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase'
@@ -56,7 +56,7 @@ export default function BusinessNeeds() {
             className="ff-redhat"
             style={{
               fontSize: 'clamp(28px, 3.4vw, 40px)',
-              fontWeight: 800,
+              fontWeight: 850,
               color: '#3b0a11',
               margin: '0 0 10px'
             }}
@@ -140,7 +140,7 @@ export default function BusinessNeeds() {
                   className="ff-redhat"
                   style={{
                     fontSize: '17.5px',
-                    fontWeight: 800,
+                    fontWeight: 850,
                     color: '#3b0a11',
                     margin: '0 0 4px'
                   }}
@@ -151,7 +151,7 @@ export default function BusinessNeeds() {
                 <p
                   style={{
                     fontSize: '11.5px',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     color: '#b45309',
                     margin: '0 0 8px',
                     letterSpacing: '0.02em'
@@ -177,7 +177,7 @@ export default function BusinessNeeds() {
                     style={{
                       display: 'inline-block',
                       fontSize: '11px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#D2042D',
                       background: '#fef2f4',
                       border: '1px solid #fecaca',

@@ -53,7 +53,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
             <div>
-              <h1 className="ff-redhat" style={{ fontSize: '34px', fontWeight: 700, margin: '0 0 8px', color: '#3b0a11' }}>
+              <h1 className="ff-redhat" style={{ fontSize: '34px', fontWeight: 750, margin: '0 0 8px', color: '#3b0a11' }}>
                 Explore Courses, Products &amp; Therapies
               </h1>
               <p style={{ color: '#784450', fontSize: '15px', margin: 0, maxWidth: '680px' }}>
@@ -75,7 +75,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   padding: '6px 14px',
                   borderRadius: '50px',
                   fontSize: '13px',
-                  fontWeight: 600,
+                  fontWeight: 650,
                   cursor: 'pointer'
                 }}
               >
@@ -130,7 +130,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   width: '100%',
                   fontSize: '14.5px',
                   color: '#3b0a11',
-                  fontWeight: 500
+                  fontWeight: 550
                 }}
               />
               {searchTerm && (
@@ -164,7 +164,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     padding: '8px 16px',
                     borderRadius: '50px',
                     fontSize: '13px',
-                    fontWeight: 700,
+                    fontWeight: 750,
                     cursor: 'pointer',
                     border: selectedPricing === tier.value ? '1.5px solid #f59e0b' : '1px solid rgba(212,175,55,0.4)',
                     background: selectedPricing === tier.value ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : '#ffffff',
@@ -192,7 +192,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   padding: '0 14px',
                   fontSize: '13.5px',
                   color: '#3b0a11',
-                  fontWeight: 600,
+                  fontWeight: 650,
                   outline: 'none',
                   cursor: 'pointer'
                 }}
@@ -229,7 +229,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     padding: '6px 14px',
                     borderRadius: '50px',
                     fontSize: '13px',
-                    fontWeight: isSelected ? 700 : 500,
+                    fontWeight: isSelected ? 750 : 550,
                     cursor: 'pointer',
                     border: isSelected ? '1.5px solid #dc2626' : '1px solid rgba(212,175,55,0.3)',
                     background: isSelected ? '#fef2f2' : '#ffffff',
@@ -248,7 +248,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                       color: isSelected ? '#ffffff' : '#b45309',
                       padding: '1px 6px',
                       borderRadius: '10px',
-                      fontWeight: 700
+                      fontWeight: 750
                     }}
                   >
                     {cat.count}
@@ -291,7 +291,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               <Compass size={22} />
             </div>
             <div>
-              <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#3b0a11' }}>
+              <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 750, color: '#3b0a11' }}>
                 Need Personal Energy or Directional Diagnosis?
               </h4>
               <p style={{ margin: 0, fontSize: '13.5px', color: '#784450' }}>
@@ -320,7 +320,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               border: '1.5px solid rgba(212,175,55,0.3)'
             }}
           >
-            <p style={{ fontSize: '18px', fontWeight: 700, color: '#3b0a11', marginBottom: '8px' }}>
+            <p style={{ fontSize: '18px', fontWeight: 750, color: '#3b0a11', marginBottom: '8px' }}>
               No matching offerings found
             </p>
             <p style={{ color: '#784450', fontSize: '14px', marginBottom: '20px' }}>
@@ -414,7 +414,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                         borderRadius: '50px',
                         padding: '3px 10px',
                         fontSize: '11px',
-                        fontWeight: 700,
+                        fontWeight: 750,
                         color: '#881337',
                         textTransform: 'uppercase',
                         letterSpacing: '0.04em'
@@ -455,14 +455,14 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Star size={14} color="#f59e0b" fill="#f59e0b" />
-                      <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#3b0a11' }}>
+                      <span style={{ fontSize: '12.5px', fontWeight: 750, color: '#3b0a11' }}>
                         {agent.rating}
                       </span>
                     </div>
                     <span
                       style={{
                         fontSize: '11px',
-                        fontWeight: 700,
+                        fontWeight: 750,
                         color: '#7c3aed',
                         background: '#f5f3ff',
                         padding: '2px 8px',
@@ -477,7 +477,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   <h3
                     style={{
                       fontSize: '16.5px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       color: '#3b0a11',
                       margin: '0 0 4px',
                       lineHeight: 1.35
@@ -486,7 +486,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     {agent.title}
                   </h3>
 
-                  <p style={{ fontSize: '12px', color: '#b45309', margin: '0 0 10px', fontWeight: 600 }}>
+                  <p style={{ fontSize: '12px', color: '#b45309', margin: '0 0 10px', fontWeight: 650 }}>
                     Guided by {agent.provider}
                   </p>
 
@@ -530,7 +530,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                       background: '#fffdf9',
                       color: '#881337',
                       fontSize: '12.5px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -554,7 +554,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                       background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
                       color: '#ffffff',
                       fontSize: '12.5px',
-                      fontWeight: 700,
+                      fontWeight: 750,
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -586,7 +586,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 border: '1.5px solid rgba(212,175,55,0.4)',
                 background: '#ffffff',
                 color: '#3b0a11',
-                fontWeight: 600,
+                fontWeight: 650,
                 fontSize: '13px',
                 cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                 opacity: currentPage === 1 ? 0.4 : 1
@@ -594,7 +594,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
             >
               Previous
             </button>
-            <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#3b0a11' }}>
+            <span style={{ fontSize: '13.5px', fontWeight: 750, color: '#3b0a11' }}>
               Page {currentPage} of {totalPages}
             </span>
             <button
@@ -607,7 +607,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 border: '1.5px solid rgba(212,175,55,0.4)',
                 background: '#ffffff',
                 color: '#3b0a11',
-                fontWeight: 600,
+                fontWeight: 650,
                 fontSize: '13px',
                 cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                 opacity: currentPage === totalPages ? 0.4 : 1
