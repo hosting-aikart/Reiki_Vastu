@@ -186,7 +186,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
       amount: order.amountPaise, // display only: Razorpay charges the order's amount
       currency: order.currency,
       name: BUSINESS_NAME,
-      description: `${order.product.name} × ${order.quantity}`,
+      description: display?.isEvent ? order.product.name : `${order.product.name} × ${order.quantity}`,
       notes: { reference: order.reference },
       prefill: { name: customer.name, email: customer.email, contact: customer.phone },
       theme: { color: '#D2042D' },
@@ -347,35 +347,43 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
             </div>
 
             <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 8px', fontSize: '15px' }}>
-              <dt style={{ color: '#475569' }}>Price</dt>
+              <dt style={{ color: '#475569' }}>{display?.isEvent ? 'Registration Fee' : 'Price'}</dt>
               <dd style={{ margin: 0, fontWeight: 650 }}>{formatPaise(product.unitPricePaise)}</dd>
 
-              <dt style={{ color: '#475569' }}>
-                <label htmlFor="checkout-quantity">Quantity</label>
-              </dt>
-              <dd style={{ margin: 0 }}>
-                <select
-                  id="checkout-quantity"
-                  value={quantity}
-                  onChange={(e) => changeQuantity(Number(e.target.value))}
-                  disabled={busy}
-                  style={{ padding: '6px 10px', borderRadius: '8px', border: '1.5px solid #d4af37', fontSize: '15px' }}
-                >
-                  {Array.from({ length: product.maxQuantity }, (_, i) => i + 1).map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </dd>
+              {!display?.isEvent && product.maxQuantity > 1 && (
+                <>
+                  <dt style={{ color: '#475569' }}>
+                    <label htmlFor="checkout-quantity">Quantity</label>
+                  </dt>
+                  <dd style={{ margin: 0 }}>
+                    <select
+                      id="checkout-quantity"
+                      value={quantity}
+                      onChange={(e) => changeQuantity(Number(e.target.value))}
+                      disabled={busy}
+                      style={{ padding: '6px 10px', borderRadius: '8px', border: '1.5px solid #d4af37', fontSize: '15px' }}
+                    >
+                      {Array.from({ length: product.maxQuantity }, (_, i) => i + 1).map((n) => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                  </dd>
+                </>
+              )}
 
-              <dt style={{ color: '#475569' }}>Shipping &amp; Delivery</dt>
-              <dd style={{ margin: 0, fontWeight: 750, color: '#15803d' }}>FREE (Free Delivery Available)</dd>
+              {!display?.isEvent && (
+                <>
+                  <dt style={{ color: '#475569' }}>Shipping &amp; Delivery</dt>
+                  <dd style={{ margin: 0, fontWeight: 750, color: '#15803d' }}>FREE (Free Delivery Available)</dd>
+                </>
+              )}
 
               <dt style={{ fontWeight: 850, color: '#3b0a11', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>Total</dt>
               <dd style={{ margin: 0, fontWeight: 850, fontSize: '19px', color: '#D2042D', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>
                 {formatPaise(product.unitPricePaise * quantity)}
               </dd>
             </dl>
-            {quantityWasCapped && (
+            {!display?.isEvent && quantityWasCapped && (
               <p style={{ fontSize: '13px', color: '#92400e', margin: '0 0 8px' }}>
                 A maximum of {product.maxQuantity} can be bought in one order.
               </p>

@@ -257,7 +257,7 @@ export const PRODUCTS = [
     isEvent: true,
     pricePaise: 49900,
     originalPricePaise: 310000,
-    maxQuantity: 5,
+    maxQuantity: 1,
     available: true,
     title: "Online Reiki 1st Level Workshop",
     subtitle: "Live Online Workshop • 22 November 2026 (6:00 PM – 8:30 PM)",

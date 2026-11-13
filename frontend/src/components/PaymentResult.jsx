@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, Clock, Loader2, XCircle } from 'lucide-react';
+import { findProductById } from '@reiki-vastu/shared/products.js';
 import { formatPaise } from '../utils/razorpayCheckout';
 import { cardStyle, primaryButtonStyle } from './paymentStyles';
 
@@ -69,8 +70,12 @@ export default function PaymentResult({ variant: variantKey, payment, polling, o
       <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '6px 16px', textAlign: 'left', maxWidth: '380px', margin: '0 auto 22px', fontSize: '14px' }}>
         <dt style={{ fontWeight: 750, color: '#475569' }}>Reference</dt>
         <dd style={{ margin: 0 }}>{payment.reference}</dd>
-        <dt style={{ fontWeight: 750, color: '#475569' }}>Product</dt>
-        <dd style={{ margin: 0 }}>{payment.product.name} × {payment.quantity}</dd>
+        <dt style={{ fontWeight: 750, color: '#475569' }}>{findProductById(payment.product.id)?.isEvent ? 'Workshop' : 'Product'}</dt>
+        <dd style={{ margin: 0 }}>
+          {findProductById(payment.product.id)?.isEvent
+            ? payment.product.name
+            : `${payment.product.name} × ${payment.quantity}`}
+        </dd>
         <dt style={{ fontWeight: 750, color: '#475569' }}>Amount</dt>
         <dd style={{ margin: 0 }}>{formatPaise(payment.amountPaise)}</dd>
       </dl>
