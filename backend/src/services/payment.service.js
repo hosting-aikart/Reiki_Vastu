@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import env, { isPaymentConfigured, isPaymentTestMode } from '../config/env.js';
+import env, { isPaymentConfigured } from '../config/env.js';
 import { CURRENCY, findProduct } from '../config/products.js';
 import Payment, { PAYMENT_STATUS } from '../models/Payment.js';
 import { createRazorpayOrder } from './razorpay.service.js';
@@ -30,10 +30,6 @@ function generatePaymentReference() {
 function assertPaymentsAvailable() {
   if (!isPaymentConfigured()) {
     throw new PaymentError(503, 'PAYMENTS_UNCONFIGURED', 'Online payments are not available at the moment.');
-  }
-  if (!isPaymentTestMode()) {
-    logger.error('Payment refused: RAZORPAY_KEY_ID is not a Test Mode key.');
-    throw new PaymentError(503, 'PAYMENTS_TEST_MODE_ONLY', 'Online payments are not available at the moment.');
   }
 }
 

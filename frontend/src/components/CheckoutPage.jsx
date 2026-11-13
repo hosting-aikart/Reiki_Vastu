@@ -60,7 +60,7 @@ function serverFieldErrors(fields) {
 }
 
 export default function CheckoutPage({ productId, initialQuantity = 1, onBack, onPaymentSubmitted }) {
-  const [catalog, setCatalog] = useState({ loading: true, error: null, product: null, paymentsEnabled: false, pricesConfirmed: false });
+  const [catalog, setCatalog] = useState({ loading: true, error: null, product: null, paymentsEnabled: false, testMode: false, pricesConfirmed: false });
   const [quantity, setQuantity] = useState(1);
   const [details, setDetails] = useState(EMPTY_DETAILS);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -84,7 +84,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
     getProducts().then((res) => {
       if (!active) return;
       if (!res.success) {
-        setCatalog({ loading: false, error: res.message, product: null, paymentsEnabled: false, pricesConfirmed: false });
+        setCatalog({ loading: false, error: res.message, product: null, paymentsEnabled: false, testMode: false, pricesConfirmed: false });
         return;
       }
       const product = res.data.products.find((p) => p.id === productId) || null;
@@ -96,6 +96,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
         error: product ? null : 'This product does not exist.',
         product,
         paymentsEnabled: res.data.paymentsEnabled,
+        testMode: Boolean(res.data.testMode),
         pricesConfirmed: res.data.pricesConfirmed
       });
     });
@@ -314,7 +315,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
           Checkout
         </h1>
 
-        <TestModeBanner pricesConfirmed={catalog.pricesConfirmed} />
+        {catalog.testMode && <TestModeBanner pricesConfirmed={catalog.pricesConfirmed} />}
 
         {catalog.loading && (
           <p style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#5e2732' }}>

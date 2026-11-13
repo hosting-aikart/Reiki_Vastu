@@ -17,7 +17,8 @@ export function listProducts(req, res) {
     success: true,
     data: {
       products,
-      paymentsEnabled: isPaymentConfigured() && isPaymentTestMode(),
+      paymentsEnabled: isPaymentConfigured(),
+      testMode: isPaymentTestMode(),
       pricesConfirmed: PRICES_CONFIRMED
     }
   });
