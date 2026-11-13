@@ -146,17 +146,17 @@ export const COURSE_DETAILS = {
   /* ───────────────────────── VAASTU ───────────────────────── */
   vaastu: {
     eyebrow: ['Harmony', 'Prosperity', 'Well-being'],
-    title: 'Vastu',
+    title: 'Vaastu',
     tagline: 'Ancient Wisdom for Balanced Spaces',
     intro: 'Create harmonious living and working spaces for a healthier, happier and more prosperous life.',
     what: {
-      title: 'What is Vastu?',
+      title: 'What is Vaastu?',
       icon: 'Home',
-      text: 'Vastu is an ancient Indian science of architecture and buildings that helps in creating harmonious spaces by aligning with nature, its elements and energy fields. It combines the science, art, astronomy and traditional knowledge to support health, prosperity, happiness and overall well-being.'
+      text: 'Vaastu is an ancient Indian science of architecture and buildings that helps in creating harmonious spaces by aligning with nature, its elements and energy fields. It combines the science, art, astronomy and traditional knowledge to support health, prosperity, happiness and overall well-being.'
     },
     use: {
-      title: 'How Can I Use Vastu?',
-      text: 'Vastu principles can be applied while designing, constructing or arranging homes, workplaces and other spaces. By understanding directions, natural elements and spatial balance, you can create a more positive and supportive environment.',
+      title: 'How Can I Use Vaastu?',
+      text: 'Vaastu principles can be applied while designing, constructing or arranging homes, workplaces and other spaces. By understanding directions, natural elements and spatial balance, you can create a more positive and supportive environment.',
       items: [
         { label: 'Homes & Residences', icon: 'Home' },
         { label: 'Offices & Workplaces', icon: 'Building2' },
@@ -165,12 +165,12 @@ export const COURSE_DETAILS = {
       ]
     },
     philosophy: {
-      title: 'Vastu Philosophy',
-      text: 'Vastu is based on the relationship between people, spaces and nature. It is guided by the five elements of nature \u2014 Earth, Water, Fire, Air and Space (Paanchbhootas) \u2014 and the balance of directions and natural influences.'
+      title: 'Vaastu Philosophy',
+      text: 'Vaastu is based on the relationship between people, spaces and nature. It is guided by the five elements of nature \u2014 Earth, Water, Fire, Air and Space (Paanchbhootas) \u2014 and the balance of directions and natural influences.'
     },
     benefits: {
-      title: 'Benefits of Vastu',
-      subtitle: 'Vastu helps create spaces that support a more balanced and positive life.',
+      title: 'Benefits of Vaastu',
+      subtitle: 'Vaastu helps create spaces that support a more balanced and positive life.',
       items: [
         { label: 'Harmonious Spaces', icon: 'Flower2' },
         { label: 'Better Well-being', icon: 'Heart' },
@@ -196,8 +196,8 @@ export const COURSE_DETAILS = {
       }
     ],
     journey: {
-      title: 'Begin Your Vastu Journey',
-      text: 'Learn practical Vastu principles and create spaces that bring harmony, prosperity and positivity.'
+      title: 'Begin Your Vaastu Journey',
+      text: 'Learn practical Vaastu principles and create spaces that bring harmony, prosperity and positivity.'
     }
   },
 
@@ -448,11 +448,11 @@ export const COURSE_DETAILS = {
     eyebrow: ['Prosperity', 'Balance', 'Positivity'],
     title: 'Pyramid Therapy',
     tagline: 'A Simple Tool for a Harmonious Life',
-    intro: 'Discover the power of Vastu pyramids and how they can bring prosperity, stability and positivity to your home and workspace.',
+    intro: 'Discover the power of Vaastu pyramids and how they can bring prosperity, stability and positivity to your home and workspace.',
     what: {
       title: 'What is a Pyramid?',
       icon: 'Triangle',
-      text: 'A pyramid, as per Vastu Shastra, is a powerful tool that helps harness natural energy and create a balanced environment. Even small pyramids can have a positive impact on your life by attracting prosperity, harmony and well-being.'
+      text: 'A pyramid, as per Vaastu Shastra, is a powerful tool that helps harness natural energy and create a balanced environment. Even small pyramids can have a positive impact on your life by attracting prosperity, harmony and well-being.'
     },
     use: {
       title: 'How Can I Use a Pyramid?',
@@ -466,8 +466,8 @@ export const COURSE_DETAILS = {
       ]
     },
     philosophy: {
-      title: 'Pyramid in Vastu Philosophy',
-      text: 'According to Vastu Shastra, pyramids help in balancing energies in the environment. They are believed to enhance prosperity, maintain stability and create a harmonious atmosphere for a better and more peaceful life.'
+      title: 'Pyramid in Vaastu Philosophy',
+      text: 'According to Vaastu Shastra, pyramids help in balancing energies in the environment. They are believed to enhance prosperity, maintain stability and create a harmonious atmosphere for a better and more peaceful life.'
     },
     benefits: {
       title: 'Benefits of Pyramid',
@@ -488,15 +488,15 @@ export const COURSE_DETAILS = {
         type: 'columns',
         columns: [
           {
-            title: 'Pyramid for Home Vastu',
+            title: 'Pyramid for Home Vaastu',
             paragraphs: [
-              'According to Vastu Shastra, placing a pyramid in the home, especially in the kitchen or frequently used spaces, is believed to attract prosperity, increase income, and bring family stability.'
+              'According to Vaastu Shastra, placing a pyramid in the home, especially in the kitchen or frequently used spaces, is believed to attract prosperity, increase income, and bring family stability.'
             ]
           },
           {
-            title: 'Types of Pyramid in Vastu',
+            title: 'Types of Pyramid in Vaastu',
             paragraphs: [
-              'Vastu pyramids come in various types, each serving different purposes. Consult a Vastu expert to choose the right pyramid and placement for maximum benefits.'
+              'Vaastu pyramids come in various types, each serving different purposes. Consult a Vaastu expert to choose the right pyramid and placement for maximum benefits.'
             ]
           }
         ]

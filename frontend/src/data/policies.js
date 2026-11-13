@@ -26,7 +26,7 @@ export const BUSINESS = {
     },
     {
       name: 'Nagpur Center',
-      address: 'Reiki & Vastu World, Near New English High School, Mahal, Nagpur, Maharashtra, India'
+      address: 'Reiki & Vaastu World, Near New English High School, Mahal, Nagpur, Maharashtra, India'
     }
   ],
   jurisdiction: 'Amravati, Maharashtra'
@@ -133,7 +133,7 @@ export const POLICIES = [
       {
         heading: 'About us',
         paragraphs: [
-          `${B.brand} is a training and treatment centre for Reiki, Vastu Shastra, astrology, numerology, Lama-Fera, crystal therapy and related holistic practices, founded by ${B.founder}, with centres in Amravati and Nagpur, Maharashtra. Through the Website we sell energised crystal and spiritual products, and take enquiries for courses, consultations and healing sessions.`
+          `${B.brand} is a training and treatment centre for Reiki, Vaastu Shastra, astrology, numerology, Lama-Fera, crystal therapy and related holistic practices, founded by ${B.founder}, with centres in Amravati and Nagpur, Maharashtra. Through the Website we sell energised crystal and spiritual products, and take enquiries for courses, consultations and healing sessions.`
         ]
       },
       {
@@ -153,13 +153,13 @@ export const POLICIES = [
       {
         heading: 'Courses, consultations and sessions',
         paragraphs: [
-          'Courses, consultations, Vastu audits and healing sessions are booked through enquiry forms or by contacting us. Fees, schedules and any payment terms are confirmed with you directly before booking. Cancellation and rescheduling are covered in our Refund & Cancellation Policy.'
+          'Courses, consultations, Vaastu audits and healing sessions are booked through enquiry forms or by contacting us. Fees, schedules and any payment terms are confirmed with you directly before booking. Cancellation and rescheduling are covered in our Refund & Cancellation Policy.'
         ]
       },
       {
         heading: 'Important disclaimer',
         paragraphs: [
-          'Reiki, Vastu, astrology, numerology, crystal therapy and related practices are traditional and complementary holistic practices. They are not a substitute for professional medical, psychological, legal or financial advice, diagnosis or treatment. Always consult a qualified professional for such matters. Individual experiences differ, and we do not guarantee any specific result.'
+          'Reiki, Vaastu, astrology, numerology, crystal therapy and related practices are traditional and complementary holistic practices. They are not a substitute for professional medical, psychological, legal or financial advice, diagnosis or treatment. Always consult a qualified professional for such matters. Individual experiences differ, and we do not guarantee any specific result.'
         ]
       },
       {
@@ -218,7 +218,7 @@ export const POLICIES = [
       {
         heading: 'Courses, consultations and sessions',
         list: [
-          `You may reschedule a consultation, session or Vastu visit by informing us at least ${T.rescheduleNoticeHours} hours in advance.`,
+          `You may reschedule a consultation, session or Vaastu visit by informing us at least ${T.rescheduleNoticeHours} hours in advance.`,
           `Fees paid for a course or session are refunded in full if you cancel at least ${T.rescheduleNoticeHours} hours before the scheduled start, or if we cancel and cannot offer a suitable new date.`,
           'Fees are not refundable once a session has taken place or a course has started.'
         ]

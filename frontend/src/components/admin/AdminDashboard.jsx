@@ -160,13 +160,13 @@ export default function AdminDashboard({ onExitToSite }) {
               >
                 <img
                   src="/logo/lotus_pure.png"
-                  alt="Reiki & Vastu Lotus"
+                  alt="Reiki & Vaastu Lotus"
                   style={{ width: '26px', height: '26px', objectFit: 'contain' }}
                 />
               </div>
               <div>
                 <div style={{ fontWeight: 850, fontSize: '15px', color: '#f8fafc', letterSpacing: '-0.3px' }}>
-                  Reiki & Vastu
+                  Reiki & Vaastu
                 </div>
                 <div style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Shield size={11} color="#c59b27" /> Admin Center
@@ -387,7 +387,7 @@ export default function AdminDashboard({ onExitToSite }) {
           }}
         >
           <div style={{ fontSize: '13px', color: '#64748b' }}>
-            Workspace: <strong style={{ color: '#0f172a' }}>Reiki & Vastu World (Amravati & Nagpur)</strong>
+            Workspace: <strong style={{ color: '#0f172a' }}>Reiki & Vaastu World (Amravati & Nagpur)</strong>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

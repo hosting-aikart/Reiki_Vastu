@@ -22,9 +22,9 @@ export const MARKETPLACE_CARDS = [
   },
   {
     id: 3,
-    title: "Non-Destructive Vastu Rectification",
+    title: "Non-Destructive Vaastu Rectification",
     subtitle: "Transform energy flow without breaking any walls.",
-    badge: "Scientific Vastu",
+    badge: "Scientific Vaastu",
     accent: "#7C3AED",
     type: "top",
     description: "Harmonize the 5 cosmic elements across residential, commercial and industrial properties with practical remedies."
@@ -60,7 +60,7 @@ export const BUSINESS_NEEDS = [
   },
   {
     id: "residential-vastu",
-    title: "Residential Vastu",
+    title: "Residential Vaastu",
     description: "Balance North-East Ishanya & South-West Nairutya corners for uninterrupted domestic peace.",
     iconName: "Home",
     tag: "Home Harmony",
@@ -69,7 +69,7 @@ export const BUSINESS_NEEDS = [
   {
     id: "wealth-prosperity",
     title: "Wealth & Prosperity",
-    description: "Activate Kuber zones, eliminate financial stagnation with Shree Yantras & commercial Vastu.",
+    description: "Activate Kuber zones, eliminate financial stagnation with Shree Yantras & commercial Vaastu.",
     iconName: "TrendingUp",
     tag: "Abundance",
     color: "#F59E0B"
@@ -133,15 +133,15 @@ export const HOW_IT_WORKS_STEPS = [
     color: "#DC2626",
     eyebrow: "STEP 1 • ASSESSMENT",
     description: "Share your birth details, home floor plan, or physical ailment. Dr. Naresh personally analyzes your cosmic energy balance, chakra alignment, and space orientation.",
-    highlights: ["Horoscope & Dosha Analysis", "Compass Vastu Grid Audit", "Chakra & Aura Frequency Scan"]
+    highlights: ["Horoscope & Dosha Analysis", "Compass Vaastu Grid Audit", "Chakra & Aura Frequency Scan"]
   },
   {
     step: 2,
     title: "Personalized Remedial Blueprint",
     color: "#D4AF37",
     eyebrow: "STEP 2 • TAILORED SOLUTION",
-    description: "Receive exact, practical solutions tailored to your unique condition—ranging from non-demolition Vastu remedies to sacred Rudrakshas and customized Reiki protocols.",
-    highlights: ["No-Demolition Vastu Rectification", "Authentic Planetary Gemstone Prescription", "Customized Sacred Yantra Alignment"]
+    description: "Receive exact, practical solutions tailored to your unique condition—ranging from non-demolition Vaastu remedies to sacred Rudrakshas and customized Reiki protocols.",
+    highlights: ["No-Demolition Vaastu Rectification", "Authentic Planetary Gemstone Prescription", "Customized Sacred Yantra Alignment"]
   },
   {
     step: 3,
@@ -165,7 +165,7 @@ export const SELLER_STEPS = [
   {
     num: "01",
     title: "Choose Modality",
-    subtitle: "Reiki, Vastu, Astrology, or Lama-Fera",
+    subtitle: "Reiki, Vaastu, Astrology, or Lama-Fera",
     color: "#DC2626"
   },
   {
@@ -202,7 +202,7 @@ export const SELLER_STEPS = [
 
 export const TECH_STACK = [
   { name: "Usui Shiki Ryoho Reiki", subtitle: "Universal Life Force Energy", symbol: "☯", tag: "Energy Healing" },
-  { name: "Vedic Vastu Shastra", subtitle: "Ancient Spatial Harmony", symbol: "🏛", tag: "Space Healing" },
+  { name: "Vedic Vaastu Shastra", subtitle: "Ancient Spatial Harmony", symbol: "🏛", tag: "Space Healing" },
   { name: "Tibetan Lama-Fera", subtitle: "High-Frequency Cleansing", symbol: "☸", tag: "Negative Aura Clearing" },
   { name: "Jyotish Vedic Astrology", subtitle: "Cosmic Planetary Wisdom", symbol: "🪐", tag: "Predictive Science" },
   { name: "Bio-Cosmic Pyramids", subtitle: "Sacred Geometric Frequency", symbol: "▲", tag: "Stress Removal" },
@@ -215,7 +215,7 @@ export const TECH_STACK = [
 
 export const SEARCH_PLACEHOLDERS = [
   "Reiki Master Course with attunement",
-  "Residential & Commercial Vastu consultation",
+  "Residential & Commercial Vaastu consultation",
   "Lama-Fera negative energy cleansing",
   "Authentic 7 Mukhi certified Rudraksha",
   "Pyramid therapy for anxiety and stress",
@@ -247,7 +247,7 @@ export const TESTIMONIALS_DATA = [
   {
     name: "Neha Pande",
     location: "",
-    quote: "Great results. Enjoyable to work with, and most importantly, enabled us to have the presence on the astro we needed to conduct business in today's market. Reiki and Vastu world provides excellent customer service, genuine and thoughtful insight, and delivers more than expected.",
+    quote: "Great results. Enjoyable to work with, and most importantly, enabled us to have the presence on the astro we needed to conduct business in today's market. Reiki and Vaastu world provides excellent customer service, genuine and thoughtful insight, and delivers more than expected.",
     role: ""
   }
 ];
@@ -260,7 +260,7 @@ export const VIDEO_ITEMS = [
   },
   {
     id: "-t-IJfUI-jY",
-    title: "Vastu Shastra Principles for Peace & Abundance in Homes",
+    title: "Vaastu Shastra Principles for Peace & Abundance in Homes",
     embedUrl: "https://www.youtube.com/embed/-t-IJfUI-jY"
   },
   {

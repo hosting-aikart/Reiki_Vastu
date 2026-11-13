@@ -49,7 +49,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
         {/* Header */}
         <div style={{ marginBottom: '28px' }}>
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
-            SACRED REIKI &amp; VASTU CATALOG
+            SACRED REIKI &amp; VAASTU CATALOG
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
             <div>
@@ -57,7 +57,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 Explore Courses, Products &amp; Therapies
               </h1>
               <p style={{ color: '#784450', fontSize: '15px', margin: 0, maxWidth: '680px' }}>
-                Discover certified courses, authentic energized Rudrakshas, non-destructive Vastu consultations, and holistic energy therapies taught by Dr. Naresh Chhabdiya since 1995.
+                Discover certified courses, authentic energized Rudrakshas, non-destructive Vaastu consultations, and holistic energy therapies taught by Dr. Naresh Chhabdiya since 1995.
               </p>
             </div>
 
@@ -117,7 +117,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               <Search size={18} color="#dc2626" />
               <input
                 type="text"
-                placeholder="Search by course, Rudraksha, Vastu, crystal, therapy..."
+                placeholder="Search by course, Rudraksha, Vaastu, crystal, therapy..."
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -259,7 +259,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
           </div>
         </div>
 
-        {/* Cosmic Energy & Vastu Scanner Banner */}
+        {/* Cosmic Energy & Vaastu Scanner Banner */}
         <div
           style={{
             background: 'linear-gradient(90deg, rgba(220,38,38,0.1) 0%, rgba(212,175,55,0.14) 50%, rgba(124,58,237,0.1) 100%)',
@@ -295,7 +295,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 Need Personal Energy or Directional Diagnosis?
               </h4>
               <p style={{ margin: 0, fontSize: '13.5px', color: '#784450' }}>
-                Test your space or chakra alignment in our interactive Aura &amp; Vastu Simulator before booking.
+                Test your space or chakra alignment in our interactive Aura &amp; Vaastu Simulator before booking.
               </p>
             </div>
           </div>
@@ -324,7 +324,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               No matching offerings found
             </p>
             <p style={{ color: '#784450', fontSize: '14px', marginBottom: '20px' }}>
-              Try searching with different keywords (e.g. Reiki, Vastu, Rudraksha, Crystal) or resetting filters.
+              Try searching with different keywords (e.g. Reiki, Vaastu, Rudraksha, Crystal) or resetting filters.
             </p>
             <button
               type="button"

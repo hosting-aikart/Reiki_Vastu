@@ -195,7 +195,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
   const [actionsWidth, setActionsWidth] = useState(null);
 
   useEffect(() => {
-    if (data) document.title = `${data.title} Course | Reiki & Vastu World`;
+    if (data) document.title = `${data.title} Course | Reiki & Vaastu World`;
   }, [data]);
 
   useEffect(() => {

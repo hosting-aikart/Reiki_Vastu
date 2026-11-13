@@ -64,7 +64,7 @@ export default function VideoTestimonials({ onAddStory }) {
             <FlourishDivider />
             <p className="th-lead">
               Explore authentic sessions, spiritual discourses, and practical guidance on Reiki,
-              Vastu Shastra, Lama-Fera, and Rudraksha by Dr. Naresh Chhabdiya.
+              Vaastu Shastra, Lama-Fera, and Rudraksha by Dr. Naresh Chhabdiya.
             </p>
           </div>
 

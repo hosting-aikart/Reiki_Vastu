@@ -8,7 +8,7 @@ import { cardStyle, linkButtonStyle, primaryButtonStyle } from './paymentStyles'
 import PaymentResult from './PaymentResult';
 import TestModeBanner from './TestModeBanner';
 
-const BUSINESS_NAME = 'Reiki & Vastu World';
+const BUSINESS_NAME = 'Reiki & Vaastu World';
 
 // After these errors the same key can never succeed, so the next click uses a new one
 const NEW_KEY_ERRORS = ['ORDER_CREATION_FAILED', 'PAYMENT_PROVIDER_ERROR', 'IDEMPOTENCY_KEY_REUSED', 'PAYMENT_ALREADY_COMPLETED'];

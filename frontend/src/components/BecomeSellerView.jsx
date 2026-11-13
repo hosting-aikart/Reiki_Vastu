@@ -29,7 +29,7 @@ export default function BecomeSellerView({ onBackToHome }) {
             PRACTITIONER ONBOARDING &amp; CERTIFICATION
           </p>
           <h1 className="ff-redhat" style={{ fontSize: '38px', fontWeight: 750, margin: '0 0 12px', color: '#3b0a11' }}>
-            Become a Certified Healer &amp; Vastu Consultant
+            Become a Certified Healer &amp; Vaastu Consultant
           </h1>
           <p style={{ color: '#784450', fontSize: '16px', lineHeight: 1.6, margin: 0 }}>
             Join Dr. Naresh Chhabdiya's international network of certified practitioners. Receive traditional master attunements, hands-on clinical training, authentic kits, and lifetime free entry for guidance.
@@ -112,7 +112,7 @@ export default function BecomeSellerView({ onBackToHome }) {
               </h2>
 
               <p style={{ color: '#784450', fontSize: '15px', lineHeight: 1.6, maxWidth: '520px', margin: '0 auto 24px' }}>
-                Thank you for taking this sacred step with Reiki &amp; Vastu World. Dr. Naresh Chhabdiya's training counselor will contact you via WhatsApp or call within 24 hours to schedule your preliminary energy consultation and course orientation.
+                Thank you for taking this sacred step with Reiki &amp; Vaastu World. Dr. Naresh Chhabdiya's training counselor will contact you via WhatsApp or call within 24 hours to schedule your preliminary energy consultation and course orientation.
               </p>
 
               <div
@@ -264,7 +264,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                   }}
                 >
                   <option>Reiki Energy Healing (Levels 1 to Grandmaster)</option>
-                  <option>Complete Vastu Shastra Professional Consultant Course</option>
+                  <option>Complete Vaastu Shastra Professional Consultant Course</option>
                   <option>Tibetan Lama-Fera High Vibration Cleansing &amp; Master Course</option>
                   <option>Vedic Astrology &amp; Janam Kundali Reading</option>
                   <option>Scientific Acupressure &amp; Sujok Meridian Therapy</option>
@@ -297,7 +297,7 @@ export default function BecomeSellerView({ onBackToHome }) {
                 >
                   <option>Beginner / First Time Seeker</option>
                   <option>Practicing Reiki Level 1 or 2</option>
-                  <option>Astrologer / Vastu Practitioner looking to advance</option>
+                  <option>Astrologer / Vaastu Practitioner looking to advance</option>
                   <option>Doctor / Medical Practitioner seeking complementary therapies</option>
                   <option>Yoga / Wellness Coach</option>
                 </select>

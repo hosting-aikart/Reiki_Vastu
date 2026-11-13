@@ -87,7 +87,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToSite }) {
             Administrator Portal
           </h1>
           <p style={{ margin: 0, fontSize: '13px', color: '#9da3b4', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-            <Sparkles size={14} color="#c59b27" /> Reiki & Vastu World Management
+            <Sparkles size={14} color="#c59b27" /> Reiki & Vaastu World Management
           </p>
         </div>
 

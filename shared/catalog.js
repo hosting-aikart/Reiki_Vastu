@@ -15,8 +15,8 @@ export const LOCATIONS = [
 
 /** Services selectable in the "Book Personal Consultation" form. */
 export const CONSULTATION_SERVICES = [
-  { key: 'residential_vaastu_audit', label: 'Residential Home Vastu Audit' },
-  { key: 'commercial_vaastu_audit', label: 'Commercial / Factory Vastu Audit' },
+  { key: 'residential_vaastu_audit', label: 'Residential Home Vaastu Audit' },
+  { key: 'commercial_vaastu_audit', label: 'Commercial / Factory Vaastu Audit' },
   { key: 'astrology_kundali', label: 'Vedic Astrology & Kundali Analysis' },
   { key: 'reiki_healing_session', label: 'Reiki Healing Session' },
   { key: 'reiki_attunement', label: 'Reiki Master Course Attunement' },
@@ -40,7 +40,7 @@ export const TIME_SLOTS = [
 export const COURSES = [
   { key: 'meditation', label: 'Meditation' },
   { key: 'reiki', label: 'Reiki' },
-  { key: 'vaastu', label: 'Vastu' },
+  { key: 'vaastu', label: 'Vaastu' },
   { key: 'feng-shui', label: 'Feng-Shui' },
   { key: 'dowsing', label: 'Dowsing' },
   { key: 'lama-fera', label: 'Lama-Fera' },
@@ -55,8 +55,8 @@ export const COURSES = [
 /** Experiences selectable in the "Share Your Story" form. */
 export const STORY_SERVICES = [
   { key: 'reiki_healing_session', label: 'Reiki Healing Session' },
-  { key: 'residential_vaastu_audit', label: 'Residential Vastu Audit' },
-  { key: 'commercial_vaastu_audit', label: 'Commercial Vastu Audit' },
+  { key: 'residential_vaastu_audit', label: 'Residential Vaastu Audit' },
+  { key: 'commercial_vaastu_audit', label: 'Commercial Vaastu Audit' },
   { key: 'astrology_kundali', label: 'Kundali & Astrology Reading' },
   { key: 'lama_fera_cleansing', label: 'Lama-Fera Cleansing' },
   { key: 'reiki_course_l1_l2', label: 'Reiki Level 1 & 2 Course' }

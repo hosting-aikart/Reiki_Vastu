@@ -5869,74 +5869,6 @@ a.hm-cta-btn:hover,
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   HERO TEXT BACKDROP
-   A soft, feathered greyish-black shape behind the heading, rule and
-   tagline only (not the buttons). The mask fades every edge, so it is
-   an organic shape rather than a box. On this dark backdrop the
-   tagline and divider are light, since black would disappear.
-   ══════════════════════════════════════════════════════════════════ */
-.th-hero--golden .th-hero-text-glow {
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.th-hero--golden .th-hero-text-glow::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -34px -15% -22px;
-  pointer-events: none;
-  /* Greyish-black, slightly see-through so the photo still shows faintly */
-  background: radial-gradient(
-    ellipse 60% 70% at 50% 50%,
-    rgba(28, 28, 30, 0.78) 0%,
-    rgba(40, 40, 42, 0.7) 55%,
-    rgba(48, 48, 50, 0.6) 100%
-  );
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 68%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 68%, transparent 100%);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-/* Breathing room between the glow and the buttons */
-.th-hero--golden .th-hero-text-glow + .hero-modern-actions {
-  margin-top: 18px;
-}
-
-@media (max-width: 900px) and (orientation: portrait) {
-  .th-hero--golden .th-hero-text-glow::before {
-    inset: -30px -18px -18px;
-    -webkit-mask-image: radial-gradient(ellipse 54% 52% at 50% 50%, #000 66%, transparent 100%);
-    mask-image: radial-gradient(ellipse 54% 52% at 50% 50%, #000 66%, transparent 100%);
-  }
-}
-
-/* Tagline and divider in light tones on the dark backdrop */
-.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
-.th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot {
-  color: #f5ece0 !important;
-  -webkit-text-fill-color: #f5ece0 !important;
-  -webkit-text-stroke: 0.3px #f5ece0 !important;
-}
-
-.th-hero--golden .th-golden-diamond-line--left {
-  background: linear-gradient(90deg, rgba(226, 184, 96, 0) 0%, #e2b860 100%);
-}
-
-.th-hero--golden .th-golden-diamond-line--right {
-  background: linear-gradient(270deg, rgba(226, 184, 96, 0) 0%, #e2b860 100%);
-}
-
-.th-hero--golden .th-golden-diamond-gem {
-  color: #e2b860;
-}
-
-/* ══════════════════════════════════════════════════════════════════
    NAVBAR: HIGHLIGHTED "EVENTS" LINK (only while an event is upcoming)
    Gold pill with a light sweeping across it, a pulsing red "live" dot
    and a red date badge. In the mobile drawer the same treatment is
@@ -6097,4 +6029,13 @@ a.hm-cta-btn:hover,
   .gnav-hamburger-dot::after {
     animation: none;
   }
+}
+
+/* Floating help button lotus. Uses lotus_bold_button.png: the logo in its own
+   bronze-gold colour (#855b16) with the lines thickened in the image itself
+   and saved at 4x size, so it stays sharp (no CSS filters, which blur). */
+.floating-widget-lotus {
+  width: 74%;
+  height: auto;
+  object-fit: contain;
 }

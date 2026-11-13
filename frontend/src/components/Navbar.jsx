@@ -62,11 +62,11 @@ export default function Navbar({
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
-            aria-label="Reiki and Vastu World - Home"
+            aria-label="Reiki and Vaastu World - Home"
           >
             <img
               src="/logo/lotus_pure.png"
-              alt="Reiki and Vastu World"
+              alt="Reiki and Vaastu World"
               className="gnav-logo-img"
             />
           </a>
@@ -185,7 +185,7 @@ export default function Navbar({
           <div style={{ display: 'inline-flex', alignItems: 'center', minWidth: 0 }}>
             <img
               src="/logo/lotus_pure.png"
-              alt="Reiki and Vastu World"
+              alt="Reiki and Vaastu World"
               style={{ height: '34px', width: 'auto', objectFit: 'contain', flexShrink: 0 }}
             />
           </div>

@@ -14,7 +14,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '0 auto 18px' }}>
                 <img
                   src="/logo/lotus_pure.png"
-                  alt="Reiki &amp; Vastu Lotus"
+                  alt="Reiki &amp; Vaastu Lotus"
                   style={{
                     width: '300px',
                     height: 'auto',
@@ -58,7 +58,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
               </h2>
 
               <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#4a1923', margin: '0 0 16px' }}>
-                Dr. Naresh Chhabdiya has been practicing <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A doctor by profession and motivational mentor with centers in <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World was known as <strong>Sanjivani Reiki and Vaastu Center</strong>.
+                Dr. Naresh Chhabdiya has been practicing <strong>Reiki, Meditation, Vaastu, Astrology, Numerology and 16+ courses since 1995</strong>. A doctor by profession and motivational mentor with centers in <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World was known as <strong>Sanjivani Reiki and Vaastu Center</strong>.
               </p>
 
               <p

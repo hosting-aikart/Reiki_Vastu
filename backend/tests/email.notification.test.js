@@ -104,7 +104,7 @@ describe('Email Notification Service', () => {
       const { subject, html, text } = buildEnquiryEmailData(consultation);
 
       assert.ok(subject.includes('CONSULTATION'), 'Subject should indicate consultation');
-      assert.ok(text.includes('Residential Home Vastu Audit'), 'Text should resolve consultation service label');
+      assert.ok(text.includes('Residential Home Vaastu Audit'), 'Text should resolve consultation service label');
       assert.ok(text.includes('2026-10-25'), 'Text should show preferred date');
       assert.ok(text.includes('10:00 AM (Morning)'), 'Text should show preferred slot label');
       assert.ok(!text.includes('Admin Dashboard:'), 'Text should omit dashboard link when not configured');

@@ -81,7 +81,7 @@ export default function ProductDetailPage({
             marginBottom: '56px'
           }}
         >
-          {/* Left Column: Product Image & Thumbnails */}
+          {/* Left Column: Product Image */}
           <div>
             <div
               style={{
@@ -126,51 +126,6 @@ export default function ProductDetailPage({
               </span>
             </div>
 
-            {/* Product Thumbnail Switcher */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(5, 1fr)',
-                gap: '10px',
-                marginTop: '14px'
-              }}
-            >
-              {SACRED_PRODUCTS.map((item) => {
-                const isActive = item.id === product.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => onSelectProduct && onSelectProduct(item.id)}
-                    title={item.title}
-                    style={{
-                      padding: 0,
-                      borderRadius: '12px',
-                      overflow: 'hidden',
-                      aspectRatio: '1 / 1',
-                      border: isActive
-                        ? '2.5px solid #b5091f'
-                        : '1px solid rgba(184, 137, 58, 0.35)',
-                      background: '#f5ebe0',
-                      cursor: 'pointer',
-                      opacity: isActive ? 1 : 0.72,
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block'
-                      }}
-                    />
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
           {/* Right Column: 1. Product Name -> 2. Product Info -> 3. Summarized Price, Quantity & Order Now -> 4. Ratings */}

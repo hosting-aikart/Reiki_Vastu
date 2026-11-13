@@ -16,7 +16,7 @@ const TEMPLE_PRODUCTS = [
   { id: 1, title: 'Energized Rudraksha', subtitle: 'Vedic Consecrated Beads', icon: Sparkles },
   { id: 2, title: 'Sacred Healing Crystals', subtitle: 'Natural Chakra Stones', icon: Gem },
   { id: 3, title: 'Shree Yantra & Meru', subtitle: 'Abundance Sacred Geometry', icon: Shield },
-  { id: 4, title: 'Bio-Cosmic Pyramids', subtitle: 'Non-Demolition Vastu', icon: Layers }
+  { id: 4, title: 'Bio-Cosmic Pyramids', subtitle: 'Non-Demolition Vaastu', icon: Layers }
 ];
 
 // Profiles shown in the "About" section of the home page.
@@ -339,8 +339,6 @@ export default function TempleHarmonyRedesign({
           ) : (
             /* ── CURRENT HERO MODE (Unchanged) ── */
             <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
-              {/* Heading, rule and tagline share a soft golden glow behind them */}
-              <div className="th-hero-text-glow">
               <h1 className="th-hero-title th-hero-title--golden">
                 <span className="th-hero-line-crimson">
                   Ancient Wisdom for a Healthier,
@@ -364,7 +362,6 @@ export default function TempleHarmonyRedesign({
                 <span className="th-golden-dot" aria-hidden="true">&bull;</span>
                 <span>Transform Your Life</span>
               </p>
-              </div>
 
               <div className="hero-modern-actions">
                 <button
@@ -401,10 +398,10 @@ export default function TempleHarmonyRedesign({
             <OrnamentalFlourish />
             <p className="th-body-p th-about-story">
               Dr. Naresh Chhabdiya has been practicing{' '}
-              <strong>Reiki, Meditation, Vastu, Astrology, Numerology and 16+ courses since 1995</strong>. A
+              <strong>Reiki, Meditation, Vaastu, Astrology, Numerology and 16+ courses since 1995</strong>. A
               doctor by profession and motivational mentor with centers in{' '}
               <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people
-              around the world with genuine Reiki and spiritual healing. Previously Reiki and Vastu World
+              around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World
               was known as <strong>Sanjeevni Reiki and Vaastu Center</strong>.
             </p>
           </div>

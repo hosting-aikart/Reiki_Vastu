@@ -1,7 +1,7 @@
 export const CATEGORIES_DATA = [
   { category: "All Categories", count: 48 },
   { category: "Our Courses", count: 12 },
-  { category: "Vastu Shastra", count: 9 },
+  { category: "Vaastu Shastra", count: 9 },
   { category: "Reiki Energy Healing", count: 8 },
   { category: "Vedic Astrology", count: 7 },
   { category: "Energized Products", count: 14 },
