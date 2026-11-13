@@ -528,6 +528,24 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
               Card and UPI details are entered in Razorpay's secure window and never reach this website.
               Your delivery details are used only to deliver this order.
             </p>
+
+            <p style={{ fontSize: '12px', color: '#64748b', margin: '8px 0 0', textAlign: 'center', lineHeight: 1.6 }}>
+              By paying, you agree to our{' '}
+              {[
+                ['terms-and-conditions', 'Terms & Conditions'],
+                ['refund-policy', 'Refund & Cancellation Policy'],
+                ['shipping-policy', 'Shipping & Delivery Policy'],
+                ['privacy-policy', 'Privacy Policy']
+              ].map(([slug, label], i, all) => (
+                <React.Fragment key={slug}>
+                  {i > 0 && (i === all.length - 1 ? ' and ' : ', ')}
+                  <a href={`/${slug}`} target="_blank" rel="noopener noreferrer" style={{ color: '#D2042D', fontWeight: 600 }}>
+                    {label}
+                  </a>
+                </React.Fragment>
+              ))}
+              .
+            </p>
           </form>
         )}
       </div>

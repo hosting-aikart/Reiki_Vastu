@@ -43,11 +43,15 @@ export const allowedOrigins = [
     ...PRODUCTION_ORIGINS
   ])
 ];
+
+const isDevLocalhost = (origin) =>
+  env.NODE_ENV === 'development' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps, curl, or server-to-server)
-      if (!origin || allowedOrigins.includes(normalizeOrigin(origin)) || allowedOrigins.includes('*')) {
+      if (!origin || allowedOrigins.includes(normalizeOrigin(origin)) || allowedOrigins.includes('*') || isDevLocalhost(origin)) {
         return callback(null, true);
       }
       return callback(new Error(`CORS policy does not allow access from origin: ${origin}`));

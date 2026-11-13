@@ -1,7 +1,8 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { POLICY_LINKS } from '../data/policies';
 
-export default function Footer({ setCurrentView, openModal }) {
+export default function Footer({ setCurrentView, openModal, onOpenPolicy }) {
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) {
@@ -210,10 +211,24 @@ export default function Footer({ setCurrentView, openModal }) {
             © 1995–2026 <strong className="akf-brand-bold">Reiki and Vaastu World</strong>. Founded by Dr. Naresh Chhabdiya.
           </div>
 
-            <span className="akf-legal-item">Privacy Policy</span>
-            <span className="akf-legal-sep">|</span>
-            <span className="akf-legal-item">Terms of Service</span>
-            <span className="akf-legal-sep">|</span>
+          <nav className="akf-legal" aria-label="Legal" style={{ flexWrap: 'wrap', rowGap: '4px' }}>
+            {POLICY_LINKS.map((link) => (
+              <React.Fragment key={link.slug}>
+                <a
+                  href={`/${link.slug}`}
+                  onClick={(e) => {
+                    if (!onOpenPolicy) return; // plain link: full page load
+                    e.preventDefault();
+                    onOpenPolicy(link.slug);
+                  }}
+                  className="akf-legal-item"
+                  style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                >
+                  {link.label}
+                </a>
+                <span className="akf-legal-sep">|</span>
+              </React.Fragment>
+            ))}
             <a
               href="/admin"
               onClick={(e) => {
@@ -227,6 +242,7 @@ export default function Footer({ setCurrentView, openModal }) {
             >
               Staff Portal
             </a>
+          </nav>
         </div>
       </div>
     </footer>

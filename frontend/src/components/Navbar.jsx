@@ -310,7 +310,7 @@ export default function Navbar({
             +91 8446656677 / 9423424596
           </p>
           <p style={{ color: '#fecaca', fontSize: '13px', margin: 0 }}>
-            reki.vastuworld@gmail.com
+            reiki.vastuworld@gmail.com
           </p>
         </div>
       </div>

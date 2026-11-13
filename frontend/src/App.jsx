@@ -19,6 +19,8 @@ import CheckoutPage from './components/CheckoutPage';
 import PaymentStatusPage from './components/PaymentStatusPage';
 import EventsPage from './components/events/EventsPage';
 import EventPopup from './components/events/EventPopup';
+import PolicyPage from './components/PolicyPage';
+import { policySlugFromPath } from './data/policies';
 
 // Payment pages have real URLs so a refresh lands on the same page.
 // /checkout/<productId>?quantity=2  -> delivery details + payment for one product
@@ -51,8 +53,12 @@ export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) return 'admin';
+    if (policySlugFromPath(path)) return 'policy';
     return currentPaymentRoute()?.view || viewFromPath(path) || 'home';
   });
+  // Legal pages (/privacy-policy, /terms-and-conditions, ...) have real URLs so
+  // they can be opened and linked directly, e.g. by Razorpay's website review.
+  const [policySlug, setPolicySlug] = useState(() => policySlugFromPath(window.location.pathname));
   const [checkout, setCheckout] = useState(() => {
     const route = currentPaymentRoute();
     return { productId: route?.checkoutProductId || null, quantity: route?.checkoutQuantity || 1 };
@@ -64,7 +70,7 @@ export default function App() {
   const [activeModal, setActiveModal] = useState(null);
   // The event announcement opens with the site, except on pages where it would
   // get in the way: the events page itself and the checkout / payment pages.
-  const [showEventPopup] = useState(() => !['events', ...PAYMENT_VIEWS].includes(currentView));
+  const [showEventPopup] = useState(() => !['events', 'policy', ...PAYMENT_VIEWS].includes(currentView));
   const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
@@ -73,6 +79,9 @@ export default function App() {
       const paymentRoute = currentPaymentRoute();
       if (path.startsWith('/admin')) {
         setCurrentView('admin');
+      } else if (policySlugFromPath(path)) {
+        setPolicySlug(policySlugFromPath(path));
+        setCurrentView('policy');
       } else if (paymentRoute) {
         setCheckout({ productId: paymentRoute.checkoutProductId, quantity: paymentRoute.checkoutQuantity });
         setStatusToken(paymentRoute.statusToken);
@@ -176,16 +185,22 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToPolicy = (slug) => {
+    window.history.pushState({}, '', `/${slug}`);
+    setPolicySlug(slug);
+    setCurrentView('policy');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Navbar and Footer switch views without changing the URL. Leaving a payment
-  // page that way must also leave its URL, or a refresh would reopen it.
+  // or policy page that way must also leave its URL, or a refresh would reopen it.
   const changeView = (view) => {
     const path = window.location.pathname;
+    const onPaymentPage = paymentRouteFromPath(path) && !PAYMENT_VIEWS.includes(view);
+    const onPolicyPage = policySlugFromPath(path) && view !== 'policy';
     if (VIEW_PATHS[view]) {
       if (viewFromPath(path) !== view) window.history.pushState({}, '', VIEW_PATHS[view]);
-    } else if (
-      (paymentRouteFromPath(path) && !PAYMENT_VIEWS.includes(view)) ||
-      viewFromPath(path)
-    ) {
+    } else if (onPaymentPage || onPolicyPage || viewFromPath(path)) {
       window.history.pushState({}, '', '/');
     }
     setCurrentView(view);
@@ -210,7 +225,18 @@ export default function App() {
 
       {/* Main Content Pages */}
       <main style={{ flex: 1 }}>
-        {currentView === 'checkout' && checkout.productId ? (
+        {currentView === 'policy' && policySlug ? (
+          /* ── Legal pages: privacy, terms, refund, shipping, contact ── */
+          <PolicyPage
+            key={policySlug}
+            slug={policySlug}
+            onNavigate={navigateToPolicy}
+            onBack={() => {
+              changeView('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        ) : currentView === 'checkout' && checkout.productId ? (
           /* ── Checkout: delivery details + Razorpay payment ── */
           <CheckoutPage
             key={`${checkout.productId}:${checkout.quantity}`}
@@ -292,14 +318,15 @@ export default function App() {
         )}
       </main>
 
-      {/* The footer is shown on the home page only. */}
-      {currentView === 'home' && (
+      {/* The footer is shown on the home page and the legal pages (not on Events). */}
+      {(currentView === 'home' || currentView === 'policy') && (
         <Footer
           setCurrentView={(view) => {
             changeView(view);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           openModal={openModal}
+          onOpenPolicy={navigateToPolicy}
         />
       )}
 

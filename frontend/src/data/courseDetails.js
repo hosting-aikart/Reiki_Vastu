@@ -716,7 +716,7 @@ export const COURSE_DETAILS = {
     },
     use: {
       title: 'How Can Pranic Healing Help?',
-      text: 'Thousands of miraculous healing stories have been documented with the use of Pranic Healing, including the full spectrum of physical and psychological conditions such as headaches, flu, ulcers, back pain, asthma, migraines, mental illness, multiple sclerosis, cancer and much more.',
+      text: 'Pranic Healing is a complementary energy practice. Many students and clients use it alongside conventional medical care to relax, manage everyday stress, feel more energised and find emotional balance. It supports your well-being and does not replace diagnosis or treatment by a qualified doctor.',
       cta: 'Learn How Pranic Healing Works',
       items: [
         { label: 'Physical Healing', icon: 'Flower2' },
@@ -735,7 +735,7 @@ export const COURSE_DETAILS = {
       items: [
         { label: 'Supports Physical Healing', icon: 'Heart' },
         { label: 'Reduces Stress & Anxiety', icon: 'Flower2' },
-        { label: 'Boosts Immunity', icon: 'Shield' },
+        { label: 'Promotes Deep Relaxation', icon: 'Shield' },
         { label: 'Improves Energy Levels', icon: 'Leaf' },
         { label: 'Enhances Mental Clarity', icon: 'Brain' },
         { label: 'Brings Emotional Balance', icon: 'PersonStanding' },

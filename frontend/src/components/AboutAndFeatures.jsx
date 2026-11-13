@@ -89,7 +89,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                   Book Session with Dr. Naresh
                 </button>
                 <a
-                  href="mailto:reki.vastuworld@gmail.com"
+                  href="mailto:reiki.vastuworld@gmail.com"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -115,7 +115,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                   }}
                 >
                   <Mail size={15} color="#D2042D" />
-                  <span>reki.vastuworld@gmail.com</span>
+                  <span>reiki.vastuworld@gmail.com</span>
                 </a>
               </div>
             </div>
