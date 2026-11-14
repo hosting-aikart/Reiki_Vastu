@@ -113,25 +113,12 @@ const paymentSchema = new mongoose.Schema(
       email: { type: String, required: true, trim: true, lowercase: true, maxlength: 120 },
       address: {
         line1: { type: String, required: true, trim: true, maxlength: 200 },
+        // Older orders may have an empty line2 (it used to be optional), so it is not required here
         line2: { type: String, trim: true, maxlength: 200, default: '' },
+        landmark: { type: String, trim: true, maxlength: 120, default: '' },
         city: { type: String, required: true, trim: true, maxlength: 80 },
         state: { type: String, required: true, trim: true, maxlength: 80 },
         pincode: { type: String, required: true, trim: true, match: /^[1-9]\d{5}$/ }
-      },
-      // Optional: shared by the customer with "Use my current location" to help
-      // the delivery person find the exact place. Reported by the browser, so
-      // it is a convenience, not proof of where the customer is.
-      location: {
-        type: new mongoose.Schema(
-          {
-            latitude: { type: Number, required: true, min: -90, max: 90 },
-            longitude: { type: Number, required: true, min: -180, max: 180 },
-            accuracyMeters: { type: Number, min: 0, default: null },
-            capturedAt: { type: Date, default: null }
-          },
-          { _id: false }
-        ),
-        default: null
       }
     },
     // Owner's "payment received" email (sent once, when the payment becomes PAID)

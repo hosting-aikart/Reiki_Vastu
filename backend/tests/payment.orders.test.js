@@ -18,7 +18,7 @@ const CUSTOMER = {
   name: 'Asha Patil',
   phone: '9822012345',
   email: 'asha@example.com',
-  address: { line1: '12 Walcut Compound, Camp Road', line2: '', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
+  address: { line1: '12 Walcut Compound, Camp Road', line2: 'Camp Area', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
 };
 
 describe('Payment order creation', () => {
@@ -267,7 +267,7 @@ describe('Payment order creation', () => {
       assert.equal(record.customer.name, CUSTOMER.name);
       assert.equal(record.customer.phone, CUSTOMER.phone);
       assert.equal(record.customer.email, CUSTOMER.email);
-      assert.deepEqual(record.customer.address, CUSTOMER.address);
+      assert.deepEqual(record.customer.address, { ...CUSTOMER.address, landmark: '' });
     });
 
     test('are never sent to Razorpay or returned to the browser', async () => {
@@ -295,6 +295,8 @@ describe('Payment order creation', () => {
       ['phone', { phone: '12345' }],
       ['email', { email: 'not-an-email' }],
       ['address.line1', { address: { ...CUSTOMER.address, line1: '' } }],
+      ['address.line2', { address: { ...CUSTOMER.address, line2: '' } }],
+      ['address.line2', { address: { ...CUSTOMER.address, line2: undefined } }],
       ['address.city', { address: { ...CUSTOMER.address, city: '' } }],
       ['address.state', { address: { ...CUSTOMER.address, state: '' } }],
       ['address.pincode', { address: { ...CUSTOMER.address, pincode: '04460' } }]
@@ -310,51 +312,35 @@ describe('Payment order creation', () => {
       });
     }
 
-    test('stores an optional live location with the address', async () => {
-      const location = { latitude: 20.9374, longitude: 77.7796, accuracyMeters: 18, capturedAt: new Date().toISOString() };
+    test('rejects an order with no address at all', async () => {
+      const res = await post(orderBody({ customer: { ...CUSTOMER, address: undefined } }));
+      const body = await res.json();
+
+      assert.equal(res.status, 422);
+      assert.ok(body.error.fields['customer.address'], JSON.stringify(body.error.fields));
+      assert.equal(razorpayCalls.length, 0);
+    });
+
+    test('stores the full detailed address, including an optional landmark', async () => {
+      const address = { ...CUSTOMER.address, landmark: 'Near City Hospital' };
+      const res = await post(orderBody({ customer: { ...CUSTOMER, address } }));
+      const { data } = await res.json();
+      const record = await Payment.findOne({ reference: data.reference }).lean();
+
+      assert.equal(res.status, 201);
+      assert.equal(record.customer.address.line1, address.line1);
+      assert.equal(record.customer.address.line2, address.line2);
+      assert.equal(record.customer.address.landmark, 'Near City Hospital');
+    });
+
+    test('a live location sent by an old page is ignored, not stored', async () => {
+      const location = { latitude: 20.9374, longitude: 77.7796 };
       const res = await post(orderBody({ customer: { ...CUSTOMER, location } }));
       const { data } = await res.json();
       const record = await Payment.findOne({ reference: data.reference }).lean();
 
       assert.equal(res.status, 201);
-      assert.equal(record.customer.location.latitude, 20.9374);
-      assert.equal(record.customer.location.longitude, 77.7796);
-      assert.equal(record.customer.location.accuracyMeters, 18);
-      assert.ok(!JSON.stringify(razorpayCalls[0]).includes('20.9374'), 'location must not be sent to Razorpay');
-    });
-
-    test('an order without a location stores none', async () => {
-      const { data } = await (await post(orderBody())).json();
-      const record = await Payment.findOne({ reference: data.reference }).lean();
-
-      assert.equal(record.customer.location, null);
-    });
-
-    for (const [name, location] of [
-      ['latitude out of range', { latitude: 91, longitude: 77 }],
-      ['longitude out of range', { latitude: 20, longitude: 181 }],
-      ['non-numeric coordinates', { latitude: '20.9', longitude: '77.7' }],
-      ['missing longitude', { latitude: 20.9 }]
-    ]) {
-      test(`rejects a location with ${name}`, async () => {
-        const res = await post(orderBody({ customer: { ...CUSTOMER, location } }));
-        const body = await res.json();
-
-        assert.equal(res.status, 422);
-        assert.ok(Object.keys(body.error.fields).some((k) => k.startsWith('customer.location')), JSON.stringify(body.error.fields));
-        assert.equal(razorpayCalls.length, 0);
-      });
-    }
-
-    test('changing the location under the same key is refused', async () => {
-      const key = crypto.randomUUID();
-      const location = { latitude: 20.9374, longitude: 77.7796 };
-
-      await post(orderBody({ idempotencyKey: key, customer: { ...CUSTOMER, location } }));
-      const res = await post(orderBody({ idempotencyKey: key, customer: { ...CUSTOMER, location: { ...location, latitude: 21.1 } } }));
-
-      assert.equal(res.status, 409);
-      assert.equal(razorpayCalls.length, 1);
+      assert.equal(record.customer.location, undefined);
     });
 
     test('changing the address under the same key is refused, not silently ignored', async () => {

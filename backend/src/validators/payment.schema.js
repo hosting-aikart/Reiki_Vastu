@@ -24,24 +24,18 @@ export const createOrderSchema = z.object({
       name: z.string().trim().min(2, 'Please enter your full name').max(80, 'Name cannot exceed 80 characters'),
       phone: z.string().trim().regex(/^(\+91|0)?[6-9]\d{9}$/, 'Please enter a valid 10-digit mobile number'),
       email: z.string().trim().toLowerCase().email('Please enter a valid email address').max(120),
-      address: z.object({
-        line1: z.string().trim().min(5, 'Please enter your house / street address').max(200),
-        line2: z.string().trim().max(200).optional().default(''),
-        city: z.string().trim().min(2, 'Please enter your city').max(80),
-        state: z.string().trim().min(2, 'Please enter your state').max(80),
-        pincode: z.string().trim().regex(/^[1-9]\d{5}$/, 'Please enter a valid 6-digit PIN code')
-      }),
-      // Optional live location from the browser's geolocation feature
-      location: z
-        .object({
-          latitude: z.number().finite().min(-90).max(90),
-          longitude: z.number().finite().min(-180).max(180),
-          accuracyMeters: z.number().finite().min(0).max(100000).nullable().optional().default(null),
-          capturedAt: z.string().datetime().nullable().optional().default(null)
-        })
-        .nullable()
-        .optional()
-        .default(null)
+      // A complete delivery address is compulsory for every order
+      address: z.object(
+        {
+          line1: z.string({ required_error: 'Please enter your flat / house number and building' }).trim().min(3, 'Please enter your flat / house number and building').max(200),
+          line2: z.string({ required_error: 'Please enter your street, area or locality' }).trim().min(3, 'Please enter your street, area or locality').max(200),
+          landmark: z.string().trim().max(120, 'Landmark cannot exceed 120 characters').optional().default(''),
+          city: z.string({ required_error: 'Please enter your city' }).trim().min(2, 'Please enter your city').max(80),
+          state: z.string({ required_error: 'Please enter your state' }).trim().min(2, 'Please enter your state').max(80),
+          pincode: z.string({ required_error: 'Please enter a valid 6-digit PIN code' }).trim().regex(/^[1-9]\d{5}$/, 'Please enter a valid 6-digit PIN code')
+        },
+        { required_error: 'Delivery address is required', invalid_type_error: 'Delivery address is required' }
+      )
     },
     { required_error: 'Delivery details are required', invalid_type_error: 'Delivery details are required' }
   )

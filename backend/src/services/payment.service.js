@@ -80,8 +80,7 @@ function toCheckoutResponse(payment) {
 function sameCustomer(stored, submitted) {
   const fields = (c) => [
     c?.name, c?.phone, c?.email,
-    c?.address?.line1, c?.address?.line2 || '', c?.address?.city, c?.address?.state, c?.address?.pincode,
-    c?.location?.latitude ?? null, c?.location?.longitude ?? null
+    c?.address?.line1, c?.address?.line2 || '', c?.address?.landmark || '', c?.address?.city, c?.address?.state, c?.address?.pincode
   ];
   return JSON.stringify(fields(stored)) === JSON.stringify(fields(submitted));
 }

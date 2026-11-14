@@ -35,7 +35,7 @@ export const BUSINESS = {
 };
 
 export const POLICY_TERMS = {
-  lastUpdated: '13 November 2026',
+  lastUpdated: '14 November 2026',
   dispatchDays: '2–4 business days',
   deliveryDays: '5–10 business days',
   claimWindowHours: 48,
@@ -67,8 +67,7 @@ export const POLICIES = [
         heading: 'Information we collect',
         list: [
           'Contact details you give us: your name, mobile number and email address.',
-          'Delivery details when you place an order: your address, city, state and PIN code.',
-          'Your live location, only if you choose to share it at checkout. It is used to fill in and locate your delivery address.',
+          'Delivery details when you place an order: your full address (house / flat number, building, street, area, landmark), city, state and PIN code.',
           'Enquiry details: the course, service, centre, preferred date and time, and any message you send us.',
           'Testimonials you submit, including your name and rating. They are published only after we review and approve them.',
           'Order and payment records: what you bought, the amount, and the payment reference and status we receive from Razorpay.'
@@ -98,7 +97,6 @@ export const POLICIES = [
           'Courier and delivery partners: your name, phone number and address, to deliver your order.',
           'Hosting and database providers (Vercel, Render and MongoDB Atlas): to run the Website and store records securely.',
           'Email service providers: to send order and enquiry notifications.',
-          'OpenStreetMap (Nominatim): only if you use “Use my current location” at checkout, your coordinates are sent to look up the matching address.',
           'YouTube: videos embedded on the Website are served by YouTube, which may set its own cookies when you play them.'
         ]
       },

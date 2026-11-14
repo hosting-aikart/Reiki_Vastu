@@ -453,7 +453,7 @@ export function buildPaymentEmailData(payment) {
   const dashboardUrl = env.ADMIN_DASHBOARD_URL ? `${env.ADMIN_DASHBOARD_URL.replace(/\/$/, '')}/admin` : null;
   const c = payment.customer || {};
   const a = c.address || {};
-  const addressLines = [a.line1, a.line2, [a.city, a.state].filter(Boolean).join(', '), a.pincode].filter(Boolean);
+  const addressLines = [a.line1, a.line2, a.landmark ? `Landmark: ${a.landmark}` : null, [a.city, a.state].filter(Boolean).join(', '), a.pincode].filter(Boolean);
 
   const subject = `[Payment received - ${payment.reference}] ${amount} · ${payment.product.name} × ${payment.quantity}${isTestMode ? ' (TEST MODE)' : ''}`;
 
@@ -472,20 +472,6 @@ export function buildPaymentEmailData(payment) {
     },
     { label: 'Razorpay Payment ID', value: payment.razorpayPaymentId || 'Not available' }
   ];
-
-  const location = c.location;
-  const mapUrl =
-    location && Number.isFinite(location.latitude) && Number.isFinite(location.longitude)
-      ? `https://www.google.com/maps?q=${Number(location.latitude).toFixed(6)},${Number(location.longitude).toFixed(6)}`
-      : null;
-  if (mapUrl) {
-    const accuracy = Number.isFinite(location.accuracyMeters) ? ` (accurate to about ${Math.round(location.accuracyMeters)} m)` : '';
-    contentRows.splice(8, 0, {
-      label: 'Live Location',
-      value: `<a href="${escapeHtml(mapUrl)}">Open in Google Maps</a>${escapeHtml(accuracy)}`,
-      isHtml: true
-    });
-  }
 
   const html = buildEmailTemplate({
     title: `Payment Received: ${amount}`,
@@ -513,7 +499,6 @@ export function buildPaymentEmailData(payment) {
     ``,
     `--- DELIVER TO ---`,
     ...(addressLines.length ? addressLines : ['Not provided']),
-    mapUrl ? `Live location: ${mapUrl}` : null,
     ``,
     `Razorpay Payment ID: ${payment.razorpayPaymentId || 'Not available'}`,
     dashboardUrl ? `Admin Dashboard: ${dashboardUrl}` : null
