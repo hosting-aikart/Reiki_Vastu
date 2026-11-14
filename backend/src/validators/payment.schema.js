@@ -26,7 +26,11 @@ export const createOrderSchema = z.object({
       email: z.string().trim().toLowerCase().email('Please enter a valid email address').max(120),
       address: z.object({
         line1: z.string().trim().min(5, 'Please enter your house / street address').max(200),
-        line2: z.string().trim().max(200).optional().default(''),
+        line2: z
+          .string({ required_error: 'Please enter your detailed address (landmark / area)' })
+          .trim()
+          .min(10, 'Please enter your detailed address (landmark / area, at least 10 characters)')
+          .max(200),
         city: z.string().trim().min(2, 'Please enter your city').max(80),
         state: z.string().trim().min(2, 'Please enter your state').max(80),
         pincode: z.string().trim().regex(/^[1-9]\d{5}$/, 'Please enter a valid 6-digit PIN code')

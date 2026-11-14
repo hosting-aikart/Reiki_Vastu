@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Loader2, Lock, MapPin, X } from 'lucide-react';
+import { ArrowLeft, Loader2, Lock } from 'lucide-react';
 import { findProductById } from '@reiki-vastu/shared/products.js';
 import { createPaymentOrder, getProducts, verifyPayment } from '../api/paymentClient';
 import { formatPaise, generateIdempotencyKey, loadRazorpayCheckout } from '../utils/razorpayCheckout';
-import { getCurrentLocation, googleMapsUrl, isLocationSupported, lookupAddress } from '../utils/location';
 import { cardStyle, linkButtonStyle, primaryButtonStyle } from './paymentStyles';
 import PaymentResult from './PaymentResult';
 import TestModeBanner from './TestModeBanner';
@@ -20,7 +19,7 @@ const FIELDS = [
   { key: 'phone', label: 'Mobile number', autoComplete: 'tel', inputMode: 'tel', placeholder: '10-digit mobile' },
   { key: 'email', label: 'Email', autoComplete: 'email', type: 'email' },
   { key: 'line1', label: 'House / street address', autoComplete: 'address-line1', span: 2 },
-  { key: 'line2', label: 'Landmark / area (optional)', autoComplete: 'address-line2', span: 2, optional: true },
+  { key: 'line2', label: 'Detailed address (flat / building, area, landmark)', autoComplete: 'address-line2', span: 2, multiline: true, placeholder: 'e.g. Flat 302, Sai Residency, near Shiv Temple, Camp Area' },
   { key: 'city', label: 'City', autoComplete: 'address-level2' },
   { key: 'state', label: 'State', autoComplete: 'address-level1' },
   { key: 'pincode', label: 'PIN code', autoComplete: 'postal-code', inputMode: 'numeric', maxLength: 6 }
@@ -33,19 +32,19 @@ function validateDetails(d) {
   if (!/^(\+91|0)?[6-9]\d{9}$/.test(d.phone.trim())) errors.phone = 'Please enter a valid 10-digit mobile number';
   if (!/^\S+@\S+\.\S+$/.test(d.email.trim())) errors.email = 'Please enter a valid email address';
   if (d.line1.trim().length < 5) errors.line1 = 'Please enter your house / street address';
+  if (d.line2.trim().length < 10) errors.line2 = 'Please enter your detailed address (landmark / area, at least 10 characters)';
   if (d.city.trim().length < 2) errors.city = 'Please enter your city';
   if (d.state.trim().length < 2) errors.state = 'Please enter your state';
   if (!/^[1-9]\d{5}$/.test(d.pincode.trim())) errors.pincode = 'Please enter a valid 6-digit PIN code';
   return errors;
 }
 
-function toCustomerPayload(d, location) {
+function toCustomerPayload(d) {
   return {
     name: d.name.trim(),
     phone: d.phone.trim(),
     email: d.email.trim(),
-    address: { line1: d.line1.trim(), line2: d.line2.trim(), city: d.city.trim(), state: d.state.trim(), pincode: d.pincode.trim() },
-    location: location || null
+    address: { line1: d.line1.trim(), line2: d.line2.trim(), city: d.city.trim(), state: d.state.trim(), pincode: d.pincode.trim() }
   };
 }
 
@@ -119,48 +118,6 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
   const changeDetail = (key, value) => {
     setDetails((d) => ({ ...d, [key]: value }));
     setFieldErrors((e) => ({ ...e, [key]: undefined }));
-    attemptRef.current = null;
-  };
-
-  // Optional live location: { status: idle | locating | captured | error, coords, message }
-  const [location, setLocation] = useState({ status: 'idle', coords: null, message: null });
-
-  const shareLocation = async () => {
-    setLocation({ status: 'locating', coords: null, message: null });
-    let coords;
-    try {
-      coords = await getCurrentLocation();
-    } catch (err) {
-      setLocation({ status: 'error', coords: null, message: err.message });
-      return;
-    }
-    attemptRef.current = null; // the delivery details changed
-
-    const found = await lookupAddress(coords);
-    if (found) {
-      // Only fill boxes the customer hasn't typed in, so nothing they wrote is overwritten
-      setDetails((d) => {
-        const next = { ...d };
-        for (const [key, value] of Object.entries(found)) {
-          if (value && !d[key].trim()) {
-            next[key] = value;
-          }
-        }
-        return next;
-      });
-      setFieldErrors({});
-    }
-    setLocation({
-      status: 'captured',
-      coords,
-      message: found
-        ? 'Location added. We filled in the address from it. Please check it and add your house or flat number.'
-        : 'Location added. We could not look up the address automatically, so please type it below.'
-    });
-  };
-
-  const removeLocation = () => {
-    setLocation({ status: 'idle', coords: null, message: null });
     attemptRef.current = null;
   };
 
@@ -262,7 +219,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
       return;
     }
 
-    const customer = toCustomerPayload(details, location.coords);
+    const customer = toCustomerPayload(details);
     const res = await createPaymentOrder({ productId: product.id, quantity, idempotencyKey: getAttemptKey(), customer });
 
     if (!res.success) {
@@ -392,97 +349,35 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
             {/* ── Delivery details ── */}
             <h3 style={{ fontSize: '16px', fontWeight: 850, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
 
-            {/* ── Optional live location ── */}
-            <div style={{ background: '#fffaf0', border: '1px solid #f1e5c4', borderRadius: '12px', padding: '14px 16px', marginBottom: '16px' }}>
-              {location.status === 'captured' ? (
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <MapPin size={18} color="#15803d" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <div style={{ flex: 1, fontSize: '13px', color: '#334155', lineHeight: 1.5 }}>
-                    <strong style={{ color: '#15803d' }}>Live location added</strong>
-                    {location.coords.accuracyMeters != null && <> (accurate to about {location.coords.accuracyMeters} m)</>}
-                    {' · '}
-                    <a href={googleMapsUrl(location.coords)} target="_blank" rel="noopener noreferrer" style={{ color: '#1d4ed8' }}>
-                      View on map
-                    </a>
-                    <div>{location.message}</div>
-                    <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
-                      Address lookup ©{' '}
-                      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8' }}>
-                        OpenStreetMap contributors
-                      </a>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={removeLocation}
-                    disabled={busy}
-                    aria-label="Remove live location"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', padding: '2px' }}
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    onClick={shareLocation}
-                    disabled={busy || location.status === 'locating' || !isLocationSupported()}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      padding: '9px 14px',
-                      borderRadius: '10px',
-                      border: '1.5px solid #d4af37',
-                      background: '#ffffff',
-                      color: '#3b0a11',
-                      fontWeight: 750,
-                      fontSize: '14px',
-                      cursor: busy || location.status === 'locating' ? 'wait' : 'pointer'
-                    }}
-                  >
-                    {location.status === 'locating' ? (
-                      <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> Finding your location...</>
-                    ) : (
-                      <><MapPin size={16} color="#D2042D" /> Use my current location</>
-                    )}
-                  </button>
-                  <p style={{ fontSize: '12px', color: '#64748b', margin: '8px 0 0', lineHeight: 1.5 }}>
-                    Optional. Helps our delivery partner find you, and fills in the address below. Or simply type your address.
-                    {!isLocationSupported() && ' (Your browser cannot share location on this page.)'}
-                  </p>
-                  {location.status === 'error' && (
-                    <p role="alert" style={{ fontSize: '13px', color: '#b91c1c', margin: '8px 0 0' }}>{location.message}</p>
-                  )}
-                </>
-              )}
-            </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px 14px', marginBottom: '20px' }}>
               {FIELDS.map((field) => (
                 <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '13px', fontWeight: 650, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
                   {field.label}
-                  <input
-                    name={field.key}
-                    type={field.type || 'text'}
-                    value={details[field.key]}
-                    onChange={(e) => changeDetail(field.key, e.target.value)}
-                    autoComplete={field.autoComplete}
-                    inputMode={field.inputMode}
-                    maxLength={field.maxLength}
-                    placeholder={field.placeholder}
-                    disabled={busy}
-                    aria-invalid={Boolean(fieldErrors[field.key])}
-                    style={{
+                  {React.createElement(field.multiline ? 'textarea' : 'input', {
+                    name: field.key,
+                    type: field.multiline ? undefined : field.type || 'text',
+                    rows: field.multiline ? 3 : undefined,
+                    required: true,
+                    value: details[field.key],
+                    onChange: (e) => changeDetail(field.key, e.target.value),
+                    autoComplete: field.autoComplete,
+                    inputMode: field.inputMode,
+                    maxLength: field.maxLength || (field.multiline ? 200 : undefined),
+                    placeholder: field.placeholder,
+                    disabled: busy,
+                    'aria-invalid': Boolean(fieldErrors[field.key]),
+                    style: {
                       padding: '10px 12px',
                       borderRadius: '10px',
                       border: `1.5px solid ${fieldErrors[field.key] ? '#dc2626' : '#e7d7b5'}`,
                       fontSize: '15px',
                       fontWeight: 450,
                       color: '#1e293b',
-                      background: '#ffffff'
-                    }}
-                  />
+                      background: '#ffffff',
+                      fontFamily: 'inherit',
+                      resize: field.multiline ? 'vertical' : undefined
+                    }
+                  })}
                   {fieldErrors[field.key] && <span style={{ color: '#b91c1c', fontWeight: 550 }}>{fieldErrors[field.key]}</span>}
                 </label>
               ))}

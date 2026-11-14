@@ -28,7 +28,7 @@ const CUSTOMER = {
   name: 'Asha Patil',
   phone: '9822012345',
   email: 'asha@example.com',
-  address: { line1: '12 Walcut Compound, Camp Road', line2: '', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
+  address: { line1: '12 Walcut Compound, Camp Road', line2: 'Near Shiv Temple, Camp Area', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
 };
 
 const sign = (orderId, paymentId, secret = FAKE_KEY_SECRET) => computeSignature(`${orderId}|${paymentId}`, secret);
