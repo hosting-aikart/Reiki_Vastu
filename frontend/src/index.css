@@ -5379,18 +5379,38 @@ a.hm-cta-btn:hover,
     font-size: 14px;
   }
 
+  /* Testimonials: one horizontal row, swiped one testimonial at a time.
+     Each card fills most of the screen; the edge of the next one shows. */
   .testimonials-cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px;
+    display: flex !important;
+    gap: 14px;
+    max-width: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: 4px 2px 14px;
+  }
+
+  .testimonials-cards-grid::-webkit-scrollbar {
+    display: none;
   }
 
   #testimonials-section .testimonial-editorial-card {
-    padding: 14px 10px !important;
+    flex: 0 0 86%;
+    scroll-snap-align: start;
+    padding: 22px 18px !important;
   }
 
   #testimonials-section .testimonial-editorial-card p {
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+  }
+
+  #testimonials-section .testimonial-editorial-card > p:last-child {
     font-size: 13px !important;
-    line-height: 1.45 !important;
   }
 
   /* Two course/product columns on their full listing pages. */
@@ -5637,7 +5657,8 @@ a.hm-cta-btn:hover,
   text-shadow: none !important;
 }
 
-/* Match the full product card row on larger home screens; mobile keeps two. */
+/* Match the full product card row on larger home screens; mobile shows four
+   (two rows of two). The rest are on the Products page. */
 @media (min-width: 700px) {
   .th-home-products-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -5648,8 +5669,9 @@ a.hm-cta-btn:hover,
 }
 
 @media (max-width: 699px) {
-  .th-home-products-grid > .th-feature-card:nth-child(n + 3) {
-    display: none;
+  .th-home-products-grid > .th-feature-card:nth-child(n + 5) {
+    /* !important: the cards set display: flex inline */
+    display: none !important;
   }
 }
 
