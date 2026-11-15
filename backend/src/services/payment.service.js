@@ -43,6 +43,9 @@ function priceOrder(productId, quantity) {
   if (!product) {
     throw new PaymentError(404, 'PRODUCT_NOT_FOUND', 'This product does not exist.');
   }
+  if (!Number.isInteger(product.unitPricePaise)) {
+    throw new PaymentError(409, 'PRODUCT_UNAVAILABLE', 'This product is coming soon and cannot be ordered yet.');
+  }
   if (!product.available) {
     throw new PaymentError(409, 'PRODUCT_UNAVAILABLE', 'This product is currently unavailable.');
   }

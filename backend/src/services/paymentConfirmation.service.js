@@ -4,6 +4,7 @@ import { fetchOrderPayments, RazorpayError } from './razorpay.service.js';
 import { PaymentError } from './payment.service.js';
 import { isValidCheckoutSignature } from '../utils/razorpaySignature.js';
 import { sendAdminPaymentNotification } from './email.service.js';
+import { eventAccessFor } from '../config/eventAccess.js';
 import logger from '../utils/logger.js';
 
 /**
@@ -51,7 +52,9 @@ export function toPublicStatus(payment) {
     failure:
       payment.status === PAYMENT_STATUS.FAILED
         ? { description: payment.failure?.description || null }
-        : null
+        : null,
+    // Event joining details (WhatsApp group). Only ever present once the payment is PAID.
+    access: eventAccessFor(payment)
   };
 }
 

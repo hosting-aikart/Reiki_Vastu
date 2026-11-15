@@ -1,0 +1,165 @@
+/* Product photo gallery (prefix: pig-). Frame, radius and shadow match the
+   product detail page's original single image. */
+
+.pig {
+  width: 100%;
+}
+
+.pig-main {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #f5ebe0;
+  border: 1.5px solid rgba(184, 137, 58, 0.38);
+  box-shadow: 0 12px 32px rgba(92, 46, 16, 0.1);
+  touch-action: pan-y; /* vertical scrolling stays with the page, sideways swipes change photo */
+  user-select: none;
+}
+
+.pig-main:focus-visible {
+  outline: 3px solid #d4af37;
+  outline-offset: 3px;
+}
+
+.pig-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.pig-slide.is-active {
+  opacity: 1;
+}
+
+.pig-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
+  color: #ffffff;
+  font-family: var(--font-karla);
+  font-size: 11.5px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(181, 9, 31, 0.32);
+}
+
+.pig-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 253, 249, 0.92);
+  border: 1px solid rgba(184, 137, 58, 0.45);
+  color: #b5091f;
+  box-shadow: 0 6px 16px rgba(92, 46, 16, 0.16);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.pig-nav:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.pig-nav:focus-visible,
+.pig-thumb:focus-visible {
+  outline: 3px solid #d4af37;
+  outline-offset: 2px;
+}
+
+.pig-nav--prev {
+  left: 12px;
+}
+
+.pig-nav--next {
+  right: 12px;
+}
+
+.pig-counter {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  background: rgba(56, 24, 18, 0.72);
+  color: #ffffff;
+  font-family: var(--font-karla);
+  font-size: 12px;
+  font-weight: 750;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.pig-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding: 4px 2px 6px;
+  scrollbar-width: thin;
+}
+
+.pig-thumb {
+  flex: 0 0 auto;
+  width: 76px;
+  height: 76px;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f5ebe0;
+  border: 2px solid rgba(184, 137, 58, 0.3);
+  cursor: pointer;
+  opacity: 0.72;
+  transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pig-thumb:hover {
+  opacity: 1;
+}
+
+.pig-thumb.is-active {
+  opacity: 1;
+  border-color: #b5091f;
+  box-shadow: 0 4px 12px rgba(181, 9, 31, 0.22);
+}
+
+.pig-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 560px) {
+  .pig-nav {
+    width: 38px;
+    height: 38px;
+  }
+
+  .pig-thumbs {
+    gap: 8px;
+  }
+
+  /* Still at least 44 px: easy to tap */
+  .pig-thumb {
+    width: 64px;
+    height: 64px;
+  }
+}

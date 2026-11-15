@@ -45,7 +45,7 @@ const VARIANTS = {
   }
 };
 
-export default function PaymentResult({ variant: variantKey, payment, polling, onRetry, onCheckAgain, onBackToProducts }) {
+export default function PaymentResult({ variant: variantKey, payment, polling, onRetry, retryLabel = 'Try again', onCheckAgain, onBackToProducts, backLabel = 'Back to products' }) {
   const variant = VARIANTS[variantKey] || VARIANTS.PENDING;
   const { Icon } = variant;
 
@@ -83,7 +83,7 @@ export default function PaymentResult({ variant: variantKey, payment, polling, o
       <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
         {onRetry && (
           <button onClick={onRetry} style={{ ...primaryButtonStyle, width: 'auto', cursor: 'pointer' }}>
-            Try again
+            {retryLabel}
           </button>
         )}
         {onCheckAgain && (
@@ -95,7 +95,7 @@ export default function PaymentResult({ variant: variantKey, payment, polling, o
           onClick={onBackToProducts}
           style={{ ...primaryButtonStyle, width: 'auto', background: '#ffffff', color: '#3b0a11', border: '1.5px solid #d4af37', cursor: 'pointer' }}
         >
-          Back to products
+          {backLabel}
         </button>
       </div>
     </div>

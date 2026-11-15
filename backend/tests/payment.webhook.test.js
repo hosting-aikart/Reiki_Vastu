@@ -87,7 +87,7 @@ describe('Razorpay webhook', () => {
       reference: `RVP-TEST-${crypto.randomBytes(4).toString('hex')}`,
       statusToken: crypto.randomUUID(),
       idempotencyKey: crypto.randomUUID(),
-      product: { id: 'black-obsidian', name: 'Black Obsidian', unitPricePaise: 10000, isPlaceholder: false },
+      product: { id: 'rose-quartz', name: 'Black Obsidian', unitPricePaise: 10000, isPlaceholder: false },
       quantity: 2,
       amountPaise: AMOUNT,
       status: PAYMENT_STATUS.PENDING,
@@ -428,7 +428,7 @@ describe('Razorpay webhook', () => {
       const res = await fetch(`${baseUrl}/api/payments/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId: 'black-obsidian', quantity: 0, idempotencyKey: crypto.randomUUID() })
+        body: JSON.stringify({ productId: 'rose-quartz', quantity: 0, idempotencyKey: crypto.randomUUID() })
       });
       const body = await res.json();
 

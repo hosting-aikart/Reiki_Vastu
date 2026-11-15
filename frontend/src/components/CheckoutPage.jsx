@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Loader2, Lock } from 'lucide-react';
 import { findProductById } from '@reiki-vastu/shared/products.js';
+import { getProductImages } from '../data/productImages';
 import { createPaymentOrder, getProducts, verifyPayment } from '../api/paymentClient';
 import { formatPaise, generateIdempotencyKey, loadRazorpayCheckout } from '../utils/razorpayCheckout';
 import { cardStyle, linkButtonStyle, primaryButtonStyle } from './paymentStyles';
@@ -85,6 +86,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
   const attemptRef = useRef(null);
 
   const display = findProductById(productId); // image and title for display only
+  const displayImage = getProductImages(display)[0]; // view 1, with its cache fingerprint
 
   useEffect(() => {
     let active = true;
@@ -94,13 +96,20 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
         setCatalog({ loading: false, error: res.message, product: null, paymentsEnabled: false, testMode: false, pricesConfirmed: false });
         return;
       }
-      const product = res.data.products.find((p) => p.id === productId) || null;
+      const found = res.data.products.find((p) => p.id === productId) || null;
+      // A product without a confirmed price is enquiry-only and can't be paid for
+      const priceOnRequest = found && !Number.isInteger(found.unitPricePaise);
+      const product = priceOnRequest ? null : found;
       if (product) {
         setQuantity(Math.min(Math.max(1, Math.floor(initialQuantity) || 1), product.maxQuantity));
       }
       setCatalog({
         loading: false,
-        error: product ? null : 'This product does not exist.',
+        error: product
+          ? null
+          : priceOnRequest
+            ? 'This product is coming soon and cannot be ordered yet.'
+            : 'This product does not exist.',
         product,
         paymentsEnabled: res.data.paymentsEnabled,
         testMode: Boolean(res.data.testMode),
@@ -291,16 +300,23 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
         {catalog.error && <p style={{ color: '#b91c1c' }}>{catalog.error}</p>}
 
         {phase === 'result' && result && (
-          <PaymentResult variant="FAILED" payment={result} onRetry={retry} onBackToProducts={onBack} />
+          <PaymentResult
+            variant="FAILED"
+            payment={result}
+            onRetry={retry}
+            retryLabel={display?.isEvent ? 'Retry Payment' : 'Try again'}
+            onBackToProducts={onBack}
+            backLabel={display?.isEvent ? 'Back to events' : 'Back to products'}
+          />
         )}
 
         {product && phase !== 'result' && (
           <form onSubmit={startPayment} noValidate style={cardStyle}>
             {/* ── Order summary ── */}
             <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
-              {display?.image && (
+              {displayImage && (
                 <img
-                  src={display.image}
+                  src={displayImage}
                   alt={display.alt || product.name}
                   style={{ width: '84px', height: '84px', objectFit: 'cover', borderRadius: '12px', border: '1px solid #f1e5c4', flexShrink: 0 }}
                 />

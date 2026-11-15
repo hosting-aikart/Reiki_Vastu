@@ -27,21 +27,24 @@ export const PRODUCTS = SHARED_PRODUCTS.map((product) => ({
   name: product.title,
   description: product.subtitle,
   image: product.image,
-  unitPricePaise: product.pricePaise,
+  unitPricePaise: product.pricePaise ?? null,
   originalPricePaise: product.originalPricePaise ?? null,
-  defaultUnitPricePaise: product.pricePaise,
+  defaultUnitPricePaise: product.pricePaise ?? null,
   defaultOriginalPricePaise: product.originalPricePaise ?? null,
-  defaultAvailable: product.available,
+  // A product without a confirmed price (pricePaise: null) can never be sold,
+  // until an administrator sets a price for it in the admin panel.
+  defaultAvailable: product.available && product.pricePaise != null,
   maxQuantity: product.maxQuantity,
-  available: product.available,
+  available: product.available && product.pricePaise != null,
   isPlaceholder: false,
   updatedAt: null
 }));
 
 // A bad catalog edit should stop the server, not reach a customer.
 for (const product of PRODUCTS) {
-  if (!Number.isInteger(product.unitPricePaise) || product.unitPricePaise < MIN_ORDER_PAISE) {
-    throw new Error(`Invalid pricePaise for product "${product.id}": must be an integer of at least ${MIN_ORDER_PAISE}.`);
+  const priceOnRequest = product.unitPricePaise === null;
+  if (!priceOnRequest && (!Number.isInteger(product.unitPricePaise) || product.unitPricePaise < MIN_ORDER_PAISE)) {
+    throw new Error(`Invalid pricePaise for product "${product.id}": must be null (coming soon) or an integer of at least ${MIN_ORDER_PAISE}.`);
   }
   if (!Number.isInteger(product.maxQuantity) || product.maxQuantity < 1 || product.maxQuantity > MAX_QUANTITY) {
     throw new Error(`Invalid maxQuantity for product "${product.id}": must be an integer from 1 to ${MAX_QUANTITY}.`);
@@ -66,6 +69,9 @@ export function applyProductOverride(productId, override) {
   }
   if (typeof override.available === 'boolean') {
     product.available = override.available;
+  }
+  if (product.unitPricePaise === null) {
+    product.available = false; // still no price, so still not for sale
   }
   product.updatedAt = override.updatedAt || new Date();
   return product;

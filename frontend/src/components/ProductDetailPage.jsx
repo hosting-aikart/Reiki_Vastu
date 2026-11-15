@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { SACRED_PRODUCTS } from './BusinessNeeds';
 import { OrnamentalFlourish } from './TempleHarmonyRedesign';
+import ProductImageGallery from './ProductImageGallery';
 import { getProducts } from '../api/paymentClient';
 import { formatPaise } from '@reiki-vastu/shared/products.js';
 
@@ -29,7 +30,7 @@ export default function ProductDetailPage({
   const product = liveOverride
     ? {
         ...baseProduct,
-        pricePaise: liveOverride.unitPricePaise,
+        pricePaise: liveOverride.unitPricePaise ?? null,
         price: formatPaise(liveOverride.unitPricePaise),
         originalPrice:
           liveOverride.originalPricePaise != null
@@ -59,6 +60,9 @@ export default function ProductDetailPage({
   }, [productId]);
 
   const relatedProducts = SACRED_PRODUCTS.filter((p) => p.id !== product.id);
+
+  // Unconfirmed prices (pricePaise: null) and unavailable products can't be bought
+  const purchasable = product.available !== false && product.pricePaise != null;
 
   return (
     <div
@@ -113,51 +117,13 @@ export default function ProductDetailPage({
             marginBottom: '56px'
           }}
         >
-          {/* Left Column: Product Image */}
+          {/* Left Column: Product Photos (all views from Products_images) */}
           <div>
-            <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                aspectRatio: '1 / 1',
-                borderRadius: '22px',
-                overflow: 'hidden',
-                background: '#f5ebe0',
-                border: '1.5px solid rgba(184, 137, 58, 0.38)',
-                boxShadow: '0 12px 32px rgba(92, 46, 16, 0.1)'
-              }}
-            >
-              <img
-                src={product.image}
-                alt={product.alt}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block'
-                }}
-              />
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  left: '16px',
-                  background: 'linear-gradient(135deg, #d1132e 0%, #9b0718 100%)',
-                  color: '#ffffff',
-                  fontFamily: 'var(--font-karla)',
-                  fontSize: '11.5px',
-                  fontWeight: 750,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  padding: '6px 14px',
-                  borderRadius: '999px',
-                  boxShadow: '0 6px 16px rgba(181, 9, 31, 0.32)'
-                }}
-              >
-                ✦ {product.badge || 'Reiki Energized'} ✦
-              </span>
-            </div>
-
+            <ProductImageGallery
+              images={product.images}
+              alt={product.alt}
+              badge={product.badge || 'Reiki Energized'}
+            />
           </div>
 
           {/* Right Column: 1. Product Name -> 2. Product Info -> 3. Summarized Price, Quantity & Order Now -> 4. Ratings */}
@@ -165,7 +131,7 @@ export default function ProductDetailPage({
             {/* 1. Name of Product */}
             <p className="th-eyebrow" style={{ marginBottom: '6px' }}>
               <Sparkles size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '6px' }} />
-              PRANA ENERGIZED SACRED REMEDY
+              PRANA ENERGIZED SACRED COLLECTION
             </p>
 
             <h1
@@ -202,6 +168,30 @@ export default function ProductDetailPage({
               <p className="th-body-p" style={{ marginBottom: 0 }}>
                 {product.longDescription}
               </p>
+
+              {product.specifications?.length > 0 && (
+                <dl
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'auto 1fr',
+                    gap: '6px 16px',
+                    margin: '14px 0 0',
+                    padding: '12px 16px',
+                    background: 'rgba(255, 253, 249, 0.9)',
+                    border: '1px solid rgba(184, 137, 58, 0.25)',
+                    borderRadius: '14px',
+                    fontFamily: 'var(--font-karla)',
+                    fontSize: '13.5px'
+                  }}
+                >
+                  {product.specifications.map((spec) => (
+                    <React.Fragment key={spec.label}>
+                      <dt style={{ fontWeight: 750, color: '#7c5652' }}>{spec.label}</dt>
+                      <dd style={{ margin: 0, color: '#3b2119' }}>{spec.value}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+              )}
             </div>
 
             {/* 3. Summarized Compact Price + Quantity Button + Order Now */}
@@ -311,6 +301,8 @@ export default function ProductDetailPage({
                   gap: '10px'
                 }}
               >
+                {purchasable && (
+                <>
                 <div
                   style={{
                     display: 'inline-flex',
@@ -393,6 +385,9 @@ export default function ProductDetailPage({
                   <span>Buy Now</span>
                 </button>
 
+                </>
+                )}
+
                 <button
                   type="button"
                   className="th-btn th-btn--outline-dark"
@@ -404,7 +399,7 @@ export default function ProductDetailPage({
                     height: '44px'
                   }}
                 >
-                  <span>Ask Expert Advice</span>
+                  <span>{purchasable ? 'Ask Expert Advice' : 'Enquire Now'}</span>
                 </button>
               </div>
             </div>
@@ -456,7 +451,7 @@ export default function ProductDetailPage({
                 }}
               >
                 <CheckCircle2 size={13} />
-                <span>In Stock &middot; Reiki Energized</span>
+                <span>{purchasable ? 'In Stock' : product.pricePaise == null ? 'Coming Soon' : 'Currently Unavailable'} &middot; Reiki Energized</span>
               </span>
             </div>
           </div>
@@ -465,7 +460,7 @@ export default function ProductDetailPage({
         {/* Explore More Sacred Products */}
         <div>
           <div className="th-section-header" style={{ marginBottom: '32px' }}>
-            <p className="th-eyebrow">EXPLORE MORE REMEDIES</p>
+            <p className="th-eyebrow">EXPLORE MORE PRODUCTS</p>
             <h2
               className="th-heading-gradient"
               style={{

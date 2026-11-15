@@ -23,7 +23,7 @@ export default function ProductsPage({ onSelectProduct }) {
           <h1 className="th-heading-gradient">OUR SACRED PRODUCTS</h1>
           <OrnamentalFlourish />
           <p className="th-lead">
-            100% authentic crystal bracelets and spiritual remedies, personally cleansed and
+            Crystal bracelets and anklets, personally cleansed and
             energized with Vedic &amp; Reiki rituals. Click on any sacred product to view full details and pricing.
           </p>
         </div>

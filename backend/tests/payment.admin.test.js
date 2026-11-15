@@ -21,7 +21,7 @@ import { applyRazorpayPayments } from '../src/services/paymentConfirmation.servi
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ORDER_ID = 'order_AdminOrder001';
-const AMOUNT = 239800;
+const AMOUNT = 139800; // Rose Quartz ₹699 × 2
 const CUSTOMER = {
   name: 'Asha Patil',
   phone: '9822012345',
@@ -68,7 +68,7 @@ describe('Admin payments, owner email, production checks and frontend contract',
       reference: `RVP-TEST-${crypto.randomBytes(4).toString('hex')}`,
       statusToken: crypto.randomUUID(),
       idempotencyKey: crypto.randomUUID(),
-      product: { id: 'black-obsidian', name: 'Black Obsidian', unitPricePaise: 119900, isPlaceholder: false },
+      product: { id: 'rose-quartz', name: 'Black Obsidian', unitPricePaise: 119900, isPlaceholder: false },
       quantity: 2,
       amountPaise: AMOUNT,
       status: PAYMENT_STATUS.PENDING,
@@ -321,7 +321,7 @@ describe('Admin payments, owner email, production checks and frontend contract',
       });
 
       assert.ok(subject.includes('TEST MODE'));
-      assert.ok(subject.includes('₹2,398'));
+      assert.ok(subject.includes('₹1,398'));
       assert.ok(text.includes('NO REAL MONEY'));
     });
   });
@@ -380,12 +380,12 @@ describe('Admin payments, owner email, production checks and frontend contract',
       const res = await client.getProducts();
 
       assert.equal(res.success, true);
-      assert.ok(res.data.products.some((p) => p.id === 'black-obsidian'));
+      assert.ok(res.data.products.some((p) => p.id === 'rose-quartz'));
     });
 
     test('createPaymentOrder sends the delivery details the server requires', async () => {
       const res = await client.createPaymentOrder({
-        productId: 'black-obsidian',
+        productId: 'rose-quartz',
         quantity: 2,
         idempotencyKey: crypto.randomUUID(),
         customer: CUSTOMER
@@ -399,7 +399,7 @@ describe('Admin payments, owner email, production checks and frontend contract',
 
     test('createPaymentOrder reports field errors in the shape the checkout form reads', async () => {
       const res = await client.createPaymentOrder({
-        productId: 'black-obsidian',
+        productId: 'rose-quartz',
         quantity: 1,
         idempotencyKey: crypto.randomUUID(),
         customer: { ...CUSTOMER, address: { ...CUSTOMER.address, pincode: '123' } }
@@ -412,7 +412,7 @@ describe('Admin payments, owner email, production checks and frontend contract',
 
     test('verifyPayment and getPaymentStatus work end to end', async () => {
       const order = await client.createPaymentOrder({
-        productId: 'black-obsidian',
+        productId: 'rose-quartz',
         quantity: 2,
         idempotencyKey: crypto.randomUUID(),
         customer: CUSTOMER

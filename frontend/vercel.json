@@ -23,6 +23,30 @@
           "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
+    },
+    {
+      "source": "/Products_images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/Products_images/(.*)",
+      "has": [
+        {
+          "type": "query",
+          "key": "v"
+        }
+      ],
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }

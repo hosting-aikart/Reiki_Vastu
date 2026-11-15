@@ -1,0 +1,223 @@
+/* ═══════════════════════════════════════════════════════════
+   EVENT PAYMENT SUCCESS  (prefix: eps-)
+   Same palette and type as the Upcoming Events page:
+   crimson / wine / gold on warm cream, Cormorant Garamond
+   display type, Cinzel caps and Karla text.
+   ═══════════════════════════════════════════════════════════ */
+.eps-page {
+  --eps-crimson: #b5091f;
+  --eps-wine: #3b0a11;
+  --eps-gold: #c99a3c;
+  --eps-gold-deep: #855b16;
+  --eps-cream: #fdf8f1;
+  --eps-text: #4a3036;
+  --eps-display: 'Cormorant Garamond', Georgia, serif;
+  --eps-caps: 'Cinzel', 'Cormorant Garamond', serif;
+  --eps-body: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  font-family: var(--eps-body);
+  color: var(--eps-text);
+  display: flex;
+  justify-content: center;
+}
+
+.eps-card {
+  width: 100%;
+  max-width: 640px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--eps-cream) 100%);
+  border: 1px solid rgba(201, 154, 60, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 14px 40px rgba(122, 6, 20, 0.08);
+  padding: 40px 36px 32px;
+  text-align: center;
+}
+
+.eps-icon {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #d1132e 0%, #9b0718 100%);
+  box-shadow: 0 0 0 6px rgba(247, 220, 160, 0.55), 0 10px 24px rgba(181, 9, 31, 0.3);
+}
+
+.eps-kicker {
+  font-family: var(--eps-caps);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eps-gold-deep);
+  margin: 0 0 6px;
+}
+
+.eps-title {
+  font-family: var(--eps-display);
+  font-size: clamp(32px, 6vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--eps-crimson);
+  margin: 0 0 12px;
+}
+
+.eps-subtitle {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--eps-wine);
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.eps-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--eps-gold);
+  margin: 22px auto;
+  max-width: 260px;
+}
+
+.eps-divider::before,
+.eps-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--eps-gold), transparent);
+}
+
+.eps-message {
+  font-size: 15.5px;
+  line-height: 1.7;
+  margin: 0 auto 20px;
+  max-width: 520px;
+}
+
+.eps-instruction {
+  background: #fffaf0;
+  border: 1px solid rgba(201, 154, 60, 0.45);
+  border-left: 4px solid var(--eps-gold);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: left;
+  margin: 0 0 22px;
+}
+
+.eps-instruction strong {
+  color: var(--eps-crimson);
+}
+
+.eps-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #25d366 0%, #128c4a 100%);
+  color: #ffffff;
+  font-family: var(--eps-body);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(18, 140, 74, 0.32);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.eps-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(18, 140, 74, 0.4);
+}
+
+.eps-whatsapp:focus-visible,
+.eps-back:focus-visible {
+  outline: 3px solid var(--eps-gold);
+  outline-offset: 3px;
+}
+
+.eps-lookforward {
+  font-family: var(--eps-display);
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--eps-wine);
+  margin: 22px 0 24px;
+}
+
+.eps-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  text-align: left;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 16px 18px;
+  border-top: 1px solid rgba(201, 154, 60, 0.35);
+  font-size: 14px;
+}
+
+.eps-details dt {
+  font-weight: 750;
+  color: #6b4a50;
+}
+
+.eps-details dd {
+  margin: 0;
+  color: var(--eps-wine);
+  overflow-wrap: anywhere;
+}
+
+.eps-keep {
+  font-size: 12.5px;
+  color: #7a6266;
+  margin: 4px auto 18px;
+  max-width: 420px;
+}
+
+.eps-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px solid rgba(181, 9, 31, 0.45);
+  color: var(--eps-crimson);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-family: var(--eps-body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.eps-back:hover {
+  background: #fff3f4;
+  border-color: var(--eps-crimson);
+}
+
+@media (max-width: 560px) {
+  .eps-card {
+    padding: 30px 18px 24px;
+    border-radius: 20px;
+  }
+
+  .eps-subtitle {
+    font-size: 16px;
+  }
+
+  /* Full-width, easy-to-tap button on phones */
+  .eps-whatsapp {
+    display: flex;
+    width: 100%;
+    padding: 14px 18px;
+  }
+
+  .eps-details {
+    padding: 14px 4px;
+  }
+}

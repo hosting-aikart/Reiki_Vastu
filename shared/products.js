@@ -6,6 +6,8 @@
 // quantity; the server never accepts a price from it.
 //
 // Prices are integer paise (₹1,199.00 = 119900), matching what Razorpay expects.
+// A product whose price is not announced yet has pricePaise: null (shown as
+// "Coming Soon") and cannot be bought.
 // Keep `id` stable once orders refer to it: add a new product instead of renaming.
 //
 // ⚠️ PROVISIONAL PRICES: not yet confirmed by the business. Confirm every
@@ -20,238 +22,264 @@ export const PRICES_CONFIRMED = false;
 
 export const PRODUCT_CURRENCY = 'INR';
 
-export const PRODUCTS = [
+// ─────────────────────────────────────────────────────────────
+// Product images
+//
+// All product photos live in frontend/public/Products_images, named
+// "<imageName> view <n>.jpeg" (for example "Amethyst view 1.jpeg").
+// View 1 is the main image used on product cards. The website finds every
+// view of a product automatically (see frontend/vite.config.js), so to
+// replace a photo, overwrite the file with the same name; to add a photo,
+// add the next "view <n>.jpeg". No code change is needed for either.
+// ─────────────────────────────────────────────────────────────
+
+export const PRODUCT_IMAGES_DIR = '/Products_images';
+
+/**
+ * URL of one view of a product's photo. Spaces are encoded; "+" is kept as is,
+ * because some static servers don't decode "%2B" back to "+".
+ */
+export function productImageUrl(imageName, view = 1) {
+  const file = encodeURIComponent(`${imageName} view ${view}.jpeg`).replace(/%2B/g, '+');
+  return `${PRODUCT_IMAGES_DIR}/${file}`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Catalogue
+//
+// Descriptions only state what the client's product photos show (stone,
+// 8 mm beads, Buddha charm, elastic cord; the anklet's specifications).
+// Traditional crystal associations are presented as beliefs, not results.
+//
+// Prices confirmed by the client on 15 Nov 2026.
+// pricePaise: null = price not announced yet. The product is shown with
+// "Coming Soon" and cannot be bought until a price is set here or in the
+// admin panel (Admin → Products).
+// ─────────────────────────────────────────────────────────────
+
+const BRACELET_SPECS = (stones) => [
+  { label: 'Stone', value: stones },
+  { label: 'Bead size', value: '8 mm' },
+  { label: 'Charm', value: 'Buddha charm' },
+  { label: 'Bracelet type', value: 'Elastic (stretchable) cord' }
+];
+
+const PRODUCT_LIST = [
   {
-    id: "black-obsidian",
+    id: "rose-quartz",
+    imageName: "Rose quartz",
     pricePaise: 69900,
     originalPricePaise: 129900,
-    maxQuantity: 5,
-    available: true,
-    title: "Black Obsidian",
-    subtitle: "Protection • Grounding • Aura Shield",
-    badge: "Best Seller",
-    rating: "4.9",
-    reviewsCount: 128,
-    beadSize: "8 mm AAA Natural Volcanic Glass Beads",
-    wristSize: "Stretchable Free Size (6.5\" – 8.0\")",
-    chakra: "Root Chakra (Muladhara)",
-    energization: "Vedic Mantra & Usui Reiki Master Attuned",
-    description: "Absorbs negative energy, psychic smog, and emotional stress while grounding root chakra stability.",
-    longDescription: "Handcrafted from 100% natural volcanic Black Obsidian beads, this sacred bracelet acts as an energetic shield against negativity, evil eye (Nazar), emotional draining, and environmental stress. Each bracelet is personally cleansed and energized with Vedic mantras and Reiki symbols by Dr. Naresh Chhabdiya prior to dispatch.",
-    benefits: [
-      "Forms a powerful protective aura shield against negative vibrations and psychic smog",
-      "Grounds scattered energy through the Root Chakra (Muladhara) for deep stability",
-      "Helps release emotional blockages, fear, and overthinking during stressful periods",
-      "Ideal for professionals, healers, and individuals exposed to heavy public environments"
-    ],
-    howToWear: "Wear on your left wrist (receiving hand) to absorb protective grounding energy, or on your right wrist to project strength and ward off negativity.",
-    image: "/Products/Black obsidian.webp",
-    alt: "Energized Black Obsidian crystal bracelet for protection and grounding"
+    title: "Rose Quartz",
+    subtitle: "Rose Quartz Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of soft pink rose quartz beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm pale pink rose quartz beads strung on an elastic cord, with a single Buddha charm. In crystal traditions, rose quartz is associated with love, compassion and emotional calm.",
+    specifications: BRACELET_SPECS("Rose quartz")
+  },
+  {
+    id: "amethyst",
+    imageName: "Amethyst",
+    pricePaise: 69900,
+    originalPricePaise: 129900,
+    title: "Amethyst",
+    subtitle: "Amethyst Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of purple amethyst beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm purple amethyst beads strung on an elastic cord, with a single Buddha charm. In crystal traditions, amethyst is associated with calm, meditation and spiritual practice.",
+    specifications: BRACELET_SPECS("Amethyst")
   },
   {
     id: "clear-quartz",
-    pricePaise: 59900,
-    originalPricePaise: 119900,
-    maxQuantity: 5,
-    available: true,
+    imageName: "Clear Quartz",
+    pricePaise: 69900,
+    originalPricePaise: 129900,
     title: "Clear Quartz",
-    subtitle: "Master Healer • Clarity • Amplification",
-    badge: "Master Healer",
-    rating: "4.9",
-    reviewsCount: 94,
-    beadSize: "8 mm AAA Pure Himalayan Quartz Beads",
-    wristSize: "Stretchable Free Size (6.5\" – 8.0\")",
-    chakra: "Crown Chakra (Sahasrara) & All 7 Chakras",
-    energization: "Vedic Mantra & Usui Reiki Master Attuned",
-    description: "Amplifies healing intentions, clears mental fog, and harmonizes all seven chakras with pure light.",
-    longDescription: "Revered across ancient traditions as the \"Master Healer,\" Clear Quartz amplifies pure prana, sharpens concentration, and aligns all seven chakras. Personally consecrated at Reiki and Vaastu World to hold your highest healing and manifestation intentions.",
-    benefits: [
-      "Amplifies positive intentions, prayers, and the energy of surrounding stones",
-      "Clears mental fog, enhances memory, focus, and decision-making clarity",
-      "Harmonizes all seven chakras and strengthens the subtle bio-energetic aura",
-      "Supports deep meditation, spiritual awakening, and restorative sleep"
-    ],
-    howToWear: "Best worn on the left wrist during meditation, study, or daily work to invite clarity and high-frequency prana.",
-    image: "/Products/Clear Quartz.webp",
-    alt: "Energized Clear Quartz crystal bracelet for clarity and chakra healing"
+    subtitle: "Clear Quartz Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of transparent clear quartz beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm transparent clear quartz beads strung on an elastic cord, with a single Buddha charm. In crystal traditions, clear quartz is associated with clarity and focus.",
+    specifications: BRACELET_SPECS("Clear quartz")
   },
   {
     id: "green-aventurine",
+    imageName: "Green Aventurine",
     pricePaise: 69900,
     originalPricePaise: 129900,
-    maxQuantity: 5,
-    available: true,
     title: "Green Aventurine",
-    subtitle: "Prosperity • Abundance • Heart Harmony",
-    badge: "Abundance Stone",
-    rating: "4.8",
-    reviewsCount: 112,
-    beadSize: "8 mm AAA Natural Green Aventurine Beads",
-    wristSize: "Stretchable Free Size (6.5\" – 8.0\")",
-    chakra: "Heart Chakra (Anahata)",
-    energization: "Vedic Kuber & Reiki Abundance Attuned",
-    description: "The Stone of Opportunity—attracts luck, financial growth, and soothing emotional balance.",
-    longDescription: "Known worldwide as the \"Stone of Opportunity,\" Green Aventurine resonates deeply with the Heart Chakra to attract career breakthroughs, business prosperity, and emotional calm. Energized with Reiki and Vedic prosperity rituals for steady growth.",
-    benefits: [
-      "Attracts new career opportunities, business prosperity, and financial flow",
-      "Opens and soothes the Heart Chakra (Anahata) for emotional harmony",
-      "Encourages optimism, confidence, and decisive leadership in new ventures",
-      "Balances electromagnetic stress from daily computer and mobile usage"
-    ],
-    howToWear: "Wear on your left wrist to welcome abundance, luck, and harmonious relationships into your life.",
-    image: "/Products/Green aventurine bracelet.webp",
-    alt: "Energized Green Aventurine crystal bracelet for prosperity and abundance"
+    subtitle: "Green Aventurine Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of green aventurine beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm green aventurine beads strung on an elastic cord, with a single Buddha charm. In crystal traditions, green aventurine is associated with opportunity, growth and optimism.",
+    specifications: BRACELET_SPECS("Green aventurine")
   },
   {
-    id: "lava-stone",
-    pricePaise: 54900,
-    originalPricePaise: 99900,
-    maxQuantity: 5,
-    available: true,
-    title: "Lava Stone",
-    subtitle: "Strength • Courage • Root Stability",
-    badge: "Grounding & Calm",
-    rating: "4.8",
-    reviewsCount: 86,
-    beadSize: "8 mm Natural Basalt Lava Beads",
-    wristSize: "Stretchable Free Size (6.5\" – 8.0\")",
-    chakra: "Root Chakra (Muladhara)",
-    energization: "Vedic Prana & Reiki Grounding Attuned",
-    description: "Born from the fiery core of the earth to ignite inner strength, calm anxiety, and anchor vitality.",
-    longDescription: "Formed from solidified molten earth energy, natural Lava Stone combines the raw grounding power of Mother Earth with the fire of courage. Its porous surface also allows you to apply a drop of essential oil for all-day aromatherapy and emotional balance.",
-    benefits: [
-      "Ignites inner courage, willpower, and physical stamina during life transitions",
-      "Calms restlessness, anxiety, and nervous tension by anchoring Root Chakra energy",
-      "Naturally porous beads can hold soothing essential oils (sandalwood, lavender, frankincense)",
-      "Promotes emotional resilience and steady grounded focus"
-    ],
-    howToWear: "Wear daily on either wrist; add a single drop of pure essential oil to 1–2 lava beads for continuous aromatic calm.",
-    image: "/Products/Lava stone.webp",
-    alt: "Energized Lava Stone bracelet for strength, courage, and grounding"
+    id: "tiger-eye",
+    imageName: "Tiger eye",
+    pricePaise: null,
+    originalPricePaise: null,
+    title: "Tiger Eye",
+    subtitle: "Tiger Eye Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of golden-brown tiger eye beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm tiger eye beads, which show golden-brown bands, strung on an elastic cord with a single Buddha charm. In crystal traditions, tiger eye is associated with courage, focus and confidence.",
+    specifications: BRACELET_SPECS("Tiger eye")
+  },
+  {
+    id: "carnelian",
+    imageName: "Carnelian",
+    pricePaise: 69900,
+    originalPricePaise: 129900,
+    title: "Carnelian",
+    subtitle: "Carnelian Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of orange-red carnelian beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm carnelian beads in shades from warm orange to deep red, strung on an elastic cord with a single Buddha charm. In crystal traditions, carnelian is associated with motivation, confidence and creativity.",
+    specifications: BRACELET_SPECS("Carnelian")
   },
   {
     id: "selenite",
+    imageName: "Selenite",
     pricePaise: 69900,
     originalPricePaise: 129900,
-    maxQuantity: 5,
-    available: true,
     title: "Selenite",
-    subtitle: "Aura Cleansing • Peace • Higher Vibration",
-    badge: "Sacred Purity",
-    rating: "4.9",
-    reviewsCount: 105,
-    beadSize: "8 mm AAA Satin Spar Selenite Beads",
-    wristSize: "Stretchable Free Size (6.5\" – 8.0\")",
-    chakra: "Crown (Sahasrara) & Third Eye (Ajna)",
-    energization: "Lama-Fera & Reiki High-Frequency Attuned",
-    description: "Purifies energy fields, cleanses surrounding crystals, and invites serene spiritual awareness.",
-    longDescription: "Named after Selene, the ancient goddess of the Moon, luminous Selenite carries one of the purest, highest vibrations in the mineral kingdom. It continuously cleanses your aura, dispels stagnant energy, and elevates your space with tranquil peace.",
-    benefits: [
-      "Continuously purifies the personal aura and clears stagnant or heavy energy",
-      "Self-cleansing sacred crystal that also recharges other healing stones nearby",
-      "Activates the Crown and Third Eye chakras for deep intuition and peaceful sleep",
-      "Brings instant serenity, mental stillness, and spiritual protection"
-    ],
-    howToWear: "Wear on the left wrist during meditation, healing sessions, or daily routines; keep away from prolonged water immersion.",
-    image: "/Products/selenite.webp",
-    alt: "Energized Selenite crystal bracelet for aura cleansing and peace"
+    subtitle: "Selenite Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of milky-white selenite beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm milky-white selenite beads with a soft silky sheen, strung on an elastic cord with a single Buddha charm. Selenite is a soft stone that is sensitive to water, so keep the bracelet dry. In crystal traditions, selenite is associated with cleansing and calm.",
+    specifications: [...BRACELET_SPECS("Selenite"), { label: 'Care', value: 'Keep away from water' }]
   },
-  // ── Added Nov 2026. No rating or review count yet, so none is shown;
-  // bead size, wrist size and energization details are not confirmed and
-  // are left out rather than guessed.
   {
-    id: "carnelian",
+    id: "lava-stone",
+    imageName: "Lava stone",
     pricePaise: 59900,
     originalPricePaise: 119900,
-    maxQuantity: 5,
-    available: true,
-    title: "Carnelian",
-    subtitle: "Motivation • Confidence • Creativity",
-    badge: "Courage Stone",
-    beadSize: "Natural Carnelian Beads with Buddha Charm",
-    chakra: "Sacral Chakra (Svadhisthana)",
-    description: "Traditionally worn to spark motivation, confidence, and creative energy with a warm, positive outlook.",
-    longDescription: "Glowing in fiery shades of orange and red, Carnelian has long been associated with vitality, courage, and creative fire. In crystal traditions it is linked with the Sacral Chakra and is worn to encourage motivation, self-belief, and a positive, action-oriented mindset.",
-    benefits: [
-      "Traditionally associated with motivation and the drive to take action",
-      "Believed to support confidence, courage, and self-expression",
-      "Linked with creativity and the Sacral Chakra (Svadhisthana)",
-      "Worn to encourage a warm, positive, and energetic outlook"
-    ],
-    howToWear: "Wear on the left wrist to invite its warm, motivating energy, or on the right wrist when you want to express confidence outwardly.",
-    image: "/Products/Carnelian.webp",
-    alt: "Carnelian crystal bracelet with Buddha charm for motivation and confidence"
+    title: "Lava Stone",
+    subtitle: "Lava Stone Bracelet • Porous Black Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of black, porous lava stone beads with a Buddha charm.",
+    longDescription: "This bracelet is made with black lava stone beads, which have a natural porous texture, strung on an elastic cord with a single Buddha charm. In crystal traditions, lava stone is associated with grounding and strength.",
+    specifications: [
+      { label: 'Stone', value: 'Lava stone' },
+      { label: 'Charm', value: 'Buddha charm' },
+      { label: 'Bracelet type', value: 'Elastic (stretchable) cord' }
+    ]
   },
   {
-    id: "rose-quartz",
-    pricePaise: 69900,
-    originalPricePaise: 129900,
-    maxQuantity: 5,
-    available: true,
-    title: "Rose Quartz",
-    subtitle: "Love • Compassion • Emotional Harmony",
-    badge: "Love Stone",
-    beadSize: "Natural Rose Quartz Beads with Buddha Charm",
-    chakra: "Heart Chakra (Anahata)",
-    description: "The traditional Stone of Love, worn for compassion, self-love, and gentle emotional balance.",
-    longDescription: "Soft pink Rose Quartz is widely known as the \"Stone of Unconditional Love.\" Associated with the Heart Chakra, it is traditionally worn to nurture compassion, self-love, and harmony in relationships, and to bring a gentle sense of emotional calm.",
-    benefits: [
-      "Traditionally associated with love, kindness, and compassion",
-      "Believed to nurture self-love and emotional healing",
-      "Linked with harmony in family and relationships",
-      "Worn to encourage a calm, balanced, and open heart"
-    ],
-    howToWear: "Wear on the left wrist, closest to the heart, to receive its gentle loving energy throughout the day.",
-    image: "/Products/Rose Quartz.webp",
-    alt: "Rose Quartz crystal bracelet with Buddha charm for love and emotional harmony"
+    id: "firoza-turquoise",
+    imageName: "Firoza",
+    pricePaise: 79900,
+    originalPricePaise: 149900,
+    title: "Firoza (Turquoise)",
+    subtitle: "Firoza Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of blue-green firoza (turquoise) beads with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm blue-green firoza (turquoise) beads with dark matrix lines, so each bead's pattern is slightly different. The beads are strung on an elastic cord with a single Buddha charm. In crystal traditions, firoza is associated with protection and good fortune.",
+    specifications: BRACELET_SPECS("Firoza (turquoise)")
   },
   {
-    id: "pyrite",
-    pricePaise: 59900,
-    originalPricePaise: 119900,
-    maxQuantity: 5,
-    available: true,
-    title: "Pyrite",
-    subtitle: "Abundance • Prosperity • Confidence",
-    badge: "Prosperity Stone",
-    beadSize: "Natural Pyrite Beads with Buddha Charm",
-    chakra: "Solar Plexus Chakra (Manipura)",
-    description: "Known as \"Fool's Gold,\" traditionally worn to attract abundance, prosperity, and confident action.",
-    longDescription: "With its metallic golden shine, Pyrite has long been regarded as a stone of abundance and good fortune. Associated with the Solar Plexus Chakra, it is traditionally worn by professionals and entrepreneurs to encourage confidence, focus, motivation, and a prosperity mindset.",
-    benefits: [
-      "Traditionally associated with abundance, wealth, and good fortune",
-      "Believed to support confidence, willpower, and decisive action",
-      "Linked with focus and motivation in work and business",
-      "Popular with professionals and entrepreneurs as a prosperity stone"
-    ],
-    howToWear: "Wear on the left wrist to welcome abundance, or on the right wrist to project confidence and drive.",
-    image: "/Products/Pyrite.webp",
-    alt: "Pyrite crystal bracelet with Buddha charm for abundance and prosperity"
+    id: "labradorite",
+    imageName: "Labradorite",
+    pricePaise: null,
+    originalPricePaise: null,
+    title: "Labradorite",
+    subtitle: "Labradorite Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of grey labradorite beads with a blue flash, with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm grey labradorite beads that show a play of blue colour in the light (labradorescence), strung on an elastic cord with a single Buddha charm. In crystal traditions, labradorite is associated with intuition and transformation.",
+    specifications: BRACELET_SPECS("Labradorite")
   },
   {
-    // Supplied as "Tirega"; the bracelet in the photo is Tiger Eye.
-    id: "tiger-eye",
-    pricePaise: 69900,
-    originalPricePaise: 129900,
-    maxQuantity: 5,
-    available: true,
-    title: "Tiger Eye",
-    subtitle: "Courage • Focus • Protection",
-    badge: "Courage & Focus",
-    beadSize: "Natural Tiger Eye Beads with Buddha Charm",
-    chakra: "Solar Plexus Chakra (Manipura)",
-    description: "Traditionally worn for courage, focus, and protection, with grounded confidence in decisions.",
-    longDescription: "With its striking golden-brown bands, Tiger Eye has been valued across cultures as a protective stone. Associated with the Solar Plexus Chakra, it is traditionally worn to encourage courage, clear focus, and steady, grounded confidence when facing challenges and decisions.",
-    benefits: [
-      "Traditionally associated with courage and inner strength",
-      "Believed to support focus, clarity, and sound decision-making",
-      "Worn as a protective stone against negativity",
-      "Linked with grounded confidence and the Solar Plexus Chakra (Manipura)"
-    ],
-    howToWear: "Wear on the right wrist to project courage and protection, or on the left wrist to draw in steady, grounding energy.",
-    image: "/Products/Tiger Eye.webp",
-    alt: "Tiger Eye crystal bracelet with Buddha charm for courage and focus"
+    id: "lapis-lazuli",
+    imageName: "Lapiz lazuli",
+    pricePaise: 74900,
+    originalPricePaise: 144900,
+    title: "Lapis Lazuli",
+    subtitle: "Lapis Lazuli Bracelet • 8 mm Beads",
+    badge: "Crystal Bracelet",
+    description: "A bracelet of deep blue lapis lazuli beads with golden flecks, with a Buddha charm.",
+    longDescription: "This bracelet is made with 8 mm deep blue lapis lazuli beads with golden flecks, strung on an elastic cord with a single Buddha charm. In crystal traditions, lapis lazuli is associated with wisdom, truth and clear communication.",
+    specifications: BRACELET_SPECS("Lapis lazuli")
   },
+  {
+    id: "rose-quartz-amethyst",
+    imageName: "Rose quartz + Amethyst Combination",
+    pricePaise: 79900,
+    originalPricePaise: 140000,
+    title: "Rose Quartz + Amethyst",
+    subtitle: "Combination Bracelet • 8 mm Beads",
+    badge: "Combination Bracelet",
+    description: "A bracelet of alternating rose quartz and amethyst beads with a Buddha charm.",
+    longDescription: "This bracelet combines 8 mm pink rose quartz and purple amethyst beads in an alternating pattern, strung on an elastic cord with a single Buddha charm. In crystal traditions, rose quartz is associated with love and compassion, and amethyst with calm.",
+    specifications: [
+      ...BRACELET_SPECS("Rose quartz and amethyst"),
+      { label: 'Pattern', value: 'Alternating beads' }
+    ]
+  },
+  {
+    id: "tiger-eye-citrine",
+    imageName: "Tiger eye + citrine",
+    pricePaise: 79900,
+    originalPricePaise: 140000,
+    title: "Tiger Eye + Citrine",
+    subtitle: "Combination Bracelet • 8 mm Beads",
+    badge: "Combination Bracelet",
+    description: "A bracelet of alternating tiger eye and citrine beads with a Buddha charm.",
+    longDescription: "This bracelet combines 8 mm golden-brown tiger eye and yellow citrine beads in an alternating pattern, strung on an elastic cord with a single Buddha charm. In crystal traditions, tiger eye is associated with courage and focus, and citrine with abundance and positivity.",
+    specifications: [
+      ...BRACELET_SPECS("Tiger eye and citrine"),
+      { label: 'Pattern', value: 'Alternating beads' }
+    ]
+  },
+  {
+    id: "tiger-eye-pyrite-green-aventurine",
+    imageName: "Tiger eye + Pyrite + green aventurine combination",
+    pricePaise: 89900,
+    originalPricePaise: 149900,
+    title: "Tiger Eye + Pyrite + Green Aventurine",
+    subtitle: "Combination Bracelet • 8 mm Beads",
+    badge: "Combination Bracelet",
+    description: "A bracelet of tiger eye, pyrite and green aventurine beads with a Buddha charm.",
+    longDescription: "This bracelet combines tiger eye, metallic pyrite and green aventurine beads (about 8 mm) in a repeating sequence, strung on an elastic cord with a single Buddha charm. In crystal traditions, these stones are associated with confidence, prosperity and growth.",
+    specifications: [
+      { label: 'Stones', value: 'Tiger eye, pyrite and green aventurine' },
+      { label: 'Bead size', value: '8 mm (approx.)' },
+      { label: 'Pattern', value: 'Repeating sequence: tiger eye, pyrite, green aventurine' },
+      { label: 'Charm', value: 'Buddha charm' },
+      { label: 'Bracelet type', value: 'Elastic (stretchable) cord' }
+    ]
+  },
+  {
+    id: "pyrite-anklet",
+    imageName: "Pyrite Anklet",
+    pricePaise: 39900,
+    originalPricePaise: 99900,
+    title: "Pyrite Anklet",
+    subtitle: "Faceted Pyrite Beads • Adjustable Length",
+    badge: "Anklet",
+    description: "A fine anklet of small diamond-cut pyrite beads with an adjustable chain.",
+    longDescription: "This anklet is made with small diamond-cut (faceted) pyrite beads of about 2–3 mm, which have a metallic golden shine. It closes with a lobster clasp and has a chain extender to adjust the length. In crystal traditions, pyrite is associated with prosperity and confidence.",
+    specifications: [
+      { label: 'Gemstone', value: 'Pyrite' },
+      { label: 'Bead shape', value: 'Diamond-cut (faceted)' },
+      { label: 'Bead size', value: '2–3 mm (approx.)' },
+      { label: 'Length', value: 'Adjustable, with chain extender' },
+      { label: 'Closure', value: 'Lobster clasp' }
+    ]
+  }
+];
+
+// Products with a price are listed first, then the "Coming Soon" ones
+const BY_PRICE_FIRST = (a, b) => (a.pricePaise == null) - (b.pricePaise == null);
+
+export const PRODUCTS = [
+  ...[...PRODUCT_LIST].sort(BY_PRICE_FIRST).map((product) => ({
+    maxQuantity: 5,
+    available: product.pricePaise != null,
+    ...product,
+    image: productImageUrl(product.imageName, 1),
+    alt: `${product.title} ${product.badge.toLowerCase()} from Reiki and Vaastu World`
+  })),
   {
     id: "online-reiki-level-1-workshop-2026-11",
     isEvent: true,
@@ -278,7 +306,10 @@ const rupeeFormatter = (fractionDigits) =>
     maximumFractionDigits: fractionDigits
   });
 
-/** 119900 -> "₹1,199"; 25050 -> "₹250.50". Display only. */
+export const PRICE_ON_REQUEST_LABEL = 'Coming Soon';
+
+/** 119900 -> "₹1,199"; 25050 -> "₹250.50"; null -> "Coming Soon". Display only. */
 export function formatPaise(paise) {
+  if (!Number.isFinite(paise)) return PRICE_ON_REQUEST_LABEL;
   return rupeeFormatter(paise % 100 === 0 ? 0 : 2).format(paise / 100);
 }

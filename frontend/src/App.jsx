@@ -256,6 +256,8 @@ export default function App() {
             key={statusToken}
             statusToken={statusToken}
             onBackToProducts={() => leavePaymentPage('products')}
+            onBackToEvents={() => changeView('events')}
+            onRetryPayment={(productId) => navigateToCheckout(productId, 1)}
           />
         ) : currentView === 'course-detail' && selectedCourseId ? (
           /* ── Dedicated Single Course Detail Page ── */

@@ -1,15 +1,23 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { PRODUCTS, formatPaise } from '@reiki-vastu/shared/products.js';
+import { getProductImages } from '../data/productImages';
 
 // Product data and prices live in shared/products.js, the same file the backend
 // uses to calculate what to charge. `price` and `originalPrice` are formatted
 // here so the existing components keep working unchanged.
-export const SACRED_PRODUCTS = PRODUCTS.filter((product) => !product.isEvent).map((product) => ({
-  ...product,
-  price: formatPaise(product.pricePaise),
-  originalPrice: product.originalPricePaise ? formatPaise(product.originalPricePaise) : null
-}));
+// Photos come from public/Products_images (see src/data/productImages.js);
+// view 1 is the card image.
+export const SACRED_PRODUCTS = PRODUCTS.filter((product) => !product.isEvent).map((product) => {
+  const images = getProductImages(product);
+  return {
+    ...product,
+    images,
+    image: images[0],
+    price: formatPaise(product.pricePaise),
+    originalPrice: product.originalPricePaise ? formatPaise(product.originalPricePaise) : null
+  };
+});
 
 export default function BusinessNeeds() {
   return (
@@ -64,7 +72,7 @@ export default function BusinessNeeds() {
             Our Sacred Products
           </h2>
           <p style={{ color: '#5e2732', fontSize: '15px', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
-            100% authentic crystal bracelets and spiritual remedies, personally cleansed and energized with Vedic &amp; Reiki rituals.
+            Crystal bracelets and anklets, personally cleansed and energized with Vedic &amp; Reiki rituals.
           </p>
         </div>
 

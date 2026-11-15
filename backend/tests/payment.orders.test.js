@@ -13,7 +13,7 @@ import { createRazorpayOrder, setTestRazorpayClient } from '../src/services/razo
 
 const FAKE_KEY_ID = 'rzp_test_fakeKeyId';
 const FAKE_KEY_SECRET = 'fake_key_secret_never_exposed';
-const PRODUCT_A = 'black-obsidian';
+const PRODUCT_A = 'rose-quartz';
 const CUSTOMER = {
   name: 'Asha Patil',
   phone: '9822012345',
@@ -105,10 +105,34 @@ describe('Payment order creation', () => {
       assert.ok(data.products.every((product) => product.isPlaceholder === false));
     });
 
-    test('every catalog price is whole paise of at least ₹1', () => {
+    test('every catalog price is whole paise of at least ₹1, or null (price on request) and not for sale', () => {
       for (const product of PRODUCTS) {
-        assert.ok(Number.isInteger(product.unitPricePaise) && product.unitPricePaise >= 100, product.id);
+        if (product.defaultUnitPricePaise === null) {
+          assert.equal(product.defaultAvailable, false, product.id);
+        } else {
+          assert.ok(Number.isInteger(product.defaultUnitPricePaise) && product.defaultUnitPricePaise >= 100, product.id);
+        }
       }
+    });
+
+    test('a product with no confirmed price cannot be ordered', async () => {
+      const unpriced = PRODUCTS.find((product) => product.defaultUnitPricePaise === null);
+      assert.ok(unpriced, 'the catalog has at least one price-on-request product');
+
+      const res = await post(orderBody({ productId: unpriced.id }));
+      const body = await res.json();
+
+      assert.equal(res.status, 409);
+      assert.equal(body.error.code, 'PRODUCT_UNAVAILABLE');
+      assert.equal(razorpayCalls.length, 0);
+    });
+
+    test('old products removed from the catalog cannot be ordered', async () => {
+      for (const productId of ['black-obsidian', 'pyrite']) {
+        const res = await post(orderBody({ productId }));
+        assert.equal(res.status, 404, productId);
+      }
+      assert.equal(razorpayCalls.length, 0);
     });
 
     test('reports payments as enabled for a live key as well', async () => {
@@ -155,7 +179,8 @@ describe('Payment order creation', () => {
       const { data } = await res.json();
 
       assert.equal(razorpayCalls.length, 1);
-      assert.equal(razorpayCalls[0].amount, 199800); // ₹999 × 2 in paise, never a decimal
+      assert.equal(razorpayCalls[0].amount, findProduct('lava-stone').unitPricePaise * 2); // whole paise, never a decimal
+      assert.ok(Number.isInteger(razorpayCalls[0].amount));
       assert.equal(razorpayCalls[0].currency, 'INR');
       assert.equal(razorpayCalls[0].receipt, data.reference);
     });

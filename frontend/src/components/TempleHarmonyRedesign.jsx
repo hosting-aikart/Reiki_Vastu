@@ -555,7 +555,7 @@ export default function TempleHarmonyRedesign({
             <h2 className="th-heading-gradient">OUR SACRED PRODUCTS</h2>
             <OrnamentalFlourish />
             <p className="th-lead">
-              100% authentic crystal bracelets and spiritual remedies, personally cleansed and
+              Crystal bracelets and anklets, personally cleansed and
               energized with Vedic &amp; Reiki rituals.
             </p>
           </div>

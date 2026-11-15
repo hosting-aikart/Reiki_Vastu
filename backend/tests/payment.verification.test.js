@@ -102,7 +102,7 @@ describe('Payment verification and status', () => {
       reference: `RVP-TEST-${crypto.randomBytes(4).toString('hex')}`,
       statusToken: crypto.randomUUID(),
       idempotencyKey: crypto.randomUUID(),
-      product: { id: 'black-obsidian', name: 'Black Obsidian', unitPricePaise: 10000, isPlaceholder: false },
+      product: { id: 'rose-quartz', name: 'Black Obsidian', unitPricePaise: 10000, isPlaceholder: false },
       quantity: 2,
       amountPaise: AMOUNT,
       status: PAYMENT_STATUS.PENDING,
@@ -439,6 +439,91 @@ describe('Payment verification and status', () => {
     test('unknown or malformed token -> 404', async () => {
       assert.equal((await status(crypto.randomUUID())).status, 404);
       assert.equal((await status('not-a-token')).status, 404);
+    });
+  });
+
+  describe('Event joining link (WhatsApp group)', () => {
+    const GROUP_URL = 'https://chat.whatsapp.com/F665o8jO1Xz6tbfTEckuqE';
+    const EVENT = { id: 'online-reiki-level-1-workshop-2026-11', name: 'Online Reiki 1st Level Workshop', unitPricePaise: AMOUNT, isPlaceholder: false };
+    const createEventPayment = (overrides = {}) => createPendingPayment({ product: EVENT, quantity: 1, ...overrides });
+
+    test('verified payment -> the verify response and the status page include the group link', async () => {
+      const payment = await createEventPayment();
+
+      const verified = await (await verify(callbackFor(payment))).json();
+      const body = await (await status(payment.statusToken)).json();
+
+      assert.equal(verified.data.status, PAYMENT_STATUS.PAID);
+      assert.equal(verified.data.access.whatsappGroupUrl, GROUP_URL);
+      assert.equal(body.data.access.whatsappGroupUrl, GROUP_URL);
+    });
+
+    test('refreshing the success page keeps showing the link', async () => {
+      const payment = await createEventPayment({ status: PAYMENT_STATUS.PAID, paidAt: new Date() });
+
+      for (let i = 0; i < 3; i += 1) {
+        const body = await (await status(payment.statusToken)).json();
+        assert.equal(body.data.access.whatsappGroupUrl, GROUP_URL);
+      }
+    });
+
+    for (const [name, setup] of [
+      ['pending (no attempt yet)', () => { attempts = []; }],
+      ['only authorized, not captured', () => { attempts = [attempt({ status: 'authorized' })]; }],
+      ['failed', () => { attempts = [attempt({ status: 'failed', error_description: 'Card declined' })]; }],
+      ['Razorpay unreachable', () => { fetchBehaviour = async () => { throw { statusCode: 500, error: { code: 'SERVER_ERROR' } }; }; }]
+    ]) {
+      test(`no link while the payment is ${name}`, async () => {
+        setup();
+        const payment = await createEventPayment();
+
+        const text = await (await status(payment.statusToken)).text();
+        const body = JSON.parse(text);
+
+        assert.notEqual(body.data.status, PAYMENT_STATUS.PAID);
+        assert.equal(body.data.access, null);
+        assert.ok(!text.includes('chat.whatsapp.com'));
+      });
+    }
+
+    test('a forged callback (bad signature) never reveals the link', async () => {
+      attempts = [];
+      const payment = await createEventPayment();
+
+      const res = await verify(callbackFor(payment, { razorpay_signature: 'a'.repeat(64) }));
+      const text = await (await status(payment.statusToken)).text();
+
+      assert.equal(res.status, 400);
+      assert.ok(!(await res.text()).includes('chat.whatsapp.com'));
+      assert.ok(!text.includes('chat.whatsapp.com'));
+    });
+
+    test('opening a made-up success URL gives 404 and no link', async () => {
+      const res = await status(crypto.randomUUID());
+
+      assert.equal(res.status, 404);
+      assert.ok(!(await res.text()).includes('chat.whatsapp.com'));
+    });
+
+    test('a PAID product order (not an event) gets no group link', async () => {
+      const payment = await createPendingPayment({ status: PAYMENT_STATUS.PAID, paidAt: new Date() });
+
+      const body = await (await status(payment.statusToken)).json();
+
+      assert.equal(body.data.access, null);
+    });
+
+    test('a duplicate verification callback is processed once and still returns the link', async () => {
+      const payment = await createEventPayment();
+
+      const first = await (await verify(callbackFor(payment))).json();
+      const second = await (await verify(callbackFor(payment))).json();
+      const stored = await Payment.findById(payment._id);
+
+      assert.equal(first.data.access.whatsappGroupUrl, GROUP_URL);
+      assert.equal(second.data.access.whatsappGroupUrl, GROUP_URL);
+      assert.equal(stored.status, PAYMENT_STATUS.PAID);
+      assert.equal(fetchCalls, 1);
     });
   });
 });
