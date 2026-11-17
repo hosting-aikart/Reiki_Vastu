@@ -6,13 +6,12 @@ import {
   CheckCircle2,
   Star,
   ShoppingBag,
-  Truck
+  Truck,
+  Clock
 } from 'lucide-react';
-import { SACRED_PRODUCTS } from './BusinessNeeds';
+import { useCatalog } from '../catalog/CatalogContext';
 import { OrnamentalFlourish } from './TempleHarmonyRedesign';
 import ProductImageGallery from './ProductImageGallery';
-import { getProducts } from '../api/paymentClient';
-import { formatPaise } from '@reiki-vastu/shared/products.js';
 
 export default function ProductDetailPage({
   productId,
@@ -22,44 +21,25 @@ export default function ProductDetailPage({
   onConsultClick
 }) {
   const [quantity, setQuantity] = useState(1);
-  const [liveCatalog, setLiveCatalog] = useState({});
-
-  const baseProduct =
-    SACRED_PRODUCTS.find((p) => p.id === productId) || SACRED_PRODUCTS[0];
-  const liveOverride = liveCatalog[baseProduct.id];
-  const product = liveOverride
-    ? {
-        ...baseProduct,
-        pricePaise: liveOverride.unitPricePaise ?? null,
-        price: formatPaise(liveOverride.unitPricePaise),
-        originalPrice:
-          liveOverride.originalPricePaise != null
-            ? formatPaise(liveOverride.originalPricePaise)
-            : null,
-        available: liveOverride.available
-      }
-    : baseProduct;
+  // Products and prices come from the catalog: built-in products plus the
+  // changes made in the admin panel (the server re-checks the price at checkout)
+  const { products: SHOP_PRODUCTS } = useCatalog();
+  const product = SHOP_PRODUCTS.find((p) => p.id === productId) || SHOP_PRODUCTS[0];
 
   useEffect(() => {
     setQuantity(1);
   }, [productId]);
 
-  useEffect(() => {
-    let active = true;
-    getProducts().then((res) => {
-      if (!active || !res.success) return;
-      const map = {};
-      for (const item of res.data?.products || []) {
-        map[item.id] = item;
-      }
-      setLiveCatalog(map);
-    });
-    return () => {
-      active = false;
-    };
-  }, [productId]);
+  if (!product) {
+    return (
+      <div style={{ paddingTop: '140px', paddingBottom: '90px', textAlign: 'center', background: '#faf5ee', minHeight: '60vh' }}>
+        <p>This product is no longer available.</p>
+        <button type="button" onClick={onBack} className="th-btn th-btn--primary"><span>Back to Products</span></button>
+      </div>
+    );
+  }
 
-  const relatedProducts = SACRED_PRODUCTS.filter((p) => p.id !== product.id);
+  const relatedProducts = SHOP_PRODUCTS.filter((p) => p.id !== product.id);
 
   // Unconfirmed prices (pricePaise: null) and unavailable products can't be bought
   const purchasable = product.available !== false && product.pricePaise != null;
@@ -89,7 +69,7 @@ export default function ProductDetailPage({
             border: '1px solid rgba(184, 137, 58, 0.4)',
             color: '#b5091f',
             fontFamily: 'var(--font-karla)',
-            fontSize: '13.5px',
+            fontSize: '15px',
             fontWeight: 750,
             cursor: 'pointer',
             marginBottom: '24px',
@@ -98,7 +78,7 @@ export default function ProductDetailPage({
           }}
         >
           <ArrowLeft size={15} />
-          <span>Back to Sacred Products</span>
+          <span>Back to Products</span>
         </button>
 
         {/* Main E-Commerce Product Showcase Grid */}
@@ -131,13 +111,13 @@ export default function ProductDetailPage({
             {/* 1. Name of Product */}
             <p className="th-eyebrow" style={{ marginBottom: '6px' }}>
               <Sparkles size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '6px' }} />
-              PRANA ENERGIZED SACRED COLLECTION
+              ENERGIZED COLLECTION
             </p>
 
             <h1
               className="th-heading-left"
               style={{
-                fontSize: 'clamp(30px, 3.6vw, 44px)',
+                fontSize: 'clamp(33px, 3.96vw, 48.5px)',
                 margin: '0 0 6px',
                 color: '#381812'
               }}
@@ -148,7 +128,7 @@ export default function ProductDetailPage({
             <p
               style={{
                 fontFamily: 'var(--font-karla)',
-                fontSize: '14px',
+                fontSize: '15.5px',
                 fontWeight: 750,
                 color: '#9a5b13',
                 letterSpacing: '0.04em',
@@ -181,7 +161,7 @@ export default function ProductDetailPage({
                     border: '1px solid rgba(184, 137, 58, 0.25)',
                     borderRadius: '14px',
                     fontFamily: 'var(--font-karla)',
-                    fontSize: '13.5px'
+                    fontSize: '15px'
                   }}
                 >
                   {product.specifications.map((spec) => (
@@ -222,7 +202,7 @@ export default function ProductDetailPage({
                   <span
                     style={{
                       fontFamily: 'var(--font-karla)',
-                      fontSize: '12px',
+                      fontSize: '13px',
                       fontWeight: 750,
                       textTransform: 'uppercase',
                       letterSpacing: '0.08em',
@@ -234,10 +214,12 @@ export default function ProductDetailPage({
                   <span
                     style={{
                       fontFamily: 'var(--font-cormorant)',
-                      fontSize: '28px',
-                      fontWeight: 750,
+                      fontSize: '31px',
+                      fontWeight: 700,
                       color: '#b5091f',
-                      lineHeight: 1
+                      lineHeight: 1,
+                      // Same as event prices: Cormorant's default old-style figures look uneven
+                      fontVariantNumeric: 'lining-nums'
                     }}
                   >
                     {product.price}
@@ -246,7 +228,7 @@ export default function ProductDetailPage({
                     <span
                       style={{
                         fontFamily: 'var(--font-karla)',
-                        fontSize: '13.5px',
+                        fontSize: '15px',
                         color: '#8c6d68',
                         textDecoration: 'line-through'
                       }}
@@ -263,7 +245,7 @@ export default function ProductDetailPage({
                       alignItems: 'center',
                       gap: '5px',
                       fontFamily: 'var(--font-karla)',
-                      fontSize: '11.5px',
+                      fontSize: '12.5px',
                       fontWeight: 750,
                       color: '#15803d',
                       background: 'rgba(21, 128, 61, 0.09)',
@@ -273,12 +255,30 @@ export default function ProductDetailPage({
                     }}
                   >
                     <Truck size={13} />
-                    <span>Free Shipping &middot; Free Delivery Available</span>
+                    <span>Free Delivery Available</span>
+                  </span>
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      fontFamily: 'var(--font-karla)',
+                      fontSize: '12.5px',
+                      fontWeight: 750,
+                      color: '#7c4a03',
+                      background: 'rgba(180, 83, 9, 0.08)',
+                      border: '1px solid rgba(180, 83, 9, 0.22)',
+                      padding: '4px 11px',
+                      borderRadius: '999px'
+                    }}
+                  >
+                    <Clock size={13} />
+                    <span>Delivered within 3–5 working days</span>
                   </span>
                   <span
                     style={{
                       fontFamily: 'var(--font-karla)',
-                      fontSize: '11px',
+                      fontSize: '12px',
                       fontWeight: 750,
                       color: '#b5091f',
                       background: 'rgba(181, 9, 31, 0.08)',
@@ -324,7 +324,7 @@ export default function ProductDetailPage({
                       borderRadius: '50%',
                       border: 'none',
                       background: 'transparent',
-                      fontSize: '17px',
+                      fontSize: '18.5px',
                       fontWeight: 750,
                       color: '#381812',
                       cursor: 'pointer'
@@ -337,7 +337,7 @@ export default function ProductDetailPage({
                       minWidth: '30px',
                       textAlign: 'center',
                       fontFamily: 'var(--font-karla)',
-                      fontSize: '14.5px',
+                      fontSize: '16px',
                       fontWeight: 750,
                       color: '#381812'
                     }}
@@ -354,7 +354,7 @@ export default function ProductDetailPage({
                       borderRadius: '50%',
                       border: 'none',
                       background: 'transparent',
-                      fontSize: '17px',
+                      fontSize: '18.5px',
                       fontWeight: 750,
                       color: '#381812',
                       cursor: 'pointer'
@@ -424,7 +424,7 @@ export default function ProductDetailPage({
                 <span
                   style={{
                     fontFamily: 'var(--font-karla)',
-                    fontSize: '13.5px',
+                    fontSize: '15px',
                     fontWeight: 750,
                     color: '#381812',
                     marginLeft: '5px'
@@ -441,7 +441,7 @@ export default function ProductDetailPage({
                   alignItems: 'center',
                   gap: '5px',
                   fontFamily: 'var(--font-karla)',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   fontWeight: 750,
                   color: '#15803d',
                   background: 'rgba(21, 128, 61, 0.09)',
@@ -457,14 +457,14 @@ export default function ProductDetailPage({
           </div>
         </div>
 
-        {/* Explore More Sacred Products */}
+        {/* Explore More Products */}
         <div>
           <div className="th-section-header" style={{ marginBottom: '32px' }}>
             <p className="th-eyebrow">EXPLORE MORE PRODUCTS</p>
             <h2
               className="th-heading-gradient"
               style={{
-                fontSize: 'clamp(24px, 3vw, 36px)',
+                fontSize: 'clamp(26.5px, 3.3vw, 39.5px)',
                 textTransform: 'none'
               }}
             >
@@ -516,7 +516,7 @@ export default function ProductDetailPage({
                     textAlign: 'center'
                   }}
                 >
-                  <h3 className="th-feature-title" style={{ fontSize: '21px' }}>
+                  <h3 className="th-feature-title" style={{ fontSize: '23px' }}>
                     {item.title}
                   </h3>
                   <div className="th-feature-rule" style={{ margin: '8px auto 10px' }} />
@@ -526,7 +526,7 @@ export default function ProductDetailPage({
                       alignItems: 'center',
                       gap: '5px',
                       fontFamily: 'var(--font-karla)',
-                      fontSize: '12px',
+                      fontSize: '13px',
                       fontWeight: 750,
                       color: '#b5091f'
                     }}

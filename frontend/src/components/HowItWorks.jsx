@@ -61,7 +61,7 @@ export default function HowItWorks() {
                   <div className="hm-work-overlay">
                     <span
                       style={{
-                        fontSize: '11px',
+                        fontSize: '12px',
                         fontWeight: 750,
                         letterSpacing: '0.14em',
                         color: '#fbbf24',
@@ -87,7 +87,7 @@ export default function HowItWorks() {
                             background: 'rgba(255, 255, 255, 0.15)',
                             padding: '4px 12px',
                             borderRadius: '50px',
-                            fontSize: '12px',
+                            fontSize: '13px',
                             fontWeight: 650,
                             color: '#fffdf9'
                           }}

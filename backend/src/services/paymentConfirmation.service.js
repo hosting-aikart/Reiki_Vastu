@@ -5,6 +5,7 @@ import { PaymentError } from './payment.service.js';
 import { isValidCheckoutSignature } from '../utils/razorpaySignature.js';
 import { sendAdminPaymentNotification } from './email.service.js';
 import { eventAccessFor } from '../config/eventAccess.js';
+import { findCatalogEntry, syncCatalogFromDB } from '../config/products.js';
 import logger from '../utils/logger.js';
 
 /**
@@ -45,6 +46,8 @@ export function toPublicStatus(payment) {
       unitPricePaise: payment.product.unitPricePaise,
       isPlaceholder: payment.product.isPlaceholder
     },
+    // Lets the website show the event registration page instead of the order page
+    isEvent: Boolean(findCatalogEntry(payment.product.id)?.isEvent),
     quantity: payment.quantity,
     amountPaise: payment.amountPaise,
     currency: payment.currency,
@@ -174,6 +177,7 @@ export async function verifyCheckoutPayment({ statusToken, razorpay_order_id, ra
   if (!isPaymentConfigured()) {
     throw new PaymentError(503, 'PAYMENTS_UNCONFIGURED', 'Online payments are not available at the moment.');
   }
+  await syncCatalogFromDB(); // the event's current WhatsApp group link
 
   const payment = await findByStatusToken(statusToken);
 
@@ -226,6 +230,7 @@ export async function verifyCheckoutPayment({ statusToken, razorpay_order_id, ra
  * callback arrived, or when confirmation failed earlier.
  */
 export async function getPaymentStatus(statusToken) {
+  await syncCatalogFromDB(); // the event's current WhatsApp group link
   let payment = await findByStatusToken(statusToken);
 
   if (!FINAL_STATUSES.includes(payment.status) && payment.razorpayOrderId && isPaymentConfigured()) {

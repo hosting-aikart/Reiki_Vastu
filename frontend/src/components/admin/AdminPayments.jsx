@@ -31,7 +31,7 @@ const formatDate = (value) =>
 function StatusBadge({ status }) {
   const style = STATUS_STYLE[status] || STATUS_STYLE.CREATED;
   return (
-    <span style={{ background: style.bg, color: style.fg, fontWeight: 750, fontSize: '11px', padding: '3px 9px', borderRadius: '999px', whiteSpace: 'nowrap' }}>
+    <span style={{ background: style.bg, color: style.fg, fontWeight: 750, fontSize: '12px', padding: '3px 9px', borderRadius: '999px', whiteSpace: 'nowrap' }}>
       {style.label}
     </span>
   );
@@ -40,8 +40,8 @@ function StatusBadge({ status }) {
 function Detail({ label, children }) {
   return (
     <div>
-      <div style={{ fontSize: '11px', fontWeight: 750, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '3px' }}>{label}</div>
-      <div style={{ fontSize: '13px', color: '#0f172a', wordBreak: 'break-word' }}>{children || '—'}</div>
+      <div style={{ fontSize: '12px', fontWeight: 750, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '3px' }}>{label}</div>
+      <div style={{ fontSize: '14.5px', color: '#0f172a', wordBreak: 'break-word' }}>{children || '—'}</div>
     </div>
   );
 }
@@ -107,10 +107,10 @@ export default function AdminPayments() {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', marginBottom: '20px' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 850, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 850, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <CreditCard size={22} color="#c59b27" /> Payments
           </h1>
-          <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#64748b' }}>
+          <p style={{ margin: '4px 0 0', fontSize: '14.5px', color: '#64748b' }}>
             Online product orders. Ship orders marked <strong>Paid</strong> to the delivery address shown.
           </p>
         </div>
@@ -121,10 +121,10 @@ export default function AdminPayments() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Reference, name, phone, email"
-              style={{ padding: '8px 10px 8px 32px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', width: '240px' }}
+              style={{ padding: '8px 10px 8px 32px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '14.5px', width: '240px' }}
             />
           </div>
-          <button type="submit" style={{ padding: '8px 14px', borderRadius: '8px', border: 'none', background: '#0f172a', color: '#f8fafc', fontWeight: 650, fontSize: '13px', cursor: 'pointer' }}>
+          <button type="submit" style={{ padding: '8px 14px', borderRadius: '8px', border: 'none', background: '#0f172a', color: '#f8fafc', fontWeight: 650, fontSize: '14.5px', cursor: 'pointer' }}>
             Search
           </button>
         </form>
@@ -146,7 +146,7 @@ export default function AdminPayments() {
                 background: active ? '#0f172a' : '#ffffff',
                 color: active ? '#f8fafc' : '#334155',
                 fontWeight: 650,
-                fontSize: '12px',
+                fontSize: '13px',
                 cursor: 'pointer'
               }}
             >
@@ -165,7 +165,7 @@ export default function AdminPayments() {
             border: `1px solid ${message.tone === 'error' ? '#fecaca' : '#bfdbfe'}`,
             borderRadius: '8px',
             padding: '9px 12px',
-            fontSize: '13px',
+            fontSize: '14.5px',
             margin: '0 0 14px'
           }}
         >
@@ -177,11 +177,11 @@ export default function AdminPayments() {
 
       <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden' }}>
         {loading && payments.length === 0 ? (
-          <p style={{ padding: '24px', margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b', fontSize: '13px' }}>
+          <p style={{ padding: '24px', margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b', fontSize: '14.5px' }}>
             <Loader2 size={16} /> Loading payments...
           </p>
         ) : payments.length === 0 ? (
-          <p style={{ padding: '24px', margin: 0, color: '#64748b', fontSize: '13px' }}>No payments found.</p>
+          <p style={{ padding: '24px', margin: 0, color: '#64748b', fontSize: '14.5px' }}>No payments found.</p>
         ) : (
           payments.map((payment) => {
             const expanded = expandedId === payment._id;
@@ -202,21 +202,21 @@ export default function AdminPayments() {
                     border: 'none',
                     textAlign: 'left',
                     cursor: 'pointer',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     color: '#0f172a'
                   }}
                 >
                   <span>
                     <strong style={{ display: 'block' }}>{payment.reference}</strong>
-                    <span style={{ color: '#64748b', fontSize: '12px' }}>{formatDate(payment.createdAt)}</span>
+                    <span style={{ color: '#64748b', fontSize: '13px' }}>{formatDate(payment.createdAt)}</span>
                   </span>
                   <span>
                     {payment.product?.name} × {payment.quantity}
-                    {payment.product?.isPlaceholder && <span style={{ color: '#92400e', fontSize: '11px', display: 'block' }}>Test placeholder</span>}
+                    {payment.product?.isPlaceholder && <span style={{ color: '#92400e', fontSize: '12px', display: 'block' }}>Test placeholder</span>}
                   </span>
                   <span>
                     {payment.customer?.name || <span style={{ color: '#94a3b8' }}>No customer details</span>}
-                    {payment.customer?.phone && <span style={{ color: '#64748b', fontSize: '12px', display: 'block' }}>{payment.customer.phone}</span>}
+                    {payment.customer?.phone && <span style={{ color: '#64748b', fontSize: '13px', display: 'block' }}>{payment.customer.phone}</span>}
                   </span>
                   <strong>{formatPaise(payment.amountPaise)}</strong>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -229,7 +229,7 @@ export default function AdminPayments() {
                 {expanded && (
                   <div style={{ padding: '4px 18px 18px', background: '#f8fafc' }}>
                     {payment.review?.required && (
-                      <p style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: '8px', padding: '9px 12px', fontSize: '13px', margin: '0 0 14px' }}>
+                      <p style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: '8px', padding: '9px 12px', fontSize: '14.5px', margin: '0 0 14px' }}>
                         <strong>Needs review:</strong> {payment.review.reason} Do not ship until this is checked in the Razorpay Dashboard.
                       </p>
                     )}
@@ -271,7 +271,7 @@ export default function AdminPayments() {
                       <button
                         onClick={() => recheck(payment)}
                         disabled={recheckingId === payment._id}
-                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', fontSize: '12px', fontWeight: 650, cursor: 'pointer' }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', fontSize: '13px', fontWeight: 650, cursor: 'pointer' }}
                       >
                         <RefreshCw size={13} /> {recheckingId === payment._id ? 'Checking with Razorpay...' : 'Re-check with Razorpay'}
                       </button>
@@ -285,7 +285,7 @@ export default function AdminPayments() {
       </div>
 
       {pagination.totalPages > 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginTop: '16px', fontSize: '13px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginTop: '16px', fontSize: '14.5px' }}>
           <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', cursor: page <= 1 ? 'not-allowed' : 'pointer' }}>
             Previous
           </button>

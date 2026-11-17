@@ -164,10 +164,10 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
       {/* Title & Filter Controls */}
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
         <div>
-          <h1 style={{ margin: '0 0 4px', fontSize: '22px', fontWeight: 750, color: '#111827' }}>
+          <h1 style={{ margin: '0 0 4px', fontSize: '24px', fontWeight: 750, color: '#111827' }}>
             Enquiries & Leads Management
           </h1>
-          <p style={{ margin: 0, color: '#6b7280', fontSize: '13px' }}>
+          <p style={{ margin: 0, color: '#6b7280', fontSize: '14.5px' }}>
             Track client requests, update consultation statuses, and maintain internal follow-up notes.
           </p>
         </div>
@@ -190,7 +190,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                 padding: '9px 12px 9px 36px',
                 borderRadius: '8px',
                 border: '1px solid #d1d5db',
-                fontSize: '13px',
+                fontSize: '14.5px',
                 outline: 'none',
                 boxSizing: 'border-box'
               }}
@@ -204,7 +204,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
               color: '#ffffff',
               border: 'none',
               borderRadius: '8px',
-              fontSize: '13px',
+              fontSize: '14.5px',
               fontWeight: 650,
               cursor: 'pointer'
             }}
@@ -227,7 +227,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                 border: statusFilter === st ? '1px solid #111827' : '1px solid #e5e7eb',
                 background: statusFilter === st ? '#111827' : '#ffffff',
                 color: statusFilter === st ? '#ffffff' : '#4b5563',
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 650,
                 textTransform: 'capitalize',
                 cursor: 'pointer'
@@ -246,7 +246,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
               padding: '6px 10px',
               borderRadius: '6px',
               border: '1px solid #d1d5db',
-              fontSize: '12px',
+              fontSize: '13px',
               color: '#374151',
               background: '#fff'
             }}
@@ -264,7 +264,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
               padding: '6px 10px',
               borderRadius: '6px',
               border: '1px solid #d1d5db',
-              fontSize: '12px',
+              fontSize: '13px',
               color: '#374151',
               background: '#fff'
             }}
@@ -289,7 +289,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
           width: '100%'
         }}
       >
-        <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+        <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14.5px' }}>
           <thead>
             <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb', color: '#4b5563' }}>
               <th style={{ padding: '12px 16px', fontWeight: 650 }}>Reference</th>
@@ -327,7 +327,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                     {/* Reference & Date */}
                     <td style={{ padding: '14px 16px' }}>
                       <div style={{ fontWeight: 750, color: '#111827' }}>{item.reference}</div>
-                      <div style={{ fontSize: '11px', color: '#9ca3af', marginTop: '2px' }}>
+                      <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '2px' }}>
                         {new Date(item.createdAt).toLocaleDateString('en-IN', {
                           month: 'short',
                           day: 'numeric',
@@ -344,7 +344,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         <a
                           href={`tel:${item.phone}`}
                           style={{
-                            fontSize: '12px',
+                            fontSize: '13px',
                             color: '#0284c7',
                             textDecoration: 'none',
                             display: 'flex',
@@ -359,7 +359,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                           target="_blank"
                           rel="noreferrer"
                           style={{
-                            fontSize: '11px',
+                            fontSize: '12px',
                             color: '#16a34a',
                             fontWeight: 650,
                             textDecoration: 'none',
@@ -378,7 +378,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                       <div style={{ fontWeight: 650, color: '#374151', textTransform: 'capitalize' }}>
                         {item.type}
                       </div>
-                      <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
+                      <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '2px' }}>
                         {item.serviceKey ? item.serviceKey.replace(/_/g, ' ') : item.courseId || 'General Inquiry'}
                       </div>
                     </td>
@@ -389,7 +389,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         <MapPin size={12} /> {item.location}
                       </div>
                       {item.preferredDate && (
-                        <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
+                        <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
                           📅 {item.preferredDate} ({item.preferredSlot || 'Anytime'})
                         </div>
                       )}
@@ -399,7 +399,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                     <td style={{ padding: '14px 16px' }}>
                       <span
                         style={{
-                          fontSize: '11px',
+                          fontSize: '12px',
                           fontWeight: 750,
                           textTransform: 'uppercase',
                           letterSpacing: '0.3px',
@@ -423,7 +423,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                           background: '#f3f4f6',
                           border: '1px solid #d1d5db',
                           borderRadius: '6px',
-                          fontSize: '12px',
+                          fontSize: '13px',
                           fontWeight: 650,
                           color: '#1f2937',
                           cursor: 'pointer'
@@ -447,7 +447,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            fontSize: '13px',
+            fontSize: '14.5px',
             color: '#6b7280'
           }}
         >
@@ -521,12 +521,12 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
           >
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '18px', fontWeight: 750, color: '#111827' }}>
+                <span style={{ fontSize: '20px', fontWeight: 750, color: '#111827' }}>
                   {selectedEnquiry.reference}
                 </span>
                 <span
                   style={{
-                    fontSize: '11px',
+                    fontSize: '12px',
                     fontWeight: 750,
                     textTransform: 'uppercase',
                     padding: '2px 8px',
@@ -538,7 +538,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                   {selectedEnquiry.status}
                 </span>
               </div>
-              <p style={{ margin: '3px 0 0', fontSize: '12px', color: '#6b7280' }}>
+              <p style={{ margin: '3px 0 0', fontSize: '13px', color: '#6b7280' }}>
                 Submitted on {new Date(selectedEnquiry.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
               </p>
             </div>
@@ -561,22 +561,22 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
           <div style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {/* Client Info Card */}
             <div style={{ background: '#f9fafb', borderRadius: '10px', padding: '16px', border: '1px solid #e5e7eb' }}>
-              <h3 style={{ margin: '0 0 10px', fontSize: '14px', fontWeight: 750, color: '#111827' }}>
+              <h3 style={{ margin: '0 0 10px', fontSize: '15.5px', fontWeight: 750, color: '#111827' }}>
                 Client Contact Information
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '13px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '14.5px' }}>
                 <div>
-                  <span style={{ color: '#6b7280', fontSize: '12px' }}>Name:</span>
+                  <span style={{ color: '#6b7280', fontSize: '13px' }}>Name:</span>
                   <div style={{ fontWeight: 650, color: '#111827' }}>{selectedEnquiry.name}</div>
                 </div>
                 <div>
-                  <span style={{ color: '#6b7280', fontSize: '12px' }}>Location / Mode:</span>
+                  <span style={{ color: '#6b7280', fontSize: '13px' }}>Location / Mode:</span>
                   <div style={{ fontWeight: 650, color: '#111827', textTransform: 'capitalize' }}>
                     {selectedEnquiry.location} Center
                   </div>
                 </div>
                 <div>
-                  <span style={{ color: '#6b7280', fontSize: '12px' }}>Phone:</span>
+                  <span style={{ color: '#6b7280', fontSize: '13px' }}>Phone:</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
                     <a href={`tel:${selectedEnquiry.phone}`} style={{ fontWeight: 650, color: '#0284c7' }}>
                       {selectedEnquiry.phone}
@@ -590,7 +590,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         color: '#fff',
                         padding: '2px 8px',
                         borderRadius: '4px',
-                        fontSize: '11px',
+                        fontSize: '12px',
                         textDecoration: 'none',
                         fontWeight: 750
                       }}
@@ -600,7 +600,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                   </div>
                 </div>
                 <div>
-                  <span style={{ color: '#6b7280', fontSize: '12px' }}>Email:</span>
+                  <span style={{ color: '#6b7280', fontSize: '13px' }}>Email:</span>
                   <div style={{ fontWeight: 650, color: '#111827' }}>
                     {selectedEnquiry.email || 'Not provided'}
                   </div>
@@ -610,10 +610,10 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
 
             {/* Requested Booking Details */}
             <div>
-              <h3 style={{ margin: '0 0 10px', fontSize: '14px', fontWeight: 750, color: '#111827' }}>
+              <h3 style={{ margin: '0 0 10px', fontSize: '15.5px', fontWeight: 750, color: '#111827' }}>
                 Requested Consultation / Course
               </h3>
-              <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '14px', fontSize: '13px', background: '#fff' }}>
+              <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '14px', fontSize: '14.5px', background: '#fff' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <span style={{ color: '#6b7280' }}>Category:</span>
                   <span style={{ fontWeight: 750, textTransform: 'capitalize' }}>{selectedEnquiry.type}</span>
@@ -651,13 +651,13 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
 
             {/* Workflow Management: Status & Follow-up */}
             <div style={{ border: '1px solid #fde68a', background: '#fefce8', borderRadius: '10px', padding: '16px' }}>
-              <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: 750, color: '#92400e' }}>
+              <h3 style={{ margin: '0 0 12px', fontSize: '15.5px', fontWeight: 750, color: '#92400e' }}>
                 Operational Workflow
               </h3>
 
               {/* Status Selector */}
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#78350f', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#78350f', marginBottom: '6px' }}>
                   Update Lead Status
                 </label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
@@ -673,7 +673,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         border: selectedEnquiry.status === st ? '2px solid #92400e' : '1px solid #d1d5db',
                         background: selectedEnquiry.status === st ? '#92400e' : '#fff',
                         color: selectedEnquiry.status === st ? '#fff' : '#374151',
-                        fontSize: '12px',
+                        fontSize: '13px',
                         fontWeight: 650,
                         textTransform: 'capitalize',
                         cursor: 'pointer'
@@ -687,7 +687,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
 
               {/* Follow-up Reminder */}
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#78350f', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#78350f', marginBottom: '6px' }}>
                   Scheduled Follow-up Date
                 </label>
                 <div style={{ display: 'flex', gap: '8px' }}>
@@ -699,7 +699,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                       padding: '7px 10px',
                       borderRadius: '6px',
                       border: '1px solid #d1d5db',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       outline: 'none',
                       background: '#fff'
                     }}
@@ -713,7 +713,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                       color: '#fff',
                       border: 'none',
                       borderRadius: '6px',
-                      fontSize: '12px',
+                      fontSize: '13px',
                       fontWeight: 650,
                       cursor: 'pointer'
                     }}
@@ -734,7 +734,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         background: 'transparent',
                         color: '#b91c1c',
                         border: 'none',
-                        fontSize: '12px',
+                        fontSize: '13px',
                         cursor: 'pointer'
                       }}
                     >
@@ -747,7 +747,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
 
             {/* Internal Staff Notes Thread */}
             <div>
-              <h3 style={{ margin: '0 0 10px', fontSize: '14px', fontWeight: 750, color: '#111827' }}>
+              <h3 style={{ margin: '0 0 10px', fontSize: '15.5px', fontWeight: 750, color: '#111827' }}>
                 Internal Staff Notes ({selectedEnquiry.notes?.length || 0})
               </h3>
 
@@ -763,7 +763,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                 }}
               >
                 {(!selectedEnquiry.notes || selectedEnquiry.notes.length === 0) ? (
-                  <p style={{ margin: 0, color: '#9ca3af', fontSize: '13px', fontStyle: 'italic' }}>
+                  <p style={{ margin: 0, color: '#9ca3af', fontSize: '14.5px', fontStyle: 'italic' }}>
                     No internal notes recorded yet. Add call outcomes or coordinator updates below.
                   </p>
                 ) : (
@@ -775,12 +775,12 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         border: '1px solid #e5e7eb',
                         borderRadius: '8px',
                         padding: '10px 14px',
-                        fontSize: '13px'
+                        fontSize: '14.5px'
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                         <span style={{ fontWeight: 650, color: '#111827' }}>{note.authorName}</span>
-                        <span style={{ fontSize: '11px', color: '#9ca3af' }}>
+                        <span style={{ fontSize: '12px', color: '#9ca3af' }}>
                           {new Date(note.createdAt).toLocaleString('en-IN', {
                             month: 'short',
                             day: 'numeric',
@@ -808,7 +808,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                     padding: '9px 12px',
                     borderRadius: '8px',
                     border: '1px solid #d1d5db',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     outline: 'none'
                   }}
                 />
@@ -821,7 +821,7 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                     color: '#fff',
                     border: 'none',
                     borderRadius: '8px',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 650,
                     cursor: addingNote || !newNote.trim() ? 'not-allowed' : 'pointer',
                     display: 'flex',

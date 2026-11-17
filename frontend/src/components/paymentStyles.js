@@ -8,7 +8,7 @@ export const linkButtonStyle = {
   border: 'none',
   color: '#5e2732',
   fontWeight: 600,
-  fontSize: '14px',
+  fontSize: '15.5px',
   cursor: 'pointer',
   padding: 0
 };
@@ -29,7 +29,7 @@ export const primaryButtonStyle = {
   background: '#D2042D',
   color: '#ffffff',
   fontWeight: 700,
-  fontSize: '15px',
+  fontSize: '16.5px',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',

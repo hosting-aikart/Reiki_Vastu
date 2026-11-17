@@ -78,11 +78,11 @@ export const COURSE_DETAILS = {
     eyebrow: ['Energy', 'Healing', 'Transformation'],
     title: 'Reiki',
     tagline: 'Channel Divine Healing Energy',
-    intro: 'Discover the sacred Japanese art of hands-on healing to harmonize energy centers, dissolve physical and emotional blocks, and awaken your innate healing power.',
+    intro: 'Discover the Japanese art of hands-on healing to harmonize energy centers, dissolve physical and emotional blocks, and awaken your innate healing power.',
     what: {
       title: 'What is Reiki?',
       icon: 'Sparkles',
-      text: 'Reiki is an ancient Japanese energy healing practice founded by Dr. Mikao Usui. "Rei" means universal spiritual wisdom, and "Ki" means life force energy. By channeling this universal life force through gentle touch and sacred symbols, Reiki restores balance to the body, mind, and spirit.'
+      text: 'Reiki is an ancient Japanese energy healing practice founded by Dr. Mikao Usui. "Rei" means universal spiritual wisdom, and "Ki" means life force energy. By channeling this universal life force through gentle touch and symbols, Reiki restores balance to the body, mind, and spirit.'
     },
     use: {
       title: 'How Can I Use Reiki?',
@@ -97,7 +97,7 @@ export const COURSE_DETAILS = {
     },
     philosophy: {
       title: 'Reiki Philosophy & The Five Principles',
-      text: 'Reiki is guided by universal love and five sacred principles: Just for today, do not be angry; do not worry; be grateful; work with diligence; be kind to all living beings. It flows intelligently to where it is needed most to support healing.'
+      text: 'Reiki is guided by universal love and five principles: Just for today, do not be angry; do not worry; be grateful; work with diligence; be kind to all living beings. It flows intelligently to where it is needed most to support healing.'
     },
     benefits: {
       title: 'Benefits of Reiki',
@@ -116,23 +116,23 @@ export const COURSE_DETAILS = {
     extras: [
       {
         type: 'steps',
-        title: 'Levels of Sacred Reiki Training',
+        title: 'Levels of Reiki Training',
         subtitle: 'Our authentic Usui Reiki lineage offers systematic initiation and hands-on attunements:',
         items: [
           {
             title: 'First Degree (Shoden)',
             icon: 'Hand',
-            text: 'Learn foundational hand positions, self-treatment protocols, clearing auric fields, and receive your Level 1 sacred attunement to channel universal life force.'
+            text: 'Learn foundational hand positions, self-treatment protocols, clearing auric fields, and receive your Level 1 attunement to channel universal life force.'
           },
           {
             title: 'Second Degree (Okuden)',
             icon: 'Sparkles',
-            text: 'Master the sacred Reiki symbols (Cho Ku Rei, Sei He Ki, Hon Sha Ze Sho Nen) for mental/emotional cleansing, habit transformation, and distant healing across time and space.'
+            text: 'Master the Reiki symbols (Cho Ku Rei, Sei He Ki, Hon Sha Ze Sho Nen) for mental/emotional cleansing, habit transformation, and distant healing across time and space.'
           },
           {
             title: 'Master & Teacher (Shinpiden)',
             icon: 'Sun',
-            text: 'Receive the Master attunement and Dai Ko Myo symbol. Learn the sacred attunement processes to initiate and empower new Reiki healers and practitioners.'
+            text: 'Receive the Master attunement and Dai Ko Myo symbol. Learn the attunement processes to initiate and empower new Reiki healers and practitioners.'
           }
         ]
       }
@@ -385,7 +385,7 @@ export const COURSE_DETAILS = {
           },
           {
             paragraphs: [
-              'Through meditation and connection with Lord Buddha, you receive Master Teacher attunement, sacred symbols, a manual, certificate, and ongoing support to practice and teach Lama Fera healing.'
+              'Through meditation and connection with Lord Buddha, you receive Master Teacher attunement, symbols, a manual, certificate, and ongoing support to practice and teach Lama Fera healing.'
             ]
           }
         ]
@@ -643,11 +643,11 @@ export const COURSE_DETAILS = {
     eyebrow: ['Spirituality', 'Protection', 'Positivity'],
     title: 'Rudraksha',
     tagline: 'A Divine Seed for a Balanced Life',
-    intro: 'Experience the powerful energy of Rudraksha, a sacred seed that creates positive vibrations and supports your spiritual, mental and physical well-being.',
+    intro: 'Experience the powerful energy of Rudraksha, a seed that creates positive vibrations and supports your spiritual, mental and physical well-being.',
     what: {
       title: 'What is Rudraksha?',
       icon: 'CircleDot',
-      text: 'Rudraksha is a sacred seed that creates unique vibrations and positivity. The name Rudraksha comes from two words \u2014 Rudra (Lord Shiva) and Aksha (tears). It is believed that the seeds were formed from the tears of Lord Shiva, who was in a deep meditative state for the well-being of all beings.'
+      text: 'Rudraksha is a seed that creates unique vibrations and positivity. The name Rudraksha comes from two words \u2014 Rudra (Lord Shiva) and Aksha (tears). It is believed that the seeds were formed from the tears of Lord Shiva, who was in a deep meditative state for the well-being of all beings.'
     },
     use: {
       title: 'How Can Rudraksha Help?',

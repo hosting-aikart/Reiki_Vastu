@@ -20,7 +20,7 @@ export default function MarketplaceCarousel({ onCardClick }) {
         <div className="hm-mkt-header">
           <div>
             <p className="hm-eyebrow hm-grad">OUR CORE PILLARS &amp; VALUES</p>
-            <h2 className="ff-redhat hm-h2">Authentic Healing, Sacred Geometry &amp; Lifelong Guidance</h2>
+            <h2 className="ff-redhat hm-h2">Authentic Healing, Vaastu Geometry &amp; Lifelong Guidance</h2>
           </div>
 
           <div className="hm-mkt-arrows">
@@ -80,7 +80,7 @@ export default function MarketplaceCarousel({ onCardClick }) {
                     }}
                   >
                     <IconComponent size={12} color="#fbbf24" />
-                    <span style={{ color: '#fffdf9', fontSize: '11px', fontWeight: 750, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    <span style={{ color: '#fffdf9', fontSize: '12px', fontWeight: 750, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                       {card.badge}
                     </span>
                   </div>

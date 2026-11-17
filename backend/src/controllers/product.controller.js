@@ -5,7 +5,7 @@ export async function listProducts(req, res, next) {
   try {
     await syncProductPricesFromDB();
 
-    const products = PRODUCTS.map((product) => ({
+    const products = PRODUCTS.filter((product) => !product.deleted).map((product) => ({
       id: product.id,
       name: product.name,
       description: product.description,
@@ -13,6 +13,7 @@ export async function listProducts(req, res, next) {
       originalPricePaise: product.originalPricePaise,
       currency: CURRENCY,
       maxQuantity: product.maxQuantity,
+      isEvent: product.isEvent,
       available: product.available,
       isPlaceholder: product.isPlaceholder
     }));

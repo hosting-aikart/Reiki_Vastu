@@ -21,7 +21,7 @@ import EventsPage from './components/events/EventsPage';
 import EventPopup from './components/events/EventPopup';
 import PolicyPage from './components/PolicyPage';
 import { policySlugFromPath } from './data/policies';
-import { findProductById } from '@reiki-vastu/shared/products.js';
+import { useCatalog } from './catalog/CatalogContext';
 
 // Payment pages have real URLs so a refresh lands on the same page.
 // /checkout/<productId>?quantity=2  -> delivery details + payment for one product
@@ -51,6 +51,7 @@ const viewFromPath = (pathname) =>
 const currentPaymentRoute = () => paymentRouteFromPath(window.location.pathname, window.location.search);
 
 export default function App() {
+  const { findItem, refresh: refreshCatalog } = useCatalog();
   const [currentView, setCurrentView] = useState(() => {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) return 'admin';
@@ -99,6 +100,7 @@ export default function App() {
     return (
       <AdminDashboard
         onExitToSite={() => {
+          refreshCatalog(); // show the changes just made in the admin panel
           window.history.pushState({}, '', '/');
           setCurrentView('home');
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -244,7 +246,7 @@ export default function App() {
             productId={checkout.productId}
             initialQuantity={checkout.quantity}
             onBack={() =>
-              findProductById(checkout.productId)?.isEvent
+              findItem(checkout.productId)?.isEvent
                 ? changeView('events')
                 : leavePaymentPage('product-detail', checkout.productId)
             }

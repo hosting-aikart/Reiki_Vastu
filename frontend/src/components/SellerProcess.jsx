@@ -9,10 +9,10 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
           <div className="hm-process-left">
             <p className="hm-eyebrow hm-grad">PRACTITIONER &amp; SEEKER PATH</p>
             <h2 className="ff-redhat hm-h2" style={{ color: '#ffffff', marginBottom: '16px' }}>
-              Master the Sacred Sciences in Six Guided Steps
+              Master the Sciences in Six Guided Steps
             </h2>
-            <p style={{ color: '#fef3c7', fontSize: '15px', lineHeight: 1.65, margin: '0 0 28px' }}>
-              From sacred master symbol attunement to real-world clinical practice and lifetime mentorship under Dr. Naresh Chhabdiya.
+            <p style={{ color: '#fef3c7', fontSize: '16.5px', lineHeight: 1.65, margin: '0 0 28px' }}>
+              From master symbol attunement to real-world clinical practice and lifetime mentorship under Dr. Naresh Chhabdiya.
             </p>
             <button
               type="button"
@@ -21,7 +21,7 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
                 background: 'linear-gradient(135deg, #d4af37 0%, #b45309 100%)',
                 color: '#3b0a11',
                 padding: '12px 28px',
-                fontSize: '15px',
+                fontSize: '16.5px',
                 border: '1.5px solid #fffdf9'
               }}
               onClick={onBecomeSellerClick}
@@ -38,7 +38,7 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
                   <div>
                     <div className="hm-scard-rule" style={{ background: step.color }} />
                     <span className="hm-scard-t">{step.title}</span>
-                    <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#fef3c7', opacity: 0.85 }}>
+                    <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#fef3c7', opacity: 0.85 }}>
                       {step.subtitle}
                     </p>
                   </div>
@@ -53,7 +53,7 @@ export default function SellerProcess({ onExploreClick, onBecomeSellerClick }) {
                   <div>
                     <div className="hm-scard-rule" style={{ background: step.color }} />
                     <span className="hm-scard-t">{step.title}</span>
-                    <p style={{ margin: '4px 0 0', fontSize: '12px', color: '#fef3c7', opacity: 0.85 }}>
+                    <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#fef3c7', opacity: 0.85 }}>
                       {step.subtitle}
                     </p>
                   </div>

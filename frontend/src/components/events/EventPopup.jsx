@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CalendarDays, Clock, Laptop, MessageCircle, Sparkles, X, ArrowRight } from 'lucide-react';
-import { getUpcomingEvents, formatRupees, whatsappRegistrationLink } from '../../data/events';
+import { formatRupees, whatsappRegistrationLink } from '../../data/events';
+import { useCatalog } from '../../catalog/CatalogContext';
 import './EventPopup.css';
 
 // Remembered for the browser session, so the popup appears once when the site
@@ -28,9 +29,21 @@ function rememberDismissed(eventId) {
  * Renders nothing when there is no upcoming event or it was already closed this session.
  */
 export default function EventPopup({ onViewDetails, onRegister }) {
-  const [event] = useState(() => getUpcomingEvents()[0] || null);
-  const [open, setOpen] = useState(() => Boolean(event) && !wasDismissed(event.id));
+  const { upcomingEvents, ready } = useCatalog();
+  // The next event, fixed once the latest event list has arrived (or the wait
+  // for it timed out), so the popup never switches events while it is open
+  const [event, setEvent] = useState(null);
+  const [open, setOpen] = useState(false);
   const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (!ready || event) return;
+    const next = upcomingEvents[0] || null;
+    if (next) {
+      setEvent(next);
+      setOpen(!wasDismissed(next.id));
+    }
+  }, [ready, upcomingEvents, event]);
 
   const close = () => {
     rememberDismissed(event.id);
@@ -56,7 +69,7 @@ export default function EventPopup({ onViewDetails, onRegister }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  if (!open) return null;
+  if (!open || !event) return null;
 
   const { schedule, pricing } = event;
   const titleId = `${event.id}-popup-title`;
@@ -73,15 +86,17 @@ export default function EventPopup({ onViewDetails, onRegister }) {
           <X size={20} />
         </button>
 
-        <div className="evp-media">
-          <img src={event.image.src} alt={event.image.alt} width={event.image.width} height={event.image.height} />
-        </div>
+        {event.image?.src && (
+          <div className="evp-media">
+            <img src={event.image.src} alt={event.image.alt} width={event.image.width || undefined} height={event.image.height || undefined} />
+          </div>
+        )}
 
         <div className="evp-body">
           <p className="evp-eyebrow">
             <Sparkles size={13} aria-hidden="true" /> Upcoming Event
           </p>
-          <p className="evp-anniversary">{event.anniversary}</p>
+          {event.anniversary && <p className="evp-anniversary">{event.anniversary}</p>}
           <h2 id={titleId} className="evp-title">{event.title}</h2>
           <p className="evp-tagline">{event.tagline}</p>
 
@@ -104,7 +119,9 @@ export default function EventPopup({ onViewDetails, onRegister }) {
             <span className="evp-price-label">{pricing.offerLabel}</span>
             <span className="evp-price-row">
               <strong>{formatRupees(pricing.offerFee)}</strong>
-              <s aria-label={`Actual fee ${formatRupees(pricing.actualFee)}`}>{formatRupees(pricing.actualFee)}</s>
+              {pricing.actualFee > pricing.offerFee && (
+                <s aria-label={`Actual fee ${formatRupees(pricing.actualFee)}`}>{formatRupees(pricing.actualFee)}</s>
+              )}
             </span>
           </div>
 

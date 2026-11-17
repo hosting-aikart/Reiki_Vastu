@@ -49,14 +49,14 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
         {/* Header */}
         <div style={{ marginBottom: '28px' }}>
           <p className="hm-eyebrow hm-grad" style={{ marginBottom: '8px' }}>
-            SACRED REIKI &amp; VAASTU CATALOG
+            REIKI &amp; VAASTU CATALOG
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
             <div>
-              <h1 className="ff-redhat" style={{ fontSize: '34px', fontWeight: 750, margin: '0 0 8px', color: '#3b0a11' }}>
+              <h1 className="ff-redhat" style={{ fontSize: '37.5px', fontWeight: 750, margin: '0 0 8px', color: '#3b0a11' }}>
                 Explore Courses, Products &amp; Therapies
               </h1>
-              <p style={{ color: '#784450', fontSize: '15px', margin: 0, maxWidth: '680px' }}>
+              <p style={{ color: '#784450', fontSize: '16.5px', margin: 0, maxWidth: '680px' }}>
                 Discover certified courses, authentic energized Rudrakshas, non-destructive Vaastu consultations, and holistic energy therapies taught by Dr. Naresh Chhabdiya since 1995.
               </p>
             </div>
@@ -74,7 +74,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   border: '1.5px solid #fca5a5',
                   padding: '6px 14px',
                   borderRadius: '50px',
-                  fontSize: '13px',
+                  fontSize: '14.5px',
                   fontWeight: 650,
                   cursor: 'pointer'
                 }}
@@ -128,7 +128,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   outline: 'none',
                   background: 'transparent',
                   width: '100%',
-                  fontSize: '14.5px',
+                  fontSize: '16px',
                   color: '#3b0a11',
                   fontWeight: 550
                 }}
@@ -163,7 +163,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   style={{
                     padding: '8px 16px',
                     borderRadius: '50px',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 750,
                     cursor: 'pointer',
                     border: selectedPricing === tier.value ? '1.5px solid #f59e0b' : '1px solid rgba(212,175,55,0.4)',
@@ -190,7 +190,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   border: '1.5px solid rgba(212,175,55,0.5)',
                   background: '#ffffff',
                   padding: '0 14px',
-                  fontSize: '13.5px',
+                  fontSize: '15px',
                   color: '#3b0a11',
                   fontWeight: 650,
                   outline: 'none',
@@ -228,7 +228,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     whiteSpace: 'nowrap',
                     padding: '6px 14px',
                     borderRadius: '50px',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: isSelected ? 750 : 550,
                     cursor: 'pointer',
                     border: isSelected ? '1.5px solid #dc2626' : '1px solid rgba(212,175,55,0.3)',
@@ -243,7 +243,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   <span>{cat.category}</span>
                   <span
                     style={{
-                      fontSize: '11px',
+                      fontSize: '12px',
                       background: isSelected ? '#dc2626' : 'rgba(212,175,55,0.2)',
                       color: isSelected ? '#ffffff' : '#b45309',
                       padding: '1px 6px',
@@ -291,10 +291,10 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               <Compass size={22} />
             </div>
             <div>
-              <h4 style={{ margin: 0, fontSize: '16px', fontWeight: 750, color: '#3b0a11' }}>
+              <h4 style={{ margin: 0, fontSize: '17.5px', fontWeight: 750, color: '#3b0a11' }}>
                 Need Personal Energy or Directional Diagnosis?
               </h4>
-              <p style={{ margin: 0, fontSize: '13.5px', color: '#784450' }}>
+              <p style={{ margin: 0, fontSize: '15px', color: '#784450' }}>
                 Test your space or chakra alignment in our interactive Aura &amp; Vaastu Simulator before booking.
               </p>
             </div>
@@ -302,7 +302,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
           <button
             type="button"
             className="gnav-btn-primary"
-            style={{ fontSize: '13.5px', padding: '10px 22px' }}
+            style={{ fontSize: '15px', padding: '10px 22px' }}
             onClick={() => onOpenSandbox(AGENTS_DATA[0])}
           >
             Launch Cosmic Energy Simulator
@@ -320,10 +320,10 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
               border: '1.5px solid rgba(212,175,55,0.3)'
             }}
           >
-            <p style={{ fontSize: '18px', fontWeight: 750, color: '#3b0a11', marginBottom: '8px' }}>
+            <p style={{ fontSize: '20px', fontWeight: 750, color: '#3b0a11', marginBottom: '8px' }}>
               No matching offerings found
             </p>
-            <p style={{ color: '#784450', fontSize: '14px', marginBottom: '20px' }}>
+            <p style={{ color: '#784450', fontSize: '15.5px', marginBottom: '20px' }}>
               Try searching with different keywords (e.g. Reiki, Vaastu, Rudraksha, Crystal) or resetting filters.
             </p>
             <button
@@ -413,7 +413,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                         border: '1px solid #f59e0b',
                         borderRadius: '50px',
                         padding: '3px 10px',
-                        fontSize: '11px',
+                        fontSize: '12px',
                         fontWeight: 750,
                         color: '#881337',
                         textTransform: 'uppercase',
@@ -424,7 +424,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     </div>
                   </div>
 
-                  {/* Sacred Mandala Mark */}
+                  {/* Mandala Mark */}
                   <div
                     style={{
                       position: 'absolute',
@@ -455,13 +455,13 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Star size={14} color="#f59e0b" fill="#f59e0b" />
-                      <span style={{ fontSize: '12.5px', fontWeight: 750, color: '#3b0a11' }}>
+                      <span style={{ fontSize: '14px', fontWeight: 750, color: '#3b0a11' }}>
                         {agent.rating}
                       </span>
                     </div>
                     <span
                       style={{
-                        fontSize: '11px',
+                        fontSize: '12px',
                         fontWeight: 750,
                         color: '#7c3aed',
                         background: '#f5f3ff',
@@ -476,7 +476,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
 
                   <h3
                     style={{
-                      fontSize: '16.5px',
+                      fontSize: '18px',
                       fontWeight: 750,
                       color: '#3b0a11',
                       margin: '0 0 4px',
@@ -486,13 +486,13 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                     {agent.title}
                   </h3>
 
-                  <p style={{ fontSize: '12px', color: '#b45309', margin: '0 0 10px', fontWeight: 650 }}>
+                  <p style={{ fontSize: '13px', color: '#b45309', margin: '0 0 10px', fontWeight: 650 }}>
                     Guided by {agent.provider}
                   </p>
 
                   <p
                     style={{
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#5e2732',
                       lineHeight: 1.5,
                       margin: '0 0 16px',
@@ -509,7 +509,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                   {agent.highlights && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '16px' }}>
                       {agent.highlights.slice(0, 2).map((hl, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '12px', color: '#784450' }}>
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '13px', color: '#784450' }}>
                           <CheckCircle2 size={13} color="#dc2626" style={{ flexShrink: 0, marginTop: '2px' }} />
                           <span>{hl}</span>
                         </div>
@@ -529,7 +529,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                       border: '1.5px solid #d4af37',
                       background: '#fffdf9',
                       color: '#881337',
-                      fontSize: '12.5px',
+                      fontSize: '14px',
                       fontWeight: 750,
                       cursor: 'pointer',
                       display: 'flex',
@@ -553,7 +553,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                       border: '1px solid #f59e0b',
                       background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
                       color: '#ffffff',
-                      fontSize: '12.5px',
+                      fontSize: '14px',
                       fontWeight: 750,
                       cursor: 'pointer',
                       display: 'flex',
@@ -587,14 +587,14 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 background: '#ffffff',
                 color: '#3b0a11',
                 fontWeight: 650,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                 opacity: currentPage === 1 ? 0.4 : 1
               }}
             >
               Previous
             </button>
-            <span style={{ fontSize: '13.5px', fontWeight: 750, color: '#3b0a11' }}>
+            <span style={{ fontSize: '15px', fontWeight: 750, color: '#3b0a11' }}>
               Page {currentPage} of {totalPages}
             </span>
             <button
@@ -608,7 +608,7 @@ export default function ExploreView({ onOpenSandbox, initialSearch = '' }) {
                 background: '#ffffff',
                 color: '#3b0a11',
                 fontWeight: 650,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                 opacity: currentPage === totalPages ? 0.4 : 1
               }}

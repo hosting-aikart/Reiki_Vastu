@@ -20,12 +20,17 @@
   <!-- Start downloading the first hero photo before the app's code has loaded -->
   <link rel="preload" as="image" href="/images/temple-harmony-hero.webp" type="image/webp" fetchpriority="high" />
 
-  <!-- Google Fonts for Sacred & Modern Vedic Aesthetics -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700;800;900&family=Red+Hat+Display:wght@300..900&family=Rancho&display=swap"
     rel="stylesheet" />
+  <!-- Numbers everywhere use Nunito's clean, rounded digits (instead of the
+       fancy old-style figures of the serif fonts). Only the digits 0-9 are
+       downloaded; 'Nunito' is listed first in every font stack, so letters keep
+       their own fonts. -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300..900&text=0123456789&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 </head>

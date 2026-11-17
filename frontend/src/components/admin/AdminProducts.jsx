@@ -1,418 +1,370 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Loader2, Pencil, Plus, RotateCcw, ShoppingBag, Trash2, Undo2 } from 'lucide-react';
+import { PRODUCTS as BUILT_IN_PRODUCTS, formatPaise } from '@reiki-vastu/shared/products.js';
+import { getProductImages } from '../../data/productImages';
+import { resolveMediaUrl } from '../../catalog/media';
 import {
-  IndianRupee,
-  Loader2,
-  RotateCcw,
-  Save,
-  CheckCircle2,
-  AlertCircle,
-  ShoppingBag
-} from 'lucide-react';
-import {
+  listCatalogItems,
   listAdminProducts,
-  updateAdminProductPrice,
-  resetAdminProductPrice
+  saveCatalogItem,
+  deleteCatalogItem,
+  restoreCatalogItem,
+  resetCatalogItem
 } from '../../api/adminClient';
-import { formatPaise } from '@reiki-vastu/shared/products.js';
+import {
+  ui,
+  Chip,
+  EditorPanel,
+  Field,
+  ImageListEditor,
+  Notice,
+  PairListEditor,
+  Section,
+  TextField,
+  Toggle,
+  describeErrors,
+  paiseToRupees,
+  rupeesToPaise,
+  slugify
+} from './catalogForm';
 
-function paiseToRupeeString(paise) {
-  if (typeof paise !== 'number' || !Number.isFinite(paise)) return '';
-  const rupees = paise / 100;
-  return Number.isInteger(rupees) ? String(rupees) : rupees.toFixed(2);
+// Products shown on the website: the built-in ones (shared/products.js, photos
+// in public/Products_images) merged with what was added or changed here.
+
+const BUILT_INS = BUILT_IN_PRODUCTS.filter((p) => !p.isEvent).map((p) => ({
+  title: p.title,
+  subtitle: p.subtitle,
+  badge: p.badge,
+  description: p.description,
+  longDescription: p.longDescription || '',
+  specifications: p.specifications || [],
+  pricePaise: p.pricePaise,
+  originalPricePaise: p.originalPricePaise,
+  maxQuantity: p.maxQuantity,
+  available: p.available !== false,
+  images: getProductImages(p),
+  id: p.id
+}));
+const BUILT_IN_IDS = new Set(BUILT_INS.map((p) => p.id));
+
+const isEmpty = (data) => !data || Object.keys(data).length === 0;
+
+function mergeRows(docs, legacyPrices) {
+  const byId = new Map(docs.map((doc) => [doc.itemId, doc]));
+  const rows = BUILT_INS.map((base) => {
+    const doc = byId.get(base.id);
+    byId.delete(base.id);
+    const legacy = legacyPrices.get(base.id);
+    const withLegacy = legacy
+      ? { ...base, pricePaise: legacy.unitPricePaise, originalPricePaise: legacy.originalPricePaise, available: legacy.available }
+      : base;
+    const edited = doc && !isEmpty(doc.data);
+    return {
+      id: base.id,
+      builtIn: true,
+      edited: Boolean(edited || legacy?.isCustomized),
+      deleted: Boolean(doc?.deleted),
+      updatedAt: doc?.updatedAt,
+      data: edited ? { ...withLegacy, ...doc.data } : withLegacy
+    };
+  });
+  for (const doc of byId.values()) {
+    rows.push({ id: doc.itemId, builtIn: false, edited: true, deleted: doc.deleted, updatedAt: doc.updatedAt, data: doc.data });
+  }
+  return rows;
 }
 
-function rupeeStringToPaise(str) {
-  const trimmed = String(str ?? '').trim();
-  if (!trimmed) return null;
-  const num = Number(trimmed);
-  if (!Number.isFinite(num) || num < 1) return NaN;
-  return Math.round(num * 100);
+const emptyForm = () => ({
+  id: '',
+  title: '',
+  subtitle: '',
+  badge: 'Crystal Bracelet',
+  description: '',
+  longDescription: '',
+  specifications: [],
+  priceRupees: '',
+  originalPriceRupees: '',
+  maxQuantity: 5,
+  available: true,
+  images: []
+});
+
+const formFromData = (row) => ({
+  id: row.id,
+  title: row.data.title || '',
+  subtitle: row.data.subtitle || '',
+  badge: row.data.badge || '',
+  description: row.data.description || '',
+  longDescription: row.data.longDescription || '',
+  specifications: (row.data.specifications || []).map((s) => ({ label: s.label, value: s.value })),
+  priceRupees: paiseToRupees(row.data.pricePaise),
+  originalPriceRupees: paiseToRupees(row.data.originalPricePaise),
+  maxQuantity: row.data.maxQuantity || 5,
+  available: row.data.available !== false,
+  images: (row.data.images || []).map((url) => ({ url }))
+});
+
+function ProductEditor({ row, onClose, onSaved }) {
+  const isNew = !row;
+  const [form, setForm] = useState(() => (row ? formFromData(row) : emptyForm()));
+  const [idTouched, setIdTouched] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState([]);
+
+  const set = (key) => (value) =>
+    setForm((prev) => {
+      const next = { ...prev, [key]: value };
+      if (isNew && key === 'title' && !idTouched) next.id = slugify(value);
+      return next;
+    });
+
+  const save = async () => {
+    setError(null);
+    setErrors([]);
+    const pricePaise = rupeesToPaise(form.priceRupees);
+    const originalPricePaise = rupeesToPaise(form.originalPriceRupees);
+    const problems = [];
+    if (!form.title.trim()) problems.push('Please enter the product name.');
+    if (!form.id) problems.push('Please enter a web address id.');
+    if (Number.isNaN(pricePaise)) problems.push('Selling price must be empty (Coming Soon) or at least ₹1.');
+    if (Number.isNaN(originalPricePaise)) problems.push('MRP must be empty or at least ₹1.');
+    if (problems.length) {
+      setError('Please fix the following:');
+      setErrors(problems);
+      return;
+    }
+
+    const data = {
+      title: form.title.trim(),
+      subtitle: form.subtitle.trim(),
+      badge: form.badge.trim(),
+      description: form.description.trim(),
+      longDescription: form.longDescription.trim(),
+      specifications: form.specifications
+        .map((s) => ({ label: s.label.trim(), value: s.value.trim() }))
+        .filter((s) => s.label && s.value),
+      pricePaise,
+      originalPricePaise,
+      maxQuantity: Number(form.maxQuantity) || 5,
+      available: form.available,
+      images: form.images.map((image) => image.url)
+    };
+
+    setSaving(true);
+    const res = await saveCatalogItem('product', form.id, { data, isNew });
+    setSaving(false);
+    if (!res.success) {
+      setError(res.message || 'Could not save.');
+      setErrors(describeErrors(res.fields));
+      return;
+    }
+    onSaved(`Saved “${data.title}”.`);
+  };
+
+  return (
+    <EditorPanel
+      title={isNew ? 'Add a product' : `Edit ${row.data.title}`}
+      subtitle={isNew ? 'It appears on the website as soon as you save.' : `Web address id: ${row.id}`}
+      onClose={onClose}
+      onSave={save}
+      saving={saving}
+      error={error}
+      errors={errors}
+      saveLabel={isNew ? 'Add product' : 'Save changes'}
+    >
+      <Section title="Photos" description="Customers see these on the product page, in this order. The first photo is shown on product cards.">
+        <ImageListEditor images={form.images} onChange={set('images')} />
+      </Section>
+
+      <Section title="Details">
+        <div style={ui.grid(240)}>
+          <TextField label="Product name *" value={form.title} onChange={set('title')} placeholder="e.g. Black Tourmaline" />
+          {isNew && (
+            <TextField
+              label="Web address id *"
+              value={form.id}
+              onChange={(v) => {
+                setIdTouched(true);
+                setForm((prev) => ({ ...prev, id: slugify(v) }));
+              }}
+              hint="Lowercase words with hyphens. Cannot be changed later."
+            />
+          )}
+          <TextField label="Subtitle" value={form.subtitle} onChange={set('subtitle')} placeholder="e.g. Black Tourmaline Bracelet • 8 mm Beads" />
+          <TextField label="Badge" value={form.badge} onChange={set('badge')} placeholder="e.g. Crystal Bracelet" />
+          <TextField span label="Short description" value={form.description} onChange={set('description')} multiline rows={2} hint="One or two sentences, shown near the price." />
+          <TextField span label="Full description" value={form.longDescription} onChange={set('longDescription')} multiline rows={5} />
+        </div>
+      </Section>
+
+      <Section title="Price & stock">
+        <div style={ui.grid(180)}>
+          <TextField label="Selling price (₹)" type="number" min="1" step="0.01" value={form.priceRupees} onChange={set('priceRupees')} hint="Leave empty to show “Coming Soon”." />
+          <TextField label="MRP before discount (₹)" type="number" min="1" step="0.01" value={form.originalPriceRupees} onChange={set('originalPriceRupees')} hint="Shown crossed out. Optional." />
+          <Field label="Most one customer can buy">
+            <select value={form.maxQuantity} onChange={(e) => set('maxQuantity')(Number(e.target.value))} style={ui.input}>
+              {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </Field>
+        </div>
+        <Toggle label="Available to buy" hint="Untick to show the product without letting customers order it (e.g. out of stock)." checked={form.available} onChange={set('available')} />
+      </Section>
+
+      <Section title="Specifications" description="Shown as a table on the product page (e.g. Stone, Bead size, Charm).">
+        <PairListEditor items={form.specifications} onChange={set('specifications')} />
+      </Section>
+    </EditorPanel>
+  );
 }
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState([]);
-  const [drafts, setDrafts] = useState({});
+  const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [savingId, setSavingId] = useState(null);
-  const [feedback, setFeedback] = useState({});
+  const [notice, setNotice] = useState(null);
+  const [editing, setEditing] = useState(null); // row, or 'new'
+  const [showDeleted, setShowDeleted] = useState(false);
+  const [busyId, setBusyId] = useState(null);
 
-  const initDrafts = (items) => {
-    const next = {};
-    for (const item of items) {
-      next[item.id] = {
-        priceRupees: paiseToRupeeString(item.unitPricePaise),
-        originalPriceRupees:
-          item.originalPricePaise != null ? paiseToRupeeString(item.originalPricePaise) : '',
-        available: item.available
-      };
-    }
-    setDrafts(next);
-  };
-
-  const fetchProducts = async () => {
+  const load = async () => {
     setLoading(true);
-    setError(null);
-    const res = await listAdminProducts();
-    if (!res.success) {
-      setError(res.message || 'Could not load products.');
+    const [docs, legacy] = await Promise.all([listCatalogItems('product'), listAdminProducts()]);
+    if (!docs.success) {
+      setError(docs.message || 'Could not load products.');
       setLoading(false);
       return;
     }
-    const list = res.data?.products || [];
-    setProducts(list);
-    initDrafts(list);
+    const legacyPrices = new Map(
+      (legacy.success ? legacy.data?.products || [] : []).filter((p) => BUILT_IN_IDS.has(p.id)).map((p) => [p.id, p])
+    );
+    setRows(mergeRows(docs.data.items, legacyPrices));
+    setError(null);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchProducts();
+    load();
   }, []);
 
-  const updateDraft = (id, key, value) => {
-    setDrafts((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        [key]: value
-      }
-    }));
-    setFeedback((prev) => ({ ...prev, [id]: null }));
-  };
-
-  const handleSave = async (product) => {
-    const draft = drafts[product.id];
-    if (!draft) return;
-
-    const unitPricePaise = rupeeStringToPaise(draft.priceRupees);
-    if (!Number.isInteger(unitPricePaise) || unitPricePaise < 100) {
-      setFeedback((prev) => ({
-        ...prev,
-        [product.id]: { tone: 'error', text: 'Selling price must be at least ₹1.' }
-      }));
-      return;
-    }
-
-    let originalPricePaise = null;
-    if (String(draft.originalPriceRupees).trim() !== '') {
-      originalPricePaise = rupeeStringToPaise(draft.originalPriceRupees);
-      if (!Number.isInteger(originalPricePaise) || originalPricePaise < 100) {
-        setFeedback((prev) => ({
-          ...prev,
-          [product.id]: { tone: 'error', text: 'Original MRP must be empty or at least ₹1.' }
-        }));
-        return;
-      }
-    }
-
-    setSavingId(product.id);
-    setFeedback((prev) => ({ ...prev, [product.id]: null }));
-
-    const res = await updateAdminProductPrice(product.id, {
-      unitPricePaise,
-      originalPricePaise,
-      available: Boolean(draft.available)
-    });
-
-    setSavingId(null);
-
+  const act = async (row, action) => {
+    const labels = {
+      delete: `Delete “${row.data.title}” from the website? You can restore it later from “Deleted products”.`,
+      reset: `Undo all your changes to “${row.data.title}” and go back to its original details, photos and price?`
+    };
+    if (labels[action] && !window.confirm(labels[action])) return;
+    setBusyId(row.id);
+    const fn = { delete: deleteCatalogItem, restore: restoreCatalogItem, reset: resetCatalogItem }[action];
+    const res = await fn('product', row.id);
+    setBusyId(null);
     if (!res.success) {
-      setFeedback((prev) => ({
-        ...prev,
-        [product.id]: { tone: 'error', text: res.message || 'Failed to update price.' }
-      }));
+      setNotice({ tone: 'error', text: res.message || 'Something went wrong.' });
       return;
     }
-
-    const updated = res.data.product;
-    setProducts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
-    setDrafts((prev) => ({
-      ...prev,
-      [updated.id]: {
-        priceRupees: paiseToRupeeString(updated.unitPricePaise),
-        originalPriceRupees:
-          updated.originalPricePaise != null ? paiseToRupeeString(updated.originalPricePaise) : '',
-        available: updated.available
-      }
-    }));
-    setFeedback((prev) => ({
-      ...prev,
-      [product.id]: {
-        tone: 'success',
-        text: `Saved (${formatPaise(updated.unitPricePaise)})`
-      }
-    }));
+    setNotice({ tone: 'success', text: { delete: 'Product deleted.', restore: 'Product restored.', reset: 'Original details restored.' }[action] });
+    load();
   };
 
-  const handleReset = async (product) => {
-    setSavingId(product.id);
-    setFeedback((prev) => ({ ...prev, [product.id]: null }));
-
-    const res = await resetAdminProductPrice(product.id);
-    setSavingId(null);
-
-    if (!res.success) {
-      setFeedback((prev) => ({
-        ...prev,
-        [product.id]: { tone: 'error', text: res.message || 'Could not reset price.' }
-      }));
-      return;
-    }
-
-    const restored = res.data.product;
-    setProducts((prev) => prev.map((p) => (p.id === restored.id ? restored : p)));
-    setDrafts((prev) => ({
-      ...prev,
-      [restored.id]: {
-        priceRupees: paiseToRupeeString(restored.unitPricePaise),
-        originalPriceRupees:
-          restored.originalPricePaise != null ? paiseToRupeeString(restored.originalPricePaise) : '',
-        available: restored.available
-      }
-    }));
-    setFeedback((prev) => ({
-      ...prev,
-      [product.id]: {
-        tone: 'success',
-        text: `Reset to default (${formatPaise(restored.unitPricePaise)})`
-      }
-    }));
-  };
-
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#475569', padding: '24px 0' }}>
-        <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} />
-        <span>Loading product catalog and pricing...</span>
-      </div>
-    );
-  }
+  const visible = useMemo(() => rows.filter((row) => row.deleted === showDeleted), [rows, showDeleted]);
+  const deletedCount = rows.filter((row) => row.deleted).length;
 
   return (
-    <div style={{ maxWidth: '1080px' }}>
-      {/* Header */}
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <ShoppingBag size={22} color="#c59b27" />
-          Products &amp; Pricing
-        </h1>
-        <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-          Update product selling prices (in ₹), strikethrough MRP, or stock availability. Changes apply immediately on the Product Detail page and Razorpay Checkout.
-        </p>
+    <div style={{ maxWidth: '1180px' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap', marginBottom: '20px' }}>
+        <div>
+          <h1 style={{ fontSize: '26.5px', fontWeight: 800, color: '#0f172a', margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <ShoppingBag size={22} color="#c59b27" /> Products
+          </h1>
+          <p style={{ fontSize: '15.5px', color: '#64748b', margin: 0, maxWidth: '680px' }}>
+            Add new products, change photos (add, remove and reorder), details and prices, or remove products from the website. Changes appear on the website immediately.
+          </p>
+        </div>
+        <button type="button" style={ui.button('gold')} onClick={() => setEditing('new')}>
+          <Plus size={16} /> Add product
+        </button>
       </div>
 
-      {error && (
-        <div
-          style={{
-            background: '#fef2f2',
-            border: '1px solid #fecaca',
-            color: '#991b1b',
-            padding: '12px 16px',
-            borderRadius: '10px',
-            marginBottom: '20px',
-            fontSize: '14px'
-          }}
-        >
-          {error}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+        <button type="button" style={ui.button(showDeleted ? 'default' : 'primary')} onClick={() => setShowDeleted(false)}>
+          On the website ({rows.length - deletedCount})
+        </button>
+        <button type="button" style={ui.button(showDeleted ? 'primary' : 'default')} onClick={() => setShowDeleted(true)}>
+          Deleted products ({deletedCount})
+        </button>
+      </div>
+
+      {notice && <div style={{ marginBottom: '14px' }}><Notice tone={notice.tone} onClose={() => setNotice(null)}>{notice.text}</Notice></div>}
+      {error && <Notice tone="error">{error}</Notice>}
+
+      {loading ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#475569', padding: '24px 0' }}>
+          <Loader2 size={20} style={{ animation: 'spin 1s linear infinite' }} /> Loading products...
+        </div>
+      ) : visible.length === 0 ? (
+        <p style={{ color: '#64748b' }}>{showDeleted ? 'No deleted products.' : 'No products yet. Click “Add product”.'}</p>
+      ) : (
+        <div style={ui.grid(260)}>
+          {visible.map((row) => {
+            const image = resolveMediaUrl(row.data.images?.[0]);
+            const busy = busyId === row.id;
+            return (
+              <article key={row.id} style={{ ...ui.card, padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', opacity: row.deleted ? 0.75 : 1 }}>
+                <div style={{ aspectRatio: '4 / 3', background: '#f1f5f9' }}>
+                  {image && <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
+                </div>
+                <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    {!row.builtIn && <Chip tone="blue">Added by you</Chip>}
+                    {row.builtIn && row.edited && <Chip tone="amber">Edited</Chip>}
+                    {row.data.pricePaise == null ? <Chip tone="slate">Coming Soon</Chip> : row.data.available === false ? <Chip tone="red">Not available</Chip> : <Chip tone="green">For sale</Chip>}
+                    <Chip tone="gold">{(row.data.images || []).length} photos</Chip>
+                  </div>
+                  <strong style={{ fontSize: '17px', color: '#0f172a' }}>{row.data.title}</strong>
+                  <span style={{ fontSize: '14.5px', color: '#334155' }}>
+                    {formatPaise(row.data.pricePaise)}
+                    {Number.isFinite(row.data.originalPricePaise) && (
+                      <s style={{ color: '#94a3b8', marginLeft: '8px' }}>{formatPaise(row.data.originalPricePaise)}</s>
+                    )}
+                  </span>
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: 'auto', paddingTop: '6px' }}>
+                    {row.deleted ? (
+                      <button type="button" style={ui.button()} disabled={busy} onClick={() => act(row, 'restore')}>
+                        <Undo2 size={15} /> Restore
+                      </button>
+                    ) : (
+                      <>
+                        <button type="button" style={ui.button('primary')} disabled={busy} onClick={() => setEditing(row)}>
+                          <Pencil size={14} /> Edit
+                        </button>
+                        <button type="button" style={ui.button('danger')} disabled={busy} onClick={() => act(row, 'delete')}>
+                          <Trash2 size={14} /> Delete
+                        </button>
+                        {row.builtIn && row.edited && (
+                          <button type="button" style={ui.button()} disabled={busy} onClick={() => act(row, 'reset')} title="Undo all changes to this built-in product">
+                            <RotateCcw size={14} /> Original
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       )}
 
-      {/* Product Rows */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {products.map((product) => {
-          const draft = drafts[product.id] || { priceRupees: '', originalPriceRupees: '', available: true };
-          const isSaving = savingId === product.id;
-          const fb = feedback[product.id];
-
-          return (
-            <div
-              key={product.id}
-              style={{
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderRadius: '14px',
-                padding: '18px 20px',
-                display: 'grid',
-                gridTemplateColumns: 'minmax(220px, 1.4fr) repeat(auto-fit, minmax(150px, 1fr))',
-                gap: '16px',
-                alignItems: 'center',
-                boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04)'
-              }}
-            >
-              {/* Product Info */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                {product.image && (
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '10px',
-                      objectFit: 'cover',
-                      border: '1px solid #e2e8f0',
-                      flexShrink: 0
-                    }}
-                  />
-                )}
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <strong style={{ fontSize: '16px', color: '#0f172a' }}>{product.name}</strong>
-                    {product.isCustomized && (
-                      <span
-                        style={{
-                          fontSize: '11px',
-                          fontWeight: 700,
-                          background: '#fef3c7',
-                          color: '#92400e',
-                          padding: '2px 8px',
-                          borderRadius: '999px'
-                        }}
-                      >
-                        Custom Price
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ fontSize: '12.5px', color: '#64748b', marginTop: '2px' }}>
-                    {product.description}
-                  </div>
-                  <div style={{ fontSize: '11.5px', color: '#94a3b8', marginTop: '4px' }}>
-                    Default: {formatPaise(product.defaultUnitPricePaise)} &middot; Live: <strong style={{ color: '#0f172a' }}>{formatPaise(product.unitPricePaise)}</strong>
-                  </div>
-                </div>
-              </div>
-
-              {/* Selling Price Input (₹) */}
-              <label style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '12px', fontWeight: 700, color: '#475569' }}>
-                Selling Price (₹)
-                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                  <IndianRupee size={14} style={{ position: 'absolute', left: '10px', color: '#64748b' }} />
-                  <input
-                    type="number"
-                    min="1"
-                    step="0.01"
-                    value={draft.priceRupees}
-                    onChange={(e) => updateDraft(product.id, 'priceRupees', e.target.value)}
-                    disabled={isSaving}
-                    style={{
-                      width: '100%',
-                      padding: '8px 10px 8px 28px',
-                      borderRadius: '8px',
-                      border: '1px solid #cbd5e1',
-                      fontSize: '14px',
-                      fontWeight: 700,
-                      color: '#0f172a'
-                    }}
-                  />
-                </div>
-              </label>
-
-              {/* Original / Strikethrough Price Input (₹) */}
-              <label style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '12px', fontWeight: 700, color: '#475569' }}>
-                MRP / Strikethrough (₹)
-                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                  <IndianRupee size={14} style={{ position: 'absolute', left: '10px', color: '#64748b' }} />
-                  <input
-                    type="number"
-                    min="1"
-                    step="0.01"
-                    placeholder="Optional"
-                    value={draft.originalPriceRupees}
-                    onChange={(e) => updateDraft(product.id, 'originalPriceRupees', e.target.value)}
-                    disabled={isSaving}
-                    style={{
-                      width: '100%',
-                      padding: '8px 10px 8px 28px',
-                      borderRadius: '8px',
-                      border: '1px solid #cbd5e1',
-                      fontSize: '14px',
-                      color: '#334155'
-                    }}
-                  />
-                </div>
-              </label>
-
-              {/* Stock Availability & Actions */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 600, color: '#334155', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={Boolean(draft.available)}
-                    onChange={(e) => updateDraft(product.id, 'available', e.target.checked)}
-                    disabled={isSaving}
-                  />
-                  <span>{draft.available ? 'In Stock (Available)' : 'Unavailable'}</span>
-                </label>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <button
-                    type="button"
-                    onClick={() => handleSave(product)}
-                    disabled={isSaving}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '8px 14px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      background: '#0f172a',
-                      color: '#ffffff',
-                      fontSize: '13px',
-                      fontWeight: 700,
-                      cursor: isSaving ? 'wait' : 'pointer'
-                    }}
-                  >
-                    {isSaving ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={14} />}
-                    <span>Save Price</span>
-                  </button>
-
-                  {product.isCustomized && (
-                    <button
-                      type="button"
-                      onClick={() => handleReset(product)}
-                      disabled={isSaving}
-                      title="Reset to default price"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                        padding: '8px 10px',
-                        borderRadius: '8px',
-                        border: '1px solid #cbd5e1',
-                        background: '#f8fafc',
-                        color: '#475569',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        cursor: isSaving ? 'wait' : 'pointer'
-                      }}
-                    >
-                      <RotateCcw size={13} />
-                      <span>Reset</span>
-                    </button>
-                  )}
-                </div>
-
-                {fb && (
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      color: fb.tone === 'error' ? '#dc2626' : '#15803d'
-                    }}
-                  >
-                    {fb.tone === 'error' ? <AlertCircle size={13} /> : <CheckCircle2 size={13} />}
-                    <span>{fb.text}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {editing && (
+        <ProductEditor
+          row={editing === 'new' ? null : editing}
+          onClose={() => setEditing(null)}
+          onSaved={(text) => {
+            setEditing(null);
+            setNotice({ tone: 'success', text });
+            load();
+          }}
+        />
+      )}
     </div>
   );
 }

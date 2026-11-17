@@ -443,7 +443,7 @@ describe('Payment verification and status', () => {
   });
 
   describe('Event joining link (WhatsApp group)', () => {
-    const GROUP_URL = 'https://chat.whatsapp.com/F665o8jO1Xz6tbfTEckuqE';
+    const GROUP_URL = 'https://chat.whatsapp.com/DqemdOTzw1HKqycAOr3m0u';
     const EVENT = { id: 'online-reiki-level-1-workshop-2026-11', name: 'Online Reiki 1st Level Workshop', unitPricePaise: AMOUNT, isPlaceholder: false };
     const createEventPayment = (overrides = {}) => createPendingPayment({ product: EVENT, quantity: 1, ...overrides });
 

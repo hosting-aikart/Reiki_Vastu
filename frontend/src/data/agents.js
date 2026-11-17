@@ -14,10 +14,10 @@ export const AGENTS_DATA = [
     bannerGradient: "linear-gradient(135deg, #DC2626 0%, #D4AF37 50%, #7C3AED 100%)",
     blobs: ["#DC2626", "#D4AF37", "#7C3AED"],
     accentColor: "#DC2626",
-    description: "Reiki is an ancient Japanese form of hands-on and distance energy healing. In this comprehensive training course, Dr. Naresh Chhabdiya guides students from Level 1 (self-healing & physical ailments) to Level 2 (distance healing & emotional clearing), Master Level (attunement capabilities), and Grandmaster level. Includes traditional attunement ceremonies, sacred master symbols, practical clinical demonstrations, and lifetime free entry for revision.",
+    description: "Reiki is an ancient Japanese form of hands-on and distance energy healing. In this comprehensive training course, Dr. Naresh Chhabdiya guides students from Level 1 (self-healing & physical ailments) to Level 2 (distance healing & emotional clearing), Master Level (attunement capabilities), and Grandmaster level. Includes traditional attunement ceremonies, master symbols, practical clinical demonstrations, and lifetime free entry for revision.",
     highlights: [
       "Levels 1, 2, Master & Grandmaster syllabus",
-      "Traditional sacred master symbol attunement",
+      "Traditional master symbol attunement",
       "Distance healing & chakra balance mastery",
       "Official certificate & lifetime revision access"
     ]
@@ -60,12 +60,12 @@ export const AGENTS_DATA = [
     bannerGradient: "linear-gradient(135deg, #7C3AED 0%, #DC2626 50%, #D4AF37 100%)",
     blobs: ["#7C3AED", "#DC2626", "#D4AF37"],
     accentColor: "#7C3AED",
-    description: "Lama-Fera is considered one of the fastest and most potent spiritual healing systems practiced by Buddhist monks in the Himalayas. It neutralizes persistent low vibrations, psychic attacks, negative energy attachments, deep-seated emotional trauma, and chronic ailments. Dr. Naresh utilizes the sacred burning stick, maroon robe, earth crystals, and 12 secret mantras to permanently cleanse the client's bioplasmic body.",
+    description: "Lama-Fera is considered one of the fastest and most potent spiritual healing systems practiced by Buddhist monks in the Himalayas. It neutralizes persistent low vibrations, psychic attacks, negative energy attachments, deep-seated emotional trauma, and chronic ailments. Dr. Naresh utilizes the burning stick, maroon robe, earth crystals, and 12 secret mantras to permanently cleanse the client's bioplasmic body.",
     highlights: [
       "Rapid dissolution of toxic negative vibrations",
       "Aura shielding & karmic baggage release",
       "Both personal clinical therapy and certified practitioner course",
-      "Traditional robes and sacred healing apparatus provided"
+      "Traditional robes and healing apparatus provided"
     ]
   },
   {
@@ -129,7 +129,7 @@ export const AGENTS_DATA = [
     bannerGradient: "linear-gradient(135deg, #D4AF37 0%, #DC2626 50%, #7C3AED 100%)",
     blobs: ["#D4AF37", "#DC2626", "#7C3AED"],
     accentColor: "#D4AF37",
-    description: "Every visit to our meditation circles is a deliberate step toward a healthier, more vibrant and joyful life. Dr. Naresh conducts these sessions free of cost to empower society. Participants learn sacred visualization, pranayama breath control, third eye grounding, and psychological mindset reframing to overcome everyday stress, depression, and overwhelm.",
+    description: "Every visit to our meditation circles is a deliberate step toward a healthier, more vibrant and joyful life. Dr. Naresh conducts these sessions free of cost to empower society. Participants learn visualization, pranayama breath control, third eye grounding, and psychological mindset reframing to overcome everyday stress, depression, and overwhelm.",
     highlights: [
       "100% Free of charge for all individuals and families",
       "Weekly guided sessions in Amravati & Nagpur centers",
@@ -201,7 +201,7 @@ export const AGENTS_DATA = [
     description: "Crystal therapy leverages the precise crystalline lattice structures of natural earth gems—including Amethyst, Rose Quartz, Clear Quartz, Citrine, and Black Tourmaline—to draw out energetic blockages. Dr. Naresh teaches students how to cleanse, program, and place crystals over the human etheric body for rapid aura healing, emotional soothing, and magnetic prosperity manifestation.",
     highlights: [
       "7 Chakra balancing layouts & meridian grids",
-      "Programming crystals with Reiki sacred symbols",
+      "Programming crystals with Reiki symbols",
       "Authentic raw clusters, tumbles, wands & pendulums",
       "Practical clinical session demonstrations"
     ]
@@ -231,20 +231,20 @@ export const AGENTS_DATA = [
   },
   {
     id: "shree-yantra-vastu-plates",
-    title: "Sacred 3D Meru Shree Yantra & Vaastu Dosh Nivaran Plates",
+    title: "3D Meru Shree Yantra & Vaastu Dosh Nivaran Plates",
     provider: "Reiki and Vaastu World",
-    tagline: "Sacred geometrical cosmic antennas cast in heavy brass and copper, consecrated with Sri Suktam.",
+    tagline: "Geometrical cosmic antennas cast in heavy brass and copper, consecrated with Sri Suktam.",
     categories: ["Energized Products", "Vaastu Shastra"],
     pricing_model: "Energized Product",
     price: "Panchdhatu Consecrated",
     rating: 5.0,
     runnable: true,
     type: "product",
-    badge: "Sacred Geometry",
+    badge: "Vedic Geometry",
     bannerGradient: "linear-gradient(135deg, #B45309 0%, #D4AF37 50%, #DC2626 100%)",
     blobs: ["#B45309", "#D4AF37", "#DC2626"],
     accentColor: "#D4AF37",
-    description: "The Shree Yantra is the supreme diagram of cosmic creation, containing 9 interlocking triangles radiating divine Lakshmi abundance. Our solid Panchdhatu and copper Meru Shree Yantras are engineered with mathematically accurate sacred angles and energized during auspicious Muhurtas by Dr. Naresh to magnetize wealth, clear debts, and establish an impenetrable protective aura.",
+    description: "The Shree Yantra is the supreme diagram of cosmic creation, containing 9 interlocking triangles radiating divine Lakshmi abundance. Our solid Panchdhatu and copper Meru Shree Yantras are engineered with mathematically accurate angles and energized during auspicious Muhurtas by Dr. Naresh to magnetize wealth, clear debts, and establish an impenetrable protective aura.",
     highlights: [
       "Heavy solid Panchdhatu / Copper 3D Meru geometry",
       "Prana-Pratishtha consecrated with Vedic Sri Suktam",

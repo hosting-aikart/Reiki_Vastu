@@ -7,22 +7,21 @@
 // the payment is PAID (confirmed with Razorpay's signature, webhook or a
 // direct check with Razorpay).
 //
-// Keyed by the event's product id in shared/products.js.
+// Each event can have its own group link, set in the admin panel
+// (Admin → Events). Events without one use DEFAULT_EVENT_WHATSAPP_GROUP_URL.
+// Products never get a group link.
 // ─────────────────────────────────────────────────────────────
 
+import { DEFAULT_EVENT_WHATSAPP_GROUP_URL } from '@reiki-vastu/shared/events.js';
 import { PAYMENT_STATUS } from '../models/Payment.js';
-
-export const EVENT_ACCESS = {
-  'online-reiki-level-1-workshop-2026-11': {
-    whatsappGroupUrl: 'https://chat.whatsapp.com/F665o8jO1Xz6tbfTEckuqE'
-  }
-};
+import { findCatalogEntry } from './products.js';
 
 /** The joining details for a payment, or null unless it is a PAID event registration. */
 export function eventAccessFor(payment) {
   if (payment?.status !== PAYMENT_STATUS.PAID) return null;
-  const access = EVENT_ACCESS[payment.product?.id];
-  return access ? { whatsappGroupUrl: access.whatsappGroupUrl } : null;
+  const entry = findCatalogEntry(payment.product?.id);
+  if (!entry?.isEvent) return null;
+  return { whatsappGroupUrl: entry.whatsappGroupUrl || DEFAULT_EVENT_WHATSAPP_GROUP_URL };
 }
 
-export default { EVENT_ACCESS, eventAccessFor };
+export default { eventAccessFor };

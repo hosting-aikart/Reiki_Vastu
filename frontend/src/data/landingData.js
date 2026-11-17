@@ -12,13 +12,13 @@ export const MARKETPLACE_CARDS = [
   {
     id: 2,
     title: "100% Authentic Energized Remedies",
-    subtitle: "Certified Rudrakshas, Shree Yantras & sacred crystals.",
-    badge: "Prana Energized",
+    subtitle: "Certified Rudrakshas, Shree Yantras & crystals.",
+    badge: "Energized",
     accent: "#D4AF37",
     type: "bottom-left",
     isLight: false,
     isShield: true,
-    description: "Every sacred bead, gem, and yantra is personally tested and energised by Dr. Naresh with Vedic rituals."
+    description: "Every bead, gem, and yantra is personally tested and energised by Dr. Naresh with Vedic rituals."
   },
   {
     id: 3,
@@ -140,15 +140,15 @@ export const HOW_IT_WORKS_STEPS = [
     title: "Personalized Remedial Blueprint",
     color: "#D4AF37",
     eyebrow: "STEP 2 • TAILORED SOLUTION",
-    description: "Receive exact, practical solutions tailored to your unique condition—ranging from non-demolition Vaastu remedies to sacred Rudrakshas and customized Reiki protocols.",
-    highlights: ["No-Demolition Vaastu Rectification", "Authentic Planetary Gemstone Prescription", "Customized Sacred Yantra Alignment"]
+    description: "Receive exact, practical solutions tailored to your unique condition—ranging from non-demolition Vaastu remedies to Rudrakshas and customized Reiki protocols.",
+    highlights: ["No-Demolition Vaastu Rectification", "Authentic Planetary Gemstone Prescription", "Customized Yantra Alignment"]
   },
   {
     step: 3,
-    title: "Sacred Treatment or Course Training",
+    title: "Treatment or Course Training",
     color: "#7C3AED",
     eyebrow: "STEP 3 • IMPLEMENTATION",
-    description: "Experience profound in-person or distance healing sessions, or attend certified classroom courses with master-level sacred attunements and practical techniques.",
+    description: "Experience profound in-person or distance healing sessions, or attend certified classroom courses with master-level attunements and practical techniques.",
     highlights: ["Hands-on Pranic & Lama-Fera Healing", "Master Level Attunement Ceremonies", "Complete Practitioner Study Material & Kits"]
   },
   {
@@ -176,7 +176,7 @@ export const SELLER_STEPS = [
   },
   {
     num: "03",
-    title: "Sacred Attunement",
+    title: "Attunement",
     subtitle: "Initiation with traditional symbols",
     color: "#7C3AED"
   },
@@ -205,8 +205,8 @@ export const TECH_STACK = [
   { name: "Vedic Vaastu Shastra", subtitle: "Ancient Spatial Harmony", symbol: "🏛", tag: "Space Healing" },
   { name: "Tibetan Lama-Fera", subtitle: "High-Frequency Cleansing", symbol: "☸", tag: "Negative Aura Clearing" },
   { name: "Jyotish Vedic Astrology", subtitle: "Cosmic Planetary Wisdom", symbol: "🪐", tag: "Predictive Science" },
-  { name: "Bio-Cosmic Pyramids", subtitle: "Sacred Geometric Frequency", symbol: "▲", tag: "Stress Removal" },
-  { name: "Sacred Gemology", subtitle: "Planetary Gemstones with Reiki", symbol: "💎", tag: "Remedial Gems" },
+  { name: "Bio-Cosmic Pyramids", subtitle: "Geometric Frequency", symbol: "▲", tag: "Stress Removal" },
+  { name: "Gemology", subtitle: "Planetary Gemstones with Reiki", symbol: "💎", tag: "Remedial Gems" },
   { name: "Sujok Acupressure", subtitle: "Meridian Pressure Science", symbol: "✋", tag: "Physical Pain Relief" },
   { name: "Pendulum Radiesthesia", subtitle: "Bio-Tensor & Dowsing", symbol: "🧭", tag: "Energy Scanning" },
   { name: "Chromotherapy", subtitle: "Color Spectrum Vibrations", symbol: "🌈", tag: "Mental Balance" },

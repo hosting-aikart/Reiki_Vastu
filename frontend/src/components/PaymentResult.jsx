@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckCircle2, Clock, Loader2, XCircle } from 'lucide-react';
-import { findProductById } from '@reiki-vastu/shared/products.js';
+import { useCatalog } from '../catalog/CatalogContext';
 import { formatPaise } from '../utils/razorpayCheckout';
 import { cardStyle, primaryButtonStyle } from './paymentStyles';
 
@@ -48,31 +48,33 @@ const VARIANTS = {
 export default function PaymentResult({ variant: variantKey, payment, polling, onRetry, retryLabel = 'Try again', onCheckAgain, onBackToProducts, backLabel = 'Back to products' }) {
   const variant = VARIANTS[variantKey] || VARIANTS.PENDING;
   const { Icon } = variant;
+  const { findItem } = useCatalog();
+  const isEvent = Boolean(payment.isEvent ?? findItem(payment.product.id)?.isEvent);
 
   return (
     <div style={{ ...cardStyle, textAlign: 'center' }} aria-live="polite">
       <Icon size={44} color={variant.color} style={{ marginBottom: '10px' }} />
-      <h2 style={{ fontSize: '22px', fontWeight: 850, color: variant.color, margin: '0 0 8px' }}>{variant.title}</h2>
-      <p style={{ color: '#5e2732', fontSize: '14px', lineHeight: 1.6, margin: '0 auto 18px', maxWidth: '480px' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: 850, color: variant.color, margin: '0 0 8px' }}>{variant.title}</h2>
+      <p style={{ color: '#5e2732', fontSize: '15.5px', lineHeight: 1.6, margin: '0 auto 18px', maxWidth: '480px' }}>
         {variant.text}
       </p>
 
       {polling && (
-        <p style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#92400e', fontSize: '13px', margin: '0 0 18px' }}>
+        <p style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#92400e', fontSize: '14.5px', margin: '0 0 18px' }}>
           <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Checking...
         </p>
       )}
 
       {payment.failure?.description && (
-        <p style={{ color: '#7f1d1d', fontSize: '14px', margin: '0 0 18px' }}>Reason: {payment.failure.description}</p>
+        <p style={{ color: '#7f1d1d', fontSize: '15.5px', margin: '0 0 18px' }}>Reason: {payment.failure.description}</p>
       )}
 
-      <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '6px 16px', textAlign: 'left', maxWidth: '380px', margin: '0 auto 22px', fontSize: '14px' }}>
+      <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '6px 16px', textAlign: 'left', maxWidth: '380px', margin: '0 auto 22px', fontSize: '15.5px' }}>
         <dt style={{ fontWeight: 750, color: '#475569' }}>Reference</dt>
         <dd style={{ margin: 0 }}>{payment.reference}</dd>
-        <dt style={{ fontWeight: 750, color: '#475569' }}>{findProductById(payment.product.id)?.isEvent ? 'Workshop' : 'Product'}</dt>
+        <dt style={{ fontWeight: 750, color: '#475569' }}>{isEvent ? 'Workshop' : 'Product'}</dt>
         <dd style={{ margin: 0 }}>
-          {findProductById(payment.product.id)?.isEvent
+          {isEvent
             ? payment.product.name
             : `${payment.product.name} × ${payment.quantity}`}
         </dd>

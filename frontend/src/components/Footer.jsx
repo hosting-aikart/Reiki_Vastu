@@ -137,7 +137,7 @@ export default function Footer({ setCurrentView, openModal, onOpenPolicy }) {
               <div className="akf-detail-row">
                 <MapPin size={15} className="akf-row-icon" />
                 <span className="akf-row-text">
-                  <strong className="akf-highlight">Amravati:</strong> Sanjivani Reiki and Vaastu Center, Khatri Complex, 1st Lane, Shop 4, Walcut Compound.
+                  <strong className="akf-highlight">Amravati:</strong> Sanjivani Reiki and Vastu Center, Khatri Complex, 1st Lane, Shop 4, Walcut Compound.
                 </span>
               </div>
 

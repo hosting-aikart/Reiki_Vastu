@@ -6,12 +6,16 @@ import AdminEnquiries from './AdminEnquiries';
 import AdminTestimonials from './AdminTestimonials';
 import AdminPayments from './AdminPayments';
 import AdminProducts from './AdminProducts';
+import AdminEvents from './AdminEvents';
+import AdminCourses from './AdminCourses';
 import {
   LayoutDashboard,
   Inbox,
   MessageSquare,
   CreditCard,
   ShoppingBag,
+  CalendarDays,
+  GraduationCap,
   LogOut,
   ExternalLink,
   Shield,
@@ -167,10 +171,10 @@ export default function AdminDashboard({ onExitToSite }) {
                 />
               </div>
               <div>
-                <div style={{ fontWeight: 850, fontSize: '15px', color: '#f8fafc', letterSpacing: '-0.3px' }}>
+                <div style={{ fontWeight: 850, fontSize: '16.5px', color: '#f8fafc', letterSpacing: '-0.3px' }}>
                   Reiki & Vaastu
                 </div>
-                <div style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div style={{ fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Shield size={11} color="#c59b27" /> Admin Center
                 </div>
               </div>
@@ -191,7 +195,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 background: activeTab === 'overview' ? '#1e293b' : 'transparent',
                 color: activeTab === 'overview' ? '#f8fafc' : '#94a3b8',
                 fontWeight: activeTab === 'overview' ? 750 : 550,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
@@ -214,7 +218,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 background: activeTab === 'enquiries' ? '#1e293b' : 'transparent',
                 color: activeTab === 'enquiries' ? '#f8fafc' : '#94a3b8',
                 fontWeight: activeTab === 'enquiries' ? 750 : 550,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
@@ -229,7 +233,7 @@ export default function AdminDashboard({ onExitToSite }) {
                     background: '#f59e0b',
                     color: '#0f172a',
                     fontWeight: 750,
-                    fontSize: '11px',
+                    fontSize: '12px',
                     padding: '1px 6px',
                     borderRadius: '999px'
                   }}
@@ -251,7 +255,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 background: activeTab === 'testimonials' ? '#1e293b' : 'transparent',
                 color: activeTab === 'testimonials' ? '#f8fafc' : '#94a3b8',
                 fontWeight: activeTab === 'testimonials' ? 750 : 550,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
@@ -266,7 +270,7 @@ export default function AdminDashboard({ onExitToSite }) {
                     background: '#8b5cf6',
                     color: '#ffffff',
                     fontWeight: 750,
-                    fontSize: '11px',
+                    fontSize: '12px',
                     padding: '1px 6px',
                     borderRadius: '999px'
                   }}
@@ -288,7 +292,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 background: activeTab === 'payments' ? '#1e293b' : 'transparent',
                 color: activeTab === 'payments' ? '#f8fafc' : '#94a3b8',
                 fontWeight: activeTab === 'payments' ? 750 : 550,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
@@ -311,16 +315,45 @@ export default function AdminDashboard({ onExitToSite }) {
                 background: activeTab === 'products' ? '#1e293b' : 'transparent',
                 color: activeTab === 'products' ? '#f8fafc' : '#94a3b8',
                 fontWeight: activeTab === 'products' ? 750 : 550,
-                fontSize: '13px',
+                fontSize: '14.5px',
                 cursor: 'pointer',
                 textAlign: 'left'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <ShoppingBag size={18} color={activeTab === 'products' ? '#c59b27' : '#94a3b8'} />
-                <span>Products &amp; Pricing</span>
+                <span>Products</span>
               </div>
             </button>
+
+            {[
+              { key: 'events', label: 'Events', Icon: CalendarDays },
+              { key: 'courses', label: 'Courses', Icon: GraduationCap }
+            ].map(({ key, label, Icon }) => (
+              <button
+                key={key}
+                onClick={() => setActiveTab(key)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '11px 14px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: activeTab === key ? '#1e293b' : 'transparent',
+                  color: activeTab === key ? '#f8fafc' : '#94a3b8',
+                  fontWeight: activeTab === key ? 750 : 550,
+                  fontSize: '14.5px',
+                  cursor: 'pointer',
+                  textAlign: 'left'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Icon size={18} color={activeTab === key ? '#c59b27' : '#94a3b8'} />
+                  <span>{label}</span>
+                </div>
+              </button>
+            ))}
           </nav>
         </div>
 
@@ -338,16 +371,16 @@ export default function AdminDashboard({ onExitToSite }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontWeight: 750,
-                fontSize: '13px'
+                fontSize: '14.5px'
               }}
             >
               {admin.name ? admin.name[0] : 'A'}
             </div>
             <div style={{ overflow: 'hidden' }}>
-              <div style={{ fontSize: '13px', fontWeight: 650, color: '#f8fafc', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+              <div style={{ fontSize: '14.5px', fontWeight: 650, color: '#f8fafc', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                 {admin.name}
               </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+              <div style={{ fontSize: '12px', color: '#94a3b8', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                 {admin.email}
               </div>
             </div>
@@ -362,7 +395,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 border: 'none',
                 background: 'transparent',
                 color: '#94a3b8',
-                fontSize: '12px',
+                fontSize: '13px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -381,7 +414,7 @@ export default function AdminDashboard({ onExitToSite }) {
                 border: 'none',
                 background: 'rgba(239, 68, 68, 0.1)',
                 color: '#f87171',
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 650,
                 display: 'flex',
                 alignItems: 'center',
@@ -411,14 +444,14 @@ export default function AdminDashboard({ onExitToSite }) {
             flexShrink: 0
           }}
         >
-          <div style={{ fontSize: '13px', color: '#64748b' }}>
+          <div style={{ fontSize: '14.5px', color: '#64748b' }}>
             Workspace: <strong style={{ color: '#0f172a' }}>Reiki & Vaastu World (Amravati & Nagpur)</strong>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <span
               style={{
-                fontSize: '12px',
+                fontSize: '13px',
                 background: '#ecfdf5',
                 color: '#065f46',
                 padding: '3px 10px',
@@ -461,6 +494,14 @@ export default function AdminDashboard({ onExitToSite }) {
 
           {activeTab === 'products' && (
             <AdminProducts />
+          )}
+
+          {activeTab === 'events' && (
+            <AdminEvents />
+          )}
+
+          {activeTab === 'courses' && (
+            <AdminCourses />
           )}
         </main>
       </div>

@@ -12,8 +12,8 @@ const cardStyle = {
   boxShadow: '0 6px 24px rgba(59, 10, 17, 0.06)'
 };
 
-const sectionHeadingStyle = { fontSize: '18px', fontWeight: 800, color: colors.ink, margin: '28px 0 10px' };
-const textStyle = { fontSize: '15px', lineHeight: 1.75, color: colors.body, margin: '0 0 10px' };
+const sectionHeadingStyle = { fontSize: '20px', fontWeight: 800, color: colors.ink, margin: '28px 0 10px' };
+const textStyle = { fontSize: '16.5px', lineHeight: 1.75, color: colors.body, margin: '0 0 10px' };
 
 /** A real link (so the URL works when opened directly) that switches pages without a reload. */
 function PolicyLink({ slug, label, active, onNavigate }) {
@@ -26,7 +26,7 @@ function PolicyLink({ slug, label, active, onNavigate }) {
       }}
       aria-current={active ? 'page' : undefined}
       style={{
-        fontSize: '13px',
+        fontSize: '14.5px',
         fontWeight: 700,
         padding: '7px 14px',
         borderRadius: '999px',
@@ -85,7 +85,7 @@ function ContactDetails() {
             </React.Fragment>
           ))}
           <br />
-          <span style={{ color: colors.muted, fontSize: '14px' }}>Calls and WhatsApp</span>
+          <span style={{ color: colors.muted, fontSize: '15.5px' }}>Calls and WhatsApp</span>
         </span>
       </div>
       <div style={rowStyle}>
@@ -147,7 +147,7 @@ export default function PolicyPage({ slug, onNavigate, onBack }) {
             padding: 0,
             color: colors.red,
             fontWeight: 700,
-            fontSize: '14px',
+            fontSize: '15.5px',
             cursor: 'pointer'
           }}
         >
@@ -161,11 +161,11 @@ export default function PolicyPage({ slug, onNavigate, onBack }) {
         </nav>
 
         <article style={cardStyle}>
-          <h1 className="ff-redhat" style={{ fontSize: 'clamp(26px, 3.4vw, 36px)', fontWeight: 800, color: colors.ink, margin: '0 0 6px' }}>
+          <h1 className="ff-redhat" style={{ fontSize: 'clamp(28.5px, 3.74vw, 39.5px)', fontWeight: 800, color: colors.ink, margin: '0 0 6px' }}>
             {title}
           </h1>
           {!isContact && (
-            <p style={{ fontSize: '13px', color: colors.muted, margin: '0 0 20px' }}>Last updated: {POLICY_TERMS.lastUpdated}</p>
+            <p style={{ fontSize: '14.5px', color: colors.muted, margin: '0 0 20px' }}>Last updated: {POLICY_TERMS.lastUpdated}</p>
           )}
 
           {isContact ? (
@@ -196,7 +196,7 @@ export default function PolicyPage({ slug, onNavigate, onBack }) {
             </>
           )}
 
-          <p style={{ ...textStyle, marginTop: '28px', paddingTop: '18px', borderTop: `1px solid ${colors.line}`, fontSize: '14px' }}>
+          <p style={{ ...textStyle, marginTop: '28px', paddingTop: '18px', borderTop: `1px solid ${colors.line}`, fontSize: '15.5px' }}>
             {BUSINESS.brand} · {BUSINESS.registeredAddress} · {BUSINESS.phones.map((p) => `+91 ${p}`).join(' / ')} ·{' '}
             <a href={`mailto:${BUSINESS.email}`} style={{ color: colors.red }}>
               {BUSINESS.email}

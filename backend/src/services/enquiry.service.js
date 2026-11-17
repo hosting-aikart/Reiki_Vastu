@@ -1,9 +1,23 @@
+import { COURSES, keysOf } from '@reiki-vastu/shared';
 import Enquiry from '../models/Enquiry.js';
+import CatalogItem from '../models/CatalogItem.js';
 import { generateReference } from '../utils/reference.js';
 import { sendAdminEnquiryNotification } from './email.service.js';
 import logger from '../utils/logger.js';
 
+async function assertCourseExists(courseId) {
+  if (!courseId || keysOf(COURSES).includes(courseId)) return;
+  const exists = await CatalogItem.exists({ kind: 'course', itemId: courseId, deleted: false });
+  if (!exists) {
+    const err = new Error('Please select a valid course');
+    err.statusCode = 422;
+    err.code = 'VALIDATION_ERROR';
+    throw err;
+  }
+}
+
 export async function createEnquiry(payload, meta = {}) {
+  if (payload.type === 'course') await assertCourseExists(payload.courseId);
   const reference = generateReference('RVW');
 
   const enquiry = new Enquiry({

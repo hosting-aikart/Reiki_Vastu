@@ -1,25 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  ArrowRight, ArrowLeft, Check,
-  PersonStanding, Flower2, Heart, Leaf, Brain, Target, Moon, Users, Sun, Home, Building2,
-  TrendingUp, Coins, Compass, Atom, Mountain, Droplet, Flame, Wind, Orbit, Briefcase, Shield,
-  Sparkles, TreeDeciduous, CircleDot, Gem, Search, Activity, Radio, Star, Hand, Triangle, Hash,
-  Lightbulb, Scale, HandHeart, Layers, Palette
-} from 'lucide-react';
-import { COURSES_15 } from './CoursesGrid';
-import { COURSE_DETAILS } from '../data/courseDetails';
+import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { useCatalog } from '../catalog/CatalogContext';
+import { iconFor } from '../catalog/icons';
 import './CourseDetailPage.css';
 
-// Icon names used in courseDetails.js → components
-const ICONS = {
-  PersonStanding, Flower2, Heart, Leaf, Brain, Target, Moon, Users, Sun, Home, Building2,
-  TrendingUp, Coins, Compass, Atom, Mountain, Droplet, Flame, Wind, Orbit, Briefcase, Shield,
-  Sparkles, TreeDeciduous, CircleDot, Gem, Search, Activity, Radio, Star, Hand, Triangle, Hash,
-  Lightbulb, Scale, HandHeart, Layers, Palette
-};
-
 function Icon({ name, size = 24, strokeWidth = 1.6 }) {
-  const Cmp = ICONS[name] || Flower2;
+  const Cmp = iconFor(name);
   return <Cmp size={size} strokeWidth={strokeWidth} />;
 }
 
@@ -49,6 +35,65 @@ function useReveal(deps) {
     return () => io.disconnect();
   }, deps); // eslint-disable-line react-hooks/exhaustive-deps
   return ref;
+}
+
+/* ── Course photos: one after another (crossfade), with dots to pick one ── */
+const SLIDE_INTERVAL_MS = 4000;
+
+function CourseGallery({ course, title, tagline }) {
+  const images = course.images || [];
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => setActive(0), [course.id]);
+
+  useEffect(() => {
+    if (images.length < 2 || paused) return undefined;
+    const timer = setInterval(() => setActive((i) => (i + 1) % images.length), SLIDE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [images.length, paused]);
+
+  if (!images.length) return null;
+
+  return (
+    <div
+      className="cd-hero-media"
+      style={course.imageBg ? { background: course.imageBg } : undefined}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      aria-roledescription={images.length > 1 ? 'carousel' : undefined}
+      aria-label={images.length > 1 ? `${title} photos` : undefined}
+    >
+      {images.map((src, i) => (
+        <img
+          key={`${src}-${i}`}
+          src={src}
+          alt={i === 0 ? course.alt || `${title} course – ${tagline || ''}` : `${title} – view ${i + 1}`}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          className={`cd-hero-slide${i === active ? ' is-active' : ''}`}
+          aria-hidden={i === active ? undefined : 'true'}
+          style={{
+            objectFit: course.imageFit || 'cover',
+            objectPosition: course.imagePosition || 'center center'
+          }}
+        />
+      ))}
+      {images.length > 1 && (
+        <div className="cd-hero-dots">
+          {images.map((src, i) => (
+            <button
+              key={`${src}-dot-${i}`}
+              type="button"
+              className={i === active ? 'is-active' : ''}
+              onClick={() => setActive(i)}
+              aria-label={`Show photo ${i + 1} of ${images.length}`}
+              aria-current={i === active ? 'true' : undefined}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /* ── Column renderer for `columns` blocks ── */
@@ -178,7 +223,7 @@ function ExtraBlock({ block }) {
         <section className="cd-section cd-reveal">
           <div className="cd-container">
             <SectionHeading title={block.title} />
-            {block.paragraphs.map((p, i) => <p key={i} className="cd-p" style={{ fontSize: '15.5px' }}>{p}</p>)}
+            {block.paragraphs.map((p, i) => <p key={i} className="cd-p" style={{ fontSize: '17px' }}>{p}</p>)}
           </div>
         </section>
       );
@@ -188,8 +233,11 @@ function ExtraBlock({ block }) {
 }
 
 export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult, onContact }) {
-  const data = COURSE_DETAILS[courseId];
-  const course = COURSES_15.find((c) => c.id === courseId);
+  const { findCourse } = useCatalog();
+  // Built-in courses and those added in the admin panel; any section a course
+  // has no content for is simply left out.
+  const course = findCourse(courseId);
+  const data = course;
   const ref = useReveal([courseId]);
   const actionsRef = useRef(null);
   const [actionsWidth, setActionsWidth] = useState(null);
@@ -247,14 +295,14 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
               <ArrowLeft size={15} /> All Courses
             </button>
             <p className="cd-eyebrow" style={{ marginTop: '22px' }}>
-              {data.eyebrow.map((w) => <span key={w}>{w}</span>)}
+              {(data.eyebrow || []).map((w) => <span key={w}>{w}</span>)}
             </p>
             <h1
               className="cd-hero-title"
               style={{
                 maxWidth: actionsWidth ? `${actionsWidth}px` : undefined,
                 ...(actionsWidth && data.title.length > 11
-                  ? { fontSize: `clamp(26px, ${Math.min(46, Math.floor(actionsWidth / (data.title.length * 0.66)))}px, 48px)` }
+                  ? { fontSize: `clamp(28.5px, ${Math.min(46, Math.floor(actionsWidth / (data.title.length * 0.66)))}px, 53px)` }
                   : {})
               }}
             >
@@ -271,21 +319,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
               </button>
             </div>
           </div>
-          {course?.image && (
-            <div
-              className="cd-hero-media"
-              style={course.imageBg ? { background: course.imageBg } : undefined}
-            >
-              <img
-                src={course.image}
-                alt={course.alt || `${data.title} course – ${data.tagline}`}
-                style={{
-                  objectFit: course.imageFit || 'cover',
-                  objectPosition: course.imagePosition || 'center center'
-                }}
-              />
-            </div>
-          )}
+          <CourseGallery course={course} title={data.title} tagline={data.tagline} />
         </div>
         <div className="cd-hero-wave" aria-hidden="true">
           <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
@@ -303,6 +337,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
       </section>
 
       {/* ═════ WHAT IS ═════ */}
+      {data.what?.text && (
       <section className="cd-what cd-reveal">
         <div className="cd-container cd-what-grid">
           <div className="cd-medallion"><Icon name={data.what.icon} size={84} strokeWidth={1.1} /></div>
@@ -312,8 +347,10 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
           </div>
         </div>
       </section>
+      )}
 
       {/* ═════ HOW CAN I USE ═════ */}
+      {(data.use?.text || data.use?.items?.length > 0) && (
       <section className="cd-use cd-reveal">
         <div className="cd-container cd-use-grid">
           <div>
@@ -321,7 +358,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
             <p className="cd-p">{data.use.text}</p>
           </div>
           <div className="cd-use-items">
-            {data.use.items.map((it) => (
+            {(data.use.items || []).map((it) => (
               <div key={it.label} className="cd-use-item">
                 <div className="cd-icon-circle"><Icon name={it.icon} size={26} /></div>
                 {it.label}
@@ -330,9 +367,10 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
           </div>
         </div>
       </section>
+      )}
 
       {/* ═════ BENEFITS ═════ */}
-      {data.benefits && (
+      {data.benefits?.items?.length > 0 && (
         <section className="cd-section cd-reveal">
           <div className="cd-container">
             <SectionHeading title={data.benefits.title} subtitle={data.benefits.subtitle} />
@@ -352,7 +390,7 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
       {data.extras?.map((block, i) => <ExtraBlock key={i} block={block} />)}
 
       {/* ═════ JOURNEY CTA ═════ */}
-      {data.journey.rainbow ? (
+      {data.journey?.rainbow ? (
         <div className="cd-container">
           <div className="cd-rainbow cd-reveal">
             <div className="cd-rainbow-text">
@@ -370,8 +408,8 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
         <section className="cd-journey">
           <div className="cd-container cd-journey-grid">
             <div className="cd-journey-text">
-              <h2>{data.journey.title}</h2>
-              <p>{data.journey.text}</p>
+              <h2>{data.journey?.title || `Begin Your ${data.title} Journey`}</h2>
+              {data.journey?.text && <p>{data.journey.text}</p>}
             </div>
             <div className="cd-journey-actions">
               <button type="button" className="cd-btn cd-btn-gold" onClick={enroll}>

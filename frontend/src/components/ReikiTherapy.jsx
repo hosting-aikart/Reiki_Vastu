@@ -29,7 +29,7 @@ export default function ReikiTherapy({ onBookSession }) {
         {/* Eyebrow */}
         <p
           style={{
-            fontSize: '12px',
+            fontSize: '13px',
             fontWeight: 850,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
@@ -44,7 +44,7 @@ export default function ReikiTherapy({ onBookSession }) {
         <h2
           className="ff-redhat"
           style={{
-            fontSize: 'clamp(30px, 4.5vw, 48px)',
+            fontSize: 'clamp(33px, 4.95vw, 53px)',
             fontWeight: 900,
             lineHeight: 1.18,
             color: '#1a1a1a',
@@ -57,7 +57,7 @@ export default function ReikiTherapy({ onBookSession }) {
         {/* Body text */}
         <p
           style={{
-            fontSize: 'clamp(14.5px, 1.5vw, 16px)',
+            fontSize: 'clamp(16px, 1.65vw, 17.5px)',
             lineHeight: 1.8,
             color: '#5e2732',
             margin: '0 0 16px',
@@ -71,7 +71,7 @@ export default function ReikiTherapy({ onBookSession }) {
         </p>
         <p
           style={{
-            fontSize: 'clamp(14.5px, 1.5vw, 16px)',
+            fontSize: 'clamp(16px, 1.65vw, 17.5px)',
             lineHeight: 1.8,
             color: '#5e2732',
             margin: '0 0 32px',
@@ -80,7 +80,7 @@ export default function ReikiTherapy({ onBookSession }) {
         >
           During a session, practitioners may focus their energy on the sources of specific conditions. Typically a single
           treatment session will last{' '}
-          <strong style={{ color: '#D2042D', fontWeight: 750, fontSize: '16.5px' }}>45–90 minutes</strong>.
+          <strong style={{ color: '#D2042D', fontWeight: 750, fontSize: '18px' }}>45–90 minutes</strong>.
         </p>
 
         {/* CTA Button */}
@@ -94,7 +94,7 @@ export default function ReikiTherapy({ onBookSession }) {
             gap: '10px',
             padding: '14px 38px',
             borderRadius: '50px',
-            fontSize: '15px',
+            fontSize: '16.5px',
             letterSpacing: '0.02em'
           }}
         >

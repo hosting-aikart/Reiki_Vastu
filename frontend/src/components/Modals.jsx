@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useCatalog } from '../catalog/CatalogContext';
 import { X, Calendar, Send, Sparkles, CheckCircle2, ShieldCheck, Play, Compass, Phone, Star, ChevronDown, Check, AlertCircle } from 'lucide-react';
 import { submitEnquiry, submitTestimonial } from '../api/client.js';
 import {
   LOCATIONS,
   CONSULTATION_SERVICES,
   TIME_SLOTS,
-  COURSES,
   STORY_SERVICES as CATALOG_STORY_SERVICES,
   RATINGS as CATALOG_RATINGS,
   todayInBusinessTz,
@@ -28,10 +28,6 @@ const TIME_SLOT_OPTIONS = TIME_SLOTS.map((t) => ({
   label: t.label
 }));
 
-const COURSE_OPTIONS = COURSES.map((c) => ({
-  value: c.key,
-  label: c.label
-}));
 
 const EXPERIENCE_LEVEL_OPTIONS = [
   { value: 'Beginner (Fresh Seeker)', label: 'Beginner (Fresh Seeker)' },
@@ -87,7 +83,7 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
           borderRadius: '8px',
           border: '1px solid #d1d5db',
           background: '#ffffff',
-          fontSize: '13px',
+          fontSize: '14.5px',
           color: '#1a1a1a',
           display: 'flex',
           alignItems: 'center',
@@ -104,7 +100,7 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
           e.currentTarget.style.borderColor = '#d1d5db';
         }}
       >
-        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '13px' }}>
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '14.5px' }}>
           {displayLabel}
         </span>
         <ChevronDown
@@ -148,7 +144,7 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
                 style={{
                   padding: '8px 10px',
                   borderRadius: '6px',
-                  fontSize: '12.5px',
+                  fontSize: '14px',
                   fontWeight: isSelected ? 750 : 550,
                   color: isSelected ? '#ffffff' : '#1a1a1a',
                   background: isSelected ? 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)' : 'transparent',
@@ -184,6 +180,9 @@ function CustomDropdown({ value, onChange, options, placeholder = 'Select an opt
 }
 
 export default function Modals({ activeModal, modalData, closeModal }) {
+  // Built-in courses plus those added in the admin panel
+  const { courses } = useCatalog();
+  const COURSE_OPTIONS = courses.map((c) => ({ value: c.id, label: c.title }));
   const [contactForm, setContactForm] = useState({
     name: '',
     phone: '',
@@ -481,7 +480,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
           <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '10.5px',
+                fontSize: '11.5px',
                 fontWeight: 750,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
@@ -493,28 +492,28 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             >
               DIRECT HELPLINE
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
+            <h2 className="ff-redhat" style={{ fontSize: '22px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
               Contact Reiki &amp; Vaastu World
             </h2>
-            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
+            <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.4 }}>
               Have questions regarding courses, Vaastu site audits, or energized products? Reach our Amravati and Nagpur centers.
             </p>
 
             {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
+                <h3 style={{ fontSize: '20px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Enquiry Received!
                 </h3>
                 <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
-                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 650 }}>
+                  <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 650 }}>
                     Reference Number
                   </span>
-                  <div style={{ fontSize: '20px', fontWeight: 850, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
+                  <div style={{ fontSize: '22px', fontWeight: 850, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
                     {submissionSuccess.reference}
                   </div>
                 </div>
-                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 8px', lineHeight: 1.5 }}>
+                <p style={{ color: '#4b5563', fontSize: '14.5px', margin: '0 0 8px', lineHeight: 1.5 }}>
                   Thank you. Dr. Naresh Chhabdiya's team will contact you shortly via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong>.
                 </p>
                 <button
@@ -526,7 +525,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     border: '1px solid #d1d5db',
                     background: '#ffffff',
                     color: '#374151',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 650,
                     cursor: 'pointer',
                     margin: '0 auto',
@@ -539,7 +538,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             ) : (
               <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {submitError && (
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '14px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <AlertCircle size={15} style={{ flexShrink: 0 }} />
                     <span>{submitError}</span>
                   </div>
@@ -557,7 +556,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 />
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Full Name *
                   </label>
                   <input
@@ -571,7 +570,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       borderRadius: '8px',
                       border: '1px solid #d1d5db',
                       background: '#ffffff',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#1a1a1a',
                       outline: 'none',
                       boxSizing: 'border-box'
@@ -582,7 +581,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                   />
                   {fieldErrors.name && (
-                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.name}
                     </span>
                   )}
@@ -590,7 +589,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Phone / WhatsApp *
                     </label>
                     <input
@@ -604,7 +603,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -615,13 +614,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                     />
                     {fieldErrors.phone && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.phone}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Preferred Center *
                     </label>
                     <CustomDropdown
@@ -630,7 +629,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={LOCATION_OPTIONS}
                     />
                     {fieldErrors.location && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.location}
                       </span>
                     )}
@@ -638,7 +637,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Email Address
                   </label>
                   <input
@@ -651,7 +650,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       borderRadius: '8px',
                       border: '1px solid #d1d5db',
                       background: '#ffffff',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#1a1a1a',
                       outline: 'none',
                       boxSizing: 'border-box'
@@ -662,14 +661,14 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                   />
                   {fieldErrors.email && (
-                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.email}
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     How can we guide you? *
                   </label>
                   <textarea
@@ -682,7 +681,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       borderRadius: '8px',
                       border: '1px solid #d1d5db',
                       background: '#ffffff',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#1a1a1a',
                       outline: 'none',
                       resize: 'vertical',
@@ -695,13 +694,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   />
                   {fieldErrors.message && (
-                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.message}
                     </span>
                   )}
                 </div>
 
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#881337', textAlign: 'center' }}>
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', color: '#881337', textAlign: 'center' }}>
                   Direct Center Hotline: <strong>8446656677 / 9423424596</strong> | Email: <strong>reiki.vastuworld@gmail.com</strong>
                 </div>
 
@@ -721,7 +720,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       border: '1.5px solid rgba(212, 175, 55, 0.45)',
                       background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
                       color: '#ffffff',
-                      fontSize: '13.5px',
+                      fontSize: '15px',
                       fontWeight: 750,
                       cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       opacity: isSubmitting ? 0.7 : 1,
@@ -748,7 +747,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
           <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '10.5px',
+                fontSize: '11.5px',
                 fontWeight: 750,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
@@ -760,12 +759,12 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             >
               1-ON-1 HOLISTIC CONSULTATION
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
+            <h2 className="ff-redhat" style={{ fontSize: '22px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
               {modalData?.productTitle
                 ? 'Ask Expert Consultation Advice'
                 : modalData?.title || 'Book Personal Consultation'}
             </h2>
-            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
+            <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.4 }}>
               {modalData?.productTitle
                 ? `Schedule a 1-on-1 consultation with Dr. Naresh Chhabdiya for personalized guidance on ${modalData.productTitle}.`
                 : 'Choose your consultation service and preferred appointment timing with Dr. Naresh Chhabdiya.'}
@@ -774,21 +773,21 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
+                <h3 style={{ fontSize: '20px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Consultation Request Received!
                 </h3>
                 <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
-                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 650 }}>
+                  <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 650 }}>
                     Reference Number
                   </span>
-                  <div style={{ fontSize: '20px', fontWeight: 850, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
+                  <div style={{ fontSize: '22px', fontWeight: 850, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
                     {submissionSuccess.reference}
                   </div>
                 </div>
-                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 8px', lineHeight: 1.5 }}>
+                <p style={{ color: '#4b5563', fontSize: '14.5px', margin: '0 0 8px', lineHeight: 1.5 }}>
                   Thank you. Dr. Naresh's coordinator will contact you via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong> to confirm your appointment slot.
                 </p>
-                <p style={{ fontSize: '12px', color: '#94a3b8', margin: '0 0 16px', fontStyle: 'italic' }}>
+                <p style={{ fontSize: '13px', color: '#94a3b8', margin: '0 0 16px', fontStyle: 'italic' }}>
                   Please note: Preferred date and time are requests and subject to coordinator confirmation.
                 </p>
                 <button
@@ -800,7 +799,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     border: '1px solid #d1d5db',
                     background: '#ffffff',
                     color: '#374151',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 650,
                     cursor: 'pointer'
                   }}
@@ -811,7 +810,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             ) : (
               <form onSubmit={handleMeetingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {submitError && (
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '14px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <AlertCircle size={15} style={{ flexShrink: 0 }} />
                     <span>{submitError}</span>
                   </div>
@@ -831,7 +830,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 1: Name & Phone */}
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Full Name *
                     </label>
                     <input
@@ -845,7 +844,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -854,13 +853,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setMeetingForm({ ...meetingForm, name: e.target.value })}
                     />
                     {fieldErrors.name && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.name}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Phone / WhatsApp *
                     </label>
                     <input
@@ -874,7 +873,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -883,7 +882,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setMeetingForm({ ...meetingForm, phone: e.target.value })}
                     />
                     {fieldErrors.phone && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.phone}
                       </span>
                     )}
@@ -893,7 +892,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 2: Email & Consultation Service */}
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Email Address
                     </label>
                     <input
@@ -906,7 +905,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -915,13 +914,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setMeetingForm({ ...meetingForm, email: e.target.value })}
                     />
                     {fieldErrors.email && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.email}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Consultation Service *
                     </label>
                     <CustomDropdown
@@ -930,7 +929,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={CONSULTATION_SERVICE_OPTIONS}
                     />
                     {fieldErrors.serviceKey && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.serviceKey}
                       </span>
                     )}
@@ -940,7 +939,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 3: Consultation Mode & Preferred Date */}
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Consultation Mode *
                     </label>
                     <CustomDropdown
@@ -949,13 +948,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={LOCATION_OPTIONS}
                     />
                     {fieldErrors.location && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.location}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Preferred Date *
                     </label>
                     <input
@@ -971,7 +970,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -980,7 +979,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setMeetingForm({ ...meetingForm, date: e.target.value })}
                     />
                     {fieldErrors.preferredDate && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.preferredDate}
                       </span>
                     )}
@@ -989,7 +988,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 {/* Row 4: Preferred Time Slot */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Preferred Time Slot *
                   </label>
                   <CustomDropdown
@@ -998,7 +997,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     options={TIME_SLOT_OPTIONS}
                   />
                   {fieldErrors.preferredSlot && (
-                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.preferredSlot}
                     </span>
                   )}
@@ -1006,7 +1005,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 {/* Row 5: Consultation Notes / Query */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Consultation Query / Details
                   </label>
                   <textarea
@@ -1018,7 +1017,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       borderRadius: '8px',
                       border: '1px solid #d1d5db',
                       background: '#ffffff',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#1a1a1a',
                       outline: 'none',
                       resize: 'vertical',
@@ -1047,7 +1046,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       border: '1.5px solid rgba(212, 175, 55, 0.45)',
                       background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
                       color: '#ffffff',
-                      fontSize: '13.5px',
+                      fontSize: '15px',
                       fontWeight: 750,
                       cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       opacity: isSubmitting ? 0.7 : 1,
@@ -1069,12 +1068,12 @@ export default function Modals({ activeModal, modalData, closeModal }) {
           </div>
         )}
 
-        {/* ─── SACRED COURSE ENROLLMENT MODAL (DISTINCT FROM CONSULTATION) ─── */}
+        {/* ─── COURSE ENROLLMENT MODAL (DISTINCT FROM CONSULTATION) ─── */}
         {activeModal === 'enroll' && (
           <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '10.5px',
+                fontSize: '11.5px',
                 fontWeight: 750,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
@@ -1087,10 +1086,10 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             >
               ✦ CERTIFIED COURSE ENROLLMENT ✦
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '21px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
-              Enroll in {COURSE_OPTIONS.find((c) => c.value === enrollForm.courseId)?.label || modalData?.title || 'Sacred'} Course
+            <h2 className="ff-redhat" style={{ fontSize: '23px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
+              Enroll in {COURSE_OPTIONS.find((c) => c.value === enrollForm.courseId)?.label || modalData?.title || 'a'} Course
             </h2>
-            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 12px', lineHeight: 1.4 }}>
+            <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 12px', lineHeight: 1.4 }}>
               Register for certified practitioner &amp; master training with Dr. Naresh Chhabdiya.
             </p>
 
@@ -1107,7 +1106,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: '8px',
-                fontSize: '11.5px',
+                fontSize: '12.5px',
                 fontWeight: 750,
                 color: '#7a0614'
               }}
@@ -1119,18 +1118,18 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             {submissionSuccess ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
+                <h3 style={{ fontSize: '20px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Course Enrollment Request Received!
                 </h3>
                 <div style={{ background: '#f8fafc', border: '1.5px dashed #cbd5e1', borderRadius: '12px', padding: '12px 16px', margin: '14px auto', maxWidth: '320px' }}>
-                  <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 650 }}>
+                  <span style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#64748b', fontWeight: 650 }}>
                     Enrollment Reference ID
                   </span>
-                  <div style={{ fontSize: '20px', fontWeight: 850, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
+                  <div style={{ fontSize: '22px', fontWeight: 850, color: '#1e293b', letterSpacing: '0.04em', marginTop: '2px' }}>
                     {submissionSuccess.reference}
                   </div>
                 </div>
-                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 14px', lineHeight: 1.5 }}>
+                <p style={{ color: '#4b5563', fontSize: '14.5px', margin: '0 0 14px', lineHeight: 1.5 }}>
                   Thank you! Our course coordinator will contact you via phone or WhatsApp at <strong>{submissionSuccess.phone}</strong> with the curriculum syllabus, fee structure, and upcoming batch schedule.
                 </p>
                 <button
@@ -1142,7 +1141,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     border: '1px solid #d1d5db',
                     background: '#ffffff',
                     color: '#374151',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 650,
                     cursor: 'pointer'
                   }}
@@ -1153,7 +1152,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             ) : (
               <form onSubmit={handleEnrollSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {submitError && (
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '14px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <AlertCircle size={15} style={{ flexShrink: 0 }} />
                     <span>{submitError}</span>
                   </div>
@@ -1173,7 +1172,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 1: Student Full Name & Phone */}
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Student Full Name *
                     </label>
                     <input
@@ -1187,7 +1186,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -1196,13 +1195,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setEnrollForm({ ...enrollForm, name: e.target.value })}
                     />
                     {fieldErrors.name && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.name}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Phone / WhatsApp Number *
                     </label>
                     <input
@@ -1216,7 +1215,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -1225,7 +1224,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setEnrollForm({ ...enrollForm, phone: e.target.value })}
                     />
                     {fieldErrors.phone && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.phone}
                       </span>
                     )}
@@ -1235,7 +1234,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 2: Email (for Study Material) & Course Discipline */}
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Email (for Certificate &amp; Notes)
                     </label>
                     <input
@@ -1248,7 +1247,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -1257,13 +1256,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setEnrollForm({ ...enrollForm, email: e.target.value })}
                     />
                     {fieldErrors.email && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.email}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Course Discipline *
                     </label>
                     <CustomDropdown
@@ -1272,7 +1271,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={COURSE_OPTIONS}
                     />
                     {fieldErrors.courseId && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.courseId}
                       </span>
                     )}
@@ -1282,7 +1281,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 {/* Row 3: Training Center / Mode & Current Experience Level */}
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Training Center / Mode *
                     </label>
                     <CustomDropdown
@@ -1291,13 +1290,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={LOCATION_OPTIONS}
                     />
                     {fieldErrors.location && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.location}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Current Experience Level *
                     </label>
                     <CustomDropdown
@@ -1310,7 +1309,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 {/* Row 4: Preferred Batch Schedule */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Preferred Batch Schedule *
                   </label>
                   <CustomDropdown
@@ -1322,19 +1321,19 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 {/* Row 5: Learning Goals / Questions */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Learning Goals / Questions for Dr. Naresh
                   </label>
                   <textarea
                     rows={2}
-                    placeholder="Share your interest in learning this sacred science or any questions about upcoming batches..."
+                    placeholder="Share your interest in learning this science or any questions about upcoming batches..."
                     style={{
                       width: '100%',
                       padding: '8px 12px',
                       borderRadius: '8px',
                       border: '1px solid #d1d5db',
                       background: '#ffffff',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#1a1a1a',
                       outline: 'none',
                       resize: 'vertical',
@@ -1363,7 +1362,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       border: '1.5px solid rgba(212, 175, 55, 0.45)',
                       background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
                       color: '#ffffff',
-                      fontSize: '13.5px',
+                      fontSize: '15px',
                       fontWeight: 750,
                       cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       opacity: isSubmitting ? 0.7 : 1,
@@ -1390,7 +1389,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
           <div className="modal-body-content" style={{ padding: '24px 28px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <span
               style={{
-                fontSize: '10.5px',
+                fontSize: '11.5px',
                 fontWeight: 750,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
@@ -1402,20 +1401,20 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             >
               COMMUNITY EXPERIENCE
             </span>
-            <h2 className="ff-redhat" style={{ fontSize: '20px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
+            <h2 className="ff-redhat" style={{ fontSize: '22px', fontWeight: 850, margin: '6px 0 3px', color: '#1a1a1a' }}>
               Share Your Transformation Story
             </h2>
-            <p style={{ color: '#6b7280', fontSize: '12.5px', margin: '0 0 16px', lineHeight: 1.4 }}>
+            <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.4 }}>
               Inspire other seekers on their path to health, mental peace, and spiritual harmony.
             </p>
 
             {submittedStatus ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <CheckCircle2 size={42} color="#16a34a" style={{ margin: '0 auto 10px' }} />
-                <h3 style={{ fontSize: '18px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
+                <h3 style={{ fontSize: '20px', fontWeight: 750, color: '#1a1a1a', margin: '0 0 4px' }}>
                   Thank You for Sharing!
                 </h3>
-                <p style={{ color: '#4b5563', fontSize: '13px', margin: '0 0 16px' }}>
+                <p style={{ color: '#4b5563', fontSize: '14.5px', margin: '0 0 16px' }}>
                   Your story has been submitted and will be featured after our team verifies it.
                 </p>
                 <button
@@ -1427,7 +1426,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     border: '1px solid #d1d5db',
                     background: '#ffffff',
                     color: '#374151',
-                    fontSize: '13px',
+                    fontSize: '14.5px',
                     fontWeight: 650,
                     cursor: 'pointer'
                   }}
@@ -1438,7 +1437,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             ) : (
               <form onSubmit={handleStorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {submitError && (
-                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '12.5px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', fontSize: '14px', color: '#dc2626', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <AlertCircle size={15} style={{ flexShrink: 0 }} />
                     <span>{submitError}</span>
                   </div>
@@ -1457,7 +1456,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Your Name *
                     </label>
                     <input
@@ -1471,7 +1470,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -1480,13 +1479,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setStoryForm({ ...storyForm, name: e.target.value })}
                     />
                     {fieldErrors.name && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.name}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       City / Location *
                     </label>
                     <input
@@ -1500,7 +1499,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                         borderRadius: '8px',
                         border: '1px solid #d1d5db',
                         background: '#ffffff',
-                        fontSize: '13px',
+                        fontSize: '14.5px',
                         color: '#1a1a1a',
                         outline: 'none',
                         boxSizing: 'border-box'
@@ -1509,7 +1508,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       onChange={(e) => setStoryForm({ ...storyForm, city: e.target.value })}
                     />
                     {fieldErrors.city && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.city}
                       </span>
                     )}
@@ -1518,7 +1517,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
 
                 <div className="modal-form-row">
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Experience / Course *
                     </label>
                     <CustomDropdown
@@ -1527,13 +1526,13 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       options={STORY_SERVICE_OPTIONS}
                     />
                     {fieldErrors.serviceKey && (
-                      <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                      <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                         {fieldErrors.serviceKey}
                       </span>
                     )}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                    <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                       Rating
                     </label>
                     <CustomDropdown
@@ -1545,7 +1544,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '12px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 650, color: '#374151', marginBottom: '4px' }}>
                     Your Experience / Story *
                   </label>
                   <textarea
@@ -1560,7 +1559,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       borderRadius: '8px',
                       border: '1px solid #d1d5db',
                       background: '#ffffff',
-                      fontSize: '13px',
+                      fontSize: '14.5px',
                       color: '#1a1a1a',
                       outline: 'none',
                       resize: 'none',
@@ -1571,7 +1570,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                     onChange={(e) => setStoryForm({ ...storyForm, story: e.target.value })}
                   />
                   {fieldErrors.story && (
-                    <span style={{ color: '#dc2626', fontSize: '11.5px', marginTop: '3px', display: 'block' }}>
+                    <span style={{ color: '#dc2626', fontSize: '12.5px', marginTop: '3px', display: 'block' }}>
                       {fieldErrors.story}
                     </span>
                   )}
@@ -1593,7 +1592,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                       border: '1.5px solid rgba(212, 175, 55, 0.45)',
                       background: 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)',
                       color: '#ffffff',
-                      fontSize: '13.5px',
+                      fontSize: '15px',
                       fontWeight: 750,
                       cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       opacity: isSubmitting ? 0.7 : 1,
@@ -1635,21 +1634,21 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 <Compass size={24} color="#dc2626" />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 750, color: '#3b0a11' }}>
+                <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 750, color: '#3b0a11' }}>
                   {modalData?.title || 'Cosmic Energy & Vaastu Scanner'}
                 </h3>
-                <span style={{ fontSize: '12px', color: '#b45309', fontWeight: 650 }}>
+                <span style={{ fontSize: '13px', color: '#b45309', fontWeight: 650 }}>
                   Guided by Dr. Naresh Chhabdiya • 31+ Years Energy Expertise
                 </span>
               </div>
             </div>
 
-            <p style={{ color: '#5e2732', fontSize: '13.5px', lineHeight: 1.5, margin: '0 0 16px' }}>
+            <p style={{ color: '#5e2732', fontSize: '15px', lineHeight: 1.5, margin: '0 0 16px' }}>
               Simulate an energetic diagnosis of your space or subtle body. Enter your residential concern, home entrance direction, or health symptom below to receive immediate Vedic analysis and practical remedies.
             </p>
 
             <div style={{ marginBottom: '14px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '14.5px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                 Your Current Concern, Entrance Direction, or Goal:
               </label>
               <textarea
@@ -1661,7 +1660,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   border: '1.5px solid #d4af37',
                   background: '#fffdf9',
                   outline: 'none',
-                  fontSize: '13.5px',
+                  fontSize: '15px',
                   fontFamily: 'inherit',
                   color: '#3b0a11'
                 }}
@@ -1679,7 +1678,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  fontSize: '13.5px',
+                  fontSize: '15px',
                   padding: '10px 22px'
                 }}
                 disabled={isExecuting}
@@ -1697,7 +1696,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                 borderRadius: '16px',
                 padding: '18px',
                 fontFamily: 'monospace',
-                fontSize: '12.5px',
+                fontSize: '14px',
                 color: '#fffdf9',
                 minHeight: '140px',
                 maxHeight: '220px',
@@ -1727,7 +1726,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   background: authTab === 'login' ? 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)' : 'transparent',
                   color: authTab === 'login' ? '#ffffff' : '#3b0a11',
                   fontWeight: 750,
-                  fontSize: '13.5px',
+                  fontSize: '15px',
                   cursor: 'pointer'
                 }}
               >
@@ -1744,7 +1743,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
                   background: authTab === 'signup' ? 'linear-gradient(135deg, #D2042D 0%, #8b0000 100%)' : 'transparent',
                   color: authTab === 'signup' ? '#ffffff' : '#3b0a11',
                   fontWeight: 750,
-                  fontSize: '13.5px',
+                  fontSize: '15px',
                   cursor: 'pointer'
                 }}
               >
@@ -1752,10 +1751,10 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               </button>
             </div>
 
-            <h2 className="ff-redhat" style={{ fontSize: '24px', fontWeight: 750, color: '#3b0a11', margin: '0 0 6px' }}>
-              {authTab === 'login' ? 'Welcome Back to Reiki & Vaastu World' : 'Join Our Sacred Learning Circle'}
+            <h2 className="ff-redhat" style={{ fontSize: '26.5px', fontWeight: 750, color: '#3b0a11', margin: '0 0 6px' }}>
+              {authTab === 'login' ? 'Welcome Back to Reiki & Vaastu World' : 'Join Our Learning Circle'}
             </h2>
-            <p style={{ color: '#784450', fontSize: '13.5px', margin: '0 0 20px' }}>
+            <p style={{ color: '#784450', fontSize: '15px', margin: '0 0 20px' }}>
               Access your certified course materials, attunement certificates, and weekly free meditation gatherings.
             </p>
 
@@ -1768,20 +1767,20 @@ export default function Modals({ activeModal, modalData, closeModal }) {
             >
               {authTab === 'signup' && (
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '14.5px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                     Full Name
                   </label>
                   <input type="text" required placeholder="Your Full Name" className="akf-nl-input" />
                 </div>
               )}
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '14.5px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                   Registered Email / Mobile
                 </label>
                 <input type="text" required placeholder="name@email.com or 9823456789" className="akf-nl-input" />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '14.5px', fontWeight: 750, color: '#3b0a11', marginBottom: '6px' }}>
                   Password
                 </label>
                 <input type="password" required placeholder="••••••••" className="akf-nl-input" />
@@ -1790,7 +1789,7 @@ export default function Modals({ activeModal, modalData, closeModal }) {
               <button
                 type="submit"
                 className="gnav-btn-primary"
-                style={{ padding: '14px', fontSize: '14.5px', marginTop: '6px' }}
+                style={{ padding: '14px', fontSize: '16px', marginTop: '6px' }}
               >
                 {authTab === 'login' ? 'Log In to Student Portal' : 'Create Free Account'}
               </button>

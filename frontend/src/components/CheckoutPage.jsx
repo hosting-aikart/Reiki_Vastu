@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Loader2, Lock } from 'lucide-react';
-import { findProductById } from '@reiki-vastu/shared/products.js';
-import { getProductImages } from '../data/productImages';
+import { useCatalog } from '../catalog/CatalogContext';
 import { createPaymentOrder, getProducts, verifyPayment } from '../api/paymentClient';
 import { formatPaise, generateIdempotencyKey, loadRazorpayCheckout } from '../utils/razorpayCheckout';
 import { cardStyle, linkButtonStyle, primaryButtonStyle } from './paymentStyles';
@@ -85,8 +84,10 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
   // new one. Any change to quantity or details starts a new attempt.
   const attemptRef = useRef(null);
 
-  const display = findProductById(productId); // image and title for display only
-  const displayImage = getProductImages(display)[0]; // view 1, with its cache fingerprint
+  // Image and title for display only; the price always comes from the server
+  const { findItem } = useCatalog();
+  const display = findItem(productId);
+  const displayImage = display?.image || null;
 
   useEffect(() => {
     let active = true;
@@ -285,7 +286,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
           <ArrowLeft size={16} /> {display?.isEvent ? 'Back to event' : 'Back to product'}
         </button>
 
-        <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
+        <h1 className="ff-redhat" style={{ fontSize: 'clamp(26.5px, 3.3vw, 35px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
           Checkout
         </h1>
 
@@ -322,12 +323,12 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                 />
               )}
               <div>
-                <h2 style={{ fontSize: '19px', fontWeight: 850, color: '#3b0a11', margin: '0 0 4px' }}>{product.name}</h2>
-                <p style={{ fontSize: '14px', color: '#5e2732', margin: 0 }}>{product.description}</p>
+                <h2 style={{ fontSize: '21px', fontWeight: 850, color: '#3b0a11', margin: '0 0 4px' }}>{product.name}</h2>
+                <p style={{ fontSize: '15.5px', color: '#5e2732', margin: 0 }}>{product.description}</p>
               </div>
             </div>
 
-            <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 8px', fontSize: '15px' }}>
+            <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 8px', fontSize: '16.5px' }}>
               <dt style={{ color: '#475569' }}>{display?.isEvent ? 'Registration Fee' : 'Price'}</dt>
               <dd style={{ margin: 0, fontWeight: 650 }}>{formatPaise(product.unitPricePaise)}</dd>
 
@@ -342,7 +343,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                       value={quantity}
                       onChange={(e) => changeQuantity(Number(e.target.value))}
                       disabled={busy}
-                      style={{ padding: '6px 10px', borderRadius: '8px', border: '1.5px solid #d4af37', fontSize: '15px' }}
+                      style={{ padding: '6px 10px', borderRadius: '8px', border: '1.5px solid #d4af37', fontSize: '16.5px' }}
                     >
                       {Array.from({ length: product.maxQuantity }, (_, i) => i + 1).map((n) => (
                         <option key={n} value={n}>{n}</option>
@@ -360,25 +361,25 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
               )}
 
               <dt style={{ fontWeight: 850, color: '#3b0a11', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>Total</dt>
-              <dd style={{ margin: 0, fontWeight: 850, fontSize: '19px', color: '#D2042D', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>
+              <dd style={{ margin: 0, fontWeight: 850, fontSize: '21px', color: '#D2042D', borderTop: '1px solid #f1e5c4', paddingTop: '12px' }}>
                 {formatPaise(product.unitPricePaise * quantity)}
               </dd>
             </dl>
             {!display?.isEvent && quantityWasCapped && (
-              <p style={{ fontSize: '13px', color: '#92400e', margin: '0 0 8px' }}>
+              <p style={{ fontSize: '14.5px', color: '#92400e', margin: '0 0 8px' }}>
                 A maximum of {product.maxQuantity} can be bought in one order.
               </p>
             )}
 
             {/* ── Delivery details ── */}
-            <h3 style={{ fontSize: '16px', fontWeight: 850, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
+            <h3 style={{ fontSize: '17.5px', fontWeight: 850, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
 
-            <p style={{ fontSize: '13px', color: '#64748b', margin: '-6px 0 14px', lineHeight: 1.5 }}>
+            <p style={{ fontSize: '14.5px', color: '#64748b', margin: '-6px 0 14px', lineHeight: 1.5 }}>
               Please enter your complete address so we can deliver without delay. Fields marked <span style={{ color: '#D2042D' }}>*</span> are required.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px 14px', marginBottom: '20px' }}>
               {FIELDS.map((field) => (
-                <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '13px', fontWeight: 650, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
+                <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '14.5px', fontWeight: 650, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
                   <span>
                     {field.label}
                     {field.optional ? (
@@ -403,7 +404,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                       padding: '10px 12px',
                       borderRadius: '10px',
                       border: `1.5px solid ${fieldErrors[field.key] ? '#dc2626' : '#e7d7b5'}`,
-                      fontSize: '15px',
+                      fontSize: '16.5px',
                       fontWeight: 450,
                       color: '#1e293b',
                       background: '#ffffff'
@@ -423,7 +424,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                   border: `1px solid ${notice.tone === 'error' ? '#fecaca' : '#bfdbfe'}`,
                   borderRadius: '10px',
                   padding: '10px 14px',
-                  fontSize: '14px',
+                  fontSize: '15.5px',
                   lineHeight: 1.5,
                   margin: '0 0 16px'
                 }}
@@ -435,7 +436,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                     <button
                       type="button"
                       onClick={() => onPaymentSubmitted(notice.statusToken)}
-                      style={{ background: 'none', border: 'none', padding: 0, color: '#1d4ed8', fontWeight: 750, textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}
+                      style={{ background: 'none', border: 'none', padding: 0, color: '#1d4ed8', fontWeight: 750, textDecoration: 'underline', cursor: 'pointer', fontSize: '15.5px' }}
                     >
                       Check payment status
                     </button>
@@ -462,12 +463,12 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
               </p>
             )}
 
-            <p style={{ fontSize: '12px', color: '#64748b', margin: '14px 0 0', textAlign: 'center' }}>
+            <p style={{ fontSize: '13px', color: '#64748b', margin: '14px 0 0', textAlign: 'center' }}>
               Card and UPI details are entered in Razorpay's secure window and never reach this website.
               Your delivery details are used only to deliver this order.
             </p>
 
-            <p style={{ fontSize: '12px', color: '#64748b', margin: '8px 0 0', textAlign: 'center', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '13px', color: '#64748b', margin: '8px 0 0', textAlign: 'center', lineHeight: 1.6 }}>
               By paying, you agree to our{' '}
               {[
                 ['terms-and-conditions', 'Terms & Conditions'],

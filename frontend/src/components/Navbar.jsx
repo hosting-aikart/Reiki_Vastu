@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
-import { getUpcomingEvents } from '../data/events';
+import { useCatalog } from '../catalog/CatalogContext';
 
 // Short date of the next upcoming event (e.g. "22 Nov"), or null when none is scheduled.
-function nextEventDateLabel() {
-  const next = getUpcomingEvents()[0];
+function nextEventDateLabel(next) {
   if (!next) return null;
   return new Date(next.startsAt).toLocaleDateString('en-IN', {
     day: 'numeric',
@@ -21,7 +20,8 @@ export default function Navbar({
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   // While an event is upcoming, the Events link is highlighted everywhere in the nav.
-  const [eventDate] = useState(nextEventDateLabel);
+  const { upcomingEvents } = useCatalog();
+  const eventDate = nextEventDateLabel(upcomingEvents[0]);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -303,13 +303,13 @@ export default function Navbar({
         </div>
 
         <div style={{ marginTop: 'auto', paddingTop: '32px', borderTop: '1px solid rgba(212,175,55,0.3)' }}>
-          <p style={{ color: '#fbbf24', fontSize: '12px', fontWeight: 750, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+          <p style={{ color: '#fbbf24', fontSize: '13px', fontWeight: 750, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 8px' }}>
             Direct Helpline:
           </p>
-          <p style={{ color: '#ffffff', fontSize: '15px', fontWeight: 650, margin: '0 0 6px' }}>
+          <p style={{ color: '#ffffff', fontSize: '16.5px', fontWeight: 650, margin: '0 0 6px' }}>
             +91 8446656677 / 9423424596
           </p>
-          <p style={{ color: '#fecaca', fontSize: '13px', margin: 0 }}>
+          <p style={{ color: '#fecaca', fontSize: '14.5px', margin: 0 }}>
             reiki.vastuworld@gmail.com
           </p>
         </div>

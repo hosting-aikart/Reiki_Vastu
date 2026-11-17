@@ -35,10 +35,10 @@ export default function FloatingWidgets({ openModal }) {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
             <div>
-              <p style={{ margin: 0, fontSize: '13px', fontWeight: 750, color: '#dc2626', letterSpacing: '0.04em' }}>
+              <p style={{ margin: 0, fontSize: '14.5px', fontWeight: 750, color: '#dc2626', letterSpacing: '0.04em' }}>
                 ✦ NAMASTE &amp; BLESSINGS
               </p>
-              <h3 style={{ margin: '4px 0 0', fontSize: '17px', fontWeight: 750, color: '#3b0a11' }}>
+              <h3 style={{ margin: '4px 0 0', fontSize: '18.5px', fontWeight: 750, color: '#3b0a11' }}>
                 How can we assist you today?
               </h3>
             </div>
@@ -62,7 +62,7 @@ export default function FloatingWidgets({ openModal }) {
             </button>
           </div>
 
-          <p style={{ fontSize: '12.5px', color: '#784450', margin: '0 0 14px', lineHeight: 1.45 }}>
+          <p style={{ fontSize: '14px', color: '#784450', margin: '0 0 14px', lineHeight: 1.45 }}>
             Connect directly with Dr. Naresh Chhabdiya's team for Vaastu audits, Reiki training, or Kundali consultations.
           </p>
 
@@ -81,7 +81,7 @@ export default function FloatingWidgets({ openModal }) {
                 background: '#fef2f4',
                 border: 'none',
                 padding: '11px 18px',
-                fontSize: '13px',
+                fontSize: '14.5px',
                 fontWeight: 750,
                 color: '#3b0a11',
                 cursor: 'pointer',
@@ -108,7 +108,7 @@ export default function FloatingWidgets({ openModal }) {
                 background: '#f7f7f7',
                 border: 'none',
                 padding: '11px 18px',
-                fontSize: '13px',
+                fontSize: '14.5px',
                 fontWeight: 750,
                 color: '#1a1a1a',
                 cursor: 'pointer',
@@ -138,7 +138,7 @@ export default function FloatingWidgets({ openModal }) {
                 background: '#faf5ee',
                 border: 'none',
                 padding: '11px 18px',
-                fontSize: '13px',
+                fontSize: '14.5px',
                 fontWeight: 750,
                 color: '#3b0a11',
                 cursor: 'pointer',
@@ -156,7 +156,7 @@ export default function FloatingWidgets({ openModal }) {
         </div>
       )}
 
-      {/* Floating Sacred Trigger Button */}
+      {/* Floating Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -176,7 +176,7 @@ export default function FloatingWidgets({ openModal }) {
         }}
       >
         <img
-          src="/logo/lotus_bold_button.png"
+          src="/logo/lotus_bold_button_white.png"
           alt="Reiki Mark"
           className="floating-widget-lotus"
         />

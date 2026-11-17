@@ -9,6 +9,7 @@ import testimonialRoutes from './routes/testimonial.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import productRoutes from './routes/product.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
+import { catalogRouter, mediaRouter } from './routes/catalog.routes.js';
 import { receiveWebhook } from './controllers/webhook.controller.js';
 import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/errorHandler.js';
@@ -73,6 +74,10 @@ app.post(
   receiveWebhook
 );
 
+// Saving a course or event from the admin panel sends its full details, which
+// can be larger than the general limit below. Admin-only routes.
+app.use('/api/admin/catalog', express.json({ limit: '256kb' }));
+
 // Body parsing with strict size limit (prevents large payload attacks)
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -84,6 +89,8 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/catalog', catalogRouter);
+app.use('/api/media', mediaRouter);
 
 // Catch-all 404 handler
 app.use(notFound);

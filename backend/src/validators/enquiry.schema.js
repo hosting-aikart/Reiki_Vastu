@@ -3,7 +3,6 @@ import {
   LOCATIONS,
   CONSULTATION_SERVICES,
   TIME_SLOTS,
-  COURSES,
   keysOf,
   validatePreferredDate
 } from '@reiki-vastu/shared';
@@ -56,9 +55,12 @@ const consultationSchema = baseSchema.extend({
 
 const courseSchema = baseSchema.extend({
   type: z.literal('course'),
-  courseId: z.enum(keysOf(COURSES), {
-    errorMap: () => ({ message: 'Please select a valid course' })
-  }),
+  // Built-in courses, or a course added in the admin panel (checked when saving)
+  courseId: z
+    .string({ required_error: 'Please select a valid course', invalid_type_error: 'Please select a valid course' })
+    .trim()
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Please select a valid course')
+    .max(80, 'Please select a valid course'),
   preferredDate: z.string().optional().nullable(),
   preferredSlot: z.string().optional().nullable(),
   message: z.string().max(1000, 'Message cannot exceed 1000 characters').optional().default('')

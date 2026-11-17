@@ -50,12 +50,12 @@ export default function VideoTestimonials({ onAddStory }) {
         <div className="hm-container">
           <div className="th-section-header" style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="th-eyebrow">
-              ✦ SACRED DISCOURSES &amp; SESSIONS ✦
+              ✦ DISCOURSES &amp; SESSIONS ✦
             </p>
             <h2
               className="th-heading-gradient"
               style={{
-                fontSize: 'clamp(22px, 3.2vw, 42px)',
+                fontSize: 'clamp(24px, 3.52vw, 46px)',
                 marginBottom: '6px'
               }}
             >
@@ -160,7 +160,7 @@ export default function VideoTestimonials({ onAddStory }) {
             <h2
               className="th-heading-gradient"
               style={{
-                fontSize: 'clamp(22px, 3.2vw, 42px)',
+                fontSize: 'clamp(24px, 3.52vw, 46px)',
                 marginBottom: '6px'
               }}
             >
@@ -195,7 +195,7 @@ export default function VideoTestimonials({ onAddStory }) {
                     style={{
                       margin: '0 0 26px',
                       fontFamily: "var(--font-cormorant)",
-                      fontSize: '18.5px',
+                      fontSize: '20.5px',
                       fontWeight: 550,
                       lineHeight: 1.65,
                       color: '#3b2119'
@@ -209,7 +209,7 @@ export default function VideoTestimonials({ onAddStory }) {
                   style={{
                     margin: 0,
                     fontFamily: "var(--font-karla)",
-                    fontSize: '14.5px',
+                    fontSize: '16px',
                     lineHeight: 1.45,
                     color: '#7c5652'
                   }}

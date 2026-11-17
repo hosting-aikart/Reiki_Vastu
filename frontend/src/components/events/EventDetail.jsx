@@ -1,10 +1,17 @@
 import React from 'react';
-import { ArrowRight, CalendarDays, Clock, Laptop, MessageCircle, Phone } from 'lucide-react';
+import { ArrowRight, CalendarDays, Clock, Laptop, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { formatRupees, whatsappRegistrationLink } from '../../data/events';
 
 /* ── Small shared pieces ─────────────────────────────────────────── */
 
 function RegisterButton({ event, variant = 'crimson', label = 'Register Now', onRegister }) {
+  if (!event.registrationOpen) {
+    return (
+      <span className={`ev-btn ev-btn--${variant}`} aria-disabled="true" style={{ opacity: 0.6, cursor: 'default' }}>
+        Registration Closed
+      </span>
+    );
+  }
   if (onRegister) {
     return (
       <button
@@ -91,9 +98,9 @@ function EventHero({ event, headingId, onRegister }) {
           </p>
 
           <h2 id={headingId} className="ev-hero-title">
-            <span className="ev-hero-kicker">{heroTitle.kicker}</span>{' '}
-            <span className="ev-hero-main">{heroTitle.main}</span>{' '}
-            <span className="ev-hero-ribbon">{heroTitle.ribbon}</span>
+            {heroTitle.kicker && <span className="ev-hero-kicker">{heroTitle.kicker}</span>}{' '}
+            {heroTitle.main && <span className="ev-hero-main">{heroTitle.main}</span>}{' '}
+            {heroTitle.ribbon && <span className="ev-hero-ribbon">{heroTitle.ribbon}</span>}
           </h2>
 
           <p className="ev-hero-tagline">{event.tagline}</p>
@@ -108,11 +115,13 @@ function EventHero({ event, headingId, onRegister }) {
         </div>
 
         <div className="ev-hero-side">
-          <div className="ev-medallion" role="img" aria-label={event.anniversary}>
-            <span className="ev-medallion-top">Celebrating</span>
-            <span className="ev-medallion-num">{event.anniversaryYears}</span>
-            <span className="ev-medallion-bottom">Years of Reiki Journey</span>
-          </div>
+          {event.anniversaryYears ? (
+            <div className="ev-medallion" role="img" aria-label={event.anniversary || `Celebrating ${event.anniversaryYears} Years`}>
+              <span className="ev-medallion-top">Celebrating</span>
+              <span className="ev-medallion-num">{event.anniversaryYears}</span>
+              <span className="ev-medallion-bottom">Years of Reiki Journey</span>
+            </div>
+          ) : null}
           <img
             className="ev-hero-yogi"
             src={art.heroSide.src}
@@ -154,8 +163,9 @@ function EventDetailsAndAbout({ event, id, onRegister }) {
   const items = [
     { label: 'Date', value: schedule.date, note: schedule.day, icon: CalendarDays },
     { label: 'Time', value: schedule.time, icon: Clock },
-    { label: 'Mode', value: schedule.mode, note: schedule.modeDetail, icon: Laptop }
-  ];
+    { label: 'Mode', value: schedule.mode, note: schedule.modeDetail, icon: Laptop },
+    ...(schedule.venue ? [{ label: 'Venue', value: schedule.venue, icon: MapPin }] : [])
+  ].filter((item) => item.value);
   return (
     <section className="ev-container ev-about" aria-labelledby={id}>
       <dl className="ev-facts-card">
@@ -219,15 +229,21 @@ function EventOffer({ event, id, onRegister }) {
   return (
     <section className="ev-container ev-offer-wrap" aria-labelledby={id}>
       <div className="ev-offer">
-        <div className="ev-offer-col ev-offer-actual">
-          <span className="ev-offer-label">Actual Fee</span>
-          <s aria-label={`Actual fee ${formatRupees(pricing.actualFee)}`}>{formatRupees(pricing.actualFee)}</s>
-        </div>
-        <span className="ev-offer-divider" aria-hidden="true" />
+        {pricing.actualFee > pricing.offerFee && (
+          <>
+            <div className="ev-offer-col ev-offer-actual">
+              <span className="ev-offer-label">Actual Fee</span>
+              <s aria-label={`Actual fee ${formatRupees(pricing.actualFee)}`}>{formatRupees(pricing.actualFee)}</s>
+            </div>
+            <span className="ev-offer-divider" aria-hidden="true" />
+          </>
+        )}
         <div className="ev-offer-col ev-offer-special">
           <h3 id={id} className="ev-offer-label ev-offer-label--light">{pricing.offerLabel}</h3>
           <strong>{formatRupees(pricing.offerFee)}</strong>
-          <span className="ev-offer-save">You save {formatRupees(pricing.actualFee - pricing.offerFee)}</span>
+          {pricing.actualFee > pricing.offerFee && (
+            <span className="ev-offer-save">You save {formatRupees(pricing.actualFee - pricing.offerFee)}</span>
+          )}
         </div>
         <span className="ev-offer-divider" aria-hidden="true" />
         <div className="ev-offer-col">
@@ -254,10 +270,10 @@ export default function EventDetail({ event, onRegister }) {
   return (
     <article className="ev-event" aria-labelledby={ids.title}>
       <EventHero event={event} headingId={ids.title} onRegister={onRegister} />
-      <EventBenefits benefits={event.benefits} id={ids.benefits} />
+      {event.benefits?.length > 0 && <EventBenefits benefits={event.benefits} id={ids.benefits} />}
       <EventDetailsAndAbout event={event} id={ids.about} onRegister={onRegister} />
       {event.whatToExpect?.length > 0 && <EventExpect items={event.whatToExpect} id={ids.expect} />}
-      <EventOffer event={event} id={ids.offer} onRegister={onRegister} />
+      {Number.isFinite(event.pricing.offerFee) && <EventOffer event={event} id={ids.offer} onRegister={onRegister} />}
     </article>
   );
 }

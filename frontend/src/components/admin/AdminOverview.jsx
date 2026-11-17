@@ -82,10 +82,10 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
     <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {/* Page Title */}
       <div>
-        <h1 style={{ margin: '0 0 6px', fontSize: '24px', fontWeight: 750, color: '#111827' }}>
+        <h1 style={{ margin: '0 0 6px', fontSize: '26.5px', fontWeight: 750, color: '#111827' }}>
           Center Operations Overview
         </h1>
-        <p style={{ margin: 0, color: '#6b7280', fontSize: '14px' }}>
+        <p style={{ margin: 0, color: '#6b7280', fontSize: '15.5px' }}>
           Real-time snapshot of incoming enquiries, consultations, and student stories.
         </p>
       </div>
@@ -126,7 +126,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 650, color: '#4b5563' }}>{c.title}</span>
+                <span style={{ fontSize: '14.5px', fontWeight: 650, color: '#4b5563' }}>{c.title}</span>
                 <div
                   style={{
                     width: '38px',
@@ -143,11 +143,11 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
               </div>
 
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '28px', fontWeight: 850, color: '#111827' }}>{c.value}</span>
+                <span style={{ fontSize: '31px', fontWeight: 850, color: '#111827' }}>{c.value}</span>
                 {c.badge && (
                   <span
                     style={{
-                      fontSize: '11px',
+                      fontSize: '12px',
                       fontWeight: 750,
                       padding: '3px 8px',
                       borderRadius: '999px',
@@ -184,10 +184,10 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
           }}
         >
           <div>
-            <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 750, color: '#111827' }}>
+            <h2 style={{ margin: 0, fontSize: '17.5px', fontWeight: 750, color: '#111827' }}>
               Recent Submissions
             </h2>
-            <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#6b7280' }}>
+            <p style={{ margin: '2px 0 0', fontSize: '14.5px', color: '#6b7280' }}>
               Latest leads captured across website modals and consultation forms.
             </p>
           </div>
@@ -198,7 +198,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
               border: 'none',
               color: '#c59b27',
               fontWeight: 650,
-              fontSize: '13px',
+              fontSize: '14.5px',
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
@@ -210,7 +210,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
         </div>
 
         {recent.length === 0 ? (
-          <div style={{ padding: '36px 20px', textAlign: 'center', color: '#9ca3af', fontSize: '14px' }}>
+          <div style={{ padding: '36px 20px', textAlign: 'center', color: '#9ca3af', fontSize: '15.5px' }}>
             No enquiries recorded yet. Test submissions will appear here.
           </div>
         ) : (
@@ -240,7 +240,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                       background: '#fef3c7',
                       color: '#92400e',
                       fontWeight: 750,
-                      fontSize: '14px',
+                      fontSize: '15.5px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
@@ -250,10 +250,10 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '14px', fontWeight: 650, color: '#111827' }}>{item.name}</span>
-                      <span style={{ fontSize: '12px', color: '#6b7280' }}>({item.reference})</span>
+                      <span style={{ fontSize: '15.5px', fontWeight: 650, color: '#111827' }}>{item.name}</span>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>({item.reference})</span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '2px', fontSize: '12px', color: '#6b7280' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '2px', fontSize: '13px', color: '#6b7280' }}>
                       <span style={{ textTransform: 'capitalize' }}>Type: {item.type}</span>
                       <span>•</span>
                       <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
@@ -266,7 +266,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <span
                     style={{
-                      fontSize: '11px',
+                      fontSize: '12px',
                       fontWeight: 750,
                       textTransform: 'uppercase',
                       padding: '3px 8px',
@@ -277,7 +277,7 @@ export default function AdminOverview({ stats, loading, onNavigate, onSelectEnqu
                   >
                     {item.status}
                   </span>
-                  <span style={{ fontSize: '12px', color: '#9ca3af' }}>
+                  <span style={{ fontSize: '13px', color: '#9ca3af' }}>
                     {new Date(item.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
                   </span>
                 </div>

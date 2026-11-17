@@ -180,7 +180,103 @@ export async function resetAdminProductPrice(id) {
   });
 }
 
+// ── Website content: products, events, courses ─────────────
+// kind: 'product' | 'event' | 'course'
+export async function listCatalogItems(kind) {
+  return request(`/api/admin/catalog/${kind}`);
+}
+
+/** Saves an item's full details. isNew: refuse to overwrite an existing item. */
+export async function saveCatalogItem(kind, itemId, { data, privateData, isNew = false }) {
+  return request(`/api/admin/catalog/${kind}/${encodeURIComponent(itemId)}`, {
+    method: 'PUT',
+    body: JSON.stringify({ data, privateData, isNew })
+  });
+}
+
+export async function deleteCatalogItem(kind, itemId) {
+  return request(`/api/admin/catalog/${kind}/${encodeURIComponent(itemId)}`, { method: 'DELETE' });
+}
+
+export async function restoreCatalogItem(kind, itemId) {
+  return request(`/api/admin/catalog/${kind}/${encodeURIComponent(itemId)}/restore`, { method: 'POST' });
+}
+
+/** Built-in items only: discard all admin changes. */
+export async function resetCatalogItem(kind, itemId) {
+  return request(`/api/admin/catalog/${kind}/${encodeURIComponent(itemId)}/reset`, { method: 'POST' });
+}
+
+export async function getEventRegistrationSummary() {
+  return request('/api/admin/events/registrations/summary');
+}
+
+export async function listEventRegistrations(eventId) {
+  return request(`/api/admin/events/${encodeURIComponent(eventId)}/registrations`);
+}
+
+// ── Image upload ────────────────────────────────────────────
+const MAX_IMAGE_SIDE = 1600;
+
+/**
+ * Shrinks a photo to at most 1600 px on its longest side before upload, so
+ * phone photos (often 5–10 MB) upload quickly and pages stay fast.
+ * Returns { blob, width, height }.
+ */
+async function prepareImage(file) {
+  const bitmap = await createImageBitmap(file).catch(() => null);
+  if (!bitmap) throw new Error('This file is not an image this browser can read. Please use a JPEG, PNG or WebP photo.');
+  const scale = Math.min(1, MAX_IMAGE_SIDE / Math.max(bitmap.width, bitmap.height));
+  const width = Math.round(bitmap.width * scale);
+  const height = Math.round(bitmap.height * scale);
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  canvas.getContext('2d').drawImage(bitmap, 0, 0, width, height);
+  bitmap.close?.();
+  const toBlob = (type, quality) => new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+  // WebP keeps transparency and is small; browsers that can't make WebP give PNG, so fall back to JPEG
+  let blob = await toBlob('image/webp', 0.86);
+  if (!blob || blob.type !== 'image/webp') blob = await toBlob('image/jpeg', 0.88);
+  if (!blob) throw new Error('Could not process this image.');
+  return { blob, width, height };
+}
+
+/** Uploads one image file. Returns { success, data: { url, width, height } } or { success: false, message }. */
+export async function uploadImage(file) {
+  let prepared;
+  try {
+    prepared = await prepareImage(file);
+  } catch (err) {
+    return { success: false, message: err.message };
+  }
+  const query = `?width=${prepared.width}&height=${prepared.height}`;
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/admin/media${query}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': prepared.blob.type },
+      body: prepared.blob
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      return { success: false, message: data?.error?.message || 'Upload failed. Please try again.' };
+    }
+    return { success: true, data: data.data };
+  } catch {
+    return { success: false, message: 'Upload failed: could not reach the server.' };
+  }
+}
+
 export default {
+  listCatalogItems,
+  saveCatalogItem,
+  deleteCatalogItem,
+  restoreCatalogItem,
+  resetCatalogItem,
+  getEventRegistrationSummary,
+  listEventRegistrations,
+  uploadImage,
   listPayments,
   recheckPayment,
   listAdminProducts,

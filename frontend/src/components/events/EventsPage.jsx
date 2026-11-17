@@ -1,51 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { getUpcomingEvents } from '../../data/events';
-import { getProducts } from '../../api/paymentClient';
+import React, { useEffect } from 'react';
+import { CalendarDays, Clock, MapPin } from 'lucide-react';
+import { useCatalog } from '../../catalog/CatalogContext';
 import EventDetail from './EventDetail';
 import './EventsPage.css';
 
+/** A finished event: poster, title and when it took place. */
+function PastEventCard({ event }) {
+  const { schedule } = event;
+  return (
+    <li className="ev-past-card">
+      {event.image?.src && (
+        <div className="ev-past-media">
+          <img src={event.image.src} alt={event.image.alt || `${event.title} poster`} loading="lazy" />
+        </div>
+      )}
+      <div className="ev-past-body">
+        <span className="ev-past-badge">Completed</span>
+        <h3>{event.title}</h3>
+        {event.tagline && <p className="ev-past-tagline">{event.tagline}</p>}
+        <ul className="ev-past-facts">
+          <li><CalendarDays size={15} aria-hidden="true" /> {schedule.date}{schedule.day ? ` (${schedule.day})` : ''}</li>
+          {schedule.time && <li><Clock size={15} aria-hidden="true" /> {schedule.time}</li>}
+          {(schedule.mode || schedule.venue) && (
+            <li><MapPin size={15} aria-hidden="true" /> {[schedule.mode, schedule.venue].filter(Boolean).join(' · ')}</li>
+          )}
+        </ul>
+      </div>
+    </li>
+  );
+}
+
 export default function EventsPage({ onRegister }) {
-  const baseEvents = getUpcomingEvents();
-  const [liveCatalog, setLiveCatalog] = useState({});
+  const { upcomingEvents, pastEvents } = useCatalog();
 
   useEffect(() => {
-    document.title = 'Upcoming Events | Reiki and Vaastu World';
-    let active = true;
-    getProducts().then((res) => {
-      if (!active || !res.success) return;
-      const map = {};
-      for (const item of res.data?.products || []) {
-        map[item.id] = item;
-      }
-      setLiveCatalog(map);
-    });
-    return () => {
-      active = false;
-    };
+    document.title = 'Events | Reiki and Vaastu World';
   }, []);
-
-  const events = baseEvents.map((event) => {
-    const live = liveCatalog[event.id];
-    if (!live) return event;
-    return {
-      ...event,
-      pricing: {
-        ...event.pricing,
-        offerFee: Math.round(live.unitPricePaise / 100),
-        actualFee:
-          live.originalPricePaise != null
-            ? Math.round(live.originalPricePaise / 100)
-            : event.pricing.actualFee
-      }
-    };
-  });
 
   return (
     <div className="ev-page">
       <h1 className="ev-visually-hidden">Upcoming Events</h1>
 
-      {events.length > 0 ? (
-        events.map((event) => (
+      {upcomingEvents.length > 0 ? (
+        upcomingEvents.map((event) => (
           <EventDetail key={event.id} event={event} onRegister={onRegister} />
         ))
       ) : (
@@ -57,6 +54,21 @@ export default function EventsPage({ onRegister }) {
             <a href="tel:9423424596">9423424596</a>.
           </p>
         </div>
+      )}
+
+      {pastEvents.length > 0 && (
+        <section className="ev-container ev-past" aria-labelledby="past-events-heading">
+          <div className="ev-ruled-heading">
+            <span className="ev-ruled-line" aria-hidden="true" />
+            <h2 id="past-events-heading" className="ev-script-heading">Past Events</h2>
+            <span className="ev-ruled-line" aria-hidden="true" />
+          </div>
+          <ul className="ev-past-grid">
+            {pastEvents.map((event) => (
+              <PastEventCard key={event.id} event={event} />
+            ))}
+          </ul>
+        </section>
       )}
     </div>
   );

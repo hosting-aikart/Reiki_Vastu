@@ -8,14 +8,14 @@ import {
   Gem,
   Layers
 } from 'lucide-react';
-import { COURSES_15 } from './CoursesGrid';
-import { SACRED_PRODUCTS } from './BusinessNeeds';
+import { useCatalog } from '../catalog/CatalogContext';
+import { iconFor } from '../catalog/icons';
 import VideoTestimonials from './VideoTestimonials';
 
 const TEMPLE_PRODUCTS = [
   { id: 1, title: 'Energized Rudraksha', subtitle: 'Vedic Consecrated Beads', icon: Sparkles },
-  { id: 2, title: 'Sacred Healing Crystals', subtitle: 'Natural Chakra Stones', icon: Gem },
-  { id: 3, title: 'Shree Yantra & Meru', subtitle: 'Abundance Sacred Geometry', icon: Shield },
+  { id: 2, title: 'Healing Crystals', subtitle: 'Natural Chakra Stones', icon: Gem },
+  { id: 3, title: 'Shree Yantra & Meru', subtitle: 'Abundance Geometry', icon: Shield },
   { id: 4, title: 'Bio-Cosmic Pyramids', subtitle: 'Non-Demolition Vaastu', icon: Layers }
 ];
 
@@ -23,14 +23,14 @@ const TEMPLE_PRODUCTS = [
 const TEAM = [
   {
     name: 'Dr. Naresh Chhabdiya',
-    role: 'Doctor by Profession · Motivational Speaker · Reiki Grandmaster',
+    role: 'Doctor by Profession · Reiki Grandmaster · Astrologer · Numerologist · 16+ Courses Training & Treatment',
     badge: 'Practicing Since 1995 · 31+ Years Experience',
     photo: '/images/team/dr-naresh-chhabdiya.jpg',
     photoPosition: '58% 18%'
   },
   {
     name: 'Dr. Yash Chhabdiya',
-    role: 'Reiki Practitioner',
+    role: 'Reiki Grandmaster · Meditation Expert · 16+ Courses Training & Treatment',
     badge: 'Practicing Reiki Since the Age of 7',
     photo: '/images/team/dr-yash-chhabdiya.jpg',
     photoPosition: '50% 14%'
@@ -84,12 +84,13 @@ const HERO_COURSE_SLIDES = [
   {
     id: 'crystal-therapy',
     label: 'Crystal Therapy',
-    src: '/images/crystal therapy.webp',
-    position: 'center 58%',
-    mobilePosition: '50% 58%',
-    filter: 'brightness(0.96) contrast(1.10) saturate(1.16) sepia(0.03)',
+    src: '/images/crystal-therapy.webp',
+    position: 'center center',
+    mobilePosition: '50% 50%',
+    // A busy photo: slightly darker so the heading stands out
+    filter: 'brightness(0.8) contrast(1.08) saturate(1.1)',
     topAlpha: 0.32,
-    midAlpha: 0.08,
+    midAlpha: 0.16,
     bottomAlpha: 0.48,
     amberWarmth: 0.15,
     vignetteAlpha: 0.32
@@ -97,13 +98,15 @@ const HERO_COURSE_SLIDES = [
   {
     id: 'vaastu',
     label: 'Vaastu',
-    src: '/images/vastu.webp',
-    position: 'center 6%',
-    mobilePosition: '46% 62%',
-    filter: 'brightness(0.96) contrast(1.08) saturate(1.12) sepia(0.05)',
-    topAlpha: 0.3,
-    midAlpha: 0.1,
-    bottomAlpha: 0.48,
+    src: '/images/vastu-compass.webp',
+    position: 'center center',
+    mobilePosition: '50% 50%',
+    // The compass artwork is very light: darker than the photos so the
+    // white heading line stays readable over it
+    filter: 'brightness(0.62) contrast(1.12) saturate(1.15)',
+    topAlpha: 0.34,
+    midAlpha: 0.22,
+    bottomAlpha: 0.5,
     amberWarmth: 0.16,
     vignetteAlpha: 0.32
   },
@@ -135,6 +138,7 @@ export default function TempleHarmonyRedesign({
   onAddStory
 }) {
   const rootRef = useRef(null);
+  const { products: SHOP_PRODUCTS, courses } = useCatalog();
   const [activeSlide, setActiveSlide] = useState(0);
   // Only the first hero photo loads with the page; the other slides start
   // downloading once the page has finished loading, so they don't compete
@@ -161,7 +165,9 @@ export default function TempleHarmonyRedesign({
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const elements = root.querySelectorAll('.th-reveal');
+    // Re-run when products or courses change (e.g. ones added in the admin
+    // panel arrive), so new cards fade in too
+    const elements = root.querySelectorAll('.th-reveal:not(.th-visible)');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -175,7 +181,7 @@ export default function TempleHarmonyRedesign({
     );
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [SHOP_PRODUCTS, courses]);
 
   return (
     <div ref={rootRef} className="th-redesign th-redesign--golden">
@@ -431,7 +437,7 @@ export default function TempleHarmonyRedesign({
               doctor by profession and motivational mentor with centers in{' '}
               <strong>Amravati and Nagpur, India</strong>, it has always been his dream to empower people
               around the world with genuine Reiki and spiritual healing. Previously Reiki and Vaastu World
-              was known as <strong>Sanjeevni Reiki and Vaastu Center</strong>.
+              was known as <strong>Sanjivani Reiki and Vaastu Center</strong>.
             </p>
           </div>
 
@@ -472,12 +478,12 @@ export default function TempleHarmonyRedesign({
         </div>
       </section>
 
-      {/* ═════ 3. SACRED COURSES & TRAINING ═════ */}
+      {/* ═════ 3. COURSES & TRAINING ═════ */}
       <section id="courses-section" className="th-section th-section--cream">
         <div className="hm-container">
           <div className="th-section-header th-reveal">
-            <p className="th-eyebrow">OUR SACRED COURSES &amp; TRAINING</p>
-            <h2 className="th-heading-gradient">SACRED DISCIPLINES</h2>
+            <p className="th-eyebrow">OUR COURSES &amp; TRAINING</p>
+            <h2 className="th-heading-gradient">HOLISTIC DISCIPLINES</h2>
             <OrnamentalFlourish />
             <p className="th-lead">
               Comprehensive courses with traditional master attunements, clinical practice, and
@@ -493,8 +499,8 @@ export default function TempleHarmonyRedesign({
                   className="courses-marquee-group"
                   aria-hidden={group === 2 ? 'true' : undefined}
                 >
-                  {COURSES_15.map((course) => {
-                    const Icon = course.icon;
+                  {courses.map((course) => {
+                    const Icon = iconFor(course.icon);
                     return (
                       <article
                         key={`th-g${group}-${course.id}`}
@@ -544,15 +550,15 @@ export default function TempleHarmonyRedesign({
         </div>
       </section>
 
-      {/* ═════ 4. OUR PRODUCTS (Sacred Collection) ═════ */}
+      {/* ═════ 4. OUR PRODUCTS (Collection) ═════ */}
       <section id="products-section" className="th-section th-section--ivory">
         <div className="hm-container">
           <div className="th-section-header th-reveal">
             <p className="th-eyebrow">
               <Sparkles size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '6px' }} />
-              PRANA ENERGIZED COLLECTION
+              ENERGIZED COLLECTION
             </p>
-            <h2 className="th-heading-gradient">OUR SACRED PRODUCTS</h2>
+            <h2 className="th-heading-gradient">OUR PRODUCTS</h2>
             <OrnamentalFlourish />
             <p className="th-lead">
               Crystal bracelets and anklets, personally cleansed and
@@ -561,7 +567,7 @@ export default function TempleHarmonyRedesign({
           </div>
 
           <div className="th-products-grid th-home-products-grid">
-            {SACRED_PRODUCTS.slice(0, 5).map((item, idx) => (
+            {SHOP_PRODUCTS.slice(0, 5).map((item, idx) => (
               <article
                 key={item.id}
                 onClick={() =>
@@ -608,7 +614,7 @@ export default function TempleHarmonyRedesign({
                     justifyContent: 'center'
                   }}
                 >
-                  <h3 className="th-feature-title" style={{ fontSize: '23px' }}>
+                  <h3 className="th-feature-title" style={{ fontSize: '25.5px' }}>
                     {item.title}
                   </h3>
                   <div className="th-feature-rule" style={{ margin: '10px auto 0' }} />
@@ -619,7 +625,7 @@ export default function TempleHarmonyRedesign({
                       gap: '6px',
                       marginTop: '14px',
                       fontFamily: 'var(--font-karla)',
-                      fontSize: '12.5px',
+                      fontSize: '14px',
                       fontWeight: 750,
                       color: '#b5091f',
                       letterSpacing: '0.04em'

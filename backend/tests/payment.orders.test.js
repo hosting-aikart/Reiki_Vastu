@@ -6,6 +6,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import env from '../src/config/env.js';
 import app from '../src/app.js';
 import { findProduct, PRODUCTS } from '../src/config/products.js';
+import ProductPrice from '../src/models/ProductPrice.js';
 import { PRODUCTS as SHARED_PRODUCTS } from '@reiki-vastu/shared/products.js';
 import Payment, { ALLOWED_TRANSITIONS, PAYMENT_STATUS } from '../src/models/Payment.js';
 import { paymentOrderRateLimiter } from '../src/middleware/rateLimiters.js';
@@ -220,11 +221,12 @@ describe('Payment order creation', () => {
     });
 
     test('rejects an unavailable product', async () => {
+      // Marked unavailable in the admin panel (stored in the database)
       const product = findProduct('selenite');
-      product.available = false;
-      const res = await post(orderBody({ productId: 'selenite', quantity: 1 })).finally(() => {
-        product.available = true;
-      });
+      await ProductPrice.create({ productId: 'selenite', unitPricePaise: product.unitPricePaise, available: false });
+      const res = await post(orderBody({ productId: 'selenite', quantity: 1 })).finally(() =>
+        ProductPrice.deleteMany({ productId: 'selenite' })
+      );
       const body = await res.json();
 
       assert.equal(res.status, 409);

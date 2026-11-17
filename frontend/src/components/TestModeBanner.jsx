@@ -18,7 +18,7 @@ export default function TestModeBanner({ pricesConfirmed = false }) {
         borderRadius: '14px',
         padding: '14px 18px',
         color: '#78350f',
-        fontSize: '14px',
+        fontSize: '15.5px',
         lineHeight: 1.5,
         marginBottom: '24px'
       }}

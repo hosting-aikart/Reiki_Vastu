@@ -1,9 +1,10 @@
 import React from 'react';
 import { Sparkles, ArrowRight } from 'lucide-react';
-import { SACRED_PRODUCTS } from './BusinessNeeds';
+import { useCatalog } from '../catalog/CatalogContext';
 import { OrnamentalFlourish } from './TempleHarmonyRedesign';
 
 export default function ProductsPage({ onSelectProduct }) {
+  const { products: SHOP_PRODUCTS } = useCatalog();
   return (
     <div
       className="products-page-wrap"
@@ -18,18 +19,18 @@ export default function ProductsPage({ onSelectProduct }) {
         <div className="th-section-header" style={{ marginBottom: '44px' }}>
           <p className="th-eyebrow">
             <Sparkles size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '6px' }} />
-            PRANA ENERGIZED COLLECTION
+            ENERGIZED COLLECTION
           </p>
-          <h1 className="th-heading-gradient">OUR SACRED PRODUCTS</h1>
+          <h1 className="th-heading-gradient">OUR PRODUCTS</h1>
           <OrnamentalFlourish />
           <p className="th-lead">
             Crystal bracelets and anklets, personally cleansed and
-            energized with Vedic &amp; Reiki rituals. Click on any sacred product to view full details and pricing.
+            energized with Vedic &amp; Reiki rituals. Click on any product to view full details and pricing.
           </p>
         </div>
 
         <div className="th-products-grid">
-          {SACRED_PRODUCTS.map((item) => (
+          {SHOP_PRODUCTS.map((item) => (
             <article
               key={item.id}
               onClick={() => onSelectProduct && onSelectProduct(item.id)}
@@ -74,7 +75,7 @@ export default function ProductsPage({ onSelectProduct }) {
                   textAlign: 'center'
                 }}
               >
-                <h3 className="th-feature-title" style={{ fontSize: '23px' }}>
+                <h3 className="th-feature-title" style={{ fontSize: '25.5px' }}>
                   {item.title}
                 </h3>
                 <div className="th-feature-rule" style={{ margin: '10px auto 12px' }} />
@@ -84,7 +85,7 @@ export default function ProductsPage({ onSelectProduct }) {
                     alignItems: 'center',
                     gap: '6px',
                     fontFamily: 'var(--font-karla)',
-                    fontSize: '12.5px',
+                    fontSize: '14px',
                     fontWeight: 750,
                     color: '#b5091f',
                     letterSpacing: '0.04em'

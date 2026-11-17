@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import { findProductById } from '@reiki-vastu/shared/products.js';
+import { useCatalog } from '../catalog/CatalogContext';
 import { getPaymentStatus } from '../api/paymentClient';
 import { linkButtonStyle } from './paymentStyles';
 import PaymentResult from './PaymentResult';
@@ -24,6 +24,7 @@ const RETRYABLE_STATUSES = ['FAILED', 'ORDER_FAILED', 'CREATED'];
  * with Razorpay, which is how a payment whose callback was lost gets confirmed.
  */
 export default function PaymentStatusPage({ statusToken, onBackToProducts, onBackToEvents, onRetryPayment }) {
+  const { findItem } = useCatalog();
   const [payment, setPayment] = useState(null);
   const [error, setError] = useState(null);
   const [polling, setPolling] = useState(true);
@@ -78,7 +79,8 @@ export default function PaymentStatusPage({ statusToken, onBackToProducts, onBac
 
   const variant = payment?.status === 'PENDING' && timedOut ? 'PENDING_TIMEOUT' : payment?.status;
 
-  const isEvent = Boolean(payment && findProductById(payment.product.id)?.isEvent);
+  // The server says whether this was an event registration; older servers didn't, so fall back to the catalog
+  const isEvent = Boolean(payment && (payment.isEvent ?? findItem(payment.product.id)?.isEvent));
   const goBack = isEvent && onBackToEvents ? onBackToEvents : onBackToProducts;
   const backLabel = isEvent ? 'Back to events' : 'Back to products';
 
@@ -104,7 +106,7 @@ export default function PaymentStatusPage({ statusToken, onBackToProducts, onBac
           <ArrowLeft size={16} /> {backLabel}
         </button>
 
-        <h1 className="ff-redhat" style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
+        <h1 className="ff-redhat" style={{ fontSize: 'clamp(26.5px, 3.3vw, 35px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
           Payment Status
         </h1>
 

@@ -3,7 +3,6 @@ import {
   LOCATIONS,
   CONSULTATION_SERVICES,
   TIME_SLOTS,
-  COURSES,
   keysOf
 } from '@reiki-vastu/shared';
 
@@ -64,7 +63,9 @@ const enquirySchema = new mongoose.Schema(
     // Course-specific fields
     courseId: {
       type: String,
-      enum: [...keysOf(COURSES), null],
+      // A built-in course key or the id of a course added in the admin panel
+      trim: true,
+      maxlength: 80,
       default: null
     },
     // Shared notes/queries

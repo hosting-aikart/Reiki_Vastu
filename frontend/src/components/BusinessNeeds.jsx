@@ -1,25 +1,9 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
-import { PRODUCTS, formatPaise } from '@reiki-vastu/shared/products.js';
-import { getProductImages } from '../data/productImages';
-
-// Product data and prices live in shared/products.js, the same file the backend
-// uses to calculate what to charge. `price` and `originalPrice` are formatted
-// here so the existing components keep working unchanged.
-// Photos come from public/Products_images (see src/data/productImages.js);
-// view 1 is the card image.
-export const SACRED_PRODUCTS = PRODUCTS.filter((product) => !product.isEvent).map((product) => {
-  const images = getProductImages(product);
-  return {
-    ...product,
-    images,
-    image: images[0],
-    price: formatPaise(product.pricePaise),
-    originalPrice: product.originalPricePaise ? formatPaise(product.originalPricePaise) : null
-  };
-});
+import { useCatalog } from '../catalog/CatalogContext';
 
 export default function BusinessNeeds() {
+  const { products: SHOP_PRODUCTS } = useCatalog();
   return (
     <section
       id="products-section"
@@ -49,29 +33,29 @@ export default function BusinessNeeds() {
             <Sparkles size={14} color="#D2042D" />
             <span
               style={{
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 850,
                 color: '#D2042D',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase'
               }}
             >
-              PRANA ENERGIZED COLLECTION
+              ENERGIZED COLLECTION
             </span>
           </div>
 
           <h2
             className="ff-redhat"
             style={{
-              fontSize: 'clamp(28px, 3.4vw, 40px)',
+              fontSize: 'clamp(31px, 3.74vw, 44px)',
               fontWeight: 850,
               color: '#3b0a11',
               margin: '0 0 10px'
             }}
           >
-            Our Sacred Products
+            Our Products
           </h2>
-          <p style={{ color: '#5e2732', fontSize: '15px', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
+          <p style={{ color: '#5e2732', fontSize: '16.5px', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
             Crystal bracelets and anklets, personally cleansed and energized with Vedic &amp; Reiki rituals.
           </p>
         </div>
@@ -87,7 +71,7 @@ export default function BusinessNeeds() {
             margin: '0 auto'
           }}
         >
-          {SACRED_PRODUCTS.map((item) => (
+          {SHOP_PRODUCTS.map((item) => (
             <article
               key={item.id}
               style={{
@@ -147,7 +131,7 @@ export default function BusinessNeeds() {
                 <h3
                   className="ff-redhat"
                   style={{
-                    fontSize: '17.5px',
+                    fontSize: '19.5px',
                     fontWeight: 850,
                     color: '#3b0a11',
                     margin: '0 0 4px'
@@ -158,7 +142,7 @@ export default function BusinessNeeds() {
 
                 <p
                   style={{
-                    fontSize: '11.5px',
+                    fontSize: '12.5px',
                     fontWeight: 750,
                     color: '#b45309',
                     margin: '0 0 8px',
@@ -170,7 +154,7 @@ export default function BusinessNeeds() {
 
                 <p
                   style={{
-                    fontSize: '12.5px',
+                    fontSize: '14px',
                     lineHeight: 1.5,
                     color: '#5e2732',
                     margin: '0 0 12px',
@@ -184,7 +168,7 @@ export default function BusinessNeeds() {
                   <span
                     style={{
                       display: 'inline-block',
-                      fontSize: '11px',
+                      fontSize: '12px',
                       fontWeight: 750,
                       color: '#D2042D',
                       background: '#fef2f4',

@@ -18,6 +18,8 @@
 // charged (all-inclusive).
 // ─────────────────────────────────────────────────────────────
 
+import { STATIC_EVENTS, isEventOver, eventSubtitle } from './events.js';
+
 export const PRICES_CONFIRMED = false;
 
 export const PRODUCT_CURRENCY = 'INR';
@@ -203,7 +205,7 @@ const PRODUCT_LIST = [
   },
   {
     id: "rose-quartz-amethyst",
-    imageName: "Rose quartz + Amethyst Combination",
+    imageName: "Rose quartz and Amethyst Combination",
     pricePaise: 79900,
     originalPricePaise: 140000,
     title: "Rose Quartz + Amethyst",
@@ -218,7 +220,7 @@ const PRODUCT_LIST = [
   },
   {
     id: "tiger-eye-citrine",
-    imageName: "Tiger eye + citrine",
+    imageName: "Tiger eye and citrine",
     pricePaise: 79900,
     originalPricePaise: 140000,
     title: "Tiger Eye + Citrine",
@@ -233,7 +235,7 @@ const PRODUCT_LIST = [
   },
   {
     id: "tiger-eye-pyrite-green-aventurine",
-    imageName: "Tiger eye + Pyrite + green aventurine combination",
+    imageName: "Tiger eye and Pyrite and green aventurine combination",
     pricePaise: 89900,
     originalPricePaise: 149900,
     title: "Tiger Eye + Pyrite + Green Aventurine",
@@ -269,6 +271,25 @@ const PRODUCT_LIST = [
   }
 ];
 
+/** An event in the shape of a product, so it can be paid for like one. */
+export function eventAsProduct(event) {
+  return {
+    id: event.id,
+    isEvent: true,
+    pricePaise: event.pricePaise ?? null,
+    originalPricePaise: event.originalPricePaise ?? null,
+    maxQuantity: 1,
+    available: event.registrationOpen !== false && event.pricePaise != null && !isEventOver(event),
+    title: event.title,
+    subtitle: eventSubtitle(event),
+    badge: event.offerLabel || 'Workshop',
+    description: event.tagline || event.title,
+    image: event.image?.src || null,
+    alt: `${event.title} poster`,
+    endsAt: event.endsAt
+  };
+}
+
 // Products with a price are listed first, then the "Coming Soon" ones
 const BY_PRICE_FIRST = (a, b) => (a.pricePaise == null) - (b.pricePaise == null);
 
@@ -280,20 +301,9 @@ export const PRODUCTS = [
     image: productImageUrl(product.imageName, 1),
     alt: `${product.title} ${product.badge.toLowerCase()} from Reiki and Vaastu World`
   })),
-  {
-    id: "online-reiki-level-1-workshop-2026-11",
-    isEvent: true,
-    pricePaise: 49900,
-    originalPricePaise: 310000,
-    maxQuantity: 1,
-    available: true,
-    title: "Online Reiki 1st Level Workshop",
-    subtitle: "Live Online Workshop • 22 November 2026 (6:00 PM – 8:30 PM)",
-    badge: "Special Anniversary Offer",
-    description: "Online Reiki 1st Level Workshop — Celebrating 25 Years of Reiki Journey (22 November 2026, 6:00 PM – 8:30 PM)",
-    image: "/images/events/reiki-level-1-workshop.jpg",
-    alt: "Online Reiki 1st Level Workshop poster"
-  }
+  // Events are sold like products (one registration per order). Their details
+  // live in shared/events.js.
+  ...STATIC_EVENTS.map(eventAsProduct)
 ];
 
 export const findProductById = (id) => PRODUCTS.find((product) => product.id === id) || null;

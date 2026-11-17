@@ -15,9 +15,17 @@ import { formatPaise } from '@reiki-vastu/shared/products.js';
 let activeTransporter = null;
 let hasReportedUnconfigured = false;
 
+/** A course's name; courses added in the admin panel get a name from their id. */
+function courseLabel(courseId) {
+  const label = labelFor(COURSES, courseId);
+  if (label !== courseId) return label;
+  return courseId.split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
 /**
  * Escapes unsafe characters for HTML rendering to prevent HTML injection / XSS.
  */
+
 export function escapeHtml(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -220,7 +228,7 @@ export function buildEnquiryEmailData(enquiry) {
   } else if (enquiry.type === 'course') {
     typeHeading = 'Course Enrolment Enquiry';
     serviceOrCourseLabel = enquiry.courseId
-      ? labelFor(COURSES, enquiry.courseId)
+      ? courseLabel(enquiry.courseId)
       : 'Course';
     badgeColor = { bgColor: '#b45309', textColor: '#ffffff', text: 'COURSE ENROLMENT' };
   }
