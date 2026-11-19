@@ -30,7 +30,7 @@ export default function AboutAndFeatures({ onConsultClick, onSelectCourse, onSee
                 Dr. Naresh Chhabdiya
               </h3>
               <p style={{ fontSize: '15px', color: '#b45309', fontWeight: 750, margin: '0 0 14px', letterSpacing: '0.04em' }}>
-                Doctor by Profession • Motivational Speaker • Reiki Grandmaster
+                Doctor by Profession · Reiki Grandmaster · Vastu Consultant · Astrologist · Numerologist · 16+ Courses Training and Treatment
               </p>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#fef2f4', border: '1px solid #fecaca', padding: '6px 14px', borderRadius: '50px' }}>
                 <Award size={16} color="#D2042D" />

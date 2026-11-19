@@ -23,14 +23,14 @@ const TEMPLE_PRODUCTS = [
 const TEAM = [
   {
     name: 'Dr. Naresh Chhabdiya',
-    role: 'Doctor by Profession · Reiki Grandmaster · Astrologer · Numerologist · 16+ Courses Training & Treatment',
+    role: 'Doctor by Profession · Reiki Grandmaster · Vastu Consultant · Astrologist · Numerologist · 16+ Courses Training and Treatment',
     badge: 'Practicing Since 1995 · 31+ Years Experience',
     photo: '/images/team/dr-naresh-chhabdiya.jpg',
     photoPosition: '58% 18%'
   },
   {
     name: 'Dr. Yash Chhabdiya',
-    role: 'Reiki Grandmaster · Meditation Expert · 16+ Courses Training & Treatment',
+    role: 'Reiki Grandmaster · Numerology · Vastu Consultant · Meditation Expert · 16+ Courses Training and Treatment',
     badge: 'Practicing Reiki Since the Age of 7',
     photo: '/images/team/dr-yash-chhabdiya.jpg',
     photoPosition: '50% 14%'
