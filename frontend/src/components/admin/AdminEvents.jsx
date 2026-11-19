@@ -337,23 +337,40 @@ function EventEditor({ row, onClose, onSaved }) {
 
 const STATUS_TONE = { PAID: 'green', PENDING: 'amber', FAILED: 'red', ORDER_FAILED: 'red', CREATED: 'slate' };
 
+// Registration details; registrations made before the registration form
+// existed have a delivery address instead, so its city / state are used
+function registrationOf(r) {
+  const reg = r.customer?.registration || {};
+  const addr = r.customer?.address || {};
+  return {
+    city: reg.city || addr.city || '',
+    state: reg.state || addr.state || '',
+    age: reg.age ?? '',
+    gender: reg.gender ? reg.gender.charAt(0).toUpperCase() + reg.gender.slice(1) : '',
+    experience: reg.experience || '',
+    message: reg.message || ''
+  };
+}
+
 function csvCell(value) {
   const text = String(value ?? '');
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
 function downloadCsv(event, registrations) {
-  const header = ['Reference', 'Status', 'Name', 'Phone', 'Email', 'Address', 'City', 'State', 'PIN', 'Amount (Rs)', 'Paid at', 'Registered at'];
+  const header = ['Reference', 'Status', 'Name', 'Mobile', 'Email', 'City', 'State', 'Age', 'Gender', 'Experience', 'Message', 'Amount (Rs)', 'Paid at', 'Registered at'];
   const lines = registrations.map((r) => [
     r.reference,
     r.status,
     r.customer?.name,
     r.customer?.phone,
     r.customer?.email,
-    [r.customer?.address?.line1, r.customer?.address?.line2, r.customer?.address?.landmark].filter(Boolean).join(', '),
-    r.customer?.address?.city,
-    r.customer?.address?.state,
-    r.customer?.address?.pincode,
+    registrationOf(r).city,
+    registrationOf(r).state,
+    registrationOf(r).age,
+    registrationOf(r).gender,
+    registrationOf(r).experience,
+    registrationOf(r).message,
     (r.amountPaise / 100).toFixed(2),
     formatDateTime(r.paidAt),
     formatDateTime(r.createdAt)
@@ -385,7 +402,7 @@ function RegistrationsPanel({ row, onClose }) {
     return (registrations || []).filter((r) => {
       if (paidOnly && r.status !== 'PAID') return false;
       if (!q) return true;
-      return [r.reference, r.customer?.name, r.customer?.phone, r.customer?.email, r.customer?.address?.city]
+      return [r.reference, r.customer?.name, r.customer?.phone, r.customer?.email, registrationOf(r).city, registrationOf(r).state]
         .some((v) => String(v || '').toLowerCase().includes(q));
     });
   }, [registrations, paidOnly, search]);
@@ -422,7 +439,7 @@ function RegistrationsPanel({ row, onClose }) {
             <table style={{ width: '100%', borderCollapse: 'collapse', background: '#ffffff', fontSize: '14px', border: '1px solid #e2e8f0' }}>
               <thead>
                 <tr style={{ background: '#f1f5f9', textAlign: 'left' }}>
-                  {['#', 'Name', 'Contact', 'Address', 'Status', 'Amount', 'Paid / registered', 'Reference'].map((h) => (
+                  {['#', 'Name', 'Contact', 'City / State', 'Details', 'Status', 'Amount', 'Paid / registered', 'Reference'].map((h) => (
                     <th key={h} style={{ padding: '9px 10px', fontWeight: 750, color: '#334155', borderBottom: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>{h}</th>
                   ))}
                 </tr>
@@ -436,10 +453,18 @@ function RegistrationsPanel({ row, onClose }) {
                       <a href={`tel:${r.customer?.phone}`}>{r.customer?.phone}</a><br />
                       <a href={`mailto:${r.customer?.email}`} style={{ color: '#475569' }}>{r.customer?.email}</a>
                     </td>
-                    <td style={{ padding: '9px 10px', color: '#475569', maxWidth: '260px' }}>
-                      {[r.customer?.address?.line1, r.customer?.address?.line2, r.customer?.address?.landmark].filter(Boolean).join(', ')}
-                      <br />
-                      {[r.customer?.address?.city, r.customer?.address?.state, r.customer?.address?.pincode].filter(Boolean).join(', ')}
+                    <td style={{ padding: '9px 10px', color: '#475569' }}>
+                      {[registrationOf(r).city, registrationOf(r).state].filter(Boolean).join(', ')}
+                    </td>
+                    <td style={{ padding: '9px 10px', color: '#475569', maxWidth: '280px', fontSize: '13.5px' }}>
+                      {[
+                        registrationOf(r).age !== '' && registrationOf(r).age !== null ? `Age ${registrationOf(r).age}` : null,
+                        registrationOf(r).gender || null,
+                        registrationOf(r).experience || null
+                      ].filter(Boolean).join(' · ')}
+                      {registrationOf(r).message && (
+                        <div style={{ marginTop: '4px', fontStyle: 'italic' }}>“{registrationOf(r).message}”</div>
+                      )}
                     </td>
                     <td style={{ padding: '9px 10px' }}><Chip tone={STATUS_TONE[r.status] || 'slate'}>{r.status}</Chip></td>
                     <td style={{ padding: '9px 10px', whiteSpace: 'nowrap' }}>{formatPaise(r.amountPaise)}</td>

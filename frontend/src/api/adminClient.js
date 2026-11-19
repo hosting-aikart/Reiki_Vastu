@@ -156,6 +156,10 @@ export async function listPayments(params = {}) {
   return request(`/api/admin/payments${qs}`);
 }
 
+export async function deletePayment(id) {
+  return request(`/api/admin/payments/${id}`, { method: 'DELETE' });
+}
+
 export async function recheckPayment(id) {
   return request(`/api/admin/payments/${id}/recheck`, {
     method: 'POST'
@@ -279,6 +283,7 @@ export default {
   uploadImage,
   listPayments,
   recheckPayment,
+  deletePayment,
   listAdminProducts,
   updateAdminProductPrice,
   resetAdminProductPrice,

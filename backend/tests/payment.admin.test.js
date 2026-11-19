@@ -136,6 +136,25 @@ describe('Admin payments, owner email, production checks and frontend contract',
     }
   });
 
+  describe('DELETE /api/admin/payments/:id', () => {
+    const adminDelete = (id, token = adminToken) =>
+      fetch(`${baseUrl}/api/admin/payments/${id}`, { method: 'DELETE', headers: token ? { Authorization: `Bearer ${token}` } : {} });
+
+    test('requires an administrator', async () => {
+      const payment = await createPayment();
+      assert.equal((await adminDelete(payment._id, null)).status, 401);
+      assert.ok(await Payment.exists({ _id: payment._id }));
+    });
+
+    test('removes the payment; unknown or malformed ids -> 404', async () => {
+      const payment = await createPayment();
+      assert.equal((await adminDelete(payment._id)).status, 200);
+      assert.equal(await Payment.exists({ _id: payment._id }), null);
+      assert.equal((await adminDelete(payment._id)).status, 404);
+      assert.equal((await adminDelete('not-an-id')).status, 404);
+    });
+  });
+
   describe('GET /api/admin/payments', () => {
     test('requires an administrator', async () => {
       assert.equal((await adminGet('/api/admin/payments', null)).status, 401);

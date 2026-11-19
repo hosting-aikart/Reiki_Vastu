@@ -23,87 +23,112 @@ import PolicyPage from './components/PolicyPage';
 import { policySlugFromPath } from './data/policies';
 import { useCatalog } from './catalog/CatalogContext';
 
-// Payment pages have real URLs so a refresh lands on the same page.
-// /checkout/<productId>?quantity=2  -> delivery details + payment for one product
-// /payments/<token>                 -> status of one payment
-function paymentRouteFromPath(pathname, search = '') {
-  const status = pathname.match(/^\/payments\/([^/]+)\/?$/);
-  if (status) {
-    return { view: 'payment-status', checkoutProductId: null, checkoutQuantity: 1, statusToken: decodeURIComponent(status[1]) };
-  }
-  const checkout = pathname.match(/^\/checkout\/([^/]+)\/?$/);
-  if (!checkout) return null;
-  const quantity = Number.parseInt(new URLSearchParams(search).get('quantity'), 10);
-  return {
-    view: 'checkout',
-    checkoutProductId: decodeURIComponent(checkout[1]),
-    checkoutQuantity: Number.isFinite(quantity) && quantity > 0 ? quantity : 1,
-    statusToken: null
-  };
-}
+// ─────────────────────────────────────────────────────────────
+// Every page has its own address, and every page change goes through the
+// browser's history, so the Back / Forward buttons move between the site's
+// pages (instead of leaving the site) and a refresh stays on the same page.
+//
+//   /                          home
+//   /courses, /courses/<id>    all courses, one course
+//   /products, /products/<id>  all products, one product
+//   /events                    upcoming and past events
+//   /checkout/<id>?quantity=2  delivery / registration details + payment
+//   /payments/<token>          status of one payment
+//   /privacy-policy, ...       legal pages
+//   /admin                     admin panel
+// ─────────────────────────────────────────────────────────────
 
 const PAYMENT_VIEWS = ['checkout', 'payment-status'];
 
-// Content pages that have their own shareable URL.
-const VIEW_PATHS = { events: '/events' };
-const viewFromPath = (pathname) =>
-  Object.keys(VIEW_PATHS).find((view) => pathname.replace(/\/+$/, '') === VIEW_PATHS[view]) || null;
-const currentPaymentRoute = () => paymentRouteFromPath(window.location.pathname, window.location.search);
+function routeFromLocation(pathname = window.location.pathname, search = window.location.search) {
+  const path = pathname.replace(/\/+$/, '') || '/';
+  const segment = (re) => {
+    const m = path.match(re);
+    return m ? decodeURIComponent(m[1]) : null;
+  };
+  if (path.startsWith('/admin')) return { view: 'admin' };
+  const policySlug = policySlugFromPath(pathname);
+  if (policySlug) return { view: 'policy', policySlug };
+  const statusToken = segment(/^\/payments\/([^/]+)$/);
+  if (statusToken) return { view: 'payment-status', statusToken };
+  const checkoutId = segment(/^\/checkout\/([^/]+)$/);
+  if (checkoutId) {
+    const quantity = Number.parseInt(new URLSearchParams(search).get('quantity'), 10);
+    return { view: 'checkout', productId: checkoutId, quantity: Number.isFinite(quantity) && quantity > 0 ? quantity : 1 };
+  }
+  const courseId = segment(/^\/courses\/([^/]+)$/);
+  if (courseId) return { view: 'course-detail', courseId };
+  const productId = segment(/^\/products\/([^/]+)$/);
+  if (productId) return { view: 'product-detail', productId };
+  if (path === '/courses') return { view: 'courses' };
+  if (path === '/products') return { view: 'products' };
+  if (path === '/events') return { view: 'events' };
+  return { view: 'home' };
+}
+
+// Addresses of the pages the navbar and footer link to by name
+const VIEW_PATHS = { home: '/', courses: '/courses', products: '/products', events: '/events', admin: '/admin' };
+
+// The browser restores scroll positions itself only for real page loads; this
+// site restores them on Back / Forward (see the popstate handler below).
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
 
 export default function App() {
   const { findItem, refresh: refreshCatalog } = useCatalog();
-  const [currentView, setCurrentView] = useState(() => {
-    const path = window.location.pathname;
-    if (path.startsWith('/admin')) return 'admin';
-    if (policySlugFromPath(path)) return 'policy';
-    return currentPaymentRoute()?.view || viewFromPath(path) || 'home';
-  });
-  // Legal pages (/privacy-policy, /terms-and-conditions, ...) have real URLs so
-  // they can be opened and linked directly, e.g. by Razorpay's website review.
-  const [policySlug, setPolicySlug] = useState(() => policySlugFromPath(window.location.pathname));
-  const [checkout, setCheckout] = useState(() => {
-    const route = currentPaymentRoute();
-    return { productId: route?.checkoutProductId || null, quantity: route?.checkoutQuantity || 1 };
-  });
-  const [statusToken, setStatusToken] = useState(() => currentPaymentRoute()?.statusToken || null);
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
-  const [selectedProductId, setSelectedProductId] = useState(null);
-  const [previousView, setPreviousView] = useState('home');
+  const [route, setRoute] = useState(() => routeFromLocation());
+  const currentView = route.view;
   const [activeModal, setActiveModal] = useState(null);
   // The event announcement opens with the site, except on pages where it would
   // get in the way: the events page itself and the checkout / payment pages.
-  const [showEventPopup] = useState(() => !['events', 'policy', ...PAYMENT_VIEWS].includes(currentView));
+  const [showEventPopup] = useState(() => !['events', 'policy', 'admin', ...PAYMENT_VIEWS].includes(currentView));
   const [modalData, setModalData] = useState(null);
 
   useEffect(() => {
-    const handlePopState = () => {
-      const path = window.location.pathname;
-      const paymentRoute = currentPaymentRoute();
-      if (path.startsWith('/admin')) {
-        setCurrentView('admin');
-      } else if (policySlugFromPath(path)) {
-        setPolicySlug(policySlugFromPath(path));
-        setCurrentView('policy');
-      } else if (paymentRoute) {
-        setCheckout({ productId: paymentRoute.checkoutProductId, quantity: paymentRoute.checkoutQuantity });
-        setStatusToken(paymentRoute.statusToken);
-        setCurrentView(paymentRoute.view);
-      } else {
-        setCurrentView(viewFromPath(path) || 'home');
-      }
+    // Number each history entry, so "Back" buttons on the pages know whether
+    // there is a previous page of this site to go back to
+    if (window.history.state?.idx === undefined) {
+      window.history.replaceState({ ...(window.history.state || {}), idx: 0 }, '');
+    }
+    const handlePopState = (event) => {
+      setRoute(routeFromLocation());
+      const y = event.state?.scrollY ?? 0;
+      // Wait for the page to render before restoring where the visitor was
+      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, y)));
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  /** Opens a page: a new history entry, so Back returns to the current page. */
+  const navigate = (path, { replace = false } = {}) => {
+    const current = window.history.state || {};
+    const here = `${window.location.pathname}${window.location.search}`;
+    if (!replace && path === here) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    // Remember the scroll position of the page being left, for Back
+    window.history.replaceState({ ...current, scrollY: window.scrollY }, '');
+    const idx = (current.idx ?? 0) + (replace ? 0 : 1);
+    window.history[replace ? 'replaceState' : 'pushState']({ idx, scrollY: 0 }, '', path);
+    setRoute(routeFromLocation());
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
+  /** "Back" buttons on pages: the previous page of this site, or `fallback` if the visitor arrived here directly. */
+  const goBack = (fallback) => {
+    if ((window.history.state?.idx ?? 0) > 0) window.history.back();
+    else navigate(fallback, { replace: true });
+  };
 
   if (currentView === 'admin') {
     return (
       <AdminDashboard
         onExitToSite={() => {
           refreshCatalog(); // show the changes just made in the admin panel
-          window.history.pushState({}, '', '/');
-          setCurrentView('home');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          navigate('/');
         }}
       />
     );
@@ -119,95 +144,17 @@ export default function App() {
     setModalData(null);
   };
 
-  const handleSelectCourse = (courseId) => {
-    setPreviousView(currentView === 'course-detail' ? 'courses' : currentView);
-    setSelectedCourseId(courseId);
-    setCurrentView('course-detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const handleSelectCourse = (courseId) => navigate(`/courses/${encodeURIComponent(courseId)}`);
+  const handleSeeAllCourses = () => navigate('/courses');
+  const handleSelectProduct = (productId) => navigate(`/products/${encodeURIComponent(productId)}`);
+  const handleSeeAllProducts = () => navigate('/products');
+  const navigateToCheckout = (productId, quantity = 1) =>
+    navigate(`/checkout/${encodeURIComponent(productId)}?quantity=${quantity}`);
+  const navigateToPaymentStatus = (token) => navigate(`/payments/${encodeURIComponent(token)}`);
+  const navigateToPolicy = (slug) => navigate(`/${slug}`);
 
-  const handleSeeAllCourses = () => {
-    setCurrentView('courses');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleBackToHome = () => {
-    setCurrentView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleBackFromCourseDetail = () => {
-    if (previousView === 'home') {
-      setCurrentView('home');
-    } else {
-      setCurrentView('courses');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSelectProduct = (productId) => {
-    setPreviousView(currentView === 'product-detail' ? 'products' : currentView);
-    setSelectedProductId(productId);
-    setCurrentView('product-detail');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSeeAllProducts = () => {
-    setCurrentView('products');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleBackFromProductDetail = () => {
-    if (previousView === 'home') {
-      setCurrentView('home');
-    } else {
-      setCurrentView('products');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const navigateToCheckout = (productId, quantity = 1) => {
-    window.history.pushState({}, '', `/checkout/${encodeURIComponent(productId)}?quantity=${quantity}`);
-    setCheckout({ productId, quantity });
-    setCurrentView('checkout');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // From the checkout or status page back to the product pages (which have no URL of their own)
-  const leavePaymentPage = (view, productId = null) => {
-    window.history.pushState({}, '', '/');
-    if (productId) setSelectedProductId(productId);
-    setCurrentView(view);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const navigateToPaymentStatus = (token) => {
-    window.history.pushState({}, '', `/payments/${encodeURIComponent(token)}`);
-    setStatusToken(token);
-    setCurrentView('payment-status');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const navigateToPolicy = (slug) => {
-    window.history.pushState({}, '', `/${slug}`);
-    setPolicySlug(slug);
-    setCurrentView('policy');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Navbar and Footer switch views without changing the URL. Leaving a payment
-  // or policy page that way must also leave its URL, or a refresh would reopen it.
-  const changeView = (view) => {
-    const path = window.location.pathname;
-    const onPaymentPage = paymentRouteFromPath(path) && !PAYMENT_VIEWS.includes(view);
-    const onPolicyPage = policySlugFromPath(path) && view !== 'policy';
-    if (VIEW_PATHS[view]) {
-      if (viewFromPath(path) !== view) window.history.pushState({}, '', VIEW_PATHS[view]);
-    } else if (onPaymentPage || onPolicyPage || viewFromPath(path)) {
-      window.history.pushState({}, '', '/');
-    }
-    setCurrentView(view);
-  };
+  // The navbar and footer open pages by name ('home', 'courses', ...)
+  const changeView = (view) => navigate(VIEW_PATHS[view] || '/');
 
   return (
     <div
@@ -228,46 +175,39 @@ export default function App() {
 
       {/* Main Content Pages */}
       <main style={{ flex: 1 }}>
-        {currentView === 'policy' && policySlug ? (
+        {currentView === 'policy' && route.policySlug ? (
           /* ── Legal pages: privacy, terms, refund, shipping, contact ── */
           <PolicyPage
-            key={policySlug}
-            slug={policySlug}
+            key={route.policySlug}
+            slug={route.policySlug}
             onNavigate={navigateToPolicy}
-            onBack={() => {
-              changeView('home');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onBack={() => goBack('/')}
           />
-        ) : currentView === 'checkout' && checkout.productId ? (
-          /* ── Checkout: delivery details + Razorpay payment ── */
+        ) : currentView === 'checkout' && route.productId ? (
+          /* ── Checkout: delivery / registration details + Razorpay payment ── */
           <CheckoutPage
-            key={`${checkout.productId}:${checkout.quantity}`}
-            productId={checkout.productId}
-            initialQuantity={checkout.quantity}
-            onBack={() =>
-              findItem(checkout.productId)?.isEvent
-                ? changeView('events')
-                : leavePaymentPage('product-detail', checkout.productId)
-            }
+            key={`${route.productId}:${route.quantity}`}
+            productId={route.productId}
+            initialQuantity={route.quantity}
+            onBack={() => goBack(findItem(route.productId)?.isEvent ? '/events' : `/products/${encodeURIComponent(route.productId)}`)}
             onPaymentSubmitted={navigateToPaymentStatus}
           />
-        ) : currentView === 'payment-status' && statusToken ? (
+        ) : currentView === 'payment-status' && route.statusToken ? (
           /* ── Payment status (refresh-safe) ── */
           <PaymentStatusPage
-            key={statusToken}
-            statusToken={statusToken}
-            onBackToProducts={() => leavePaymentPage('products')}
-            onBackToEvents={() => changeView('events')}
+            key={route.statusToken}
+            statusToken={route.statusToken}
+            onBackToProducts={() => navigate('/products')}
+            onBackToEvents={() => navigate('/events')}
             onRetryPayment={(productId) => navigateToCheckout(productId, 1)}
           />
-        ) : currentView === 'course-detail' && selectedCourseId ? (
+        ) : currentView === 'course-detail' && route.courseId ? (
           /* ── Dedicated Single Course Detail Page ── */
           <CourseDetailPage
-            courseId={selectedCourseId}
-            onBack={handleBackFromCourseDetail}
+            courseId={route.courseId}
+            onBack={() => goBack('/courses')}
             onEnroll={(title) => {
-              openModal('enroll', { courseId: selectedCourseId, title });
+              openModal('enroll', { courseId: route.courseId, title });
             }}
             onConsult={(title) => {
               openModal('meeting', {
@@ -283,13 +223,13 @@ export default function App() {
           /* ── Dedicated Courses Page ── */
           <CoursesPage
             onSelectCourse={handleSelectCourse}
-            onBack={handleBackToHome}
+            onBack={() => goBack('/')}
           />
-        ) : currentView === 'product-detail' && selectedProductId ? (
+        ) : currentView === 'product-detail' && route.productId ? (
           /* ── Dedicated Single Product Detail Page (E-Commerce) ── */
           <ProductDetailPage
-            productId={selectedProductId}
-            onBack={handleBackFromProductDetail}
+            productId={route.productId}
+            onBack={() => goBack('/products')}
             onSelectProduct={handleSelectProduct}
             onOrderProduct={(item) => navigateToCheckout(item.id, item.quantity)}
             onConsultClick={(prod) =>
@@ -330,10 +270,7 @@ export default function App() {
       {/* The footer is shown on the home page and the legal pages (not on Events). */}
       {(currentView === 'home' || currentView === 'policy') && (
         <Footer
-          setCurrentView={(view) => {
-            changeView(view);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          setCurrentView={changeView}
           openModal={openModal}
           onOpenPolicy={navigateToPolicy}
         />
@@ -346,10 +283,7 @@ export default function App() {
       {showEventPopup && (
         <EventPopup
           onRegister={(event) => navigateToCheckout(event.id, 1)}
-          onViewDetails={() => {
-            changeView('events');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          onViewDetails={() => navigate('/events')}
         />
       )}
 

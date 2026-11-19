@@ -105,20 +105,30 @@ const paymentSchema = new mongoose.Schema(
       required: { type: Boolean, default: false },
       reason: { type: String, default: null }
     },
-    // Entered by the customer before paying, so the order can be delivered.
+    // Entered by the customer before paying: a delivery address for products,
+    // registration details for events. (Which one is required is checked
+    // when the order is created; see payment.service.js.)
     // Visible to administrators only: never returned by public endpoints or sent to Razorpay.
     customer: {
       name: { type: String, required: true, trim: true, maxlength: 80 },
       phone: { type: String, required: true, trim: true, maxlength: 15 },
       email: { type: String, required: true, trim: true, lowercase: true, maxlength: 120 },
       address: {
-        line1: { type: String, required: true, trim: true, maxlength: 200 },
+        line1: { type: String, trim: true, maxlength: 200 },
         // Older orders may have an empty line2 (it used to be optional), so it is not required here
         line2: { type: String, trim: true, maxlength: 200, default: '' },
         landmark: { type: String, trim: true, maxlength: 120, default: '' },
-        city: { type: String, required: true, trim: true, maxlength: 80 },
-        state: { type: String, required: true, trim: true, maxlength: 80 },
-        pincode: { type: String, required: true, trim: true, match: /^[1-9]\d{5}$/ }
+        city: { type: String, trim: true, maxlength: 80 },
+        state: { type: String, trim: true, maxlength: 80 },
+        pincode: { type: String, trim: true, match: /^[1-9]\d{5}$/ }
+      },
+      registration: {
+        city: { type: String, trim: true, maxlength: 80 },
+        state: { type: String, trim: true, maxlength: 80 },
+        age: { type: Number, default: null },
+        gender: { type: String, trim: true, maxlength: 10, default: '' },
+        experience: { type: String, trim: true, maxlength: 120, default: '' },
+        message: { type: String, trim: true, maxlength: 500, default: '' }
       }
     },
     // Owner's "payment received" email (sent once, when the payment becomes PAID)
