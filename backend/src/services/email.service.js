@@ -462,6 +462,18 @@ export function buildPaymentEmailData(payment) {
   const c = payment.customer || {};
   const a = c.address || {};
   const addressLines = [a.line1, a.line2, a.landmark ? `Landmark: ${a.landmark}` : null, [a.city, a.state].filter(Boolean).join(', '), a.pincode].filter(Boolean);
+  // Event registrations have registration details instead of a delivery address
+  const r = c.registration || {};
+  const isRegistration = Boolean(r.city) && !a.line1;
+  const registrationLines = [
+    [r.city, r.state].filter(Boolean).join(', '),
+    r.age ? `Age: ${r.age}` : null,
+    r.gender ? `Gender: ${r.gender.charAt(0).toUpperCase()}${r.gender.slice(1)}` : null,
+    r.experience ? `Experience: ${r.experience}` : null,
+    r.message ? `Message: ${r.message}` : null
+  ].filter(Boolean);
+  const detailLabel = isRegistration ? 'Registration' : 'Deliver To';
+  const detailLines = isRegistration ? registrationLines : addressLines;
 
   const subject = `[Payment received - ${payment.reference}] ${amount} · ${payment.product.name} × ${payment.quantity}${isTestMode ? ' (TEST MODE)' : ''}`;
 
@@ -474,8 +486,8 @@ export function buildPaymentEmailData(payment) {
     { label: 'Phone', value: c.phone || 'Not provided' },
     { label: 'Email', value: c.email || 'Not provided' },
     {
-      label: 'Deliver To',
-      value: addressLines.length ? addressLines.map(escapeHtml).join('<br>') : 'Not provided',
+      label: detailLabel,
+      value: detailLines.length ? detailLines.map(escapeHtml).join('<br>') : 'Not provided',
       isHtml: true
     },
     { label: 'Razorpay Payment ID', value: payment.razorpayPaymentId || 'Not available' }
@@ -485,7 +497,7 @@ export function buildPaymentEmailData(payment) {
     title: `Payment Received: ${amount}`,
     badge: isTestMode
       ? { bgColor: '#b45309', textColor: '#ffffff', text: 'TEST MODE - NO REAL MONEY' }
-      : { bgColor: '#15803d', textColor: '#ffffff', text: 'PAID - READY TO SHIP' },
+      : { bgColor: '#15803d', textColor: '#ffffff', text: isRegistration ? 'PAID - REGISTRATION CONFIRMED' : 'PAID - READY TO SHIP' },
     contentRows,
     messageSection: isTestMode
       ? { title: 'Test Mode', content: 'This payment was made in Razorpay Test Mode. No money was received and nothing should be shipped.' }
@@ -505,8 +517,8 @@ export function buildPaymentEmailData(payment) {
     `Phone: ${c.phone || 'Not provided'}`,
     `Email: ${c.email || 'Not provided'}`,
     ``,
-    `--- DELIVER TO ---`,
-    ...(addressLines.length ? addressLines : ['Not provided']),
+    isRegistration ? `--- REGISTRATION ---` : `--- DELIVER TO ---`,
+    ...(detailLines.length ? detailLines : ['Not provided']),
     ``,
     `Razorpay Payment ID: ${payment.razorpayPaymentId || 'Not available'}`,
     dashboardUrl ? `Admin Dashboard: ${dashboardUrl}` : null

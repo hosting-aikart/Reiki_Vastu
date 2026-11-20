@@ -141,7 +141,29 @@ export async function recheckPayment(req, res, next) {
   }
 }
 
+/**
+ * Permanently removes a payment record (e.g. a test payment). Razorpay keeps
+ * its own copy of every real payment in the Razorpay Dashboard; a webhook that
+ * arrives later for a deleted record is simply ignored.
+ */
+export async function deletePayment(req, res, next) {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Payment not found.' } });
+    }
+    const deleted = await Payment.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Payment not found.' } });
+    }
+    logger.info(`Payment ${deleted.reference} (${deleted.status}, ${deleted.amountPaise} paise) deleted by ${req.admin.name}`);
+    res.status(200).json({ success: true, message: `Payment ${deleted.reference} deleted.` });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export default {
   listPayments,
-  recheckPayment
+  recheckPayment,
+  deletePayment
 };

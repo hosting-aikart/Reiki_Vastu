@@ -26,6 +26,14 @@ const CUSTOMER = {
   address: { line1: '12 Walcut Compound', line2: 'Camp Area', city: 'Amravati', state: 'Maharashtra', pincode: '444601' }
 };
 
+// An event registration: contact and registration details, no delivery address
+const REGISTRANT = {
+  name: 'Asha Patil',
+  phone: '9822012345',
+  email: 'asha@example.com',
+  registration: { city: 'Amravati', state: 'Maharashtra', age: 34, gender: 'female', message: 'First Reiki course' }
+};
+
 const productData = (overrides = {}) => ({
   title: 'Black Tourmaline',
   subtitle: 'Black Tourmaline Bracelet • 8 mm Beads',
@@ -78,11 +86,11 @@ describe('Admin catalog: products, events, courses and images', () => {
 
   const upload = (buffer, type = 'image/png') => call('POST', '/api/admin/media', buffer, { headers: { 'Content-Type': type } });
 
-  const order = (productId) =>
+  const order = (productId, customer = CUSTOMER) =>
     fetch(`${baseUrl}/api/payments/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productId, quantity: 1, idempotencyKey: crypto.randomUUID(), customer: CUSTOMER })
+      body: JSON.stringify({ productId, quantity: 1, idempotencyKey: crypto.randomUUID(), customer })
     });
 
   before(async () => {
@@ -224,7 +232,7 @@ describe('Admin catalog: products, events, courses and images', () => {
       const catalogText = await (await fetch(`${baseUrl}/api/catalog`)).text();
       assert.ok(!catalogText.includes(groupUrl));
 
-      const created = await (await order('reiki-level-2-2027')).json();
+      const created = await (await order('reiki-level-2-2027', REGISTRANT)).json();
       assert.equal(created.data.amountPaise, 99900);
       await Payment.updateOne({ reference: created.data.reference }, { $set: { status: PAYMENT_STATUS.PAID, paidAt: new Date() } });
 
@@ -234,7 +242,9 @@ describe('Admin catalog: products, events, courses and images', () => {
 
       const regs = await (await call('GET', '/api/admin/events/reiki-level-2-2027/registrations')).json();
       assert.equal(regs.data.registrations.length, 1);
-      assert.equal(regs.data.registrations[0].customer.email, CUSTOMER.email);
+      assert.equal(regs.data.registrations[0].customer.email, REGISTRANT.email);
+      assert.equal(regs.data.registrations[0].customer.registration.city, 'Amravati');
+      assert.equal(regs.data.registrations[0].customer.registration.age, 34);
 
       const summary = await (await call('GET', '/api/admin/events/registrations/summary')).json();
       assert.equal(summary.data.summary['reiki-level-2-2027'].paid, 1);
@@ -242,7 +252,7 @@ describe('Admin catalog: products, events, courses and images', () => {
 
     test('events without their own link use the default group; products get no link', async () => {
       await call('PUT', '/api/admin/catalog/event/meditation-camp-2027', { data: eventData({ title: 'Meditation Camp' }) });
-      const eventOrder = await (await order('meditation-camp-2027')).json();
+      const eventOrder = await (await order('meditation-camp-2027', REGISTRANT)).json();
       const productOrder = await (await order('rose-quartz')).json();
       await Payment.updateMany({}, { $set: { status: PAYMENT_STATUS.PAID, paidAt: new Date() } });
 
@@ -257,7 +267,24 @@ describe('Admin catalog: products, events, courses and images', () => {
       await call('PUT', '/api/admin/catalog/event/old-workshop', {
         data: eventData({ startsAt: future(-3), endsAt: future(-2.9) })
       });
-      assert.equal((await order('old-workshop')).status, 409);
+      assert.equal((await order('old-workshop', REGISTRANT)).status, 409);
+    });
+
+    test('events ask for registration details, products for a delivery address', async () => {
+      await call('PUT', '/api/admin/catalog/event/reiki-level-2-2027', { data: eventData() });
+
+      const noCity = await order('reiki-level-2-2027', { ...REGISTRANT, registration: { state: 'Maharashtra' } });
+      assert.equal(noCity.status, 422);
+      assert.ok((await noCity.json()).error.fields['customer.registration.city']);
+
+      // An address is not a substitute for registration details on an event...
+      assert.equal((await order('reiki-level-2-2027', CUSTOMER)).status, 422);
+      // ...and registration details are not a delivery address for a product
+      const product = await order('rose-quartz', REGISTRANT);
+      assert.equal(product.status, 422);
+      assert.ok((await product.json()).error.fields['customer.address']);
+
+      assert.equal((await order('reiki-level-2-2027', REGISTRANT)).status, 201);
     });
 
     test('end time must be after the start time; group link must be a WhatsApp link', async () => {

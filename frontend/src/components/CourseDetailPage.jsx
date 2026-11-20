@@ -338,35 +338,35 @@ export default function CourseDetailPage({ courseId, onBack, onEnroll, onConsult
 
       {/* ═════ WHAT IS ═════ */}
       {data.what?.text && (
-      <section className="cd-what cd-reveal">
-        <div className="cd-container cd-what-grid">
-          <div className="cd-medallion"><Icon name={data.what.icon} size={84} strokeWidth={1.1} /></div>
-          <div>
-            <h2 className="cd-h2">{data.what.title}</h2>
-            <p className="cd-p">{data.what.text}</p>
+        <section className="cd-what cd-reveal">
+          <div className="cd-container cd-what-grid">
+            <div className="cd-medallion"><Icon name={data.what.icon} size={84} strokeWidth={1.1} /></div>
+            <div>
+              <h2 className="cd-h2">{data.what.title}</h2>
+              <p className="cd-p">{data.what.text}</p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       )}
 
       {/* ═════ HOW CAN I USE ═════ */}
       {(data.use?.text || data.use?.items?.length > 0) && (
-      <section className="cd-use cd-reveal">
-        <div className="cd-container cd-use-grid">
-          <div>
-            <h2 className="cd-h2">{data.use.title}</h2>
-            <p className="cd-p">{data.use.text}</p>
+        <section className="cd-use cd-reveal">
+          <div className="cd-container cd-use-grid">
+            <div>
+              <h2 className="cd-h2">{data.use.title}</h2>
+              <p className="cd-p">{data.use.text}</p>
+            </div>
+            <div className="cd-use-items">
+              {(data.use.items || []).map((it) => (
+                <div key={it.label} className="cd-use-item">
+                  <div className="cd-icon-circle"><Icon name={it.icon} size={26} /></div>
+                  {it.label}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="cd-use-items">
-            {(data.use.items || []).map((it) => (
-              <div key={it.label} className="cd-use-item">
-                <div className="cd-icon-circle"><Icon name={it.icon} size={26} /></div>
-                {it.label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
       )}
 
       {/* ═════ BENEFITS ═════ */}

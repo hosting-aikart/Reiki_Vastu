@@ -63,9 +63,10 @@ router.patch(
 router.patch('/testimonials/:id/featured', requireAdmin, testimonialController.toggleFeatured);
 router.delete('/testimonials/:id', requireAdmin, testimonialController.deleteTestimonial);
 
-// ── Payments (read-only, plus re-check with Razorpay) ───────
+// ── Payments (view, re-check with Razorpay, delete) ─────────
 router.get('/payments', requireAdmin, paymentController.listPayments);
 router.post('/payments/:id/recheck', requireAdmin, paymentController.recheckPayment);
+router.delete('/payments/:id', requireAdmin, paymentController.deletePayment);
 
 // ── Product Catalog & Pricing Management ────────────────────
 router.get('/products', requireAdmin, productAdminController.listAdminProducts);

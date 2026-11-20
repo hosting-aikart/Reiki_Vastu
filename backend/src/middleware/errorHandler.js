@@ -33,6 +33,7 @@ export function errorHandler(err, req, res, next) {
     success: false,
     error: {
       code: err.code || 'SERVER_ERROR',
+      ...(err.fields ? { fields: err.fields } : {}),
       message: isProduction && statusCode === 500
         ? 'Server error occurred. Please try again or call our center directly.'
         : err.message || 'An unexpected error occurred.'

@@ -4,6 +4,7 @@ import { CURRENCY, findProduct, syncProductPricesFromDB } from '../config/produc
 import Payment, { PAYMENT_STATUS } from '../models/Payment.js';
 import { createRazorpayOrder } from './razorpay.service.js';
 import logger from '../utils/logger.js';
+import { deliveryCustomerSchema, eventCustomerSchema } from '../validators/payment.schema.js';
 
 const DUPLICATE_KEY_ERROR = 11000;
 
@@ -12,12 +13,30 @@ const DUPLICATE_KEY_ERROR = 11000;
  * The central error handler reads statusCode and code from it.
  */
 export class PaymentError extends Error {
-  constructor(statusCode, code, message) {
+  constructor(statusCode, code, message, fields = null) {
     super(message);
     this.name = 'PaymentError';
     this.statusCode = statusCode;
     this.code = code;
+    this.fields = fields;
   }
+}
+
+/**
+ * Products need a delivery address; events need registration details instead.
+ * Returns the cleaned customer details, or throws a 422 listing each problem
+ * the same way request validation does ("customer.address.pincode", ...).
+ */
+export function parseCustomer(product, customer) {
+  const schema = product.isEvent ? eventCustomerSchema : deliveryCustomerSchema;
+  const result = schema.safeParse(customer);
+  if (result.success) return result.data;
+  const fields = {};
+  for (const issue of result.error.issues) {
+    const name = ['customer', ...issue.path].join('.');
+    if (!fields[name]) fields[name] = issue.message;
+  }
+  throw new PaymentError(422, 'VALIDATION_ERROR', 'Validation failed. Please review your entries.', fields);
 }
 
 /** Format: RVP-YYMMDD-XXXXXXXX. Doubles as Razorpay's `receipt`, which must be unique. */
@@ -56,6 +75,25 @@ function priceOrder(productId, quantity) {
   return { product, amountPaise: product.unitPricePaise * quantity };
 }
 
+/**
+ * Route middleware: checks the customer's details for the product type
+ * (delivery address or event registration) before the rate limiter, so a
+ * form with mistakes does not use up the customer's attempts.
+ */
+export async function validateOrderCustomer(req, res, next) {
+  try {
+    await syncProductPricesFromDB();
+    const product = findProduct(req.body.productId);
+    if (product) req.body.customer = parseCustomer(product, req.body.customer);
+    next(); // an unknown product is reported by the service (404)
+  } catch (err) {
+    if (err.code === 'VALIDATION_ERROR') {
+      return res.status(422).json({ success: false, error: { code: err.code, message: err.message, fields: err.fields } });
+    }
+    next(err);
+  }
+}
+
 /** Only what Checkout needs. Never includes the key secret or the idempotency key. */
 function toCheckoutResponse(payment) {
   return {
@@ -83,7 +121,9 @@ function toCheckoutResponse(payment) {
 function sameCustomer(stored, submitted) {
   const fields = (c) => [
     c?.name, c?.phone, c?.email,
-    c?.address?.line1, c?.address?.line2 || '', c?.address?.landmark || '', c?.address?.city, c?.address?.state, c?.address?.pincode
+    c?.address?.line1, c?.address?.line2 || '', c?.address?.landmark || '', c?.address?.city, c?.address?.state, c?.address?.pincode,
+    c?.registration?.city, c?.registration?.state, c?.registration?.age ?? null, c?.registration?.gender || '',
+    c?.registration?.experience || '', c?.registration?.message || ''
   ];
   return JSON.stringify(fields(stored)) === JSON.stringify(fields(submitted));
 }
@@ -144,11 +184,12 @@ async function markOrderFailed(payment, razorpayError) {
  *
  * Returns { payment, created }. `created` is false for a repeated request.
  */
-export async function createPaymentOrder({ productId, quantity, idempotencyKey, customer }) {
+export async function createPaymentOrder({ productId, quantity, idempotencyKey, customer: submittedCustomer }) {
   assertPaymentsAvailable();
   await syncProductPricesFromDB();
 
   const { product, amountPaise } = priceOrder(productId, quantity);
+  const customer = parseCustomer(product, submittedCustomer);
 
   const existing = await Payment.findOne({ idempotencyKey });
   if (existing) {

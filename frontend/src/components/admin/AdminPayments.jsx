@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { formatPaise } from '@reiki-vastu/shared/products.js';
-import { listPayments, recheckPayment } from '../../api/adminClient';
-import { AlertTriangle, ChevronDown, ChevronUp, CreditCard, Loader2, RefreshCw, Search } from 'lucide-react';
+import { listPayments, recheckPayment, deletePayment } from '../../api/adminClient';
+import { AlertTriangle, ChevronDown, ChevronUp, CreditCard, Loader2, RefreshCw, Search, Trash2 } from 'lucide-react';
 
 const STATUS_TABS = [
   { key: 'all', label: 'All' },
@@ -59,6 +59,7 @@ export default function AdminPayments() {
   const [expandedId, setExpandedId] = useState(null);
   const [recheckingId, setRecheckingId] = useState(null);
   const [message, setMessage] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -98,6 +99,25 @@ export default function AdminPayments() {
     if (res.success) {
       setPayments((list) => list.map((p) => (p._id === payment._id ? res.data.payment : p)));
       load(); // refresh counts
+    }
+  };
+
+  // Permanently removes a payment record (e.g. a test payment), after confirmation
+  const remove = async (payment) => {
+    const warning =
+      payment.status === 'PAID'
+        ? `\n\nThis payment is PAID (${formatPaise(payment.amountPaise)}). Deleting it removes it from this list, the event registrations and your records here. Razorpay keeps its own copy in the Razorpay Dashboard.`
+        : '';
+    if (!window.confirm(`Delete payment ${payment.reference} (${payment.customer?.name || 'no name'})?${warning}\n\nThis cannot be undone.`)) return;
+    setDeletingId(payment._id);
+    setMessage(null);
+    const res = await deletePayment(payment._id);
+    setDeletingId(null);
+    setMessage({ tone: res.success ? 'info' : 'error', text: res.message || (res.success ? 'Deleted.' : 'Could not delete this payment.') });
+    if (res.success) {
+      if (expandedId === payment._id) setExpandedId(null);
+      if (payments.length === 1 && page > 1) setPage((p) => p - 1);
+      else load();
     }
   };
 
@@ -188,6 +208,7 @@ export default function AdminPayments() {
             const address = payment.customer?.address;
             return (
               <div key={payment._id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <div style={{ display: 'flex', alignItems: 'center', background: expanded ? '#f8fafc' : '#ffffff' }}>
                 <button
                   onClick={() => setExpandedId(expanded ? null : payment._id)}
                   aria-expanded={expanded}
@@ -203,7 +224,9 @@ export default function AdminPayments() {
                     textAlign: 'left',
                     cursor: 'pointer',
                     fontSize: '14.5px',
-                    color: '#0f172a'
+                    color: '#0f172a',
+                    flex: 1,
+                    minWidth: 0
                   }}
                 >
                   <span>
@@ -225,6 +248,16 @@ export default function AdminPayments() {
                   </span>
                   {expanded ? <ChevronUp size={16} color="#64748b" /> : <ChevronDown size={16} color="#64748b" />}
                 </button>
+                <button
+                  onClick={() => remove(payment)}
+                  disabled={deletingId === payment._id}
+                  title="Delete this payment"
+                  aria-label={`Delete payment ${payment.reference}`}
+                  style={{ margin: '0 14px 0 2px', flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '34px', height: '34px', borderRadius: '8px', border: '1px solid #fecaca', background: '#fef2f2', color: '#b91c1c', cursor: deletingId === payment._id ? 'wait' : 'pointer' }}
+                >
+                  {deletingId === payment._id ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={15} />}
+                </button>
+                </div>
 
                 {expanded && (
                   <div style={{ padding: '4px 18px 18px', background: '#f8fafc' }}>
@@ -234,6 +267,16 @@ export default function AdminPayments() {
                       </p>
                     )}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px 20px', marginBottom: '14px' }}>
+                      {payment.customer?.registration?.city && !address?.line1 ? (
+                        <Detail label="Event registration">
+                          {payment.customer.name}<br />
+                          {payment.customer.registration.city}, {payment.customer.registration.state}
+                          {payment.customer.registration.age ? (<><br />Age: {payment.customer.registration.age}</>) : null}
+                          {payment.customer.registration.gender ? (<><br />Gender: {payment.customer.registration.gender}</>) : null}
+                          {payment.customer.registration.experience ? (<><br />Experience: {payment.customer.registration.experience}</>) : null}
+                          {payment.customer.registration.message ? (<><br />Message: {payment.customer.registration.message}</>) : null}
+                        </Detail>
+                      ) : (
                       <Detail label="Deliver to">
                         {address ? (
                           <>
@@ -245,6 +288,7 @@ export default function AdminPayments() {
                           </>
                         ) : null}
                       </Detail>
+                      )}
                       <Detail label="Contact">
                         {payment.customer ? (<>{payment.customer.phone}<br />{payment.customer.email}</>) : null}
                       </Detail>

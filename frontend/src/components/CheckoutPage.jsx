@@ -12,7 +12,11 @@ const BUSINESS_NAME = 'Reiki & Vaastu World';
 // After these errors the same key can never succeed, so the next click uses a new one
 const NEW_KEY_ERRORS = ['ORDER_CREATION_FAILED', 'PAYMENT_PROVIDER_ERROR', 'IDEMPOTENCY_KEY_REUSED', 'PAYMENT_ALREADY_COMPLETED'];
 
-const EMPTY_DETAILS = { name: '', phone: '', email: '', line1: '', line2: '', landmark: '', city: '', state: '', pincode: '' };
+const EMPTY_DETAILS = {
+  name: '', phone: '', email: '', line1: '', line2: '', landmark: '', city: '', state: '', pincode: '',
+  // Event registrations only
+  age: '', gender: '', experience: '', message: ''
+};
 
 const FIELDS = [
   { key: 'name', label: 'Full name', autoComplete: 'name', span: 2 },
@@ -25,6 +29,64 @@ const FIELDS = [
   { key: 'state', label: 'State', autoComplete: 'address-level1', maxLength: 80 },
   { key: 'pincode', label: 'PIN code', autoComplete: 'postal-code', inputMode: 'numeric', maxLength: 6, placeholder: '6-digit PIN' }
 ];
+
+// Event registrations ask for registration details instead of a delivery address
+const EVENT_FIELDS = [
+  { key: 'name', label: 'Full name', autoComplete: 'name', span: 2 },
+  { key: 'phone', label: 'Mobile number (WhatsApp)', autoComplete: 'tel', inputMode: 'tel', placeholder: '10-digit mobile' },
+  { key: 'email', label: 'Email', autoComplete: 'email', type: 'email' },
+  { key: 'city', label: 'City / Town', autoComplete: 'address-level2', maxLength: 80 },
+  { key: 'state', label: 'State', autoComplete: 'address-level1', maxLength: 80 },
+  { key: 'age', label: 'Age', optional: true, inputMode: 'numeric', maxLength: 3 },
+  {
+    key: 'gender',
+    label: 'Gender',
+    optional: true,
+    options: [['', 'Select'], ['female', 'Female'], ['male', 'Male'], ['other', 'Other']]
+  },
+  {
+    key: 'experience',
+    label: 'Previous Reiki / healing experience',
+    optional: true,
+    span: 2,
+    options: [
+      ['', 'Select'],
+      ['None, I am new to this', 'None, I am new to this'],
+      ['Some (books, videos or sessions)', 'Some (books, videos or sessions)'],
+      ['Already a Reiki practitioner', 'Already a Reiki practitioner']
+    ]
+  },
+  { key: 'message', label: 'Any questions or message', optional: true, span: 2, multiline: true, maxLength: 500 }
+];
+
+/** Quick checks for an event registration. The server validates everything again. */
+function validateRegistration(d) {
+  const errors = {};
+  if (d.name.trim().length < 2) errors.name = 'Please enter your full name';
+  if (!/^(\+91|0)?[6-9]\d{9}$/.test(d.phone.trim())) errors.phone = 'Please enter a valid 10-digit mobile number';
+  if (!/^\S+@\S+\.\S+$/.test(d.email.trim())) errors.email = 'Please enter a valid email address';
+  if (d.city.trim().length < 2) errors.city = 'Please enter your city';
+  if (d.state.trim().length < 2) errors.state = 'Please enter your state';
+  const age = d.age.trim();
+  if (age && !(/^\d{1,3}$/.test(age) && Number(age) >= 5 && Number(age) <= 110)) errors.age = 'Please enter a valid age';
+  return errors;
+}
+
+function toRegistrationPayload(d) {
+  return {
+    name: d.name.trim(),
+    phone: d.phone.trim(),
+    email: d.email.trim(),
+    registration: {
+      city: d.city.trim(),
+      state: d.state.trim(),
+      age: d.age.trim() ? Number(d.age.trim()) : null,
+      gender: d.gender,
+      experience: d.experience,
+      message: d.message.trim()
+    }
+  };
+}
 
 /** Quick checks for instant feedback. The server validates everything again. */
 function validateDetails(d) {
@@ -60,7 +122,7 @@ function toCustomerPayload(d) {
 function serverFieldErrors(fields) {
   const errors = {};
   for (const [path, message] of Object.entries(fields || {})) {
-    const key = path.replace(/^customer\.(address\.)?/, '');
+    const key = path.replace(/^customer\.((address|registration)\.)?/, '');
     if (key in EMPTY_DETAILS) errors[key] = message;
   }
   return errors;
@@ -88,6 +150,8 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
   const { findItem } = useCatalog();
   const display = findItem(productId);
   const displayImage = display?.image || null;
+  // Events: registration details instead of a delivery address
+  const isEvent = Boolean(catalog.product?.isEvent ?? display?.isEvent);
 
   useEffect(() => {
     let active = true;
@@ -161,7 +225,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
       amount: order.amountPaise, // display only: Razorpay charges the order's amount
       currency: order.currency,
       name: BUSINESS_NAME,
-      description: display?.isEvent ? order.product.name : `${order.product.name} × ${order.quantity}`,
+      description: isEvent ? order.product.name : `${order.product.name} × ${order.quantity}`,
       notes: { reference: order.reference },
       prefill: { name: customer.name, email: customer.email, contact: customer.phone },
       theme: { color: '#D2042D' },
@@ -216,10 +280,10 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
     event.preventDefault();
     if (busyRef.current || !product) return;
 
-    const errors = validateDetails(details);
+    const errors = isEvent ? validateRegistration(details) : validateDetails(details);
     if (Object.keys(errors).length) {
       setFieldErrors(errors);
-      setNotice({ tone: 'error', text: 'Please check the highlighted delivery details.' });
+      setNotice({ tone: 'error', text: `Please check the highlighted ${isEvent ? 'registration' : 'delivery'} details.` });
       return;
     }
 
@@ -237,7 +301,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
       return;
     }
 
-    const customer = toCustomerPayload(details);
+    const customer = isEvent ? toRegistrationPayload(details) : toCustomerPayload(details);
     const res = await createPaymentOrder({ productId: product.id, quantity, idempotencyKey: getAttemptKey(), customer });
 
     if (!res.success) {
@@ -249,7 +313,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
       // Errors for anything that isn't a form box (quantity, the whole address, ...)
       // would otherwise be invisible, so list them in the notice.
       const otherErrors = Object.entries(res.fields || {})
-        .filter(([path]) => !(path.replace(/^customer\.(address\.)?/, '') in fromServer))
+        .filter(([path]) => !(path.replace(/^customer\.((address|registration)\.)?/, '') in fromServer))
         .map(([, message]) => message);
       const message =
         res.code === 'ORDER_IN_PROGRESS'
@@ -257,7 +321,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
           : otherErrors.length
             ? otherErrors.join(' ')
             : Object.keys(fromServer).length
-              ? 'Please check the highlighted delivery details.'
+              ? `Please check the highlighted ${isEvent ? 'registration' : 'delivery'} details.`
               : res.message;
       setNotice({ tone: 'error', text: message });
       release('idle');
@@ -283,11 +347,11 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
     <div style={{ paddingTop: '110px', paddingBottom: '70px', minHeight: '100vh', background: '#faf5ee' }}>
       <div className="hm-container" style={{ maxWidth: '720px', margin: '0 auto' }}>
         <button onClick={onBack} style={linkButtonStyle} disabled={phase === 'open' || phase === 'starting' || phase === 'verifying'}>
-          <ArrowLeft size={16} /> {display?.isEvent ? 'Back to event' : 'Back to product'}
+          <ArrowLeft size={16} /> {isEvent ? 'Back to event' : 'Back to product'}
         </button>
 
         <h1 className="ff-redhat" style={{ fontSize: 'clamp(26.5px, 3.3vw, 35px)', fontWeight: 850, color: '#3b0a11', margin: '12px 0 20px' }}>
-          Checkout
+          {isEvent ? 'Event Registration' : 'Checkout'}
         </h1>
 
         {catalog.testMode && <TestModeBanner pricesConfirmed={catalog.pricesConfirmed} />}
@@ -305,9 +369,9 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
             variant="FAILED"
             payment={result}
             onRetry={retry}
-            retryLabel={display?.isEvent ? 'Retry Payment' : 'Try again'}
+            retryLabel={isEvent ? 'Retry Payment' : 'Try again'}
             onBackToProducts={onBack}
-            backLabel={display?.isEvent ? 'Back to events' : 'Back to products'}
+            backLabel={isEvent ? 'Back to events' : 'Back to products'}
           />
         )}
 
@@ -329,10 +393,10 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
             </div>
 
             <dl style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '12px 16px', alignItems: 'center', margin: '0 0 8px', fontSize: '16.5px' }}>
-              <dt style={{ color: '#475569' }}>{display?.isEvent ? 'Registration Fee' : 'Price'}</dt>
+              <dt style={{ color: '#475569' }}>{isEvent ? 'Registration Fee' : 'Price'}</dt>
               <dd style={{ margin: 0, fontWeight: 650 }}>{formatPaise(product.unitPricePaise)}</dd>
 
-              {!display?.isEvent && product.maxQuantity > 1 && (
+              {!isEvent && product.maxQuantity > 1 && (
                 <>
                   <dt style={{ color: '#475569' }}>
                     <label htmlFor="checkout-quantity">Quantity</label>
@@ -353,7 +417,7 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                 </>
               )}
 
-              {!display?.isEvent && (
+              {!isEvent && (
                 <>
                   <dt style={{ color: '#475569' }}>Shipping &amp; Delivery</dt>
                   <dd style={{ margin: 0, fontWeight: 750, color: '#15803d' }}>FREE (Free Delivery Available)</dd>
@@ -365,20 +429,25 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                 {formatPaise(product.unitPricePaise * quantity)}
               </dd>
             </dl>
-            {!display?.isEvent && quantityWasCapped && (
+            {!isEvent && quantityWasCapped && (
               <p style={{ fontSize: '14.5px', color: '#92400e', margin: '0 0 8px' }}>
                 A maximum of {product.maxQuantity} can be bought in one order.
               </p>
             )}
 
-            {/* ── Delivery details ── */}
-            <h3 style={{ fontSize: '17.5px', fontWeight: 850, color: '#3b0a11', margin: '22px 0 12px' }}>Delivery details</h3>
+            {/* ── Delivery details (products) / Registration details (events) ── */}
+            <h3 style={{ fontSize: '17.5px', fontWeight: 850, color: '#3b0a11', margin: '22px 0 12px' }}>
+              {isEvent ? 'Registration details' : 'Delivery details'}
+            </h3>
 
             <p style={{ fontSize: '14.5px', color: '#64748b', margin: '-6px 0 14px', lineHeight: 1.5 }}>
-              Please enter your complete address so we can deliver without delay. Fields marked <span style={{ color: '#D2042D' }}>*</span> are required.
+              {isEvent
+                ? 'Please enter your details to register for this event. Workshop updates and joining details are shared on WhatsApp, so use your WhatsApp number.'
+                : 'Please enter your complete address so we can deliver without delay.'}{' '}
+              Fields marked <span style={{ color: '#D2042D' }}>*</span> are required.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px 14px', marginBottom: '20px' }}>
-              {FIELDS.map((field) => (
+              {(isEvent ? EVENT_FIELDS : FIELDS).map((field) => (
                 <label key={field.key} style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '14.5px', fontWeight: 650, color: '#475569', gridColumn: field.span === 2 ? '1 / -1' : undefined }}>
                   <span>
                     {field.label}
@@ -388,28 +457,46 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
                       <span style={{ color: '#D2042D' }} aria-hidden="true"> *</span>
                     )}
                   </span>
-                  <input
-                    name={field.key}
-                    type={field.type || 'text'}
-                    value={details[field.key]}
-                    onChange={(e) => changeDetail(field.key, e.target.value)}
-                    autoComplete={field.autoComplete}
-                    inputMode={field.inputMode}
-                    maxLength={field.maxLength}
-                    placeholder={field.placeholder}
-                    disabled={busy}
-                    required={!field.optional}
-                    aria-invalid={Boolean(fieldErrors[field.key])}
-                    style={{
-                      padding: '10px 12px',
-                      borderRadius: '10px',
-                      border: `1.5px solid ${fieldErrors[field.key] ? '#dc2626' : '#e7d7b5'}`,
-                      fontSize: '16.5px',
-                      fontWeight: 450,
-                      color: '#1e293b',
-                      background: '#ffffff'
-                    }}
-                  />
+                  {(() => {
+                    const common = {
+                      name: field.key,
+                      value: details[field.key],
+                      onChange: (e) => changeDetail(field.key, e.target.value),
+                      disabled: busy,
+                      required: !field.optional,
+                      'aria-invalid': Boolean(fieldErrors[field.key]),
+                      style: {
+                        padding: '10px 12px',
+                        borderRadius: '10px',
+                        border: `1.5px solid ${fieldErrors[field.key] ? '#dc2626' : '#e7d7b5'}`,
+                        fontSize: '16.5px',
+                        fontWeight: 450,
+                        color: '#1e293b',
+                        background: '#ffffff',
+                        fontFamily: 'inherit'
+                      }
+                    };
+                    if (field.options) {
+                      return (
+                        <select {...common}>
+                          {field.options.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                        </select>
+                      );
+                    }
+                    if (field.multiline) {
+                      return <textarea {...common} rows={3} maxLength={field.maxLength} placeholder={field.placeholder} style={{ ...common.style, resize: 'vertical' }} />;
+                    }
+                    return (
+                      <input
+                        {...common}
+                        type={field.type || 'text'}
+                        autoComplete={field.autoComplete}
+                        inputMode={field.inputMode}
+                        maxLength={field.maxLength}
+                        placeholder={field.placeholder}
+                      />
+                    );
+                  })()}
                   {fieldErrors[field.key] && <span style={{ color: '#b91c1c', fontWeight: 550 }}>{fieldErrors[field.key]}</span>}
                 </label>
               ))}
@@ -459,13 +546,17 @@ export default function CheckoutPage({ productId, initialQuantity = 1, onBack, o
               </button>
             ) : (
               <p style={{ color: '#b91c1c', margin: 0 }}>
-                {product.available ? 'Online payments are not available at the moment.' : 'This product is currently unavailable.'}
+                {product.available
+                  ? 'Online payments are not available at the moment.'
+                  : isEvent
+                    ? 'Registration for this event is closed.'
+                    : 'This product is currently unavailable.'}
               </p>
             )}
 
             <p style={{ fontSize: '13px', color: '#64748b', margin: '14px 0 0', textAlign: 'center' }}>
               Card and UPI details are entered in Razorpay's secure window and never reach this website.
-              Your delivery details are used only to deliver this order.
+              {isEvent ? 'Your details are used only for this event registration.' : 'Your delivery details are used only to deliver this order.'}
             </p>
 
             <p style={{ fontSize: '13px', color: '#64748b', margin: '8px 0 0', textAlign: 'center', lineHeight: 1.6 }}>

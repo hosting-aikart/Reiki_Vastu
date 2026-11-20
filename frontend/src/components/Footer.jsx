@@ -233,9 +233,7 @@ export default function Footer({ setCurrentView, openModal, onOpenPolicy }) {
               href="/admin"
               onClick={(e) => {
                 e.preventDefault();
-                window.history.pushState({}, '', '/admin');
                 setCurrentView('admin');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="akf-legal-item"
               style={{ textDecoration: 'none', color: 'inherit', opacity: 0.75, cursor: 'pointer' }}

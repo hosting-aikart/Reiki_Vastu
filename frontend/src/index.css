@@ -6170,6 +6170,7 @@ a.hm-cta-btn:hover,
 }
 
 /* ══════════════════════════════════════════════════════════════════
+<<<<<<< HEAD
    HOME HERO: GLITTERY LETTER SHADOW GLIDING LEFT → RIGHT
    Keeps the actual red & white letters completely unchanged on top,
    while a glittery letter-shaped shadow sweeps smoothly behind them.
@@ -6354,4 +6355,36 @@ a.hm-cta-btn:hover,
     animation: none !important;
     opacity: 0;
   }
+=======
+   HOME HERO: slides that must never be cropped (the Vaastu compass).
+   The whole image is shown, centred, over a blurred, darker copy of
+   itself that fills the rest of the screen — on every screen size.
+   ══════════════════════════════════════════════════════════════════ */
+.th-hero--golden .th-hero-slide-layer--contain .th-hero-slide-fill {
+  display: block;
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  filter: blur(28px) saturate(1.1) brightness(0.55);
+  transform: scale(1.08);
+  z-index: 0;
+}
+
+.th-hero--golden .th-hero-slide-layer--contain .th-hero-slide,
+.th-hero--golden .th-hero-slide-layer--contain .th-hero-slide--active {
+  z-index: 1;
+  object-fit: contain;
+  object-position: center center;
+  transform: none;
+  max-width: none;
+  height: 100%;
+}
+
+.th-hero--golden .th-hero-slide-layer--contain .th-hero-cinematic-grade {
+  z-index: 2;
+>>>>>>> 85108f353d44919a5e81f48ca435bca9676ac663
 }

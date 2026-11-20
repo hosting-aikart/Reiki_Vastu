@@ -99,6 +99,9 @@ const HERO_COURSE_SLIDES = [
     id: 'vaastu',
     label: 'Vaastu',
     src: '/images/vastu-compass.webp',
+    // An illustration: always shown complete (never cropped), over a blurred
+    // copy of itself that fills the rest of the screen
+    fit: 'contain',
     position: 'center center',
     mobilePosition: '50% 50%',
     // The compass artwork is very light: darker than the photos so the
@@ -204,7 +207,7 @@ export default function TempleHarmonyRedesign({
               }}
               className={`th-hero-slide-layer ${
                 index === activeSlide ? 'th-hero-slide-layer--active' : ''
-              }`}
+              }${slide.fit === 'contain' ? ' th-hero-slide-layer--contain' : ''}`}
             >
               <img
                 src={index === 0 || loadOtherSlides ? slide.src : undefined}

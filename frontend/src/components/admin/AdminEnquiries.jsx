@@ -4,7 +4,8 @@ import {
   getEnquiryById,
   updateEnquiryStatus,
   addEnquiryNote,
-  setFollowUpDate
+  setFollowUpDate,
+  deleteEnquiry
 } from '../../api/adminClient';
 import {
   Search,
@@ -14,7 +15,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Send,
-  Loader2
+  Loader2,
+  Trash2
 } from 'lucide-react';
 
 const STATUS_COLORS = {
@@ -44,6 +46,24 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
   const [addingNote, setAddingNote] = useState(false);
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [followUpInput, setFollowUpInput] = useState('');
+
+  const [deletingId, setDeletingId] = useState(null);
+
+  // Permanently removes an enquiry (e.g. a test entry or spam), after confirmation
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Delete enquiry ${item.reference} from ${item.name}?\n\nThis cannot be undone.`)) return;
+    setDeletingId(item._id);
+    const res = await deleteEnquiry(item._id);
+    setDeletingId(null);
+    if (!res.success) {
+      window.alert(res.message || 'Could not delete this enquiry.');
+      return;
+    }
+    if (selectedEnquiry?._id === item._id) setSelectedEnquiry(null);
+    // Stay on the same page unless it is now empty
+    const page = enquiries.length === 1 && pagination.page > 1 ? pagination.page - 1 : pagination.page;
+    fetchEnquiries(page);
+  };
 
   const fetchEnquiries = async (page = 1) => {
     setLoading(true);
@@ -430,6 +450,30 @@ export default function AdminEnquiries({ initialStatus = 'all', preselectedId = 
                         }}
                       >
                         View & Manage
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item)}
+                        disabled={deletingId === item._id}
+                        title="Delete this enquiry"
+                        aria-label={`Delete enquiry ${item.reference}`}
+                        style={{
+                          marginLeft: '8px',
+                          padding: '6px 10px',
+                          background: '#fef2f2',
+                          border: '1px solid #fecaca',
+                          borderRadius: '6px',
+                          fontSize: '13px',
+                          fontWeight: 650,
+                          color: '#b91c1c',
+                          cursor: deletingId === item._id ? 'wait' : 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          verticalAlign: 'middle'
+                        }}
+                      >
+                        {deletingId === item._id ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={14} />}
+                        Delete
                       </button>
                     </td>
                   </tr>
