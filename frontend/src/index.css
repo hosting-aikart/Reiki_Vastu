@@ -5801,9 +5801,9 @@ a.hm-cta-btn:hover,
 
 .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden,
 .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot {
-  color: #000000 !important;
-  -webkit-text-fill-color: #000000 !important;
-  -webkit-text-stroke: 0.3px #000000 !important;
+  color: #fcf2e0 !important;
+  -webkit-text-fill-color: #fcf2e0 !important;
+  -webkit-text-stroke: 0.3px #fcf2e0 !important;
   font-weight: 800 !important;
   text-shadow: none !important;
 }
@@ -5814,7 +5814,7 @@ a.hm-cta-btn:hover,
     font-size: clamp(14.5px, 3.85vw, 16.5px) !important;
     line-height: 1.4 !important;
     gap: 5px !important;
-    -webkit-text-stroke: 0.2px #000000 !important;
+    -webkit-text-stroke: 0.2px #fcf2e0 !important;
   }
 
   .th-bolder-preview .th-hero--golden .th-hero-subtitle--golden .th-golden-dot,
