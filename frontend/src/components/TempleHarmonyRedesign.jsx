@@ -376,10 +376,30 @@ export default function TempleHarmonyRedesign({
             <div className="hero-lower-third-content th-hero-golden-card th-reveal th-visible">
               <h1 className="th-hero-title th-hero-title--golden">
                 <span className="th-hero-line-crimson">
-                  Ancient Wisdom for a Healthier,
+                  <span className="th-letter-glitter-wrap">
+                    <span className="th-letter-glitter-shadow th-letter-glitter-shadow--crimson" aria-hidden="true">
+                      Ancient Wisdom for a Healthier,
+                    </span>
+                    <span className="th-letter-glitter-sparkle th-letter-glitter-sparkle--crimson" aria-hidden="true">
+                      Ancient Wisdom for a Healthier,
+                    </span>
+                    <span className="th-letter-front">
+                      Ancient Wisdom for a Healthier,
+                    </span>
+                  </span>
                 </span>
                 <span className="th-hero-line-gold">
-                  Happier &amp; More Harmonious Life
+                  <span className="th-letter-glitter-wrap">
+                    <span className="th-letter-glitter-shadow th-letter-glitter-shadow--gold" aria-hidden="true">
+                      Happier &amp; More Harmonious Life
+                    </span>
+                    <span className="th-letter-glitter-sparkle th-letter-glitter-sparkle--gold" aria-hidden="true">
+                      Happier &amp; More Harmonious Life
+                    </span>
+                    <span className="th-letter-front">
+                      Happier &amp; More Harmonious Life
+                    </span>
+                  </span>
                 </span>
               </h1>
 

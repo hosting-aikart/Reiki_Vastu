@@ -6168,3 +6168,190 @@ a.hm-cta-btn:hover,
     padding-right: 0;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   HOME HERO: GLITTERY LETTER SHADOW GLIDING LEFT → RIGHT
+   Keeps the actual red & white letters completely unchanged on top,
+   while a glittery letter-shaped shadow sweeps smoothly behind them.
+   ══════════════════════════════════════════════════════════════════ */
+@keyframes th-letter-shadow-glide {
+  0% {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  78%,
+  100% {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+  }
+}
+
+@keyframes th-glitter-twinkle {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.th-letter-glitter-wrap {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  max-width: 100%;
+}
+
+.th-letter-front {
+  position: relative;
+  z-index: 2;
+  display: block;
+}
+
+.th-letter-glitter-shadow,
+.th-letter-glitter-sparkle {
+  position: absolute;
+  top: -26px;
+  right: -34px;
+  bottom: -26px;
+  left: -34px;
+  padding: 26px 34px;
+  box-sizing: border-box;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background: none !important;
+  filter: none !important;
+  -webkit-mask-size: 320% 100%;
+  mask-size: 320% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+}
+
+.th-letter-glitter-shadow {
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(0, 0, 0, 0.35) 42%,
+    #000000 48%,
+    #000000 52%,
+    rgba(0, 0, 0, 0.35) 58%,
+    transparent 65%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(0, 0, 0, 0.35) 42%,
+    #000000 48%,
+    #000000 52%,
+    rgba(0, 0, 0, 0.35) 58%,
+    transparent 65%,
+    transparent 100%
+  );
+}
+
+.th-letter-glitter-sparkle {
+  z-index: 1;
+  transform: translate(2.5px, 2.5px);
+  -webkit-mask-image: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 41%,
+    #000000 44%,
+    rgba(0, 0, 0, 0.15) 46.5%,
+    #000000 49.5%,
+    rgba(0, 0, 0, 0.2) 52%,
+    #000000 55%,
+    transparent 59%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 41%,
+    #000000 44%,
+    rgba(0, 0, 0, 0.15) 46.5%,
+    #000000 49.5%,
+    rgba(0, 0, 0, 0.2) 52%,
+    #000000 55%,
+    transparent 59%,
+    transparent 100%
+  );
+}
+
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-letter-glitter-shadow--crimson,
+.th-letter-glitter-shadow--crimson {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 2.6px rgba(255, 240, 190, 0.92) !important;
+  text-shadow:
+    0 0 5px rgba(255, 255, 255, 0.98),
+    0 0 12px rgba(255, 224, 120, 0.95),
+    0 0 22px rgba(212, 175, 55, 0.9),
+    3px 3px 10px rgba(255, 215, 90, 0.8) !important;
+  animation: th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+}
+
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-letter-glitter-sparkle--crimson,
+.th-letter-glitter-sparkle--crimson {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.98) !important;
+  text-shadow:
+    0 0 4px #ffffff,
+    1px 1px 8px rgba(255, 232, 138, 0.98),
+    2px 2px 14px rgba(255, 210, 75, 0.9) !important;
+  animation:
+    th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite,
+    th-glitter-twinkle 0.4s ease-in-out infinite alternate;
+}
+
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-letter-glitter-shadow--gold,
+.th-letter-glitter-shadow--gold {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 2.8px rgba(245, 200, 70, 0.95) !important;
+  text-shadow:
+    0 0 6px rgba(255, 245, 185, 0.98),
+    0 0 14px rgba(245, 195, 55, 0.95),
+    0 0 26px rgba(201, 146, 26, 0.9),
+    3px 4px 12px rgba(95, 55, 8, 0.65) !important;
+  animation: th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation-delay: 0.35s;
+}
+
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-letter-glitter-sparkle--gold,
+.th-letter-glitter-sparkle--gold {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 2px rgba(255, 246, 200, 0.98) !important;
+  text-shadow:
+    0 0 5px #ffffff,
+    1px 1px 10px rgba(255, 220, 100, 0.98),
+    2px 3px 16px rgba(212, 175, 55, 0.92) !important;
+  animation:
+    th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite,
+    th-glitter-twinkle 0.4s ease-in-out infinite alternate;
+  animation-delay: 0.35s, 0s;
+}
+
+@media (max-width: 640px) {
+  .th-letter-glitter-sparkle {
+    transform: translate(1.5px, 1.5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .th-letter-glitter-shadow,
+  .th-letter-glitter-sparkle {
+    animation: none !important;
+    opacity: 0;
+  }
+}
