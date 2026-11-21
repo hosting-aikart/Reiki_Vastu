@@ -8,7 +8,7 @@ export default function CoursesPage({ onSelectCourse }) {
       <div className="hm-container">
         <div className="th-section-header" style={{ marginBottom: '12px' }}>
           <p className="th-eyebrow">OUR COURSES &amp; TRAINING</p>
-          <h1 className="th-heading-gradient">HOLISTIC DISCIPLINES</h1>
+          <h1 className="th-heading-gradient">Our Courses, Training &amp; Treatment</h1>
           <OrnamentalFlourish />
         </div>
       </div>

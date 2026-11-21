@@ -5845,9 +5845,16 @@ a.hm-cta-btn:hover,
    ══════════════════════════════════════════════════════════════════ */
 /* Section heading on one line: sized to the screen so it always fits.
    Phones are too narrow for one readable line, so it wraps there. */
+.th-bolder-preview .th-about-heading,
+.th-golden-harmony .th-about-heading,
 .th-about-heading {
   white-space: nowrap !important;
   font-size: clamp(24px, 3.74vw, 50.5px) !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #b5091f !important;
+  color: #b5091f !important;
 }
 
 @media (max-width: 640px) {
@@ -6170,16 +6177,16 @@ a.hm-cta-btn:hover,
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   HOME HERO: GLITTERY LETTER SHADOW GLIDING LEFT → RIGHT
-   Keeps the actual red & white letters completely unchanged on top,
-   while a glittery letter-shaped shadow sweeps smoothly behind them.
+   HOME HERO: CONSTANT GLITTERY GLIDE (LEFT → RIGHT) + FIXED GOLDEN RAYS SHADOW
+   Keeps the actual red & white letters completely solid on top, with a
+   fixed golden-rays shadow radiating behind every letter and a seamless,
+   non-stop glittery highlight sweeping left to right.
    ══════════════════════════════════════════════════════════════════ */
 @keyframes th-letter-shadow-glide {
   0% {
-    -webkit-mask-position: 100% 0;
-    mask-position: 100% 0;
+    -webkit-mask-position: 200% 0;
+    mask-position: 200% 0;
   }
-  78%,
   100% {
     -webkit-mask-position: 0% 0;
     mask-position: 0% 0;
@@ -6188,7 +6195,7 @@ a.hm-cta-btn:hover,
 
 @keyframes th-glitter-twinkle {
   0% {
-    opacity: 0.7;
+    opacity: 0.72;
   }
   100% {
     opacity: 1;
@@ -6208,6 +6215,38 @@ a.hm-cta-btn:hover,
   display: block;
 }
 
+/* Fixed golden-rays shadow radiating behind every letter (Line 1: crimson red) */
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-hero-line-crimson .th-letter-front,
+.th-hero-line-crimson .th-letter-front {
+  text-shadow:
+    0 0 2px rgba(255, 248, 214, 0.92),
+    0 2px 4px rgba(255, 222, 106, 0.88),
+    0 5px 10px rgba(235, 178, 38, 0.72),
+    0 10px 18px rgba(212, 152, 24, 0.52),
+    -4px 4px 8px rgba(255, 216, 88, 0.62),
+    4px 4px 8px rgba(255, 216, 88, 0.62),
+    -9px 8px 16px rgba(212, 165, 35, 0.42),
+    9px 8px 16px rgba(212, 165, 35, 0.42),
+    0 -3px 10px rgba(255, 232, 145, 0.52),
+    0 0 24px rgba(212, 175, 55, 0.48) !important;
+}
+
+/* Fixed golden-rays shadow radiating behind every letter (Line 2: white) */
+.th-bolder-preview .th-hero--golden .th-hero-title--golden .th-hero-line-gold .th-letter-front,
+.th-hero-line-gold .th-letter-front {
+  text-shadow:
+    0 1px 3px rgba(138, 86, 10, 0.62),
+    0 2px 6px rgba(245, 194, 48, 0.92),
+    0 6px 12px rgba(224, 162, 24, 0.76),
+    0 11px 20px rgba(196, 136, 18, 0.54),
+    -4px 4px 9px rgba(245, 198, 60, 0.68),
+    4px 4px 9px rgba(245, 198, 60, 0.68),
+    -9px 8px 18px rgba(205, 148, 22, 0.46),
+    9px 8px 18px rgba(205, 148, 22, 0.46),
+    0 -3px 11px rgba(255, 224, 118, 0.55),
+    0 0 26px rgba(212, 175, 55, 0.52) !important;
+}
+
 .th-letter-glitter-shadow,
 .th-letter-glitter-sparkle {
   position: absolute;
@@ -6223,12 +6262,12 @@ a.hm-cta-btn:hover,
   -webkit-user-select: none;
   background: none !important;
   filter: none !important;
-  -webkit-mask-size: 320% 100%;
-  mask-size: 320% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: 100% 0;
-  mask-position: 100% 0;
+  -webkit-mask-size: 200% 100%;
+  mask-size: 200% 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-position: 200% 0;
+  mask-position: 200% 0;
 }
 
 .th-letter-glitter-shadow {
@@ -6236,23 +6275,23 @@ a.hm-cta-btn:hover,
   -webkit-mask-image: linear-gradient(
     105deg,
     transparent 0%,
-    transparent 35%,
-    rgba(0, 0, 0, 0.35) 42%,
+    transparent 22%,
+    rgba(0, 0, 0, 0.4) 36%,
     #000000 48%,
     #000000 52%,
-    rgba(0, 0, 0, 0.35) 58%,
-    transparent 65%,
+    rgba(0, 0, 0, 0.4) 64%,
+    transparent 78%,
     transparent 100%
   );
   mask-image: linear-gradient(
     105deg,
     transparent 0%,
-    transparent 35%,
-    rgba(0, 0, 0, 0.35) 42%,
+    transparent 22%,
+    rgba(0, 0, 0, 0.4) 36%,
     #000000 48%,
     #000000 52%,
-    rgba(0, 0, 0, 0.35) 58%,
-    transparent 65%,
+    rgba(0, 0, 0, 0.4) 64%,
+    transparent 78%,
     transparent 100%
   );
 }
@@ -6263,25 +6302,25 @@ a.hm-cta-btn:hover,
   -webkit-mask-image: linear-gradient(
     105deg,
     transparent 0%,
-    transparent 41%,
-    #000000 44%,
-    rgba(0, 0, 0, 0.15) 46.5%,
-    #000000 49.5%,
-    rgba(0, 0, 0, 0.2) 52%,
-    #000000 55%,
-    transparent 59%,
+    transparent 34%,
+    #000000 40%,
+    rgba(0, 0, 0, 0.15) 45%,
+    #000000 50%,
+    rgba(0, 0, 0, 0.2) 55%,
+    #000000 60%,
+    transparent 66%,
     transparent 100%
   );
   mask-image: linear-gradient(
     105deg,
     transparent 0%,
-    transparent 41%,
-    #000000 44%,
-    rgba(0, 0, 0, 0.15) 46.5%,
-    #000000 49.5%,
-    rgba(0, 0, 0, 0.2) 52%,
-    #000000 55%,
-    transparent 59%,
+    transparent 34%,
+    #000000 40%,
+    rgba(0, 0, 0, 0.15) 45%,
+    #000000 50%,
+    rgba(0, 0, 0, 0.2) 55%,
+    #000000 60%,
+    transparent 66%,
     transparent 100%
   );
 }
@@ -6296,7 +6335,7 @@ a.hm-cta-btn:hover,
     0 0 12px rgba(255, 224, 120, 0.95),
     0 0 22px rgba(212, 175, 55, 0.9),
     3px 3px 10px rgba(255, 215, 90, 0.8) !important;
-  animation: th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite;
+  animation: th-letter-shadow-glide 2.8s linear infinite;
 }
 
 .th-bolder-preview .th-hero--golden .th-hero-title--golden .th-letter-glitter-sparkle--crimson,
@@ -6309,7 +6348,7 @@ a.hm-cta-btn:hover,
     1px 1px 8px rgba(255, 232, 138, 0.98),
     2px 2px 14px rgba(255, 210, 75, 0.9) !important;
   animation:
-    th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite,
+    th-letter-shadow-glide 2.8s linear infinite,
     th-glitter-twinkle 0.4s ease-in-out infinite alternate;
 }
 
@@ -6323,8 +6362,8 @@ a.hm-cta-btn:hover,
     0 0 14px rgba(245, 195, 55, 0.95),
     0 0 26px rgba(201, 146, 26, 0.9),
     3px 4px 12px rgba(95, 55, 8, 0.65) !important;
-  animation: th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite;
-  animation-delay: 0.35s;
+  animation: th-letter-shadow-glide 2.8s linear infinite;
+  animation-delay: -0.4s;
 }
 
 .th-bolder-preview .th-hero--golden .th-hero-title--golden .th-letter-glitter-sparkle--gold,
@@ -6337,9 +6376,9 @@ a.hm-cta-btn:hover,
     1px 1px 10px rgba(255, 220, 100, 0.98),
     2px 3px 16px rgba(212, 175, 55, 0.92) !important;
   animation:
-    th-letter-shadow-glide 3.2s cubic-bezier(0.35, 0, 0.65, 1) infinite,
+    th-letter-shadow-glide 2.8s linear infinite,
     th-glitter-twinkle 0.4s ease-in-out infinite alternate;
-  animation-delay: 0.35s, 0s;
+  animation-delay: -0.4s, 0s;
 }
 
 @media (max-width: 640px) {

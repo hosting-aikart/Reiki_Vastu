@@ -506,7 +506,7 @@ export default function TempleHarmonyRedesign({
         <div className="hm-container">
           <div className="th-section-header th-reveal">
             <p className="th-eyebrow">OUR COURSES &amp; TRAINING</p>
-            <h2 className="th-heading-gradient">HOLISTIC DISCIPLINES</h2>
+            <h2 className="th-heading-gradient">Our Courses, Training &amp; Treatment</h2>
             <OrnamentalFlourish />
             <p className="th-lead">
               Comprehensive courses with traditional master attunements, clinical practice, and
